@@ -1,153 +1,131 @@
 <?php
 
+/*
+|--------------------------------------------------------------------------
+| Validation Language Lines
+|--------------------------------------------------------------------------
+|
+| The following language lines contain the default error messages used by
+| the validator class. Some of these rules have multiple versions such
+| as the size rules. Feel free to tweak each of these messages here.
+|
+*/
+
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Validation Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines contain the default error messages used by
-    | the validator class. Some of these rules have multiple versions such
-    | as the size rules. Feel free to tweak each of these messages here.
-    |
-    */
-
-    'accepted' => ':attributeを承認してください。',
-    'active_url' => ':attributeに正しいURLを入力してください。',
-    'after' => ':attributeは:dateより先の日付を入力してください。',
-    'after_or_equal' => ':attributeは:date以降の日付を入力してください。',
-    'alpha' => ':attributeは英字で入力してください。',
-    'alpha_dash' => ':attributeは英数字とハイフン、アンダーバーのみで入力してください。',
-    'alpha_num' => ':attributeは英数字で入力してください。',
-    'array' => ':attributeは配列で入力してください。',
-    'before' => ':attributeは:dateより前の日付を入力してください。',
-    'before_or_equal' => ':attributeは:date以前の日付を入力してください。',
-    'between' => [
-        'numeric' => ':attributeは:min〜:maxの範囲で入力してください。',
-        'file' => ':attributeは:min〜:max KBのファイルを選択してください。',
-        'string' => ':attributeは:min〜:max文字の範囲で入力してください。',
-        'array' => ':attributeは:min〜:max個の範囲内にしてください。',
+    'accepted'             => ':attributeを承認してください。',
+    'active_url'           => ':attributeは、有効なURLではありません。',
+    'after'                => ':attributeには、:dateより後の日付を指定してください。',
+    'after_or_equal'       => ':attributeには、:date以降の日付を指定してください。',
+    'alpha'                => ':attributeには、アルファベッドのみ使用できます。',
+    'alpha_dash'           => ':attributeには、英数字(\'A-Z\',\'a-z\',\'0-9\')とハイフンと下線(\'-\',\'_\')が使用できます。',
+    'alpha_num'            => ':attributeには、英数字(\'A-Z\',\'a-z\',\'0-9\')が使用できます。',
+    'array'                => ':attributeには、配列を指定してください。',
+    'attached'             => 'この:attributeはすでに添付されています。',
+    'before'               => ':attributeには、:dateより前の日付を指定してください。',
+    'before_or_equal'      => ':attributeには、:date以前の日付を指定してください。',
+    'between'              => [
+        'array'   => ':attributeの項目は、:min個から:max個にしてください。',
+        'file'    => ':attributeには、:min KBから:max KBまでのサイズのファイルを指定してください。',
+        'numeric' => ':attributeには、:minから、:maxまでの数字を指定してください。',
+        'string'  => ':attributeは、:min文字から:max文字にしてください。',
     ],
-    'boolean' => ':attributeはtrueかfalseにしてください。',
-    'confirmed' => ':attributeが確認用と一致しません。',
-    'date' => ':attributeを正しい日付で入力してください。',
-    'date_equals' => ':attributeを:dateと一致するよう入力してください。',
-    'date_format' => ':attributeの書式を:formatに沿って入力してください。',
-    'different' => ':attributeと:otherは違うものを入力してください。',
-    'digits' => ':attributeは:digits桁で入力してください。',
-    'digits_between' => ':attributeは:min〜:max桁で入力してください。',
-    'dimensions' => ':attributeの画像サイズが不正です。',
-    'distinct' => ':attributeが重複しています。',
-    'email' => ':attributeを正しい形式で入力してください。',
-    'ends_with' => ':attributeを:valuesで終わるよう入力してください。',
-    'exists' => '選択した値が不正です。',
-    'file' => ':attributeはファイルを選択してください。',
-    'filled' => ':attributeを入力してください。',
-    'gt' => [
-        'numeric' => ':attributeは:valueより多く入力してください。',
-        'file' => ':attributeは:value KBより大きいファイルを選択してください。',
-        'string' => ':attributeは:value文字より多く入力してください。',
-        'array' => ':attributeは:value個より多くしてください。',
+    'boolean'              => ':attributeには、\'true\'か\'false\'を指定してください。',
+    'confirmed'            => ':attributeと:attribute確認が一致しません。',
+    'date'                 => ':attributeは、正しい日付ではありません。',
+    'date_equals'          => ':attributeは:dateに等しい日付でなければなりません。',
+    'date_format'          => ':attributeの形式は、\':format\'と合いません。',
+    'different'            => ':attributeと:otherには、異なるものを指定してください。',
+    'digits'               => ':attributeは、:digits桁にしてください。',
+    'digits_between'       => ':attributeは、:min桁から:max桁にしてください。',
+    'dimensions'           => ':attributeの画像サイズが無効です',
+    'distinct'             => ':attributeの値が重複しています。',
+    'email'                => ':attributeは、有効なメールアドレス形式で指定してください。',
+    'ends_with'            => ':attributeは、次のうちのいずれかで終わらなければなりません。: :values',
+    'exists'               => '選択された:attributeは、有効ではありません。',
+    'file'                 => ':attributeはファイルでなければいけません。',
+    'filled'               => ':attributeは必須です。',
+    'gt'                   => [
+        'array'   => ':attributeの項目数は、:value個より大きくなければなりません。',
+        'file'    => ':attributeは、:value KBより大きくなければなりません。',
+        'numeric' => ':attributeは、:valueより大きくなければなりません。',
+        'string'  => ':attributeは、:value文字より大きくなければなりません。',
     ],
-    'gte' => [
-        'numeric' => ':attributeは:value以上で入力してください。',
-        'file' => ':attributeは:value KB以上のファイルを選択してください。',
-        'string' => ':attributeは:value文字以上入力してください。',
-        'array' => ':attributeは:value個以上にしてください。',
+    'gte'                  => [
+        'array'   => ':attributeの項目数は、:value個以上でなければなりません。',
+        'file'    => ':attributeは、:value KB以上でなければなりません。',
+        'numeric' => ':attributeは、:value以上でなければなりません。',
+        'string'  => ':attributeは、:value文字以上でなければなりません。',
     ],
-    'image' => ':attributeは画像にしてください。',
-    'in' => ':attributeは不正です。',
-    'in_array' => ':attributeは:otherの範囲外です。',
-    'integer' => ':attributeは数字で入力してください。',
-    'ip' => ':attributeはIPアドレス形式で入力してください。',
-    'ipv4' => ':attributeはIPv4形式で入力してください。',
-    'ipv6' => ':attributeはIPv6形式で入力してください。',
-    'json' => ':attributeはJSON形式で入力してください。',
-    'lt' => [
-        'numeric' => ':attributeは:valueより少なく入力してください。',
-        'file' => ':attributeは:value KBより小さいファイルを選択してください。',
-        'string' => ':attributeは:value文字より少なく入力してください。',
-        'array' => ':attributeは:value個より少なくしてください。',
+    'image'                => ':attributeには、画像を指定してください。',
+    'in'                   => '選択された:attributeは、有効ではありません。',
+    'in_array'             => ':attributeが:otherに存在しません。',
+    'integer'              => ':attributeには、整数を指定してください。',
+    'ip'                   => ':attributeには、有効なIPアドレスを指定してください。',
+    'ipv4'                 => ':attributeはIPv4アドレスを指定してください。',
+    'ipv6'                 => ':attributeはIPv6アドレスを指定してください。',
+    'json'                 => ':attributeには、有効なJSON文字列を指定してください。',
+    'lt'                   => [
+        'array'   => ':attributeの項目数は、:value個より小さくなければなりません。',
+        'file'    => ':attributeは、:value KBより小さくなければなりません。',
+        'numeric' => ':attributeは、:valueより小さくなければなりません。',
+        'string'  => ':attributeは、:value文字より小さくなければなりません。',
     ],
-    'lte' => [
-        'numeric' => ':attributeは:value以下で入力してください。',
-        'file' => ':attributeは:value KB以下のファイルを選択してください。',
-        'string' => ':attributeは:value文字以下入力してください。',
-        'array' => ':attributeは:value個以下にしてください。',
+    'lte'                  => [
+        'array'   => ':attributeの項目数は、:value個以下でなければなりません。',
+        'file'    => ':attributeは、:value KB以下でなければなりません。',
+        'numeric' => ':attributeは、:value以下でなければなりません。',
+        'string'  => ':attributeは、:value文字以下でなければなりません。',
     ],
-    'max' => [
-        'numeric' => ':attributeは:max以下で入力してください。',
-        'file' => ':attributeは:max KB以下のファイルを選択してください。',
-        'string' => ':attributeは:max文字以下入力してください。',
-        'array' => ':attributeは:max個以下にしてください。',
+    'max'                  => [
+        'array'   => ':attributeの項目は、:max個以下にしてください。',
+        'file'    => ':attributeには、:max KB以下のファイルを指定してください。',
+        'numeric' => ':attributeには、:max以下の数字を指定してください。',
+        'string'  => ':attributeは、:max文字以下にしてください。',
     ],
-    'mimes' => ':attributeは:values形式で選択してください。',
-    'mimetypes' => ':attributeは:values形式で選択してください。',
-    'min' => [
-        'numeric' => ':attributeは:min以上で入力してください。',
-        'file' => ':attributeは:min KB以上のファイルを選択してください。',
-        'string' => ':attributeは:min文字以上入力してください。',
-        'array' => ':attributeは:min個以上にしてください。',
+    'mimes'                => ':attributeには、:valuesタイプのファイルを指定してください。',
+    'mimetypes'            => ':attributeには、:valuesタイプのファイルを指定してください。',
+    'min'                  => [
+        'array'   => ':attributeの項目は、:min個以上にしてください。',
+        'file'    => ':attributeには、:min KB以上のファイルを指定してください。',
+        'numeric' => ':attributeには、:min以上の数字を指定してください。',
+        'string'  => ':attributeは、:min文字以上にしてください。',
     ],
-    'not_in' => ':attributeは不正です。',
-    'not_regex' => ':attributeの書式が不正です。',
-    'numeric' => ':attributeは数字で入力してください。',
-    'present' => ':attributeは存在する必要があります。',
-    'regex' => ':attributeの書式が不正です。',
-    'required' => ':attributeを入力してください。',
-    'required_if' => ':otherが:valueの時、:attributeを入力してください。',
-    'required_unless' => ':otherが:valuesでない時、:attributeを入力してください。',
-    'required_with' => ':valuesが存在する時、:attributeを入力してください。',
-    'required_with_all' => ':valuesが存在する時、:attributeを入力してください。',
-    'required_without' => ':valuesが存在しない時、:attributeを入力してください。',
-    'required_without_all' => ':valuesが存在しない時、:attributeを入力してください。',
-    'same' => ':attributeと:otherが一致するよう入力してください。',
-    'size' => [
-        'numeric' => ':attributeは:sizeで入力してください。',
-        'file' => ':attributeは:size KBのファイルを選択してください。',
-        'string' => ':attributeは:size文字で入力してください。',
-        'array' => ':attributeは:size個にしてください。',
+    'multiple_of'          => ':attributeは:valueの倍数でなければなりません',
+    'not_in'               => '選択された:attributeは、有効ではありません。',
+    'not_regex'            => ':attributeの形式が無効です。',
+    'numeric'              => ':attributeには、数字を指定してください。',
+    'password'             => 'パスワードが正しくありません。',
+    'present'              => ':attributeが存在している必要があります。',
+    'prohibited'           => ':attributeフィールドは禁止されています。',
+    'prohibited_if'        => ':attributeフィールドは、:otherが:valueの場合は禁止されています。',
+    'prohibited_unless'    => ':attributeフィールドは、:otherが:valuesでない限り禁止されています。',
+    'regex'                => ':attributeには、有効な正規表現を指定してください。',
+    'relatable'            => 'この:attributeきない場合に伴い資源です。',
+    'required'             => ':attributeは、必ず指定してください。',
+    'required_if'          => ':otherが:valueの場合、:attributeを指定してください。',
+    'required_unless'      => ':otherが:values以外の場合、:attributeを指定してください。',
+    'required_with'        => ':valuesが指定されている場合、:attributeも指定してください。',
+    'required_with_all'    => ':valuesが全て指定されている場合、:attributeも指定してください。',
+    'required_without'     => ':valuesが指定されていない場合、:attributeを指定してください。',
+    'required_without_all' => ':valuesが全て指定されていない場合、:attributeを指定してください。',
+    'same'                 => ':attributeと:otherが一致しません。',
+    'size'                 => [
+        'array'   => ':attributeの項目は、:size個にしてください。',
+        'file'    => ':attributeには、:size KBのファイルを指定してください。',
+        'numeric' => ':attributeには、:sizeを指定してください。',
+        'string'  => ':attributeは、:size文字にしてください。',
     ],
-    'starts_with' => ':attributeを:valuesから始まるよう入力してください。',
-    'string' => ':attributeは門司で入力してください。',
-    'timezone' => ':attributeを正しいタイムゾーンで入力してください。',
-    'unique' => ':attributeは既に取得されているため、違うものを入力してください。',
-    'uploaded' => ':attributeはアップロードに失敗しました。',
-    'url' => ':attributeを正しいURLで入力してください。',
-    'uuid' => ':attributeを正しいUUIDで入力してください。',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Custom Validation Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | Here you may specify custom validation messages for attributes using the
-    | convention "attribute.rule" to name the lines. This makes it quick to
-    | specify a specific custom language line for a given attribute rule.
-    |
-    */
-
-    'custom' => [
+    'starts_with'          => ':attributeは、次のいずれかで始まる必要があります。:values',
+    'string'               => ':attributeには、文字を指定してください。',
+    'timezone'             => ':attributeには、有効なタイムゾーンを指定してください。',
+    'unique'               => '指定の:attributeは既に使用されています。',
+    'uploaded'             => ':attributeのアップロードに失敗しました。',
+    'url'                  => ':attributeは、有効なURL形式で指定してください。',
+    'uuid'                 => ':attributeは、有効なUUIDでなければなりません。',
+    'custom'               => [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Custom Validation Attributes
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines are used to swap our attribute placeholder
-    | with something more reader friendly such as "E-Mail Address" instead
-    | of "email". This simply helps us make our message more expressive.
-    |
-    */
-
-    'attributes' => [
-        'email' => 'メールアドレス',
-        'password' => 'パスワード',
-    ],
-
+    'attributes'           => [],
 ];

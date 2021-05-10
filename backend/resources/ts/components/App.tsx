@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import PlaceForm from "./PlaceForm";
+import Router from './router';
 
 declare global {
     interface Window {
@@ -27,3 +28,5 @@ function App() {
 if (document.getElementById("react")) {
     ReactDOM.render(<App />, document.getElementById("react"));
 }
+
+export default App;

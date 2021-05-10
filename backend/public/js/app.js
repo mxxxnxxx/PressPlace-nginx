@@ -88595,6 +88595,7 @@ function App() {
 if (document.getElementById("react")) {
     react_dom_1.default.render(react_1.default.createElement(App, null), document.getElementById("react"));
 }
+exports.default = App;
 
 
 /***/ }),
