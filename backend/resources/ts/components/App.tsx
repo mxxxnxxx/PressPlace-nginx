@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Route } from "react-router-dom";
 import PlaceForm from "./PlaceForm";
 import Router from './router';
 
@@ -15,13 +14,9 @@ declare global {
 }
 
 
-function App() {
+const App: React.VFC = () => {
     return (
-        <Router>
-            <div>
-                <Route path="/place/new" component={PlaceForm} />
-            </div>
-        </Router>
+        <Router/>
     );
 }
 
