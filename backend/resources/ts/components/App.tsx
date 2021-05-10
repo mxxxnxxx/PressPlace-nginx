@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import PlaceForm from "./PlaceForm";
+import PlaceForm from "./place/new/PlaceForm";
 import Router from './router';
 
 declare global {
