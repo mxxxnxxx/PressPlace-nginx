@@ -197,9 +197,8 @@ class PlaceController extends Controller
     public function index(){
         $places = Place::orderBy('created_at', 'desc')
         ->paginate(15);
-
         // $place_images = $places->place_images;
-        return view('place.top', ['places' => $places]);
+        return response()->json($places);
     }
     // 詳細ページ
     public function show($id){

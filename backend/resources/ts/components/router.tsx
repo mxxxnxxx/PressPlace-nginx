@@ -5,6 +5,7 @@ import {
     Route,
     Link
 } from "react-router-dom";
+import Index from './place/index/Index';
 
 const Router = () => {
     return (
@@ -34,7 +35,7 @@ const Router = () => {
                         <Users />
                     </Route>
                     <Route path="/">
-                        <Home />
+                        <Index />
                     </Route>
                 </Switch>
             </div>

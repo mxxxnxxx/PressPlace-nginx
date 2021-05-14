@@ -1,7 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
 import PlaceForm from "./place/new/PlaceForm";
-import Router from './router';
+import Router from './Router';
+
 
 declare global {
     interface Window {
@@ -15,8 +17,20 @@ declare global {
 
 
 const App: React.VFC = () => {
+    const queryClient = new QueryClient({
+        defaultOptions: {
+            queries: {
+                retry:false
+            },
+            mutations: {
+                retry: false
+            }
+        }
+    })
     return (
-        <Router/>
+        <QueryClientProvider client={queryClient}>
+            <Router />
+        </QueryClientProvider>
     );
 }
 
