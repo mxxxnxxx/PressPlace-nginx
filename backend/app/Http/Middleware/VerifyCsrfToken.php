@@ -11,6 +11,7 @@ class VerifyCsrfToken extends Middleware
      *
      * @var bool
      */
+    // こいつのおかげでaxiosにトークンがレスポンスヘッダのSet-CookieにXSRF-TOKENが設定される
     protected $addHttpCookie = true;
 
     /**
