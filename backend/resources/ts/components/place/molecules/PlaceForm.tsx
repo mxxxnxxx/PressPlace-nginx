@@ -3,7 +3,7 @@ import axios from "axios";
 import imageCompression from "browser-image-compression";
 import PhotosUpload from "./ImageUp";
 import PostalCode from "./PostalCode";
-import NewModal from "./NewModal";
+import NewModal from "../organisms/NewModal";
 import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import { makeStyles, createStyles } from "@material-ui/core/styles"

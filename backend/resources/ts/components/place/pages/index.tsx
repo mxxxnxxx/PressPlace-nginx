@@ -1,5 +1,5 @@
 import React from 'react';
-import { usePlace } from "../../queries/PlaceQuery"
+import { usePlace } from "../../../queries/PlaceQuery"
 
 
 const Index: React.VFC = () => {
