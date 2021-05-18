@@ -74135,40 +74135,19 @@ const Index_1 = __importDefault(__webpack_require__(/*! ./place/index/Index */ "
 const Router = () => {
     return (react_1.default.createElement(react_router_dom_1.BrowserRouter, null,
         react_1.default.createElement("div", null,
-            react_1.default.createElement("nav", null,
-                react_1.default.createElement("ul", null,
-                    react_1.default.createElement("li", null,
-                        react_1.default.createElement(react_router_dom_1.Link, { to: "/" }, "Home")),
-                    react_1.default.createElement("li", null,
-                        react_1.default.createElement(react_router_dom_1.Link, { to: "/about" }, "About")),
-                    react_1.default.createElement("li", null,
-                        react_1.default.createElement(react_router_dom_1.Link, { to: "/users" }, "Users")))),
             react_1.default.createElement(react_router_dom_1.Switch, null,
-                react_1.default.createElement(react_router_dom_1.Route, { path: "/about" },
-                    react_1.default.createElement(About, null)),
-                react_1.default.createElement(react_router_dom_1.Route, { path: "/users" },
-                    react_1.default.createElement(Users, null)),
                 react_1.default.createElement(react_router_dom_1.Route, { path: "/" },
                     react_1.default.createElement(Index_1.default, null))))));
 };
-function Home() {
-    return react_1.default.createElement("h2", null, "Home");
-}
-function About() {
-    return react_1.default.createElement("h2", null, "About");
-}
-function Users() {
-    return react_1.default.createElement("h2", null, "Users");
-}
 exports.default = Router;
 
 
 /***/ }),
 
-/***/ "./resources/ts/components/place/index/Index.tsx":
-/*!*******************************************************!*\
-  !*** ./resources/ts/components/place/index/Index.tsx ***!
-  \*******************************************************/
+/***/ "./resources/ts/components/api/PlaceAPI.ts":
+/*!*************************************************!*\
+  !*** ./resources/ts/components/api/PlaceAPI.ts ***!
+  \*************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -74187,16 +74166,36 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+exports.getPlace = void 0;
 const axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
-const react_query_1 = __webpack_require__(/*! react-query */ "./node_modules/react-query/es/index.js");
+const getPlace = () => __awaiter(void 0, void 0, void 0, function* () {
+    const { data } = yield axios_1.default.get('api/places');
+    console.log(data);
+    return data;
+});
+exports.getPlace = getPlace;
+
+
+/***/ }),
+
+/***/ "./resources/ts/components/place/index/Index.tsx":
+/*!*******************************************************!*\
+  !*** ./resources/ts/components/place/index/Index.tsx ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+const PlaceQuery_1 = __webpack_require__(/*! ../../queries/PlaceQuery */ "./resources/ts/components/queries/PlaceQuery.ts");
 const Index = () => {
     // useQueryでステータスの管理をできるようにする dataからplacesに中身にデータの変数名を変更している
-    const { data: places, status } = react_query_1.useQuery('places', () => __awaiter(void 0, void 0, void 0, function* () {
-        const { data } = yield axios_1.default.get('api/places');
-        console.log(data);
-        return data;
-    }));
+    const { data: places, status } = PlaceQuery_1.usePlace();
     if (status === 'loading') {
         return react_1.default.createElement("div", { className: "loader" });
     }
@@ -74208,12 +74207,14 @@ const Index = () => {
     }
     ;
     return (react_1.default.createElement(react_1.default.Fragment, null,
+        console.log(places),
         react_1.default.createElement("h1", null, "\u307F\u3093\u306A\u306B\u5834\u6240\u3092press!!"),
         react_1.default.createElement("h2", null, "\u307F\u3093\u306A\u306E\u5834\u6240\u306B\u3082\u884C\u3063\u3066\u307F\u3088\u3046!!"),
         react_1.default.createElement("div", { className: "container" },
             react_1.default.createElement("div", { className: "row" },
                 react_1.default.createElement("div", { className: "col-1" }),
                 react_1.default.createElement("div", { className: "col-10" },
+                    react_1.default.createElement("ul", null, places.map((place, i) => react_1.default.createElement("li", { key: i }, place.name))),
                     react_1.default.createElement("div", { className: "m-4 border rounded" },
                         react_1.default.createElement("div", null,
                             react_1.default.createElement("div", { className: "text-center mx-2" })),
@@ -74232,6 +74233,56 @@ const Index = () => {
                 react_1.default.createElement("div", { className: "col-1" })))));
 };
 exports.default = Index;
+
+
+/***/ }),
+
+/***/ "./resources/ts/components/queries/PlaceQuery.ts":
+/*!*******************************************************!*\
+  !*** ./resources/ts/components/queries/PlaceQuery.ts ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.usePlace = void 0;
+const react_query_1 = __webpack_require__(/*! react-query */ "./node_modules/react-query/es/index.js");
+const api = __importStar(__webpack_require__(/*! ../api/PlaceAPI */ "./resources/ts/components/api/PlaceAPI.ts"));
+// useQueryでステータスの管理をできるようにする dataからplacesに中身にデータの変数名を変更している
+const usePlace = () => {
+    return react_query_1.useQuery('places', () => __awaiter(void 0, void 0, void 0, function* () { return api.getPlace(); }));
+};
+exports.usePlace = usePlace;
 
 
 /***/ }),
