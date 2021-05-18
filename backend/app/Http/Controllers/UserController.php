@@ -12,7 +12,7 @@ use App\Http\Requests\UserRequest;
 class UserController extends Controller{
     //ユーザーページ表示を行う記述
     public function show(User $user){
-        // 以下でユーザー情報をにゅうしゅしている
+        // 以下でユーザー情報を入手
         $user = User::find($user->id);
         $places = Place::where('user_id', $user->id) //$userによる投稿を取得
             ->orderBy('created_at', 'desc') // 投稿作成日が新しい順に並べる
