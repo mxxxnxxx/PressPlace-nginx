@@ -35,8 +35,6 @@ class PlaceController extends Controller
                 'address' => $request->address
                 ]);
 
-            
-
         // 画像の処理
         // 一枚目の写真がなければ処理をしない
         if($request->place_image_0){
@@ -105,7 +103,10 @@ class PlaceController extends Controller
        $place->tags()->attach($tags_id);
 
         // 投稿結果の詳細ページにリダイレクト
-        return redirect()->route('place.show', ['id' => $place->id]);
+        return $place
+        ? response()->json($place,201)
+        : response()->json([],500);
+        
     }
 
     public function edit($id){
@@ -127,20 +128,34 @@ class PlaceController extends Controller
         $PlaceImages = $request->file('place_image');
 
         // 繰り返し
-        if (isset($PlaceImages)) {
-
-            // foreach ($PlaceImages as $index => $i) {
-            $img = \Image::make($PlaceImages);
+        if($request->place_image_0){
+        $PlaceImages = [];
+        $count = count($request->file());
+        \Debugbar::info($count);
+        for($i = 0; $i < $count; $i++){ $place_image="place_image_{$i}" ; array_push($PlaceImages, $request->
+            $place_image);
+            };
+            \Debugbar::info($PlaceImages);
+            // 繰り返し
+            foreach ($PlaceImages as $index => $im) {
+            $img = \Image::make($im);
             // resize
-            $img->fit(100, 100, function ($constraint) {
-                $constraint->upsize();
+            \Debugbar::info($im);
+            \Debugbar::info($img);
+            $height = 200;
+            $img->resize(null, $height, function($constraint){
+            $constraint->aspectRatio();
             });
-            $extension = $PlaceImages->getClientOriginalExtension();
-            $file_name = "{$request->name}_{$place->user_id}.{$extension}";
-            $save_path =  storage_path('app/public/place_image/' . $file_name);
+            $extension = $im->getClientOriginalExtension();
+            \Debugbar::info($extension);
+            $file_name = "{$request->name}_{$place->user_id}_{$index}.{$extension}";
+            \Debugbar::info($file_name);
+            $save_path = storage_path('app/public/place_image/' . $file_name);
+            \Debugbar::info($save_path);
             $img->save($save_path);
             $place->place_images()->create(['filename' => $file_name]);
-        }
+            }
+            }
 
         // tagの処理
         // preg_match_allを使用して#タグのついた文字列を取得している多次元配列
@@ -180,11 +195,12 @@ class PlaceController extends Controller
 
     // 一覧
     public function index(){
-        $places = Place::orderBy('created_at', 'desc')
-        ->paginate(15);
+        $places = Place::all()
+        // ->with('place_images')
+        // ->paginate(15)
+        ;
 
-        // $place_images = $places->place_images;
-        return view('place.top', ['places' => $places]);
+        return response()->json($places);
     }
     // 詳細ページ
     public function show($id){
