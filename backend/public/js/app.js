@@ -74058,11 +74058,6 @@ const react_dom_1 = __importDefault(__webpack_require__(/*! react-dom */ "./node
 const react_query_1 = __webpack_require__(/*! react-query */ "./node_modules/react-query/es/index.js");
 const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 const index_1 = __importDefault(__webpack_require__(/*! ./components/place/pages/index */ "./resources/ts/components/place/pages/index.tsx"));
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes React and other helpers. It's a great starting point while
- * building robust, powerful web applications using React + Laravel.
- */
 __webpack_require__(/*! ./bootstrap */ "./resources/ts/bootstrap.ts");
 const App = () => {
     const queryClient = new react_query_1.QueryClient({
