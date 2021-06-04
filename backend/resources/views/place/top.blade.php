@@ -7,5 +7,5 @@
     <h2>みんなの場所にも行ってみよう!!</h2>  --}}
     {{-- @include('layouts.place_list')
     @include('layouts.swiper') --}}
-    <div id='react'>react</div>
+    <div id='app'>react</div>
 @endsection

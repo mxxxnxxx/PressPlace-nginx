@@ -115,8 +115,6 @@ class PlaceController extends Controller
         return view('place.edit', ['place' => $place
         // , 'tags' => $tags
         ]);
-        
-        
     }
 
     public function update(PlaceRequest $request, $id){
@@ -195,12 +193,12 @@ class PlaceController extends Controller
 
     // 一覧
     public function index(){
-        $places = Place::all()
-        // ->with('place_images')
-        // ->paginate(15)
+        $places = Place::orderBy(Place::UPDATED_AT, 'desc')
+        ->with('place_images')
+        ->paginate(15)
         ;
 
-        return response()->json($places);
+        return $places;
     }
     // 詳細ページ
     public function show($id){
