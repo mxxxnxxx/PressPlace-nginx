@@ -34,6 +34,7 @@ RUN apt-get update && \
   composer config -g repos.packagist composer https://packagist.org &&\
   apt-get update && \
   apt-get install -y libmagickwand-dev && \
+  apt-get install -y nodejs npm && \
   pecl install imagick && \
   docker-php-ext-enable imagick && \
   docker-php-ext-configure gd --with-freetype --with-jpeg && \

@@ -5,7 +5,7 @@ import Container from '@material-ui/core/Container';
 // import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import Header from '../../../layout/containers/organisms/Header';
-import PlaceList from '../../containers/organisms/PlaceList';
+import PlaceCard from '../../containers/organisms/PlaceCard';
 
 type Props = {
     placeId?:string;
@@ -19,7 +19,7 @@ const Place: FC<Props> = ({ placeId }) => {
             <Header />
             <main>
                 <Container>
-                    <PlaceList placeId={placeId}/>
+                    <PlaceCard placeId={placeId}/>
                 </Container>
             </main>
         </Box>

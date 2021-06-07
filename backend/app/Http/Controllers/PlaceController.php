@@ -195,6 +195,8 @@ class PlaceController extends Controller
     public function index(){
         $places = Place::orderBy(Place::UPDATED_AT, 'desc')
         ->with('place_images')
+        ->with('user')
+        ->with('tags')
         ->paginate(15)
         ;
 

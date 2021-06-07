@@ -57,9 +57,9 @@ const useIntersectionObserver = ({
     }
     const observer = newIntersectionObserver();
 
+    // オブジェクトを指定
     observer.observe(el);
 
-    // eslint-disable-next-line consistent-return
     return () => {
       observer.unobserve(el);
     };
