@@ -1,13 +1,19 @@
 {
     "cSpell.words": [
         "accouunt",
+        "authenticatable",
         "camelcase",
         "clickaway",
+        "csrf",
+        "debugbar",
         "endforeach",
         "iswide",
         "laravel",
         "loding",
+        "papertrail",
+        "rulus",
         "swiper",
+        "unfollow",
         "unprocessable"
     ]
 }

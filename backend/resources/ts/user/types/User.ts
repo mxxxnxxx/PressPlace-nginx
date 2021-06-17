@@ -10,4 +10,5 @@ export type User = {
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
+  errors: object
 }

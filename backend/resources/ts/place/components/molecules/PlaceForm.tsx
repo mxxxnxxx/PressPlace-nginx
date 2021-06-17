@@ -1,44 +1,39 @@
 import { useForm, FormProvider, useFormContext } from "react-hook-form";
-import axios from "axios";
-import imageCompression from "browser-image-compression";
+import React, { useState } from 'react';
+import usePostPlaceQuery from '../../hooks/usePostPlaceQuery';
 import PhotosUpload from "./ImageUp";
 import PostalCode from "./PostalCode";
 import NewModal from "../organisms/NewModal";
-import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import { makeStyles, createStyles } from "@material-ui/core/styles"
+import imageCompression from "browser-image-compression";
 
+// hooks Formの処理 管理しやすするためこのファイルににまとめます
+//stateの定義のみEnhancedで定義
 
 // 型定義
-interface Inputs {
-  name: string;
-  comment: string;
-  address: string;
-  tags: string;
+type Inputs = {
+  name: string
+  comment: string
+  address: string
+  tags: string
+  photos?: File[]
 };
 
-const PlaceForm: React.FC<Inputs> = () => {
-  // registerでバリデーション
-  // errorsでバリデーションエラーのハンドリング
-  // handleSubmitで送信
+type Props = {
+  photos: File[]
+  setPhotos: (files: File[]) => void
+  userName?: string
+};
 
-  // 投稿画像のstateを設定
-  const [photos, setPhotos] = useState<File[]>([]);
-
-  // 住所ののstate
-  const [address, setAddress] = useState("");
-  
-  // モーダルの表示非表示
-  const [open, setOpen] = useState(false);
-
-  // const modalOn = () => setShow(true);
+const PlaceForm: React.FC<Props> = ({ userName, photos, setPhotos}) => {
   const methods = useForm<Inputs>({
     // 初回バリデーションのタイミング(mode)をonBlurに設定
     mode: "onBlur",
   });
   const { register, errors, handleSubmit, reset, formState, watch } = methods;
   const onSubmit = async (data: Inputs): Promise<void> => {
-    console.log(data);
+    // console.log(data);
     const { name, comment, address, tags } = data;
     if (
       name === "" &&
@@ -49,7 +44,6 @@ const PlaceForm: React.FC<Inputs> = () => {
       // アンケートフォームが空の場合はPOSTしない
       return;
     }
-
     // 画像を送信できるようにFormDataに変換する
     const formData = new FormData();
     // appendでformDataにキーと値を追加
@@ -62,9 +56,9 @@ const PlaceForm: React.FC<Inputs> = () => {
       maxSizeMB: 3,
     };
     // Promise.all で 非同期処理を実行し値を代入
-    const compressedPhotoData = await Promise.all(
+    const compressedPhotoData  = await Promise.all(
       // 一枚一枚の順番を変えないため改めてasyncで処理をハンドリング
-      photos.map(async (photo) => {
+      photos.map(async (photo ) => {
         return {
           blob: await imageCompression(photo, compressOptions),
           name: photo.name
@@ -86,27 +80,11 @@ const PlaceForm: React.FC<Inputs> = () => {
     // 以下はlaravel側に直前のデータ
     console.log(...formData.entries());
 
-    // axiosの記述方法 postメソッドを使わないやり方で記述
-    axios({
-      // php側のstoreメソッドのルートのurl
-      url: "/place",
-      method: "post",
-      data: formData,
-      // formの送信時のenctype
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    })
-      .then(() => {
-        // ここにモーダルコンポーネント
-        return setOpen(true);
-
-      })
-      .catch(() => {
-        alert("エラーが発生しました。");
-
-      });
+    // axiosを内包したusePostPlaceQueryでpost
+    usePostPlaceQuery(formData);
   };
+  // // モーダルの表示非表示
+  const [open, setOpen] = useState(false);
   // スタイル
   const useStyles = makeStyles(() =>
     createStyles({

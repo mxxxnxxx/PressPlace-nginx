@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { makeStyles, createStyles } from "@material-ui/core/styles"
 
 // interfaceでオブジェクトの型を定義
-interface PhotosUploadProps {
+type Props = {
   name: string;
   componentRef?: (instance: HTMLInputElement | null) => void;
   photos: File[];
@@ -12,12 +12,12 @@ interface PhotosUploadProps {
 
 // ここからreactのいつものコンポーネント
 // 定めたPhotosUploadPropsでかたのしていもおこなっている
-const ImageUp: React.FC<PhotosUploadProps> = ({
+const ImageUp: React.FC<Props> = ({
   name,
   componentRef,
   photos,
   setPhotos,
-}: PhotosUploadProps): React.ReactElement => {
+}: Props): React.ReactElement => {
   // hooksのstateを定義
   // エラーをstateで管理
   const [isSameError, setIsSameError] = useState(false);

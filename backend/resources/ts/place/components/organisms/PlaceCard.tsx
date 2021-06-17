@@ -25,8 +25,8 @@ type Props = {
     isFetchingNextPage: boolean;
     // searchWord: string;
     // handleChangeSearchWord: (ev: React.ChangeEvent<HTMLInputElement>) => void;
-    handleAddPlace: VoidFunction;
-    handleSelectItem: (selectPlaceId: string) => void;
+    // handleAddPlace: VoidFunction;
+    // handleSelectItem: (selectPlaceId: string) => void;
 };
 
 const PlaceCard: FC<Props> = ({
@@ -38,8 +38,8 @@ const PlaceCard: FC<Props> = ({
     isFetchingNextPage,
     // searchWord,
     // handleChangeSearchWord,
-    handleAddPlace,
-    handleSelectItem,
+    // handleAddPlace,
+    // handleSelectItem,
 }) => {
     if (isLoading) {
         return (

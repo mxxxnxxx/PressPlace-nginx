@@ -22,6 +22,7 @@ const EnhancedAccount: FC = () => {
       statusCode={statusCode}
       isLoading={isLoading}
       handleDeleteUser={handleDeleteUser}
+      error={error}
     />
   );
 };

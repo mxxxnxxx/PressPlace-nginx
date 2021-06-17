@@ -72,6 +72,7 @@ const EnhancedLogin: FC = () => {
       isLoading={isLoading}
       handleLogin={handleLogin}
       handleSocialLoginRequest={handleSocialLoginRequest}
+      error={error}
     />
   );
 };

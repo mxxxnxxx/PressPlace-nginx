@@ -9,8 +9,9 @@ import {
 } from "react-router-dom";
 import { ReactQueryDevtools } from 'react-query/devtools';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Login from './user/containers/pages/Login';
 import Place from './place/containers/pages/Place';
+import Login from './user/containers/pages/Login';
+import Register from './user/containers/pages/Register';
 import Loding from './layout/components/pages/Loding';
 import MutationErrorAlertBar from './layout/components/molecules/MutationErrorAlertBar';
 import { useGetUserQuery, useCurrentUser } from './user/hooks';
@@ -111,6 +112,9 @@ const App: FC = () => {
             </Route>
             <UnAuthRoute exact path="/login">
                 <Login />
+            </UnAuthRoute>
+            <UnAuthRoute exact path="/register">
+                <Register />
             </UnAuthRoute>
             {/* <AuthRoute exact path="/settings/account">
                 <Account />

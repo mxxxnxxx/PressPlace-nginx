@@ -18,7 +18,8 @@ Route::apiResource('/places','PlaceController');
 Route::post('/login', 'Auth\LoginController@login')->name('login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/users/me', 'UserController@show')->name('user');
-// Route::apiResource('/user','UserController', ['only' =>['show', 'edit', 'update']]);
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::apiResource('/user','UserController', ['only' =>['show', 'edit', 'update']]);
+    Route::post('/register', 'Auth\RegisterController@register')->name('register');
+    Route::middleware('auth:api')->get('/user', function (Request $request) {
+        return $request->user();
+    });

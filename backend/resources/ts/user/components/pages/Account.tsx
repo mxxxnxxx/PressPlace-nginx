@@ -1,4 +1,5 @@
 import React, { FC, useState, useCallback } from 'react';
+import { AxiosError } from 'axios';
 import Backdrop from '@material-ui/core/Backdrop';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -26,9 +27,10 @@ type Props = {
   statusCode?: number;
   isLoading: boolean;
   handleDeleteUser: VoidFunction;
+  error: AxiosError<any> | null;
 };
 
-const Account: FC<Props> = ({ statusCode, isLoading, handleDeleteUser }) => {
+const Account: FC<Props> = ({ statusCode, isLoading, handleDeleteUser, error }) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
   const classes = useStyles();
@@ -93,7 +95,7 @@ const Account: FC<Props> = ({ statusCode, isLoading, handleDeleteUser }) => {
                   </Typography>
                   {statusCode && (
                     <Box mb={2}>
-                      <UserDeleteAlert statusCode={statusCode} />
+                      <UserDeleteAlert statusCode={statusCode} error={error} />
                     </Box>
                   )}
                   <Button

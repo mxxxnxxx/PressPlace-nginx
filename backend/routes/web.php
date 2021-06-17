@@ -17,7 +17,7 @@ use vendor\laravel\framework\src\Illuminate\Routing;
 use Whoops\Run;
 
 
-Route::get('/{any?}', fn() => view('place.top'))->where('any', '.+');
+Route::get('/{any?}', fn() => view('place.top'))->where('any', '(?!api).+');
 // // place一覧
 // Route::get('/places','PlaceController@index')->name('place.index');
 

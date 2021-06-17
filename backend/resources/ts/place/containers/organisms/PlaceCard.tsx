@@ -40,17 +40,17 @@ const EnhancedPlaceCard: FC<Props> = ({ placeId }) => {
         enabled: hasNextPage,
     });
 
-    const { mutate } = usePostPlaceMutation();
-    const handleAddPlace = useCallback(() => {
-        mutate({ title: '', content: '' });
-    }, [mutate]);
+    // const { mutate } = usePostPlaceMutation();
+    // const handleAddPlace = useCallback(() => {
+    //     mutate({ name: '', comment: '' , address: ''});
+    // }, [mutate]);
 
-    const handleSelectItem = useCallback(
-        (selectPlaceId: string) => {
-            history.push(`/${selectPlaceId}`);
-        },
-        [history]
-    );
+    // const handleSelectItem = useCallback(
+    //     (selectPlaceId: string) => {
+    //         history.push(`/${selectPlaceId}`);
+    //     },
+    //     [history]
+    // );
 
     return (
         <PlaceCard
@@ -60,8 +60,8 @@ const EnhancedPlaceCard: FC<Props> = ({ placeId }) => {
             loadMoreRef={loadMoreRef}
             hasNextPage={hasNextPage}
             isFetchingNextPage={isFetchingNextPage}
-            handleAddPlace={handleAddPlace}
-            handleSelectItem={handleSelectItem}
+            // handleAddPlace={handleAddPlace}
+            // handleSelectItem={handleSelectItem}
         />
     );
 };

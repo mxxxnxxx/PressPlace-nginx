@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { AxiosError } from 'axios';
 import Backdrop from '@material-ui/core/Backdrop';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -32,6 +33,7 @@ type Props = {
     isLoading: boolean;
     handleLogin: (ev: React.FormEvent<HTMLFormElement>) => void;
     handleSocialLoginRequest: (provider: Provider) => void;
+    error: AxiosError<any> | null
 };
 
 const Login: FC<Props> = ({
@@ -43,6 +45,7 @@ const Login: FC<Props> = ({
     isLoading,
     handleLogin,
     handleSocialLoginRequest,
+    error
 }) => {
     const theme = useTheme();
     const classes = useStyles();
@@ -66,7 +69,7 @@ const Login: FC<Props> = ({
                                     flexDirection="column"
                                     alignItems="center"
                                 >
-                                    {statusCode && <LoginAlert statusCode={statusCode} />}
+                                    {statusCode && <LoginAlert statusCode={statusCode} error={error} />}
                                     <TextField
                                         label="メールアドレス"
                                         variant="outlined"
@@ -95,7 +98,7 @@ const Login: FC<Props> = ({
                                     <Box my={2}>
                                         <Button type="submit" color="primary" variant="contained">
                                             ログイン
-                    </Button>
+                                        </Button>
                                     </Box>
                                 </Box>
                             </form>
@@ -104,7 +107,7 @@ const Login: FC<Props> = ({
                 </Container>
             </main>
             <Footer />
-            
+
             {/* ローディング中の背景を変更 */}
             <Backdrop style={{ zIndex: theme.zIndex.drawer + 1 }} open={isLoading}>
                 <CircularProgress color="inherit" />
