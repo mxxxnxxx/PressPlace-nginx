@@ -1,12 +1,11 @@
 import React, { FC } from 'react';
 import { AxiosError } from 'axios';
-import GeneralAlert from '../atoms/GeneralAlert';
 import {
   UNKNOWN_STATUS,
   UNPROCESSABLE_ENTITY,
   INTERNAL_SERVER_ERROR,
 } from '../../../constants/statusCode';
-
+import { Alert, AlertTitle} from '@material-ui/lab';
 type Props = {
   error: AxiosError<any> | null
   statusCode: number;
@@ -14,23 +13,26 @@ type Props = {
 
 const RegisterAlert: FC<Props> = ({ statusCode, error }) => (
   <>
-    {statusCode === UNPROCESSABLE_ENTITY && (
-      <GeneralAlert
-        type="error"
-        title="認証失敗"
-        error={error}
-        content=""
-      />
-
+    {error?.response?.data.errors.email && (
+      <Alert severity="error" className='m-2'>
+        <AlertTitle>認証エラー</AlertTitle>
+        {error.response.data.errors.email}
+      </Alert>
     )}
+
+    {error?.response?.data.errors.name && (
+      <Alert severity="error" className='m-2'>
+        <AlertTitle>認証エラー</AlertTitle>
+        {error.response.data.errors.name}
+      </Alert>
+    )}
+
     {(statusCode === UNKNOWN_STATUS ||
       statusCode === INTERNAL_SERVER_ERROR) && (
-        <GeneralAlert
-          type="error"
-          title="サーバエラー"
-          error={error}
-          content={null}
-        />
+      <Alert severity="error" className='m-2'>
+        <AlertTitle>サーバーエラー</AlertTitle>
+        "予期しないエラーが発生しました。恐れ入りますが時間をおいて再度お試しください。"
+      </Alert>
       )}
   </>
 );

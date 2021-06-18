@@ -23,3 +23,4 @@ Route::apiResource('/user','UserController', ['only' =>['show', 'edit', 'update'
     Route::middleware('auth:api')->get('/user', function (Request $request) {
         return $request->user();
     });
+Auth::routes(['verify' => true]);

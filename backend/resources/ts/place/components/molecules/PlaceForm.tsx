@@ -33,7 +33,6 @@ const PlaceForm: React.FC<Props> = ({ userName, photos, setPhotos}) => {
   });
   const { register, errors, handleSubmit, reset, formState, watch } = methods;
   const onSubmit = async (data: Inputs): Promise<void> => {
-    // console.log(data);
     const { name, comment, address, tags } = data;
     if (
       name === "" &&

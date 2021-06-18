@@ -58,9 +58,6 @@ const Login: FC<Props> = ({
                         <CardHeader title="login" style={{ textAlign: 'center' }} />
                         <CardContent>
                             <Box p={2} borderBottom={1} className={classes.decorationLine}>
-                                <GitHubLoginButton
-                                    handleSocialLoginRequest={handleSocialLoginRequest}
-                                />
                             </Box>
                             <form onSubmit={handleLogin}>
                                 <Box

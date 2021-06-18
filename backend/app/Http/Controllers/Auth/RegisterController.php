@@ -75,8 +75,9 @@ class RegisterController extends Controller
         ];
         
         $validator = Validator::make($data, $rulus, $message);
-        
-        if($validator->errors()){
+        \Debugbar::info($validator->fails());
+
+        if($validator->fails()){
          $response['errors'] = $validator->errors()->toArray();
          \Debugbar::info($response);
          throw new HttpResponseException( response()->json( $response, 422 ));

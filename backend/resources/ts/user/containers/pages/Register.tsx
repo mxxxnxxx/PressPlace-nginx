@@ -20,7 +20,6 @@ const EnhancedRegister: FC = () => {
         from: { pathname: '/' },
     };
     const { error, isLoading, mutate: registration } = useRegister();
-    console.log(error?.response?.data.errors.name)
     const statusCode = error?.response?.status;
     const onSubmit = async (data: Inputs): Promise<void> => {
         const { name, age, email, password } = data;

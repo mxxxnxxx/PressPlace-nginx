@@ -69,7 +69,7 @@ Route::get('/{any?}', fn() => view('place.top'))->where('any', '(?!api).+');
 // Route::get('/place/{id}', 'PlaceController@show')->name('place.show');
 // // ユーザーのmypage
 // Route::resource('user', 'UserController', ['only' =>['show']]);
-// // Auth::routes();
+// Auth::routes();
 // Auth::routes(['verify' => true]);
 
 

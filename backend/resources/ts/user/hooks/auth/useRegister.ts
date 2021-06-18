@@ -23,11 +23,8 @@ const useRegister = (): UseMutationResult<
 
     return useMutation(registration, {
         onSuccess: (data) => {
+            console.log(data);
             queryClient.setQueryData('user', data);
-        },
-        onError: (data) => {
-            console.log(data.response?.data.errors)
-            return data.response?.data.errors
         },
     });
 
