@@ -49,7 +49,6 @@ const Register: FC<Props> = (
     }
 ) => {
     const theme = useTheme();
-    const classes = useStyles();
     const { register, errors, handleSubmit, formState, getValues } = useForm({
         // 初回バリデーションのタイミング(mode)をonBlurに設定
         mode: "onBlur",
@@ -71,8 +70,7 @@ const Register: FC<Props> = (
                                     flexDirection="column"
                                     alignItems="center"
                                 >
-                                    {statusCode && <RegisterAlert statusCode={statusCode} error={error}
-                                    />}
+                                    {statusCode && <RegisterAlert statusCode={statusCode} error={error}/>}
                                     <TextField
                                         inputRef={register({
                                             required: "必須項目です",

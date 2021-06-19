@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { makeStyles, createStyles } from "@material-ui/core/styles"
+import { makeStyles, createStyles, Grid, Paper } from "@material-ui/core";
+import { Alert } from '@material-ui/lab';
+import CameraAltIcon from '@material-ui/icons/CameraAlt';
 
 // interfaceでオブジェクトの型を定義
 type Props = {
@@ -118,76 +120,87 @@ const ImageUp: React.FC<Props> = ({
 
       },
       "image": {
-        width: 200,
+        width: 60,
         margin: 10,
-
-      },
-      "bottomContainer": {
-
       },
       "note": {},
       "label": {},
-      "plus": {},
-      "input": {}
+      "plus": {
+        textAlign: 'left'
+      },
+      "input": {
+        display: 'none',
+      }
     }))
   const stylePhot = useStyles();
 
   return (
     <>
+      <div className={stylePhot.plus}>写真</div>
+
       <div className={stylePhot.topContainer}>
         {/* スプレットで投入される画像を展開 */}
         {/* [...Array(3)]で3つまでのからの配列を作成 */}
         {/* mapメソットでそれぞれの画像に */}
         {/* if文の省略形が使われている なければサンプルが出る */}
-        {[...Array(3)].map((_: number, index: number) =>
-          index < photos.length ? (
-            <button
-              type="button"
-              className={stylePhot.imageContainer}
-              key={index}
-              onClick={() => handleCancel(index)}
-            >
-              <img
-                className={stylePhot.image}
-                src={URL.createObjectURL(photos[index])}
-                alt={`あなたの写真 ${index + 1}`}
-              />
-            </button>
-          ) : (
-            <label htmlFor={name} key={index}>
-              {/* <PhotoSample number={index + 1} /> */}
-            </label>
-          )
-        )}
+        <Grid container spacing={1}>
+          {[...Array(3)].map((_: number, index: number) =>
+            index < photos.length ? (
+              <Grid key={index} item>
+                <button
+                  type="button"
+                  className={stylePhot.imageContainer}
+                  key={index}
+                  onClick={() => handleCancel(index)}
+                >
+                  <img
+                    className={stylePhot.image}
+                    src={URL.createObjectURL(photos[index])}
+                    alt={`あなたの写真 ${index + 1}`}
+                  />
+                </button>
+              </Grid>
+            ) : (
+              <label htmlFor={name} key={index}>
+                {/* <PhotoSample number={index + 1} /> */}
+              </label>
+            )
+          )}
+        </Grid>
       </div>
       {isSameError && (
-        <p>※既に選択された画像と同じものは表示されません</p>
+        <Alert severity="error" className='m-2'>
+          ※既に選択された画像と同じものは表示されません
+        </Alert>
       )}
       {isNumberError && (
-        <p>※3枚を超えて選択された画像は表示されません</p>
+        <Alert severity="error" className='m-2'>
+          ※3枚を超えて選択された画像は表示されません
+        </Alert>
       )}
       {isFileTypeError && (
-        <p>※jpeg, png, bmp, gif, svg以外のファイル形式は表示されません</p>
+        <Alert severity="error" className='m-2'>
+          ※jpeg, png, bmp, gif, svg以外のファイル形式は表示されません
+        </Alert>
       )}
 
-      <div className={stylePhot.bottomContainer}>
-        <div>
-          <p className={stylePhot.note}>※最大3枚まで</p>
-        </div>
-        <label className={stylePhot.label} htmlFor={name}>
-          <div className={stylePhot.plus}></div>
-          写真を追加
-          <input
-            className={stylePhot.input}
-            type="file"
-            name={name}
-            id={name}
-            ref={componentRef}
-            accept="image/*"
-            onChange={handleFile}
-            multiple
-          />
-        </label>
+
+      <label className={stylePhot.label} htmlFor={name}>
+        <CameraAltIcon fontSize="large" />
+        <input
+          className={stylePhot.input}
+          type="file"
+          name={name}
+          id={name}
+          ref={componentRef}
+          accept="image/*"
+          onChange={handleFile}
+          multiple
+        />
+      </label>
+
+      <div>
+        <p className={stylePhot.note}>※最大3枚まで</p>
       </div>
     </>
   );

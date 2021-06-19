@@ -75,8 +75,10 @@ const Header: FC<Props> = ({ userName, handleLogout }) => {
                             <Modal
                                 open={formOpen}
                                 onClose={handleFormClose}
+                                disableBackdropClick
                             >
-                                <PlaceForm />
+                                <PlaceForm
+                                    handleFormClose={handleFormClose}/>
                             </Modal>
                         </>
                     )}
@@ -93,7 +95,6 @@ const Header: FC<Props> = ({ userName, handleLogout }) => {
                                 ログイン
                             </Link>
                         </Typography>
-                        
                     )}
 
                     {!userName && (
