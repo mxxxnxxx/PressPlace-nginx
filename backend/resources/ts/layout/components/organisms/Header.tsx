@@ -69,17 +69,9 @@ const Header: FC<Props> = ({ userName, handleLogout }) => {
 
                     {userName && (
                         <>
-                            <Button onClick={handleFormOpen}>
+                            <Link to="/place/press" style={{ textDecoration: 'none', color: 'inherit' }}>
                                 press!!
-                            </Button>
-                            <Modal
-                                open={formOpen}
-                                onClose={handleFormClose}
-                                disableBackdropClick
-                            >
-                                <PlaceForm
-                                    handleFormClose={handleFormClose}/>
-                            </Modal>
+                            </Link>
                         </>
                     )}
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useForm, FormProvider, useFormContext } from "react-hook-form";
+import { useHistory, useLocation } from 'react-router-dom';
 import PlaceForm from '../../components/molecules/PlaceForm'
 import { useCurrentUser } from '../../../user/hooks';
 import imageCompression from "browser-image-compression";
@@ -13,13 +13,18 @@ type Inputs = {
   photos?: File[]
 };
 type Props = {
-  handleFormClose: () => void
 }
-const EnhancedPlaceForm: React.FC<Props> = ({ handleFormClose }) => {
+const EnhancedPlaceForm: React.FC<Props> = () => {
   // ログインできてるか確認
   const user = useCurrentUser();
+  const history = useHistory();
+  const location = useLocation();
+  const { from } = (location.state as { from: string }) || {
+    from: { pathname: '/' },
+  };
   // 投稿画像のstateを設定
   const [photos, setPhotos] = useState<File[]>([]);
+  const { error, isLoading, mutate: postPlace } = usePostPlaceQuery();
   // const statusCode = error?.response?.status;
   const onSubmit = async (data: Inputs): Promise<void> => {
     const { name, comment, address, tags } = data;
@@ -55,7 +60,7 @@ const EnhancedPlaceForm: React.FC<Props> = ({ handleFormClose }) => {
     );
 
     for (let i = 0; i < compressedPhotoData.length; i++) {
-      formData.append("place_image_" + i, compressedPhotoData[i].blob, compressedPhotoData[i].name);
+      formData.append("placeImage" + i, compressedPhotoData[i].blob, compressedPhotoData[i].name);
 
     }
 
@@ -69,14 +74,19 @@ const EnhancedPlaceForm: React.FC<Props> = ({ handleFormClose }) => {
     console.log(...formData.entries());
 
     // axiosを内包したusePostPlaceQueryでpost
-    usePostPlaceQuery(formData);
+    postPlace(formData,
+      {
+        onSuccess: () => {
+          history.replace(from);
+        }
+    }
+    );
   };
   return <PlaceForm
     userName={user?.name}
     photos={photos}
     setPhotos={setPhotos}
     onSubmit={onSubmit}
-    handleFormClose={handleFormClose}
   // statusCode={statusCode}
   />;
 };

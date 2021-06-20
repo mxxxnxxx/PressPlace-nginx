@@ -1,28 +1,33 @@
-import { UseQueryResult, useQuery, UseQueryOptions } from 'react-query';
+import { UseQueryResult, useQuery, UseQueryOptions, UseMutationResult, useQueryClient, useMutation } from 'react-query';
 import axios, { AxiosError } from 'axios';
 import { Place } from '../types/Place';
 
-const usePostPlaceQuery = (formData:FormData) => {
-    axios({
-        // php側のstoreメソッドのルートのurl
-        url: "api/place",
-        method: "post",
-        data: formData,
-        // formの送信時のenctype
-        headers: {
-            "content-type": "multipart/form-data",
-        },
-    })
-        .then(() => {
-            // ここにモーダルコンポーネント
-            // return setOpen(true);
+// type FormData = {
+//     name: string
+//     address: string
+//     comment: string
+//     tags?: string
+//     placeImage?:
+// };
 
-        })
-        .catch(() => {
-            alert("エラーが発生しました。");
-
-        });
+const postPlace = async (formData: FormData): Promise<Place> => {
+    const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+    const { data } = await axios.post('api/places', formData, config );
+    return data;
 }
 
-export default usePostPlaceQuery
+const usePostPlaceQuery = (): UseMutationResult<
+    Place,
+    AxiosError,
+    FormData,
+    undefined
+> => {
+    const queryClient = useQueryClient();
+    return useMutation(postPlace, {
+        onSuccess: (data) => {
+            console.log(data);
+        }
+    })
+ }
+    export default usePostPlaceQuery
 

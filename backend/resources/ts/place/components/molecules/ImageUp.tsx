@@ -120,8 +120,8 @@ const ImageUp: React.FC<Props> = ({
 
       },
       "image": {
-        width: 60,
-        margin: 10,
+        width: 70,
+        margin: 2,
       },
       "note": {},
       "label": {},

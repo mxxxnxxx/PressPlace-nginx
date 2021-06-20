@@ -1,6 +1,7 @@
-import { useForm, FormProvider, useFormContext } from "react-hook-form";
 import React, { useState } from 'react';
+import { useForm, FormProvider, useFormContext, useController } from "react-hook-form";
 import Header from '../../../layout/containers/organisms/Header';
+import Footer from '../../../layout/components/organisms/Footer';
 import PhotosUpload from "./ImageUp";
 import PostalCode from "./PostalCode";
 import NewModal from "../organisms/NewModal";
@@ -39,7 +40,6 @@ type Props = {
   setPhotos: (files: File[]) => void
   userName?: string
   onSubmit: (data: Inputs) => Promise<void>
-  handleFormClose: () => void
   // statusCode?: number
 };
 
@@ -47,7 +47,6 @@ const PlaceForm: React.FC<Props> = ({ userName,
   photos,
   setPhotos,
   onSubmit,
-  handleFormClose,
 }) => {
   const methods = useForm<Inputs>({ mode: "onBlur", });
   const {
@@ -61,9 +60,11 @@ const PlaceForm: React.FC<Props> = ({ userName,
   // const [open, setOpen] = useState(false);
   const theme = useTheme();
   return (
-    <Box display='flex' flexDirection="column" minHeight="100vh">
+
+    <Box display='flex' flexDirection="column" minHeight="100vh" >
+      <Header />
       <main style={{ flex: 1 }}>
-        <Container maxWidth="xs">
+        <Container maxWidth="xs" >
           <Card style={{ margin: `${theme.spacing(6)}px 0` }}>
             <CardHeader title="Let's Press." style={{ textAlign: 'center' }} />
             <CardContent>
@@ -75,12 +76,7 @@ const PlaceForm: React.FC<Props> = ({ userName,
                     flexDirection="column"
                     alignItems="center"
                   >
-                    <Button type="button" onClick={handleFormClose}>
-                      <CloseIcon />
-                    </Button>
                     {/* {statusCode && <RegisterAlert statusCode={statusCode} error={error}/>} */}
-
-
                     <TextField
                       inputRef={register({
                         required: "必須項目です",
@@ -95,10 +91,10 @@ const PlaceForm: React.FC<Props> = ({ userName,
                       helperText={errors.name && errors.name.message}
                     />
 
-
                     <PhotosUpload name="photos" photos={photos} setPhotos={setPhotos} />
 
-                    
+                    <PostalCode name="address" />
+
                     <TextField
                       inputRef={register({
                         required: "必須項目です",
@@ -133,13 +129,12 @@ const PlaceForm: React.FC<Props> = ({ userName,
                   </Box>
                 </form>
               </FormProvider>
-
             </CardContent>
           </Card>
         </Container>
       </main>
+      <Footer />
       {/* <NewModal open={open} modalOff={(): void => setOpen(false)} /> */}
-
     </Box>
   );
 };

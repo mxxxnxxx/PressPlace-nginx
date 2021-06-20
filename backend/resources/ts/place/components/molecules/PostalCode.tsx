@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useFormContext } from "react-hook-form";
-
+import {
+  Box,
+  TextField,
+  FormLabel,
+  Typography,
+} from '@material-ui/core';
 interface PostalCodeProps {
   name: string;
 }
@@ -28,7 +33,7 @@ const PostalCode: React.FC<PostalCodeProps> = ({
     // dbへのurlを定義
     // フォーム上のfirst_codeとlast_codeを取得してurlとして定数を定義
     // /ajax/postal_search?がパスパラメータでそれ以降が検索に使う郵便番号のクエリパラメーター
-    let url = '/ajax/postal_search?' + [
+    let url = 'api/ajax/postal_search?' + [
       'first_code=' + firstCodeValue.value,
       'last_code=' + lastCodeValue.value
     ].join('&'); // .join('&')でandのクエリーをしている
@@ -53,9 +58,9 @@ const PostalCode: React.FC<PostalCodeProps> = ({
   const methods = useFormContext();
   // tsxのhtml部分
   return (
-    <>
-      <div className="form-group m-0">
-        <label htmlFor="first_code" className="control-label">郵便番号</label>
+    <Box textAlign="left">
+      <Typography align='left' >住所</Typography>
+      <FormLabel htmlFor="first_code">郵便番号</FormLabel>
         <input
           name="first_code"
           size={3}
@@ -66,7 +71,7 @@ const PostalCode: React.FC<PostalCodeProps> = ({
           onChange={(e): void => { setFirstCodeValue({ value: e.currentTarget.value }) }}
         />
         -
-          <input
+        <input
           name="last_code"
           size={4}
           maxLength={4}
@@ -74,20 +79,22 @@ const PostalCode: React.FC<PostalCodeProps> = ({
           onKeyUp={(e): void => { setLastCodeCount({ count: e.currentTarget.value.length }) }}
           onChange={(e): void => { setLastCodeValue({ value: e.currentTarget.value }) }}
         />
-      </div>
-
-
-      <div className="form-group m-0">
-        <label htmlFor={name} className="control-label" >住所</label>
-        <input
-          name={name}
-          id={name}
-          className="form-control"
-          size={20}
-          ref={methods.register}
+      
+      
+      <TextField
+        name={name}
+        id={name}
+        variant="outlined"
+        fullWidth
+        error={Boolean(methods.errors.address)}
+        helperText={methods.errors.address && methods.errors.address.message}
+        inputRef={methods.register({
+          required: "必須項目です",
+          maxLength: { value: 50, message: '50文字以内で入力してください' },
+        })}
         />
-      </div>
-    </>
+      
+    </Box>
   )
 }
 

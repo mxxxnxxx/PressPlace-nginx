@@ -13,6 +13,7 @@ import Place from './place/containers/pages/Place';
 import Login from './user/containers/pages/Login';
 import Register from './user/containers/pages/Register';
 import Loding from './layout/components/pages/Loding';
+import PlaceForm from "./place/containers/molecules/PlaceForm";
 import MutationErrorAlertBar from './layout/components/molecules/MutationErrorAlertBar';
 import { useGetUserQuery, useCurrentUser } from './user/hooks';
 import { useMutationErrorQuery } from './layout/hooks/util';
@@ -116,6 +117,10 @@ const App: FC = () => {
             <UnAuthRoute exact path="/register">
                 <Register />
             </UnAuthRoute>
+            
+            <AuthRoute exact path="/place/press">
+                <PlaceForm />
+            </AuthRoute>
             {/* <AuthRoute exact path="/settings/account">
                 <Account />
 

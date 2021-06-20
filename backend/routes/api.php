@@ -24,3 +24,5 @@ Route::apiResource('/user','UserController', ['only' =>['show', 'edit', 'update'
         return $request->user();
     });
 Auth::routes(['verify' => true]);
+// // ajaxのapiのためのルーティング
+Route::get('ajax/postal_search', 'PlaceController@postal_search')->name('postal_search');
