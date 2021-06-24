@@ -1,11 +1,9 @@
 import React, { FC, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { AppBar, Button, Typography, Toolbar } from '@material-ui/core';
+import { AppBar, Typography, Toolbar } from '@material-ui/core';
 import useTheme from '@material-ui/core/styles/useTheme';
-import PlaceForm from '../../../place/containers/molecules/PlaceForm';
 import AccountButton from '../../../user/components/atoms/AccountButton';
 import AccountMenu from '../../../user/components/molecules/AccountMenu';
-import Modal from '@material-ui/core/Modal';
 
 
 type Props = {
@@ -69,7 +67,7 @@ const Header: FC<Props> = ({ userName, handleLogout }) => {
 
                     {userName && (
                         <>
-                            <Link to="/place/press" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <Link to="/press" style={{ textDecoration: 'none', color: 'inherit' }}>
                                 press!!
                             </Link>
                         </>

@@ -118,7 +118,7 @@ const App: FC = () => {
                 <Register />
             </UnAuthRoute>
             
-            <AuthRoute exact path="/place/press">
+            <AuthRoute exact path="/press">
                 <PlaceForm />
             </AuthRoute>
             {/* <AuthRoute exact path="/settings/account">

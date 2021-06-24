@@ -19,7 +19,8 @@ class PlaceController extends Controller
 
     // 郵便番号検索
     public function postal_search(Request $request) {
-
+        \Debugbar::info($request);
+        \Debugbar::info("te");
 // 順番でfirst_code,last_codeをそれぞれ$last_code , $first_codeとしてわたしている
     return \App\PostalCode::whereSearch($request->first_code, $request->last_code)->first();
 
@@ -77,9 +78,8 @@ class PlaceController extends Controller
 
         // $matchの中でも#が付いていない方を使用する(配列番号で言うと1)
         foreach ($match[1] as $tag) {
-            // firstOrCreateでTagモデルからDBにアクセスし重複を防ぎながらタグを作成している。
+            // firstOrCreateでTagモデルからDBにアクセスしtagのnameカラムの重複を防ぎながらタグを作成している。
             // 作ったあとの情報を$recodeで変数として取得している
-            
             $record = Tag::firstOrCreate(['name' => $tag]);
             // 作成された$recodeを受け皿に入れる
             array_push($tags, $record);

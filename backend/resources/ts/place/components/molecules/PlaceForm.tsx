@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { useForm, FormProvider, useFormContext, useController } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import Header from '../../../layout/containers/organisms/Header';
 import Footer from '../../../layout/components/organisms/Footer';
 import PhotosUpload from "./ImageUp";
 import PostalCode from "./PostalCode";
+import TagsForm from "./TagsForm";
 import NewModal from "../organisms/NewModal";
+
 
 import {
   useTheme,
@@ -21,6 +23,7 @@ import {
   TextField,
 } from "@material-ui/core"
 import CloseIcon from '@material-ui/icons/Close';
+import TagForm from './TagsForm';
 
 
 // hooks Formの処理 管理しやすするためこのファイルににまとめます
@@ -40,6 +43,7 @@ type Props = {
   setPhotos: (files: File[]) => void
   userName?: string
   onSubmit: (data: Inputs) => Promise<void>
+  isLoading: boolean
   // statusCode?: number
 };
 
@@ -47,6 +51,7 @@ const PlaceForm: React.FC<Props> = ({ userName,
   photos,
   setPhotos,
   onSubmit,
+  isLoading
 }) => {
   const methods = useForm<Inputs>({ mode: "onBlur", });
   const {
@@ -66,7 +71,7 @@ const PlaceForm: React.FC<Props> = ({ userName,
       <main style={{ flex: 1 }}>
         <Container maxWidth="xs" >
           <Card style={{ margin: `${theme.spacing(6)}px 0` }}>
-            <CardHeader title="Let's Press." style={{ textAlign: 'center' }} />
+            <CardHeader title="Let's Press." style={{ textAlign: 'center', marginTop: 30 }} />
             <CardContent>
               <FormProvider {...methods}>
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -110,8 +115,7 @@ const PlaceForm: React.FC<Props> = ({ userName,
                       error={Boolean(errors.comment)}
                       helperText={errors.comment && errors.comment.message}
                     />
-
-                    <TextField
+                    {/* <TextField
                       inputRef={register({
                         required: "必須項目です",
                         maxLength: { value: 30, message: '30文字以内で入力してください' },
@@ -123,9 +127,12 @@ const PlaceForm: React.FC<Props> = ({ userName,
                       fullWidth
                       error={Boolean(errors.tags)}
                       helperText={errors.tags && errors.tags.message}
-                    />
-                    <Button variant={'contained'} type="submit" disabled={!formState.isDirty || formState.isSubmitting}>登録</Button>
-                    <Button type="button" disabled={!formState.isDirty || formState.isSubmitting} onClick={() => reset()}>クリア</Button>
+                    /> */}
+                    <TagsForm/>
+                    <Box>
+                      <Button variant={'contained'} type="submit" disabled={!formState.isDirty || formState.isSubmitting}>登録</Button>
+                      <Button type="button" disabled={!formState.isDirty || formState.isSubmitting} onClick={() => reset()}>クリア</Button>
+                    </Box>
                   </Box>
                 </form>
               </FormProvider>
@@ -135,6 +142,9 @@ const PlaceForm: React.FC<Props> = ({ userName,
       </main>
       <Footer />
       {/* <NewModal open={open} modalOff={(): void => setOpen(false)} /> */}
+      <Backdrop style={{ zIndex: theme.zIndex.drawer + 1 }} open={isLoading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Box>
   );
 };

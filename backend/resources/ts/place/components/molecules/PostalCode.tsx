@@ -33,7 +33,7 @@ const PostalCode: React.FC<PostalCodeProps> = ({
     // dbへのurlを定義
     // フォーム上のfirst_codeとlast_codeを取得してurlとして定数を定義
     // /ajax/postal_search?がパスパラメータでそれ以降が検索に使う郵便番号のクエリパラメーター
-    let url = 'api/ajax/postal_search?' + [
+    let url = '/api/ajax/postal_search?' + [
       'first_code=' + firstCodeValue.value,
       'last_code=' + lastCodeValue.value
     ].join('&'); // .join('&')でandのクエリーをしている
@@ -53,7 +53,6 @@ const PostalCode: React.FC<PostalCodeProps> = ({
     }
 
   };
-
 
   const methods = useFormContext();
   // tsxのhtml部分
@@ -79,8 +78,6 @@ const PostalCode: React.FC<PostalCodeProps> = ({
           onKeyUp={(e): void => { setLastCodeCount({ count: e.currentTarget.value.length }) }}
           onChange={(e): void => { setLastCodeValue({ value: e.currentTarget.value }) }}
         />
-      
-      
       <TextField
         name={name}
         id={name}
@@ -93,7 +90,6 @@ const PostalCode: React.FC<PostalCodeProps> = ({
           maxLength: { value: 50, message: '50文字以内で入力してください' },
         })}
         />
-      
     </Box>
   )
 }

@@ -55,7 +55,7 @@ const Login: FC<Props> = ({
             <main style={{ flex: 1 }}>
                 <Container maxWidth="xs">
                     <Card style={{ margin: `${theme.spacing(6)}px 0` }}>
-                        <CardHeader title="login" style={{ textAlign: 'center' }} />
+                        <CardHeader title="login" style={{ textAlign: 'center', marginTop: 30 }} />
                         <CardContent>
                             <Box p={2} borderBottom={1} className={classes.decorationLine}>
                             </Box>

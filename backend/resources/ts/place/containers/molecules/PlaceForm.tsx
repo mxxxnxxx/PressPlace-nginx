@@ -87,6 +87,7 @@ const EnhancedPlaceForm: React.FC<Props> = () => {
     photos={photos}
     setPhotos={setPhotos}
     onSubmit={onSubmit}
+    isLoading={isLoading}
   // statusCode={statusCode}
   />;
 };
