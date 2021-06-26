@@ -9,7 +9,7 @@ type Inputs = {
   name: string
   comment: string
   address: string
-  tags: string
+  tag: string
   photos?: File[]
 };
 type Props = {
@@ -25,13 +25,13 @@ const EnhancedPlaceForm: React.FC<Props> = () => {
   // 投稿画像のstateを設定
   const [photos, setPhotos] = useState<File[]>([]);
   const { error, isLoading, mutate: postPlace } = usePostPlaceQuery();
-  // const statusCode = error?.response?.status;
+  const statusCode = error?.response?.status;
   const onSubmit = async (data: Inputs): Promise<void> => {
-    const { name, comment, address, tags } = data;
+    console.log(data)
+    const { name, comment, address, tag } = data;
     if (
       name === "" &&
       comment === "" &&
-      tags === "" &&
       photos.length === 0
     ) {
       // アンケートフォームが空の場合はPOSTしない
@@ -43,7 +43,7 @@ const EnhancedPlaceForm: React.FC<Props> = () => {
     formData.append("name", name);
     formData.append("comment", comment);
     formData.append("address", address);
-    formData.append("tags", tags);
+    formData.append("tags", tag);
     const compressOptions = {
       // 3MB以下に圧縮する
       maxSizeMB: 3,
@@ -88,7 +88,8 @@ const EnhancedPlaceForm: React.FC<Props> = () => {
     setPhotos={setPhotos}
     onSubmit={onSubmit}
     isLoading={isLoading}
-  // statusCode={statusCode}
+    statusCode={statusCode}
+    error={error}
   />;
 };
 export default EnhancedPlaceForm

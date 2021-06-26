@@ -6,8 +6,7 @@ import PhotosUpload from "./ImageUp";
 import PostalCode from "./PostalCode";
 import TagsForm from "./TagsForm";
 import NewModal from "../organisms/NewModal";
-
-
+import PostPlaceAlert from './PostPlaceAlert'
 import {
   useTheme,
   makeStyles,
@@ -22,9 +21,7 @@ import {
   CardContent,
   TextField,
 } from "@material-ui/core"
-import CloseIcon from '@material-ui/icons/Close';
-import TagForm from './TagsForm';
-
+import { AxiosError } from 'axios';
 
 // hooks Formの処理 管理しやすするためこのファイルににまとめます
 //stateの定義のみEnhancedで定義
@@ -34,7 +31,7 @@ type Inputs = {
   name: string
   comment: string
   address: string
-  tags: string
+  tag: string
   photos?: File[]
 };
 
@@ -44,14 +41,18 @@ type Props = {
   userName?: string
   onSubmit: (data: Inputs) => Promise<void>
   isLoading: boolean
-  // statusCode?: number
+  error: AxiosError<any> | null
+  statusCode?: number
 };
 
-const PlaceForm: React.FC<Props> = ({ userName,
+const PlaceForm: React.FC<Props> = ({
+  userName,
   photos,
   setPhotos,
   onSubmit,
-  isLoading
+  isLoading,
+  error,
+  statusCode,
 }) => {
   const methods = useForm<Inputs>({ mode: "onBlur", });
   const {
@@ -81,7 +82,7 @@ const PlaceForm: React.FC<Props> = ({ userName,
                     flexDirection="column"
                     alignItems="center"
                   >
-                    {/* {statusCode && <RegisterAlert statusCode={statusCode} error={error}/>} */}
+                    {statusCode && <PostPlaceAlert statusCode={statusCode} error={error}/>}
                     <TextField
                       inputRef={register({
                         required: "必須項目です",

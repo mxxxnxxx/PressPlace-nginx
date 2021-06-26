@@ -27,7 +27,8 @@ class PlaceRequest extends FormRequest
             'name' => 'required|string|max:30',
             'comment' => 'string|max:200',
             'address' => 'required|string|max:50',
-            'files.*.photo' => 'image|mimes:jpeg,bmp,png|max:15480'
+            'files.*.photo' => 'image|mimes:jpeg,bmp,png|max:15480',
+            'tag' => 'string|max:20',
         ];
     }
 

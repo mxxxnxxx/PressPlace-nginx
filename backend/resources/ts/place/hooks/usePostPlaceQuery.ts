@@ -25,7 +25,7 @@ const usePostPlaceQuery = (): UseMutationResult<
     const queryClient = useQueryClient();
     return useMutation(postPlace, {
         onSuccess: (data) => {
-            console.log(data);
+            // console.log(data);
         }
     })
  }

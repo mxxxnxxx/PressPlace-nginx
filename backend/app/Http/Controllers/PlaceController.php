@@ -19,8 +19,6 @@ class PlaceController extends Controller
 
     // 郵便番号検索
     public function postal_search(Request $request) {
-        \Debugbar::info($request);
-        \Debugbar::info("te");
 // 順番でfirst_code,last_codeをそれぞれ$last_code , $first_codeとしてわたしている
     return \App\PostalCode::whereSearch($request->first_code, $request->last_code)->first();
 
@@ -35,6 +33,7 @@ class PlaceController extends Controller
                 'comment' => $request->comment,
                 'address' => $request->address
                 ]);
+                
 
         // 画像の処理
         // 一枚目の写真がなければ処理をしない
@@ -67,12 +66,11 @@ class PlaceController extends Controller
                 $place->place_images()->create(['filename' => $file_name]);
             }
         }
-        
 
         // tagの処理
-        // preg_match_allを使用して#タグのついた文字列を取得している多次元配列
-        preg_match_all('/#([a-zA-z0-9０-９ぁ-んァ-ヶ亜-熙]+)/u', $request->tags, $match);
-
+        // preg_match_allを使用してからの'スペース'の要素を除外し$matchを作成
+        preg_match_all('/([a-zA-z0-9０-９ぁ-んァ-ヶ亜-熙]+)/u', $request->tags, $match);
+        \Debugbar::info($match);
         // 受けようの配列を定義しnameカラムへ保存される値を受ける
         $tags = [];
 
