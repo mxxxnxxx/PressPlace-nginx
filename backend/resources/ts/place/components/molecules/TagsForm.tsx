@@ -1,43 +1,28 @@
 import React, { useState } from 'react';
 import { useFormContext } from "react-hook-form";
+import { QueryClient } from 'react-query';
 import {
     Button,
     Box,
     TextField, Typography,
-} from '@material-ui/core'
+} from '@material-ui/core';
+import { Place } from '../../types/Place';
+import { useEffect } from 'react';
+import { async } from 'q';
 
 type Props = {
+    tags: string[]
+    addTag: () => void
+    removeTag: () => void
 }
 
-const TagsForm: React.FC<Props> = () => {
-    const [tags, setTags] = useState(["tag.0"]);
+const TagsForm: React.FC<Props> = ({ tags, addTag, removeTag }) => {
+
     const methods = useFormContext();
-    const addTag = () => {
-        if (tags.length > 4) {
-            return
-        }
-        const newTags = [...tags];
-        newTags.push(`tag.${(tags.length)}`);
-        setTags(newTags);
-        console.log(tags)
-
-    }
-
-    const removeTag = () => {
-        if (tags.length > 1) {
-            const rmTags = [...tags];
-            console.log(rmTags)
-            // popでtagFormから一番末尾の1つだけ削除している
-            rmTags.pop()
-            setTags(rmTags);
-
-        }
-    }
-
     return (
         <Box textAlign="center">
 
-            <Button type="button" onClick={addTag}>
+            <Button type="button" onClick={()=>addTag()}>
                 +
             </Button>
             {tags.length > 1 && (
@@ -45,7 +30,7 @@ const TagsForm: React.FC<Props> = () => {
                     -
                 </Button>
             )}
-            {tags.map((tag, index) => {
+            {tags.map((tag, _) => {
                 return (
                     <div key={tag.toString()}>
                         <TextField

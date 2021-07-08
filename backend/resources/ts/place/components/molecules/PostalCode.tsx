@@ -23,7 +23,6 @@ const PostalCode: React.FC<PostalCodeProps> = ({
   const [lastCodeValue, setLastCodeValue] = useState({ value: '' });
   const inputEl = useRef(null);
   useEffect(() => {
-    console.log(firstCodeCount.count)
     if (firstCodeCount.count + lastCodeCount.count === 7) {
       postalSearch()
     }

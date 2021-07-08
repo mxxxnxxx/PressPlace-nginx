@@ -1,5 +1,7 @@
 
 import { User } from '../../user/types/User';
+import { Tag } from './Tag';
+
 
 export type Place = {
     data: { key: string[] }
@@ -12,5 +14,5 @@ export type Place = {
     placeImages: string
     placeId: string
     user: User
-    tags: string
+    tags: Tag[]
 }

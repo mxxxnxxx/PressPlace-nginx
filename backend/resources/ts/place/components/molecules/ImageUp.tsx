@@ -3,7 +3,6 @@ import { makeStyles, createStyles, Grid, Paper } from "@material-ui/core";
 import { Alert } from '@material-ui/lab';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
 
-// interfaceでオブジェクトの型を定義
 type Props = {
   name: string;
   componentRef?: (instance: HTMLInputElement | null) => void;

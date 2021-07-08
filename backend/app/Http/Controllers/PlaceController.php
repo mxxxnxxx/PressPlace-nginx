@@ -202,16 +202,8 @@ class PlaceController extends Controller
     }
     // 詳細ページ
     public function show($id){
-        $place = Place::find($id);
-        
-        $user = \Auth::user();
-            if ($user) {
-                $login_user_id = $user->id;
-            } else {
-                $login_user_id = "";
-            }
-        // $place_image = $place->place_images->filename;
-        return view('place.show', ['place' => $place,  'login_user_id' => $login_user_id]);
+        $place = Place::with('place_images','user','tags')->find($id);
+        return $place;
     }
 
     // ソフトデリート確認画面表示

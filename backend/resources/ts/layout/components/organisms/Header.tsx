@@ -19,18 +19,8 @@ const Header: FC<Props> = ({ userName, handleLogout }) => {
 
     // componentsには基本的にロジックを持たせないが、UIの状態に関するものなので、ここで定義している
     const [menuAnchorEl, setMenuAnchorEl] = useState<Element | null>(null);
-    // 新規投稿モーダルon off
 
-    const [formOpen, setFormOpen] = useState(false);
     // メニューバーの状態 Boolean()でBooleanで値を返す
-    // 投稿画面ON
-    const handleFormOpen = () => {
-        setFormOpen(true);
-    }
-    // 投稿画面OFF
-    const handleFormClose = () => {
-        setFormOpen(false);
-    }
     const isAccouuntMenuOpen = Boolean(menuAnchorEl);
 
     const handleAccountMenuOpen = useCallback(

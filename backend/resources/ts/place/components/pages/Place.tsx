@@ -11,7 +11,7 @@ type Props = {
     placeId?:string;
 }
 
-const Place: FC<Props> = ({ placeId }) => {
+const Place: FC<Props> = () => {
     const theme = useTheme();
     // const matches = useMediaQuery(theme.breakpoints.up('sm'));
     return (
@@ -19,7 +19,7 @@ const Place: FC<Props> = ({ placeId }) => {
             <Header />
             <main>
                 <Container>
-                    <PlaceCard placeId={placeId}/>
+                    <PlaceCard/>
                 </Container>
             </main>
         </Box>

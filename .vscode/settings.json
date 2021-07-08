@@ -4,6 +4,7 @@
         "authenticatable",
         "camelcase",
         "clickaway",
+        "confirmation",
         "csrf",
         "debugbar",
         "endforeach",
@@ -14,6 +15,7 @@
         "next",
         "papertrail",
         "rulus",
+        "softdelete",
         "swiper",
         "unfollow",
         "unprocessable"

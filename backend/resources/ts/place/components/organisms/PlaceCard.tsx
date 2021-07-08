@@ -1,20 +1,18 @@
-import React, { FC } from 'react';
-import Box from '@material-ui/core/Box';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import React, { FC, useCallback, useState } from 'react';
+import {
+    Box,
+    Card,
+    CardHeader,
+    CardContent,
+    CardMedia,
+    Avatar,
+    Typography,
+} from '@material-ui/core';
 import GeneralAlert from '../../../layout/components/atoms/GeneralAlert';
-import PlaceCardHeader from '../molecules/PlaceCardHeader';
-// import PlaceCardItem from '../molecules/PlaceCardItem';
-// import PlaceCardItemSkeleton from '../molecules/PlaceCardItemSkeleton';
 import { INTERNAL_SERVER_ERROR } from '../../../constants/statusCode';
 import { Places } from '../../types/Places';
+import MenuButton from '../../components/molecules/MenuButton';
+
 
 type Props = {
     paginatePlaces?: Places[];
@@ -23,10 +21,6 @@ type Props = {
     loadMoreRef: (node: Element) => void;
     hasNextPage?: boolean;
     isFetchingNextPage: boolean;
-    // searchWord: string;
-    // handleChangeSearchWord: (ev: React.ChangeEvent<HTMLInputElement>) => void;
-    // handleAddPlace: VoidFunction;
-    // handleSelectItem: (selectPlaceId: string) => void;
 };
 
 const PlaceCard: FC<Props> = ({
@@ -36,10 +30,6 @@ const PlaceCard: FC<Props> = ({
     loadMoreRef,
     hasNextPage,
     isFetchingNextPage,
-    // searchWord,
-    // handleChangeSearchWord,
-    // handleAddPlace,
-    // handleSelectItem,
 }) => {
     if (isLoading) {
         return (
@@ -84,9 +74,9 @@ const PlaceCard: FC<Props> = ({
             {/* 140px = ヘッダー：64 + メモ一覧ヘッダー：48 + 下部余白：28 */}
 
             {paginatePlaces?.map((page) => (
-                <React.Fragment key={page.currentPage}>
-                    {page.data.map((place) => (
-                        <Card className='m-5'>
+                <React.Fragment key={page.currentPage.toString()}>
+                    {page.data.map((place, index) => (
+                        <Card className='m-5' key={index.toString()}>
                             <CardHeader
 
                                 // アバターアイコン
@@ -98,9 +88,19 @@ const PlaceCard: FC<Props> = ({
 
                                 action={
                                     // ... のmoreボタン
-                                    <IconButton>
-                                        <MoreVertIcon />
-                                    </IconButton>
+                                    // <IconButton>
+                                    //     <MoreVertIcon />
+                                    // </IconButton>
+                                    <>
+                                        <MenuButton place={place}/>
+                                        {/* <PlaceMenu
+                                            menuId={menuId}
+                                            anchorEl={menuAnchorEl}
+                                            open={isPlaceMenuOpen}
+                                            handlePlaceMenuClose={handlePlaceMenuClose}
+                                            place={place}
+                                        /> */}
+                                    </>
                                 }
 
                                 title={place.user.name}

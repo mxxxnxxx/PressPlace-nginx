@@ -5,7 +5,9 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Redirect
+    Redirect,
+    useLocation,
+    RouteComponentProps
 } from "react-router-dom";
 import { ReactQueryDevtools } from 'react-query/devtools';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,7 +15,8 @@ import Place from './place/containers/pages/Place';
 import Login from './user/containers/pages/Login';
 import Register from './user/containers/pages/Register';
 import Loding from './layout/components/pages/Loding';
-import PlaceForm from "./place/containers/molecules/PlaceForm";
+import PlaceForm from "./place/containers/molecules/NewPlaceForm";
+import EditPlaceForm from "./place/containers/molecules/EditPlaceForm";
 import MutationErrorAlertBar from './layout/components/molecules/MutationErrorAlertBar';
 import { useGetUserQuery, useCurrentUser } from './user/hooks';
 import { useMutationErrorQuery } from './layout/hooks/util';
@@ -120,6 +123,10 @@ const App: FC = () => {
             
             <AuthRoute exact path="/press">
                 <PlaceForm />
+            </AuthRoute>
+
+            <AuthRoute exact path="/place/edit/:placeId">
+                <EditPlaceForm />
             </AuthRoute>
             {/* <AuthRoute exact path="/settings/account">
                 <Account />
