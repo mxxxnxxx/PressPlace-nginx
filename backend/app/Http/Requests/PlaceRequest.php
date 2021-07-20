@@ -29,6 +29,7 @@ class PlaceRequest extends FormRequest
             'address' => 'required|string|max:50',
             'files.*.photo' => 'image|mimes:jpeg,bmp,png|max:15480',
             'tag' => 'string|max:20',
+            'old_place_images.*' => 'string',
         ];
     }
 

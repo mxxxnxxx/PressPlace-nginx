@@ -34,6 +34,8 @@ const TagsForm: React.FC<Props> = ({ tags, addTag, removeTag }) => {
                 return (
                     <div key={tag.toString()}>
                         <TextField
+                            key={tag.toString()}
+                            id={tag.toString()}
                             label='タグ'
                             name={tag}
                             inputRef={methods.register({

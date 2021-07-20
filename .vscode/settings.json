@@ -2,6 +2,7 @@
     "cSpell.words": [
         "accouunt",
         "authenticatable",
+        "bgcolor",
         "camelcase",
         "clickaway",
         "confirmation",
@@ -12,12 +13,17 @@
         "iswide",
         "laravel",
         "loding",
+        "muneyuki",
         "next",
         "papertrail",
+        "pressplace",
+        "redirector",
         "rulus",
         "softdelete",
         "swiper",
         "unfollow",
-        "unprocessable"
+        "unprocessable",
+        "upsize",
+        "xsrf"
     ]
 }

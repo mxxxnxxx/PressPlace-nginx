@@ -23,6 +23,7 @@ import {
 } from "@material-ui/core"
 import { AxiosError } from 'axios';
 import { Place } from '../../types/Place'
+import { PlaceImage } from '../../types/PlaceImage'
 
 // hooks Formの処理 管理しやすするためこのファイルににまとめます
 //stateの定義のみEnhancedで定義
@@ -45,6 +46,8 @@ type Props = {
   isLoading: boolean
   error: AxiosError<any> | null
   statusCode?: number
+  oldPhotos: PlaceImage[]
+  setOldPhotos: (photo: PlaceImage[]) => void
 };
 
 const PlaceForm: React.FC<Props> = ({
@@ -55,6 +58,8 @@ const PlaceForm: React.FC<Props> = ({
   oldPlace,
   error,
   statusCode,
+  oldPhotos,
+  setOldPhotos,
 }) => {
   const methods = useFormContext();
 
@@ -91,7 +96,7 @@ const PlaceForm: React.FC<Props> = ({
                     helperText={methods.errors.name && methods.errors.name.message}
                   />
 
-                  <PhotosUpload name="photos" photos={photos} setPhotos={setPhotos} />
+                  <PhotosUpload name="photos" photos={photos} setPhotos={setPhotos} oldPhotos={oldPhotos} setOldPhotos={setOldPhotos} />
 
                   <PostalCode name="address" />
 
@@ -110,7 +115,7 @@ const PlaceForm: React.FC<Props> = ({
                     error={Boolean(methods.errors.comment)}
                     helperText={methods.errors.comment && methods.errors.comment.message}
                   />
-                  <TagsForm oldPlace={oldPlace}/>
+                  <TagsForm oldPlace={oldPlace} />
                   <Box>
                     <Button variant={'contained'} type="submit" disabled={!methods.formState.isDirty || methods.formState.isSubmitting}>登録</Button>
                     <Button type="button" disabled={!methods.formState.isDirty || methods.formState.isSubmitting} onClick={() => methods.reset()}>クリア</Button>

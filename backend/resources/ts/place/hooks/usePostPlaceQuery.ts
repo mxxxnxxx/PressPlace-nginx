@@ -2,17 +2,9 @@ import { UseQueryResult, useQuery, UseQueryOptions, UseMutationResult, useQueryC
 import axios, { AxiosError } from 'axios';
 import { Place } from '../types/Place';
 
-// type FormData = {
-//     name: string
-//     address: string
-//     comment: string
-//     tags?: string
-//     placeImage?:
-// };
-
 const postPlace = async (formData: FormData): Promise<Place> => {
     const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-    const { data } = await axios.post('api/places', formData, config );
+    const { data } = await axios.post("/api/places", formData, config);
     return data;
 }
 
@@ -25,7 +17,6 @@ const usePostPlaceQuery = (): UseMutationResult<
     const queryClient = useQueryClient();
     return useMutation(postPlace, {
         onSuccess: (data) => {
-            // console.log(data);
         }
     })
  }

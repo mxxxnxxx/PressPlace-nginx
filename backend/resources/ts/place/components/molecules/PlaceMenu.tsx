@@ -40,7 +40,6 @@ const PlaceMenu: FC<Props> = ({
     place,
 }) => {
     const user = useCurrentUser();
-    console.log(user)
     const classes = useStyles();
     return (
         <Menu

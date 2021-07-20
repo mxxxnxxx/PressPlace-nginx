@@ -6,7 +6,8 @@ import PlaceForm from '../../components/molecules/PlaceForm'
 import { useCurrentUser } from '../../../user/hooks';
 import imageCompression from "browser-image-compression";
 import usePostPlaceQuery from '../../hooks/usePostPlaceQuery';
-import { Place } from '../../types/Place'
+import { Place } from '../../types/Place';
+import { PlaceImage } from '../../types/PlaceImage';
 
 type Inputs = {
   name: string
@@ -30,12 +31,12 @@ const NewPlaceForm: React.FC<Props> = () => {
   const { error, isLoading, mutate: postPlace } = usePostPlaceQuery();
   const statusCode = error?.response?.status;
   const methods = useForm<Inputs>({ shouldUnregister: false, });
-  
+
   // PlaceForm.tsxをきょうゆうで利用するためにProps部分のみ定義
   const [oldPlace, setOldPlace] = useState<Place>();
+  const [oldPhotos, setOldPhotos] = useState<PlaceImage[]>([]);
 
   const onSubmit = async (data: Inputs): Promise<void> => {
-    console.log(data)
     const { name, comment, address, tag } = data;
     if (
       name === "" &&
@@ -53,8 +54,7 @@ const NewPlaceForm: React.FC<Props> = () => {
     formData.append("address", address);
     formData.append("tags", tag);
     const compressOptions = {
-      // 3MB以下に圧縮する
-      maxSizeMB: 3,
+      maxSizeMB: 15,
     };
     // Promise.all で 非同期処理を実行し値を代入
     const compressedPhotoData = await Promise.all(
@@ -68,7 +68,7 @@ const NewPlaceForm: React.FC<Props> = () => {
     );
 
     for (let i = 0; i < compressedPhotoData.length; i++) {
-      formData.append("placeImage" + i, compressedPhotoData[i].blob, compressedPhotoData[i].name);
+      formData.append("place_image_" + i, compressedPhotoData[i].blob, compressedPhotoData[i].name);
 
     }
 
@@ -101,6 +101,8 @@ const NewPlaceForm: React.FC<Props> = () => {
         oldPlace={oldPlace}
         statusCode={statusCode}
         error={error}
+        oldPhotos={oldPhotos}
+        setOldPhotos={setOldPhotos}
       />
     </FormProvider>
   )

@@ -14,7 +14,7 @@ class Place extends Model{
         'comment',
         'address',
         'user_id',
-        'tag'
+        'tag',
     ];
     // place_tagのリレーション
     public function tags(){

@@ -7,8 +7,10 @@ import PlaceForm from '../../components/molecules/PlaceForm'
 import { useGetPlaceQuery } from '../../hooks';
 import { useCurrentUser } from '../../../user/hooks';
 import imageCompression from "browser-image-compression";
-import usePostPlaceQuery from '../../hooks/usePostPlaceQuery';
+import useEditPostPlaceQuery from '../../hooks/useEditPostPlaceQuery';
 import { Place } from '../../types/Place'
+import { PlaceImage } from '../../types/PlaceImage'
+
 import { resolve } from 'path';
 import axios from 'axios';
 import Loding from '../../../layout/components/pages/Loding';
@@ -36,22 +38,23 @@ const EditPlaceForm: React.FC<Props> = () => {
   };
   // 投稿画像のstateを設定
   const [photos, setPhotos] = useState<File[]>([]);
-
+  const [oldPhotos, setOldPhotos] = useState<PlaceImage[]>([]);
   // 前のplaceの値を取得
   const params = useParams<{ placeId: string }>();
+  const [targetPlaceId, setTargetPlaceId] = useState<string>();
   const [oldPlace, setOldPlace] = useState<Place>();
   const [loadOldPlace, setLoadOldPlace] = useState<boolean>(true);
 
   const set = (camelOldPlace: Place) => {
-    const { name, address, comment,tags } = camelOldPlace
+    const { id, name, address, comment, tags, placeImages } = camelOldPlace
+    setTargetPlaceId(id)
     setValue('name', name)
     setValue('address', address)
     setValue('comment', comment)
-
+    setOldPhotos(() => placeImages)
     for (let i = 0; i < tags.length; i++) {
       setValue(`tag.${i}`, tags[i].name);
     }
-
     setOldPlace(camelOldPlace)
   }
 
@@ -63,18 +66,16 @@ const EditPlaceForm: React.FC<Props> = () => {
         const camelOldPlace: Place = await camelcaseKeys(data, { 'deep': true });
         set(camelOldPlace);
         setLoadOldPlace(false);
-        console.log(camelOldPlace)
       })()
     }, [])
 
 
 
   // Formからpostの処理
-  const { error, isLoading, mutate: postPlace } = usePostPlaceQuery();
+  const { error, isLoading, mutate: editPostPlace } = useEditPostPlaceQuery();
   const statusCode = error?.response?.status;
 
   const onSubmit = async (data: Inputs): Promise<void> => {
-    console.log(data)
     const { name, comment, address, tag } = data;
     if (
       name === "" &&
@@ -86,14 +87,22 @@ const EditPlaceForm: React.FC<Props> = () => {
     }
     // 画像を送信できるようにFormDataに変換する
     const formData = new FormData();
+    // 以下を追加しないとlaravel側の仕様でエラー
+    formData.append("_method", 'PATCH');
     // appendでformDataにキーと値を追加
+    targetPlaceId && formData.append("id", targetPlaceId);
     formData.append("name", name);
     formData.append("comment", comment);
     formData.append("address", address);
     formData.append("tags", tag);
+    let count = oldPhotos.length;
+    for (let i = 0; i < count; i++) {
+      formData.append("old_place_images[]", oldPhotos[i].imagePath);
+    };
+
     const compressOptions = {
       // 3MB以下に圧縮する
-      maxSizeMB: 3,
+      maxSizeMB: 15,
     };
     // Promise.all で 非同期処理を実行し値を代入
     const compressedPhotoData = await Promise.all(
@@ -107,7 +116,7 @@ const EditPlaceForm: React.FC<Props> = () => {
     );
 
     for (let i = 0; i < compressedPhotoData.length; i++) {
-      formData.append("placeImage" + i, compressedPhotoData[i].blob, compressedPhotoData[i].name);
+      formData.append("place_image_" + i, compressedPhotoData[i].blob, compressedPhotoData[i].name);
     }
 
 
@@ -120,7 +129,7 @@ const EditPlaceForm: React.FC<Props> = () => {
     console.log(...formData.entries());
 
     // axiosを内包したusePostPlaceQueryでpost
-    postPlace(formData,
+    editPostPlace(formData,
       {
         onSuccess: () => {
           history.replace(from);
@@ -143,7 +152,8 @@ const EditPlaceForm: React.FC<Props> = () => {
         oldPlace={oldPlace}
         statusCode={statusCode}
         error={error}
-
+        oldPhotos={oldPhotos}
+        setOldPhotos={setOldPhotos}
       />
     </FormProvider>
   )

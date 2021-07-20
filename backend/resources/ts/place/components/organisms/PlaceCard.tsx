@@ -12,6 +12,9 @@ import GeneralAlert from '../../../layout/components/atoms/GeneralAlert';
 import { INTERNAL_SERVER_ERROR } from '../../../constants/statusCode';
 import { Places } from '../../types/Places';
 import MenuButton from '../../components/molecules/MenuButton';
+import Loding from '../../../layout/components/pages/Loding';
+import { Place } from '../../types/Place';
+import { height } from '@material-ui/system';
 
 
 type Props = {
@@ -32,14 +35,7 @@ const PlaceCard: FC<Props> = ({
     isFetchingNextPage,
 }) => {
     if (isLoading) {
-        return (
-            <>
-                {/* <Box height={48} px={2} />
-                {[1, 2, 3, 4, 5].map((value) => (
-                    <PlaceCardItemSkeleton key={value} />
-                ))} */}
-            </>
-        );
+        return <Loding />
     }
 
     if (statusCode) {
@@ -50,7 +46,7 @@ const PlaceCard: FC<Props> = ({
                     <GeneralAlert
                         type="error"
                         title="サーバエラー"
-                        content="予期しないエラーが発生し、メモデータ取得に失敗しました。恐れ入りますが時間をおいて再度お試しください。"
+                        content="予期しないエラーが発生し、placeの取得に失敗しました。恐れ入りますが時間をおいて再度お試しください。"
                     />
                 )}
             </>
@@ -75,15 +71,16 @@ const PlaceCard: FC<Props> = ({
 
             {paginatePlaces?.map((page) => (
                 <React.Fragment key={page.currentPage.toString()}>
-                    {page.data.map((place, index) => (
+                    {page.data.map((place: Place, index) => (
                         <Card className='m-5' key={index.toString()}>
                             <CardHeader
 
                                 // アバターアイコン
                                 avatar={
-                                    <Avatar aria-label="Recipe">
-                                        <img src={`user_image/${place.user.userImage}`} />
-                                    </Avatar>
+                                    <Avatar
+                                        aria-label="Recipe"
+                                        src={`user_image/${place.user.userImage}`}
+                                    />
                                 }
 
                                 action={
@@ -92,7 +89,7 @@ const PlaceCard: FC<Props> = ({
                                     //     <MoreVertIcon />
                                     // </IconButton>
                                     <>
-                                        <MenuButton place={place}/>
+                                        <MenuButton place={place} />
                                         {/* <PlaceMenu
                                             menuId={menuId}
                                             anchorEl={menuAnchorEl}
@@ -107,11 +104,22 @@ const PlaceCard: FC<Props> = ({
                             // subheader={place.tags}
 
                             />
-                            <CardMedia
-                                // className={classes.media}
-                                image={place.placeImages}
-                                title="Paella dish"
-                            />
+                            {place.placeImages[0] ?
+
+                                <CardMedia
+                                    title="Paella dish"
+                                >
+                                    <img
+                                        src={`https://pressplace.s3.ap-northeast-1.amazonaws.com/${place.placeImages[0].imagePath}`}
+                                        style={{ height: 200 }}
+                                    />
+                                </CardMedia>
+                                :
+                                <Typography>
+                                    画像は投稿されていません
+                                </Typography>
+
+                            }
                             <CardContent>
                                 <Typography variant="subtitle1" color="initial">
                                     場所の名前

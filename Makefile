@@ -28,6 +28,11 @@ init:
 remake:
 	@make destroy
 	@make init
+remake-f:
+	@make destroy
+	@make init
+	@migrate
+	@seed
 stop:
 	docker-compose stop
 down:

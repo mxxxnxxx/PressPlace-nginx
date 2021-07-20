@@ -22,7 +22,6 @@ const useLogin = (): UseMutationResult<
 
   return useMutation(login, {
     onSuccess: (data) => {
-      console.log(data);
       queryClient.setQueryData('user', data);
     },
   });
