@@ -1,23 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import { makeStyles, createStyles } from "@material-ui/core/styles"
+import React, { useState } from 'react';
+import { makeStyles, createStyles, Grid, Paper } from "@material-ui/core";
+import { Alert } from '@material-ui/lab';
+import CameraAltIcon from '@material-ui/icons/CameraAlt';
+import { PlaceImage } from '../../types/PlaceImage';
 
-// interfaceでオブジェクトの型を定義
-interface PhotosUploadProps {
+
+type Props = {
   name: string;
   componentRef?: (instance: HTMLInputElement | null) => void;
+  // 以下は画像のstate
   photos: File[];
   setPhotos: (files: File[]) => void;
+  oldPhotos: PlaceImage[]
+  setOldPhotos: (photo: PlaceImage[]) => void
 }
 
 
 // ここからreactのいつものコンポーネント
 // 定めたPhotosUploadPropsでかたのしていもおこなっている
-const ImageUp: React.FC<PhotosUploadProps> = ({
+const ImageUp: React.FC<Props> = ({
   name,
   componentRef,
   photos,
   setPhotos,
-}: PhotosUploadProps): React.ReactElement => {
+  oldPhotos,
+  setOldPhotos,
+}: Props): React.ReactElement => {
   // hooksのstateを定義
   // エラーをstateで管理
   const [isSameError, setIsSameError] = useState(false);
@@ -33,8 +41,9 @@ const ImageUp: React.FC<PhotosUploadProps> = ({
 
   // 以下で非同期の関数を作成している
   // typescriptでイベントを取り扱う時はHTMLInputElementを型に指定
+  // photosにファイルを入れる操作
   const handleFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    // もしイベントファイルがnullでかつファイル名が0文字であれば処理を終了
+    // もしイベントファイルがnullまたはファイル数が0であれば処理を終了
     if (event.target.files === null || event.target.files.length === 0) {
       return;
     }
@@ -79,8 +88,9 @@ const ImageUp: React.FC<PhotosUploadProps> = ({
       return;
     }
 
-    // いままでからだったphotosにpickedPhotosを統合しいれる
+    // いままでからだったphotosにpickedPhotosを統合し,いれる
     // pickedPhotosは添付された写真じたいがはいっている
+    // concatが非破壊的な処理になるのでstateを利用しても大丈夫
     const concatPhotos = photos.concat(pickedPhotos);
     // ４枚以上でエラー
     if (concatPhotos.length >= 4) {
@@ -88,12 +98,13 @@ const ImageUp: React.FC<PhotosUploadProps> = ({
     }
     // sliceでインデックス０−２までの中身をsetPhotosにいれる
     setPhotos(concatPhotos.slice(0, 3));
+    console.log(photos)
   };
 
 
 
 
-  const handleCancel = (photoIndex: number) => {
+  const handleCancelNew = (photoIndex: number) => {
     // windowで確認を取る
     if (confirm("選択した画像を消してよろしいですか？")) {
       // エラーを初期化
@@ -106,7 +117,19 @@ const ImageUp: React.FC<PhotosUploadProps> = ({
       setPhotos(modifyPhotos);
     }
   };
-
+  const handleCancelOld = (photoIndex: number) => {
+    // windowで確認を取る
+    if (confirm("選択した画像を消してよろしいですか？")) {
+      // エラーを初期化
+      resetErrors();
+      // concatでphotosをコピー
+      const modifyOldPhotos = oldPhotos.concat();
+      // spliceメソッドで中身を削除
+      modifyOldPhotos.splice(photoIndex, 1);
+      // その後stateにセット
+      setOldPhotos(modifyOldPhotos);
+    }
+  };
 
   // styleのテーマ
   const useStyles = makeStyles(() =>
@@ -118,65 +141,93 @@ const ImageUp: React.FC<PhotosUploadProps> = ({
 
       },
       "image": {
-        width: 200,
-        margin: 10,
-
-      },
-      "bottomContainer": {
-
+        width: 70,
+        margin: 2,
       },
       "note": {},
       "label": {},
-      "plus": {},
-      "input": {}
+      "plus": {
+        textAlign: 'left'
+      },
+      "input": {
+        display: 'none',
+      }
     }))
   const stylePhot = useStyles();
 
   return (
     <>
+      <div className={stylePhot.plus}>写真</div>
+
       <div className={stylePhot.topContainer}>
         {/* スプレットで投入される画像を展開 */}
         {/* [...Array(3)]で3つまでのからの配列を作成 */}
         {/* mapメソットでそれぞれの画像に */}
-        {/* if文の省略形が使われている なければサンプルが出る */}
-        {[...Array(3)].map((_: number, index: number) =>
-          index < photos.length ? (
-            <button
-              type="button"
-              className={stylePhot.imageContainer}
-              key={index}
-              onClick={() => handleCancel(index)}
-            >
-              <img
-                className={stylePhot.image}
-                src={URL.createObjectURL(photos[index])}
-                alt={`あなたの写真 ${index + 1}`}
-              />
-            </button>
-          ) : (
-            <label htmlFor={name} key={index}>
-              {/* <PhotoSample number={index + 1} /> */}
-            </label>
-          )
-        )}
+        {/* if文の省略形 なければサンプルが出る */}
+        <Grid container spacing={1}>
+          {[...Array(3)].map((_: number, index: number) =>
+            index < oldPhotos.length && (
+
+              <Grid key={index.toString()} item>
+                <button
+                  type="button"
+                  className={stylePhot.imageContainer}
+                  key={index.toString()}
+                  onClick={() => handleCancelOld(index)}
+                >
+                  <img
+                    className={stylePhot.image}
+                    key={index.toString()}
+                    src={`https://pressplace.s3.ap-northeast-1.amazonaws.com/${oldPhotos[index].imagePath}`}
+                    alt={`あなたの写真 ${index + 1}`}
+                  />
+                </button>
+              </Grid>
+            )
+          )}
+        </Grid>
+        <Grid container spacing={1}>
+          {[...Array(3)].map((_: number, index: number) =>
+            index < photos.length && (
+
+              <Grid key= { index.toString() } item>
+                <button
+                  type="button"
+                  className={stylePhot.imageContainer}
+                  key={index.toString()}
+                  onClick={() => handleCancelNew(index)}
+                >
+                  <img
+                    className={stylePhot.image}
+                    key={index.toString()}
+                    src={URL.createObjectURL(photos[index])}
+                    alt={`あなたの写真 ${index + 1}`}
+                  />
+                </button>
+              </Grid>
+            )
+          )}
+        </Grid>
       </div>
       {isSameError && (
-        <p>※既に選択された画像と同じものは表示されません</p>
+        <Alert severity="error" className='m-2'>
+          ※既に選択された画像と同じものは表示されません
+        </Alert>
       )}
       {isNumberError && (
-        <p>※3枚を超えて選択された画像は表示されません</p>
+        <Alert severity="error" className='m-2'>
+          ※3枚を超えて選択された画像は表示されません
+        </Alert>
       )}
       {isFileTypeError && (
-        <p>※jpeg, png, bmp, gif, svg以外のファイル形式は表示されません</p>
+        <Alert severity="error" className='m-2'>
+          ※jpeg, png, bmp, gif, svg以外のファイル形式は表示されません
+        </Alert>
       )}
 
-      <div className={stylePhot.bottomContainer}>
-        <div>
-          <p className={stylePhot.note}>※最大3枚まで</p>
-        </div>
+      {photos.length + oldPhotos.length < 3 && (
         <label className={stylePhot.label} htmlFor={name}>
-          <div className={stylePhot.plus}></div>
-          写真を追加
+          <CameraAltIcon fontSize="large" />
           <input
             className={stylePhot.input}
             type="file"
@@ -188,6 +239,9 @@ const ImageUp: React.FC<PhotosUploadProps> = ({
             multiple
           />
         </label>
+      )}
+      <div>
+        <p className={stylePhot.note}>※最大3枚まで</p>
       </div>
     </>
   );

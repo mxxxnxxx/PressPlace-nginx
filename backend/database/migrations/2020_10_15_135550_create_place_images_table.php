@@ -17,7 +17,7 @@ class CreatePlaceImagesTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('place_id')->unsigned();
             $table->foreign('place_id')->references('id')->on('places');
-            $table->string('filename');
+            $table->string('image_path')->nullable();
             $table->timestamps();
         });
     }

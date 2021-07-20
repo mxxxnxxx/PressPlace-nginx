@@ -7,35 +7,43 @@ use App\Place;
 use App\User;
 use App\Place_image;
 use Illuminate\Http\Request;
+
 use App\Http\Requests\UserRequest;
 
 class UserController extends Controller{
+    public function __construct()
+    {
+    $this->middleware('auth');
+    }
     //ユーザーページ表示を行う記述
-    public function show(User $user){
-        // 以下でユーザー情報をにゅうしゅしている
-        $user = User::find($user->id);
-        $places = Place::where('user_id', $user->id) //$userによる投稿を取得
-            ->orderBy('created_at', 'desc') // 投稿作成日が新しい順に並べる
-            ->paginate(15);
-        // $place_images = $places->place_images;
+    public function show(
+        // User $user
+        ){
+        // // 以下でユーザー情報を入手
+        // $user = User::find($user->id);
+        // $places = Place::where('user_id', $user->id) //$userによる投稿を取得
+        //     ->orderBy('created_at', 'desc') // 投稿作成日が新しい順に並べる
+        //     ->paginate(15);
+        // // $place_images = $places->place_images;
 
-        // ログインしているユーザーの情報を取得し編集ボタンの表示有無を変更
-        $user_in = \Auth::user();
-        if ($user_in) {
-            $login_user_id = $user_in->id;
-        } else {
-            $login_user_id = "";
-        }
+        // // ログインしているユーザーの情報を取得し編集ボタンの表示有無を変更
+        // $user_in = \Auth::user();
+        // if ($user_in) {
+        //     $login_user_id = $user_in->id;
+        // } else {
+        //     $login_user_id = "";
+        // }
 
-        $data =[
-            'user' => $user,
-            'places' => $places,
-            'login_user_id' => $login_user_id
-        ];
-        $data += $this->counts($user);
+        // $data =[
+        //     'user' => $user,
+        //     'places' => $places,
+        //     'login_user_id' => $login_user_id
+        // ];
+        // $data += $this->counts($user);
 
-        // ユーザ情報を元にviewを表示 変数を$dataにまとめてviewに渡している
-        return view('user.show', $data);
+        // // ユーザ情報を元にviewを表示 変数を$dataにまとめてviewに渡している
+        // return view('user.show', $data);
+        return Auth::user();
     }
 
     // フォローしている人を出す処理

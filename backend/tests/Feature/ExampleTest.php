@@ -13,13 +13,34 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function testBasicTest()
-    {
-        $response = $this->getJson('api/places');
-        dd($response);
-        dd($response);
-        dd($response);
-        $response->assertStatus(302);
+    // public function testBasicTest()
+    // {
+    //     $response = $this->getJson('api/places');
+    //     dd($response);
+    //     $response->assertStatus(302);
 
+    // }
+    public function testCreatePlace(){
+        $date = [
+            'user_id' => '1',
+            'name'=>'TestPlace',
+            'comment'=> 'testComment',
+            'address'=> 'testAddress',
+            'tag' => 'testTag'
+        ];
+    $response = $this->postJson('api/places',$date);
+    dd($response->json());
+    }
+    
+    public function testEditPlace(){
+    $date = [
+    'user_id' => '1',
+    'name'=>'TestPlace',
+    'comment'=> 'testComment',
+    'address'=> 'testAddress',
+    'tag' => 'testTag'
+    ];
+    $response = $this->postJson('api/places',$date);
+    dd($response->json());
     }
 }

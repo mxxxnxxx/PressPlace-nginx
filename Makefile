@@ -28,6 +28,11 @@ init:
 remake:
 	@make destroy
 	@make init
+remake-f:
+	@make destroy
+	@make init
+	@migrate
+	@seed
 stop:
 	docker-compose stop
 down:
@@ -63,8 +68,10 @@ migrate:
 	docker-compose exec web php artisan migrate
 fresh:
 	docker-compose exec web php artisan migrate:fresh --seed
+	docker-compose exec web php artisan import:postal-code
 seed:
 	docker-compose exec web php artisan db:seed
+	docker-compose exec web php artisan import:postal-code
 rollback-test:
 	docker-compose exec web php artisan migrate:fresh
 	docker-compose exec web php artisan migrate:refresh

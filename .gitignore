@@ -63,3 +63,4 @@ fabric.properties
 .env.example
 #.history
 .history
+node_modules

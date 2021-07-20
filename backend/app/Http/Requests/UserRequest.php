@@ -27,8 +27,11 @@ class UserRequest extends FormRequest
         return [
             //
             
-            'user_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
-            
+            'user_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'name' => ['required', 'string', 'max:20', 'unique:users'],
+            'age' => ['required', 'integer'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
     }
 
