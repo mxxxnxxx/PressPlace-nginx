@@ -20,6 +20,8 @@ import EditPlaceForm from "./place/containers/molecules/EditPlaceForm";
 import MutationErrorAlertBar from './layout/components/molecules/MutationErrorAlertBar';
 import { useGetUserQuery, useCurrentUser } from './user/hooks';
 import { useMutationErrorQuery } from './layout/hooks/util';
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 require('./bootstrap');
 
@@ -110,25 +112,26 @@ const App: FC = () => {
     }
 
     return (
-        <Switch>
-            <Route exact path="/">
-                <Place />
-            </Route>
-            <UnAuthRoute exact path="/login">
-                <Login />
-            </UnAuthRoute>
-            <UnAuthRoute exact path="/register">
-                <Register />
-            </UnAuthRoute>
-            
-            <AuthRoute exact path="/press">
-                <PlaceForm />
-            </AuthRoute>
+        <>
+            <Switch>
+                <Route exact path="/">
+                    <Place />
+                </Route>
+                <UnAuthRoute exact path="/login">
+                    <Login />
+                </UnAuthRoute>
+                <UnAuthRoute exact path="/register">
+                    <Register />
+                </UnAuthRoute>
 
-            <AuthRoute exact path="/place/edit/:placeId">
-                <EditPlaceForm />
-            </AuthRoute>
-            {/* <AuthRoute exact path="/settings/account">
+                <AuthRoute exact path="/press">
+                    <PlaceForm />
+                </AuthRoute>
+
+                <AuthRoute exact path="/place/edit/:placeId">
+                    <EditPlaceForm />
+                </AuthRoute>
+                {/* <AuthRoute exact path="/settings/account">
                 <Account />
 
                 以下でエラー時の説明
@@ -137,7 +140,9 @@ const App: FC = () => {
                     handleErrorBarClose={handleErrorBarClose}
                 />
             </AuthRoute> */}
-        </Switch>
+            </Switch>
+            <ToastContainer hideProgressBar={true} />
+        </>
     );
 };
 

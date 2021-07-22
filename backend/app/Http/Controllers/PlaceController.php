@@ -14,11 +14,6 @@ use Illuminate\Http\File;
 
 class PlaceController extends Controller
 {
-    // 投稿
-    public function create()
-    {
-        return view('place.new');
-    }
 
     // 郵便番号検索
     public function postal_search(Request $request)
@@ -181,19 +176,12 @@ class PlaceController extends Controller
         return $place;
     }
 
-    // ソフトデリート確認画面表示
-    public function confirmationSoftdelete($id)
-    {
-        $place = Place::find($id);
-        return view('place.confirmationSoftdelete', ['place' => $place]);
-    }
-
     // ソフトデリート
     public function softdelete($id)
     {
         $place = Place::find($id);
         $place->delete();
-        return redirect()->to('/');
+        return $this->index();
     }
 
     public function serch()

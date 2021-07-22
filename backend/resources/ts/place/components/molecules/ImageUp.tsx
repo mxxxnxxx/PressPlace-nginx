@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { makeStyles, createStyles, Grid, Paper } from "@material-ui/core";
+import { makeStyles, createStyles, Grid, Paper,Button } from "@material-ui/core";
 import { Alert } from '@material-ui/lab';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import { PlaceImage } from '../../types/PlaceImage';
+import { IconButton } from '@material-ui/core';
 
 
 type Props = {
@@ -157,7 +158,6 @@ const ImageUp: React.FC<Props> = ({
 
   return (
     <>
-      <div className={stylePhot.plus}>写真</div>
 
       <div className={stylePhot.topContainer}>
         {/* スプレットで投入される画像を展開 */}
@@ -190,7 +190,7 @@ const ImageUp: React.FC<Props> = ({
           {[...Array(3)].map((_: number, index: number) =>
             index < photos.length && (
 
-              <Grid key= { index.toString() } item>
+              <Grid key={index.toString()} item>
                 <button
                   type="button"
                   className={stylePhot.imageContainer}
@@ -227,7 +227,15 @@ const ImageUp: React.FC<Props> = ({
 
       {photos.length + oldPhotos.length < 3 && (
         <label className={stylePhot.label} htmlFor={name}>
-          <CameraAltIcon fontSize="large" />
+          <Button
+            variant="contained"
+            color="secondary"
+            aria-label="upload picture" component="span"
+            className={stylePhot.label}
+            startIcon={<CameraAltIcon fontSize="large" />}
+          >
+            写真
+          </Button>
           <input
             className={stylePhot.input}
             type="file"

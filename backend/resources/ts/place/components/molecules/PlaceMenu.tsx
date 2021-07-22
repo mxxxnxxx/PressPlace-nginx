@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { useCurrentUser } from '../../../user/hooks';
 import { Link } from 'react-router-dom';
@@ -12,10 +12,14 @@ import {
     ListItemIcon,
     Typography,
     makeStyles,
+    Button,
+    Modal,
 } from '@material-ui/core';
-import EditTwoToneIcon from '@material-ui/icons/EditTwoTone';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { Place } from '../../types/Place';
 import { User } from '../../../user/types/User';
+import PlaceDelete from '../../containers/atoms/PlaceDelete';
 
 const useStyles = makeStyles(() => ({
     sidebarMenuItem: {
@@ -59,32 +63,26 @@ const PlaceMenu: FC<Props> = ({
             onClose={handlePlaceMenuClose}
         >
             <MenuList>
-                {/* <MenuItem>
-                    <ListItemIcon>
-                        <HelpOutlineIcon />
-                    </ListItemIcon>
-                    <Link to="/terms" className={classes.sidebarMenuItem}>
-                        ヘルプ
-                    </Link>
-                </MenuItem> */}
                 {user && user.id === place.user.id && (
                     <MenuItem>
                         <ListItemIcon>
-                            <EditTwoToneIcon />
+                            <EditIcon />
                         </ListItemIcon>
-                        <Link
-                            to={'/place/edit/' + place.id}
+                        <Button
+                            href={`/place/edit/${place.id}`}
                             className={classes.sidebarMenuItem}
                         >
-                            <Typography variant="overline" color="initial">
-                                編集
-                            </Typography>
-                        </Link>
+                            編集
+                        </Button>
                     </MenuItem>
+                )}
+                {user && user.id === place.user.id && (
+                    <PlaceDelete place={place}/>
                 )}
             </MenuList>
 
         </Menu>
+
     );
 };
 
