@@ -127,6 +127,8 @@ const PlaceForm: React.FC<Props> = ({
         </Container>
       </main>
       <Footer />
+
+      {/* 以下ローディン画面 */}
       <Backdrop style={{ zIndex: theme.zIndex.drawer + 1 }} open={isLoading}>
         <CircularProgress color="inherit" />
       </Backdrop>

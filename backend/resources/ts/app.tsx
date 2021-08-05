@@ -12,10 +12,12 @@ import {
 import { ReactQueryDevtools } from 'react-query/devtools';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Place from './place/containers/pages/Place';
+import PlaceSearch from './place/containers/molecules/PlaceSearch';
 import Login from './user/containers/pages/Login';
 import Register from './user/containers/pages/Register';
 import Loding from './layout/components/pages/Loding';
 import PlaceForm from "./place/containers/molecules/NewPlaceForm";
+import PlaceSearched from "./place/containers/organisms/PlaceSearched";
 import EditPlaceForm from "./place/containers/molecules/EditPlaceForm";
 import MutationErrorAlertBar from './layout/components/molecules/MutationErrorAlertBar';
 import { useGetUserQuery, useCurrentUser } from './user/hooks';
@@ -49,7 +51,6 @@ const UnAuthRoute: FC<Props> = ({ exact = false, path, children }) => {
             exact={exact}
             path={path}
             // ログインしていた場合はルートへしていなかった場合はchildrenを表示
-            // 今回はログイン画面になる
             render={() => (user ? <Redirect to={{ pathname: '/' }} /> : children)}
         />
     );
@@ -116,6 +117,12 @@ const App: FC = () => {
             <Switch>
                 <Route exact path="/">
                     <Place />
+                </Route>
+                <Route exact path="/places/search">
+                    <PlaceSearch />
+                </Route>
+                <Route exact path="/places/searched">
+                    <PlaceSearched />
                 </Route>
                 <UnAuthRoute exact path="/login">
                     <Login />

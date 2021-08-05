@@ -31,11 +31,9 @@ const PlaceDelete: React.FC<Props> = ({
     return (
         <>
             <MenuItem>
-                <ListItemIcon>
-                    <DeleteForeverIcon />
-                </ListItemIcon>
                 <Button
                     onClick={() => setDeleteModalOn(true)}
+                    startIcon={<DeleteForeverIcon />}
                 >
                     削除
                 </Button>

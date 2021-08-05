@@ -226,10 +226,9 @@ const ImageUp: React.FC<Props> = ({
       )}
 
       {photos.length + oldPhotos.length < 3 && (
-        <label className={stylePhot.label} htmlFor={name}>
+        <label className={stylePhot.label} htmlFor={name} style={{ marginTop:20 }}>
           <Button
-            variant="contained"
-            color="secondary"
+            variant="outlined"
             aria-label="upload picture" component="span"
             className={stylePhot.label}
             startIcon={<CameraAltIcon fontSize="large" />}

@@ -13,10 +13,10 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-// // ajaxのapiのためのルーティング
+Route::get('/places/search', 'PlaceController@search')->name('search');
 Route::get('/ajax/postal_search', 'PlaceController@postal_search')->name('postal_search');
-Route::apiResource('/places','PlaceController');
 Route::get('/places/delete/{id} ', 'PlaceController@softdelete')->name('place.softdelete');
+Route::apiResource('/places','PlaceController');
 Route::post('/login', 'Auth\LoginController@login')->name('login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/users/me', 'UserController@show')->name('user');

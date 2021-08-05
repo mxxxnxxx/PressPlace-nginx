@@ -9,8 +9,8 @@ type FormData = {
 };
 
 const registration = async ({ email, password, name, age }: FormData): Promise<User> => {
-        const { data } = await axios.post('/api/register', { email, password, name, age });
-        return data;
+    const { data } = await axios.post('/api/register', { email, password, name, age });
+    return data;
 };
 
 const useRegister = (): UseMutationResult<

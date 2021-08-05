@@ -64,8 +64,9 @@ const PostalCode: React.FC<PostalCodeProps> = ({
   // tsxのhtml部分
   return (
     <Box textAlign="left">
-      <Typography align='left' >住所</Typography>
-      <FormLabel htmlFor="first_code">郵便番号</FormLabel>
+      <FormLabel htmlFor="first_code">住所</FormLabel>
+      <br />
+      <FormLabel htmlFor="first_code">〒</FormLabel>
       <input
         name="first_code"
         size={3}
@@ -103,7 +104,6 @@ const PostalCode: React.FC<PostalCodeProps> = ({
         error={Boolean(methods.errors.address)}
         helperText={methods.errors.address && methods.errors.address.message}
         inputRef={methods.register({
-          required: "必須項目です",
           maxLength: { value: 50, message: '50文字以内で入力してください' },
         })}
       />

@@ -32,8 +32,8 @@ Route::get('/{any?}', fn() => view('place.top'))->where('any', '(?!api).+');
 // Route::get('place/delete/{id} ', 'PlaceController@softdelete')->name('place.softdelete');
 
 // // 検索機能
-// Route::get('place/serch', 'PlaceController@serch')->name('serch');
-// Route::get('place/serched', 'PlaceController@serched')->name('serched');
+// Route::get('place/search', 'PlaceController@search')->name('search');
+// Route::get('place/searched', 'PlaceController@searched')->name('searched');
 
 // // メール認証していないと操作できないように指定
 // Route::group(['middleware' => ['auth','verified']], function () {

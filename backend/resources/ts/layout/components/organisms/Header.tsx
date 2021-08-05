@@ -1,10 +1,13 @@
 import React, { FC, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { AppBar, Typography, Toolbar } from '@material-ui/core';
+import { AppBar, Typography, Toolbar, Button } from '@material-ui/core';
 import useTheme from '@material-ui/core/styles/useTheme';
 import AccountButton from '../../../user/components/atoms/AccountButton';
 import AccountMenu from '../../../user/components/molecules/AccountMenu';
-
+import CreateIcon from '@material-ui/icons/Create';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
+import SearchIcon from '@material-ui/icons/Search';
 
 type Props = {
     userName?: string;
@@ -55,40 +58,50 @@ const Header: FC<Props> = ({ userName, handleLogout }) => {
                         </Link>
                     </Typography>
 
+                    <Button
+                        startIcon={<SearchIcon />}
+                        component={Link}
+                        variant="outlined"
+                        to="/places/search"
+                        style={{ marginRight: 20 }}
+                    >
+                        search
+                    </Button>
+
                     {userName && (
-                        <>
-                            <Link to="/press" style={{ textDecoration: 'none', color: 'inherit' }}>
-                                press!!
-                            </Link>
-                        </>
+                        <Button
+                            startIcon={<CreateIcon />}
+                            component={Link}
+                            to="/press"
+                            variant="outlined"
+                            style={{ marginRight: 20 }}
+                        >
+                            press
+                        </Button>
                     )}
+
 
                     {/* ログインボタン */}
                     {!userName && (
-                        <Typography
-                            component="h2"
-                            variant="h6"
-                            style={{ flexGrow: 1 }}
-                            align="right"
+                        <Button
+                            startIcon={<VpnKeyIcon />}
+                            component={Link}
+                            to="/login"
+                            style={{ marginRight: 20 }}
                         >
-                            <Link to="/login" style={{ textDecoration: 'none', color: 'inherit' }}>
-                                ログイン
-                            </Link>
-                        </Typography>
+
+                            ログイン
+                        </Button>
                     )}
 
                     {!userName && (
-                        <Typography
-                            component="h2"
-                            variant="h6"
-                            style={{ flexGrow: 1 }}
-                            align="right"
+                        <Button
+                            startIcon={<AccessibilityNewIcon />}
+                            component={Link}
+                            to="/register"
                         >
-                            <Link to="/register" style={{ textDecoration: 'none', color: 'inherit' }}>
-                                新規登録
-                            </Link>
-                        </Typography>
-
+                            新規登録
+                        </Button>
                     )}
                     {/* ユーザーメニュー */}
                     {userName && (

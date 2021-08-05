@@ -17,7 +17,7 @@ class UserController extends Controller{
     }
     //ユーザーページ表示を行う記述
     public function show(
-        // User $user
+        User $user
         ){
         // // 以下でユーザー情報を入手
         // $user = User::find($user->id);

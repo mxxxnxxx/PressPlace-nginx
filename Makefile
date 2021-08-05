@@ -28,11 +28,7 @@ init:
 remake:
 	@make destroy
 	@make init
-remake-f:
-	@make destroy
-	@make init
-	@migrate
-	@seed
+
 stop:
 	docker-compose stop
 down:
@@ -127,3 +123,8 @@ ide-helper:
 	docker-compose exec web php artisan ide-helper:generate
 	docker-compose exec web php artisan ide-helper:meta
 	docker-compose exec web php artisan ide-helper:models --nowrite
+remake-migrate:
+	@make destroy
+	@make init
+	@migrate
+	@seed

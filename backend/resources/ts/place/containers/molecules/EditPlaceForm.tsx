@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import camelcaseKeys from 'camelcase-keys'
 import { useForm, FormProvider } from 'react-hook-form';
-import { QueryClient } from 'react-query'
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import PlaceForm from '../../components/molecules/PlaceForm'
-import { useGetPlaceQuery } from '../../hooks';
 import { useCurrentUser } from '../../../user/hooks';
 import imageCompression from "browser-image-compression";
 import useEditPostPlaceQuery from '../../hooks/useEditPostPlaceQuery';
 import { Place } from '../../types/Place'
 import { PlaceImage } from '../../types/PlaceImage'
-
-import { resolve } from 'path';
 import axios from 'axios';
 import Loding from '../../../layout/components/pages/Loding';
-import { Tune } from '@material-ui/icons';
 
 type Inputs = {
   name: string

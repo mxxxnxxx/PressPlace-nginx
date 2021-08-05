@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use \Image;
 use \Storage;
+use \Debugbar;
 use Illuminate\Http\File;
 
 class PlaceController extends Controller
@@ -31,7 +32,6 @@ class PlaceController extends Controller
             'comment' => $request->comment,
             'address' => $request->address
         ]);
-
         // 画像の処理
         // 一枚目の写真がなければ処理をしない
         if ($request->place_image_0) {
@@ -184,44 +184,37 @@ class PlaceController extends Controller
         return $this->index();
     }
 
-    public function serch()
-    {
-        return view('serch');
-    }
 
-    public function serched(Request $request)
+    public function search(Request $request)
     {
         // 検索条件の値を取得
-        $s_tag = $request->input('tag');
-        $s_name = $request->input('name');
-        $s_comment = $request->input(('comment'));
-
+        // $s_tags = $request->input('tag');
         // データベースから検索
-
-        // tagの検索
-        if (!empty($s_tag)) {
-            $places_q = Place::whereHas('tags', function ($query) use ($s_tag, $s_name, $s_comment) {
-                $query->where('name', 'like', '%' . $s_tag . '%');
+        $places_q = Place::query();
+        // // tagの検索
+        if ($request->has('tag')) {
+            $places_q->whereHas('tags', function($places_q) use ($request){
+                foreach ($request->input('tag') as $s_tag) {
+                    $places_q->where('name', 'like', '%' . $s_tag . '%');
+                }
             });
-        } else {
-            $places_q = Place::query();
         }
-
-        if (!empty($s_name)) {
-            $places_q->where('name', 'like', '%' . $s_name . '%');
+        if ($request->has('name')) {
+            $places_q->where('name', 'like', '%' . $request->get('name') . '%');
         }
-
-        if (!empty($s_comment)) {
-            $places_q->where('name', 'like', '%' . $s_comment . '%');
+        if ($request->has('comment')) {
+            $places_q->where('comment', 'like', '%' . $request->get('comment') . '%');
         }
-
-
-
-        $places = $places_q
+        if ($request->has('address')) {
+            $places_q->where('address', 'like', '%' . $request->get('address') . '%');
+        }
+        $placeSearched = $places_q
         ->orderBy('created_at', 'desc')
+        ->with('place_images')
+        ->with('user')
+        ->with('tags')
         ->paginate(15);
-        
-
-        return view('serched', ['places' => $places ]);
+        // \Debugbar::info($places);
+        return $placeSearched;
     }
 }

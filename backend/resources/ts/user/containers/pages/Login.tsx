@@ -21,7 +21,7 @@ const EnhancedLogin: FC = () => {
   const { mutate: redirectOAuth } = useOAuthUrl();
 
   const [email, setEmail] = useState('');
-  const [password, serPassword] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleChangeEmail = useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,10 +29,10 @@ const EnhancedLogin: FC = () => {
     },
     []
   );
-// useCallbackでフォーム上のあたいが変わったときだけレンダーされる
+  // useCallbackでフォーム上のあたいが変わったときだけレンダーされる
   const handleChangePassword = useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
-      serPassword(ev.target.value);
+      setPassword(ev.target.value);
     },
     []
   );

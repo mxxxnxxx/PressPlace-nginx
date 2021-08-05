@@ -16,8 +16,7 @@ type Inputs = {
   tag: string
   photos?: File[]
 };
-type Props = {
-}
+type Props = {}
 const NewPlaceForm: React.FC<Props> = () => {
   // ログインできてるか確認
   const user = useCurrentUser();
@@ -69,18 +68,7 @@ const NewPlaceForm: React.FC<Props> = () => {
 
     for (let i = 0; i < compressedPhotoData.length; i++) {
       formData.append("place_image_" + i, compressedPhotoData[i].blob, compressedPhotoData[i].name);
-
     }
-
-
-    // 以下 一枚の写真しか送れなかったもの
-    // forEachで圧縮した写真データphotoDataとして渡し一つずつformDataに入れる
-    // compressedPhotoData.forEach((photoData) => {
-    //   formData.append("place_image", photoData.blob, photoData.name);
-    // });
-    // 以下はlaravel側に直前のデータ
-    console.log(...formData.entries());
-
     // axiosを内包したusePostPlaceQueryでpost
     postPlace(formData,
       {

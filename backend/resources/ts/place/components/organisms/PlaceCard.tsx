@@ -14,7 +14,7 @@ import { Places } from '../../types/Places';
 import MenuButton from '../../components/molecules/MenuButton';
 import Loding from '../../../layout/components/pages/Loding';
 import { Place } from '../../types/Place';
-import { height } from '@material-ui/system';
+import Footer from '../../../layout/components/organisms/Footer';
 
 
 type Props = {
@@ -156,7 +156,7 @@ const PlaceCard: FC<Props> = ({
             <Box {...{ ref: loadMoreRef }} textAlign="center">
                 {loadMoreMessage}
             </Box>
-
+            <Footer />
         </section>
     );
 };

@@ -1,4 +1,4 @@
-import {  UseMutationResult, useQueryClient, useMutation } from 'react-query';
+import {  UseMutationResult, useMutation } from 'react-query';
 import axios, { AxiosError } from 'axios';
 import { Place } from '../types/Place';
 import { toast } from 'react-toastify';
@@ -15,9 +15,8 @@ const useEditPostPlaceQuery = (): UseMutationResult<
     FormData,
     undefined
 > => {
-    const queryClient = useQueryClient();
     return useMutation(editPostPlace, {
-        onSuccess: (data) => {
+        onSuccess: () => {
             toast.info('Placeの更新に成功しました')
         },
         onError: () => {
