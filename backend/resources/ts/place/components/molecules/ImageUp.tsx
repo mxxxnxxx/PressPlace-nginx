@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { makeStyles, createStyles, Grid, Paper,Button } from "@material-ui/core";
+import { makeStyles, createStyles, Grid, Paper, Button } from "@material-ui/core";
 import { Alert } from '@material-ui/lab';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import { PlaceImage } from '../../types/PlaceImage';
@@ -99,7 +99,6 @@ const ImageUp: React.FC<Props> = ({
     }
     // sliceでインデックス０−２までの中身をsetPhotosにいれる
     setPhotos(concatPhotos.slice(0, 3));
-    console.log(photos)
   };
 
 
@@ -226,7 +225,7 @@ const ImageUp: React.FC<Props> = ({
       )}
 
       {photos.length + oldPhotos.length < 3 && (
-        <label className={stylePhot.label} htmlFor={name} style={{ marginTop:20 }}>
+        <label className={stylePhot.label} htmlFor={name} style={{ marginTop: 20 }}>
           <Button
             variant="outlined"
             aria-label="upload picture" component="span"

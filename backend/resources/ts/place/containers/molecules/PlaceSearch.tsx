@@ -18,7 +18,6 @@ const EnhancedPlaceSearch: React.FC<Props> = () => {
     const methods = useForm<Inputs>({ shouldUnregister: false, });
     const onSubmit = async (InputsData: Inputs): Promise<void> => {
         const { tag, name, comment, address } = InputsData;
-        console.log(InputsData);
         if (
             name === "" &&
             comment === "" &&
@@ -28,7 +27,6 @@ const EnhancedPlaceSearch: React.FC<Props> = () => {
             // フォームが空の場合はPOSTしない
             return
         }
-        console.log(tag);
         // 前回の検索履歴の削除
         queryClient.removeQueries('PlaceSearched', { exact: false })
         // 検索ワードをキャッシュし移動 移動先のコンポーネントで検索

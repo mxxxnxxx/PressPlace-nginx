@@ -101,12 +101,12 @@ class PlaceController extends Controller
         // 不要な写真の削除
         // 消すデータを特定 array_diffするために配列の形を整える
         $old_s3_path_nest = $place->place_images()->get('image_path')->toArray();
-        $old_s3_path_flat = array_map(function ($path){
+        $old_s3_path_flat = array_map(function ($path) {
             return $path['image_path'];
         }, $old_s3_path_nest);
         
         $old_place_images = [];
-        if($request->old_place_images){
+        if ($request->old_place_images) {
             $old_place_images += $request->old_place_images;
         }
         // もともとの写真の配列と更新後の写真を比較
@@ -114,17 +114,19 @@ class PlaceController extends Controller
         // $delete_s3_pathをmergeして配列を詰める
         $delete_s3_path_merge = array_merge($delete_s3_path);
         
-        for( $i = 0; $i < count($delete_s3_path_merge); $i++ ){
+        for ($i = 0; $i < count($delete_s3_path_merge); $i++) {
             \Storage::disk('s3')->delete($delete_s3_path_merge[$i]);
-            $place->place_images()->where('image_path',$delete_s3_path_merge[$i])->delete();
+            $place->place_images()->where('image_path', $delete_s3_path_merge[$i])->delete();
         }
 
         // 新しく追加される写真の処理
         $new_count = count($request->file());
-        for ($i = 0; $i < $new_count; $i++) { $place_image="place_image_{$i}" ; $img=$request->file($place_image);
+        for ($i = 0; $i < $new_count; $i++) {
+            $place_image="place_image_{$i}" ;
+            $img=$request->file($place_image);
             $path = \Storage::disk('s3')->putFile('place_images', $img, 'public');
             $place->place_images()->create(['image_path' => $path]);
-            };
+        };
 
         // tagの処理
         // preg_match_allを使用して#タグのついた文字列を取得している多次元配列
@@ -192,21 +194,21 @@ class PlaceController extends Controller
         // データベースから検索
         $places_q = Place::query();
         // // tagの検索
-        if ($request->has('tag')) {
-            $places_q->whereHas('tags', function($places_q) use ($request){
+        if (!$request->input('tag')[0]=="") {
+            $places_q->whereHas('tags', function ($places_q) use ($request) {
                 foreach ($request->input('tag') as $s_tag) {
                     $places_q->where('name', 'like', '%' . $s_tag . '%');
                 }
             });
         }
-        if ($request->has('name')) {
+        if (!$request->input('name')=="") {
             $places_q->where('name', 'like', '%' . $request->get('name') . '%');
         }
-        if ($request->has('comment')) {
-            $places_q->where('comment', 'like', '%' . $request->get('comment') . '%');
-        }
-        if ($request->has('address')) {
+        if (!$request->input('address')=="") {
             $places_q->where('address', 'like', '%' . $request->get('address') . '%');
+        }
+        if (!$request->input('comment')=="") {
+            $places_q->where('comment', 'like', '%' . $request->get('comment') . '%');
         }
         $placeSearched = $places_q
         ->orderBy('created_at', 'desc')

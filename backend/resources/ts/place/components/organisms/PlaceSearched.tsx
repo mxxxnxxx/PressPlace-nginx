@@ -23,7 +23,7 @@ type Props = {
     data?: Places
     isPreviousData: boolean
     InputsData?: Inputs
-    removeKey: (key: string) => void
+    removeKey: (key?: string) => void
 };
 
 const useStyle = makeStyles(() => ({

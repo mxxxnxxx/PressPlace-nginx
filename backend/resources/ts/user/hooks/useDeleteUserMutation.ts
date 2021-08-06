@@ -1,8 +1,13 @@
 import { useQueryClient, UseMutationResult, useMutation } from 'react-query';
 import axios, { AxiosError } from 'axios';
+import useCurrentUser from './useCurrentUser';
+
 
 const deleteUser = async (): Promise<void> => {
-  await axios.delete('/api/users/me');
+
+  // ここで指定する必要がある
+
+  await axios.get('/places/delete/{id}');
 };
 
 const useDeleteUserMutation = (): UseMutationResult<

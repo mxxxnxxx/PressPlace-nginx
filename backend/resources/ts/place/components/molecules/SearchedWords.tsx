@@ -18,7 +18,7 @@ import { Places } from '../../types/Places';
 type Props = {
     InputsData?: Inputs
     places?: Places
-    removeKey: (key: string) => void
+    removeKey: (key?: string) => void
 }
 const useStyles = makeStyles(() => ({
     SearchKeysArea: {
@@ -57,6 +57,8 @@ const SearchedWords: FC<Props> = ({ InputsData, places, removeKey }) => {
                     <Button
                         startIcon={<HighlightOffIcon />}
                         className={classes.SearchKeys}
+                        onClick={() => removeKey("name")}
+
                     >
                         {InputsData?.name}
                     </Button>}
@@ -64,6 +66,7 @@ const SearchedWords: FC<Props> = ({ InputsData, places, removeKey }) => {
                     <Button
                         startIcon={<HighlightOffIcon />}
                         className={classes.SearchKeys}
+                        onClick={() => removeKey("address")}
                     >
                         {InputsData?.address}
                     </Button>}
@@ -71,6 +74,7 @@ const SearchedWords: FC<Props> = ({ InputsData, places, removeKey }) => {
                     <Button
                         startIcon={<HighlightOffIcon />}
                         className={classes.SearchKeys}
+                        onClick={() => removeKey("comment")}
                     >
                         {InputsData?.comment}
                     </Button>}

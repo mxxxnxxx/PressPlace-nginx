@@ -17,7 +17,6 @@ const EnhancedTagsForm: React.FC<Props> = ({ oldPlace }) => {
         const newTags = [...tags];
         newTags.push(`tag.${(tags.length)}`);
         setTags(newTags);
-        console.log(tags)
     }
 
 

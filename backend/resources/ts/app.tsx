@@ -24,6 +24,7 @@ import { useGetUserQuery, useCurrentUser } from './user/hooks';
 import { useMutationErrorQuery } from './layout/hooks/util';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Account from "./user/containers/pages/Account";
 
 require('./bootstrap');
 
@@ -138,15 +139,15 @@ const App: FC = () => {
                 <AuthRoute exact path="/place/edit/:placeId">
                     <EditPlaceForm />
                 </AuthRoute>
-                {/* <AuthRoute exact path="/settings/account">
-                <Account />
+                <AuthRoute exact path="/settings/account">
+                    <Account />
 
-                以下でエラー時の説明
-                <MutationErrorAlertBar
-                    error={error}
-                    handleErrorBarClose={handleErrorBarClose}
-                />
-            </AuthRoute> */}
+                    {/* 以下でエラー時の説明 */}
+                    <MutationErrorAlertBar
+                        error={error}
+                        handleErrorBarClose={handleErrorBarClose}
+                    />
+                </AuthRoute>
             </Switch>
             <ToastContainer hideProgressBar={true} />
         </>

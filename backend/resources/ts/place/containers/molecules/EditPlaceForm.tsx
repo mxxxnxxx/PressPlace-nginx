@@ -121,7 +121,6 @@ const EditPlaceForm: React.FC<Props> = () => {
     //   formData.append("place_image", photoData.blob, photoData.name);
     // });
     // 以下はlaravel側に直前のデータ
-    console.log(...formData.entries());
 
     // axiosを内包したusePostPlaceQueryでpost
     editPostPlace(formData,

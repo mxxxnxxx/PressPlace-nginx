@@ -5,7 +5,6 @@ import { useDeleteUserMutation } from '../../hooks';
 
 const EnhancedAccount: FC = () => {
   const history = useHistory();
-
   const { error, isLoading, mutate: deleteUser } = useDeleteUserMutation();
   const statusCode = error?.response?.status;
 
