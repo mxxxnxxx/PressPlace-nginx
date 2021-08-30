@@ -1,30 +1,34 @@
-import React, { FC, useState, useCallback } from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import PlaceMenu from '../../components/molecules/PlaceMenu';
+import React, { FC, useState, useCallback } from 'react'
+import IconButton from '@material-ui/core/IconButton'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
+import PlaceMenu from './PlaceMenu'
 import { Place } from '../../types/Place'
 type Props = {
     place: Place
-    // edge?: 'start' | 'end' | false;
-};
+    goToOtherUser: (userId: number) => void
+    // edge?: 'start' | 'end' | false
+}
 
-const MenuButton: FC<Props> = ({ place }) => {
-    const menuId = "place-menu";
-    const [menuAnchorEl, setMenuAnchorEl] = useState<Element | null>(null);
+const MenuButton: FC<Props> = ({
+    place,
+    goToOtherUser
+}) => {
+    const menuId = "place-menu"
+    const [menuAnchorEl, setMenuAnchorEl] = useState<Element | null>(null)
 
     // メニューバーの状態 Boolean()でBooleanで値を返す
-    const isPlaceMenuOpen = Boolean(menuAnchorEl);
+    const isPlaceMenuOpen = Boolean(menuAnchorEl)
 
     const handlePlaceMenuOpen = useCallback(
         (event: React.MouseEvent<HTMLButtonElement>) => {
-            setMenuAnchorEl(event.currentTarget);
+            setMenuAnchorEl(event.currentTarget)
         },
         []
-    );
+    )
 
     const handlePlaceMenuClose = useCallback(() => {
-        setMenuAnchorEl(null);
-    }, []);
+        setMenuAnchorEl(null)
+    }, [])
 
     return (
         <>
@@ -44,9 +48,10 @@ const MenuButton: FC<Props> = ({ place }) => {
                 open={isPlaceMenuOpen}
                 handlePlaceMenuClose={handlePlaceMenuClose}
                 place={place}
+                goToOtherUser={goToOtherUser}
             />
         </>
     )
-};
+}
 
-export default MenuButton;
+export default MenuButton

@@ -1,20 +1,29 @@
-import React, { FC } from 'react';
-import Box from '@material-ui/core/Box';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Container from '@material-ui/core/Container';
-
-const Loding: FC = () => (
-  <Container maxWidth="xs">
-    <Box
-      width={1}
-      height="100vh"
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-    >
-      <CircularProgress color="primary" />
-    </Box>
-  </Container>
+import { Backdrop, createStyles, makeStyles, Theme } from '@material-ui/core'
+import Box from '@material-ui/core/Box'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import React from 'react'
+type Props = {
+    isLoading: boolean
+}
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        backdrop: {
+            zIndex: theme.zIndex.drawer + 1,
+            color: '#fff',
+        },
+    }),
 );
 
-export default Loding;
+const Loding: React.FC<Props> = ({ isLoading }) => {
+    const classes = useStyles();
+
+    return (
+        <div>
+            <Backdrop className={classes.backdrop} open={isLoading}>
+                <CircularProgress color="primary" />
+            </Backdrop>
+        </div>
+    )
+}
+
+export default Loding

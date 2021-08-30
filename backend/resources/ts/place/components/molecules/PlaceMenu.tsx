@@ -1,32 +1,33 @@
-import React, { FC } from 'react';
-import { useCurrentUser } from '../../../user/hooks';
-import { Link } from 'react-router-dom';
 import {
-    Menu,
+    Button, makeStyles, Menu,
     MenuItem,
-    MenuList,
-    ListItem,
-    makeStyles,
-    Button,
-} from '@material-ui/core';
-import EditIcon from '@material-ui/icons/Edit';
-import { Place } from '../../types/Place';
-import PlaceDelete from '../../containers/atoms/PlaceDelete';
+    MenuList
+} from '@material-ui/core'
+import AccountCircleIcon from '@material-ui/icons/AccountCircle'
+import EditIcon from '@material-ui/icons/Edit'
+import React, { FC } from 'react'
+import { Link } from 'react-router-dom'
+import { useCurrentUser } from '../../../user/hooks'
+import PlaceDelete from '../../containers/atoms/PlaceDelete'
+import { Place } from '../../types/Place'
+
+
 
 const useStyles = makeStyles(() => ({
     sidebarMenuItem: {
         textDecoration: 'none',
         color: 'inherit',
     },
-}));
+}))
 
 type Props = {
-    menuId: string;
-    anchorEl: Element | null;
-    open: boolean;
-    handlePlaceMenuClose: VoidFunction;
-    place: Place;
-};
+    menuId: string
+    anchorEl: Element | null
+    open: boolean
+    handlePlaceMenuClose: VoidFunction
+    place: Place
+    goToOtherUser: (userId: number) => void
+}
 
 const PlaceMenu: FC<Props> = ({
     menuId,
@@ -34,9 +35,10 @@ const PlaceMenu: FC<Props> = ({
     open,
     handlePlaceMenuClose,
     place,
+    goToOtherUser
 }) => {
-    const user = useCurrentUser();
-    const classes = useStyles();
+    const user = useCurrentUser()
+    const classes = useStyles()
     return (
         <Menu
             id={menuId}
@@ -67,14 +69,34 @@ const PlaceMenu: FC<Props> = ({
                         </Button>
                     </MenuItem>
                 )}
+
                 {user && user.id === place.user.id && (
-                    <PlaceDelete place={place}/>
+                    <PlaceDelete place={place} />
                 )}
+
+                {user && user.id === place.user.id ? (
+                    <Button
+                        startIcon={<AccountCircleIcon />}
+                        component={Link}
+                        to={"/account/mypage"}
+                        className={classes.sidebarMenuItem}
+                    >
+                        マイページ
+                    </Button>
+                ) :
+                    <Button
+                        startIcon={<AccountCircleIcon />}
+                        className={classes.sidebarMenuItem}
+                        onClick={() => { goToOtherUser(place.user.id) }}
+                    >
+                        ユーザーページ
+                    </Button>
+                }
             </MenuList>
 
         </Menu>
 
-    );
-};
+    )
+}
 
-export default PlaceMenu;
+export default PlaceMenu

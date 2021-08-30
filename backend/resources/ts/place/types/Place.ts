@@ -1,7 +1,7 @@
 
-import { User } from '../../user/types/User';
-import { PlaceImage } from './PlaceImage';
-import { Tag } from './Tag';
+import { User } from '../../user/types/User'
+import { PlaceImage } from './PlaceImage'
+import { Tag } from './Tag'
 
 
 export type Place = {

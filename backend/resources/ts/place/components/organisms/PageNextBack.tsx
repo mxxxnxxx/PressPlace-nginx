@@ -1,6 +1,6 @@
-import { Box, Button, makeStyles } from '@material-ui/core';
-import React, { FC } from 'react';
-import { Places } from '../../types/Places';
+import { Box, Button, makeStyles } from '@material-ui/core'
+import React, { FC } from 'react'
+import { Places } from '../../types/Places'
 type Props = {
     page: number
     setPage: (old: any) => void

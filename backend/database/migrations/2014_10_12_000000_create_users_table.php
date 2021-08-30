@@ -7,10 +7,10 @@ use Illuminate\Support\Facades\Schema;
 class CreateUsersTable extends Migration
 {
     /**
-     * 
+     *
 
 
-     
+
      * Run the migrations.
      *
      * @return void
@@ -25,7 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->integer('age');
             $table->text('introduction');
-            $table->string('user_image')->default('default.png');
+            $table->string('user_image')->default('user_images/default.png');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

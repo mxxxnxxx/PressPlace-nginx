@@ -1,4 +1,4 @@
-import { Place } from './Place';
+import { Place } from './Place'
 
 export type Places = {
     total: number
@@ -14,4 +14,4 @@ export type Places = {
     to: number
     data: Place[]
     placeId: string
-};
+}

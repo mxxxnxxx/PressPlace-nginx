@@ -1,41 +1,41 @@
-import React, { FC, useState, useCallback } from 'react';
-import { Link } from 'react-router-dom';
-import { AppBar, Typography, Toolbar, Button } from '@material-ui/core';
-import useTheme from '@material-ui/core/styles/useTheme';
-import AccountButton from '../../../user/components/atoms/AccountButton';
-import AccountMenu from '../../../user/components/molecules/AccountMenu';
-import CreateIcon from '@material-ui/icons/Create';
-import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
-import SearchIcon from '@material-ui/icons/Search';
+import React, { FC, useState, useCallback } from 'react'
+import { Link } from 'react-router-dom'
+import { AppBar, Typography, Toolbar, Button } from '@material-ui/core'
+import useTheme from '@material-ui/core/styles/useTheme'
+import AccountButton from '../../../user/components/atoms/AccountButton'
+import AccountMenu from '../../../user/components/molecules/AccountMenu'
+import CreateIcon from '@material-ui/icons/Create'
+import VpnKeyIcon from '@material-ui/icons/VpnKey'
+import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew'
+import SearchIcon from '@material-ui/icons/Search'
 
 type Props = {
-    userName?: string;
-    handleLogout: VoidFunction;
+    userName?: string
+    handleLogout: VoidFunction
 
-};
+}
 
 
 const Header: FC<Props> = ({ userName, handleLogout }) => {
-    const theme = useTheme();
-    const menuId = 'account-menu';
+    const theme = useTheme()
+    const menuId = 'account-menu'
 
     // componentsには基本的にロジックを持たせないが、UIの状態に関するものなので、ここで定義している
-    const [menuAnchorEl, setMenuAnchorEl] = useState<Element | null>(null);
+    const [menuAnchorEl, setMenuAnchorEl] = useState<Element | null>(null)
 
     // メニューバーの状態 Boolean()でBooleanで値を返す
-    const isAccouuntMenuOpen = Boolean(menuAnchorEl);
+    const isAccouuntMenuOpen = Boolean(menuAnchorEl)
 
     const handleAccountMenuOpen = useCallback(
         (event: React.MouseEvent<HTMLButtonElement>) => {
-            setMenuAnchorEl(event.currentTarget);
+            setMenuAnchorEl(event.currentTarget)
         },
         []
-    );
+    )
 
     const handleAccountMenuClose = useCallback(() => {
-        setMenuAnchorEl(null);
-    }, []);
+        setMenuAnchorEl(null)
+    }, [])
 
     return (
         <>
@@ -124,7 +124,7 @@ const Header: FC<Props> = ({ userName, handleLogout }) => {
                 </Toolbar>
             </AppBar>
         </>
-    );
-};
+    )
+}
 
-export default Header;
+export default Header

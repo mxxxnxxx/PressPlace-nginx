@@ -1,17 +1,15 @@
-import {
-    Avatar, Backdrop, Button, Card, CardContent, CardHeader, CardMedia, CircularProgress, Typography, Box, makeStyles
-} from '@material-ui/core';
-import { AxiosError } from 'axios';
-import React, { FC, useState } from 'react';
-import Header from '../../../layout/containers/organisms/Header';
-import SearchedWords from '../molecules/SearchedWords';
-import MenuButton from '../../components/molecules/MenuButton';
-import { useTheme } from '@material-ui/core/styles';
-import { Place } from '../../types/Place';
-import { Places } from '../../types/Places';
-import { Inputs } from '../../types/Inputs';
-import PageNextBack from './PageNextBack';
-import Footer from '../../../layout/components/organisms/Footer';
+import { Backdrop, Box, Card, CircularProgress, makeStyles } from '@material-ui/core'
+import { useTheme } from '@material-ui/core/styles'
+import { AxiosError } from 'axios'
+import React, { FC } from 'react'
+import PlaceCardHeader from '../../containers/molecules/PlaceCardHeader'
+import { Inputs } from '../../types/Inputs'
+import { Place } from '../../types/Place'
+import { Places } from '../../types/Places'
+import PlaceCardContent from '../molecules/PlaceCardContent'
+import PlaceCardMedia from '../molecules/PlaceCardMedia'
+import SearchedWords from '../molecules/SearchedWords'
+import PageNextBack from './PageNextBack'
 
 
 type Props = {
@@ -24,7 +22,7 @@ type Props = {
     isPreviousData: boolean
     InputsData?: Inputs
     removeKey: (key?: string) => void
-};
+}
 
 const useStyle = makeStyles(() => ({
     noSearched: {
@@ -52,7 +50,6 @@ const PlaceSearched: FC<Props> = ({
     const classes = useStyle()
     return (
         <section>
-            <Header />
             <SearchedWords places={places} InputsData={InputsData} removeKey={removeKey} />
             {places?.total === 0 &&
                 <Box
@@ -69,63 +66,9 @@ const PlaceSearched: FC<Props> = ({
             />}
             {places?.data?.map((place: Place, index) => (
                 <Card className='m-3' key={index.toString()}>
-                    <CardHeader
-                        avatar={
-                            <Avatar
-                                aria-label="Recipe"
-                                src={`user_image/${place.user.userImage}`}
-                            />
-                        }
-                        action={
-                            <MenuButton place={place} />
-                        }
-                        title={place.user.name}
-                    />
-                    {place.placeImages[0] ?
-
-                        <CardMedia
-                            title="Paella dish"
-                        >
-                            <img
-                                src={`https://pressplace.s3.ap-northeast-1.amazonaws.com/${place.placeImages[0].imagePath}`}
-                                style={{ height: 200 }}
-                            />
-                        </CardMedia>
-                        :
-                        <Typography>
-                            画像は投稿されていません
-                        </Typography>
-
-                    }
-                    <CardContent>
-                        <Typography variant="subtitle1" color="initial">
-                            場所の名前
-                        </Typography>
-
-                        <Typography paragraph>
-                            {place.name}
-                        </Typography>
-
-                        <Typography variant="subtitle1" color="initial">
-                            住所
-                        </Typography>
-
-                        <Typography paragraph>
-                            {place.address}
-                        </Typography>
-
-                        <Typography variant="subtitle1" color="initial">
-                            コメント
-                        </Typography>
-
-                        <Typography>
-                            {place.comment}
-                        </Typography>
-
-                        <Typography>
-                            {place.createdAt}
-                        </Typography>
-                    </CardContent>
+                    <PlaceCardHeader place={place} />
+                    <PlaceCardMedia place={place} />
+                    <PlaceCardContent place={place} />
                 </Card>
             ))}
             {places?.total && <PageNextBack
@@ -134,12 +77,11 @@ const PlaceSearched: FC<Props> = ({
                 isPreviousData={isPreviousData}
                 places={places}
             />}
-            <Footer />
             <Backdrop style={{ zIndex: theme.zIndex.drawer + 1 }} open={isLoading}>
                 <CircularProgress color="inherit" />
             </Backdrop>
         </section>
-    );
-};
+    )
+}
 
-export default PlaceSearched;
+export default PlaceSearched

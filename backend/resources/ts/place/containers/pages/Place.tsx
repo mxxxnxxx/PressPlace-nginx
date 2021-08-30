@@ -1,9 +1,11 @@
-import React, { FC } from 'react';
-import { useParams } from 'react-router-dom';
-import Place from '../../../place/components/pages/Place';
+import React, { FC, useEffect } from 'react'
+import Place from '../../components/pages/Place'
 
 
 const EnhancedPlace: FC = () => {
-    return <Place />;
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+    return <Place />
 }
-export default EnhancedPlace;
+export default EnhancedPlace

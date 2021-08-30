@@ -1,37 +1,27 @@
-import React, { FC } from 'react';
-import { useForm, FormProvider } from "react-hook-form";
-import { AxiosError } from 'axios';
-import RegisterAlert from '../molecules/RegisterAlert';
 import {
     Backdrop,
     Box,
-    Button,
-    CircularProgress,
-    Container,
-    Card,
-    CardHeader,
-    CardContent,
-    TextField,
-} from '@material-ui/core';
-import { useTheme, makeStyles } from '@material-ui/core/styles';
-import Header from '../../../layout/containers/organisms/Header';
-import LegalLink from '../molecules/LegalLink';
-import Footer from '../../../layout/components/organisms/Footer';
-import { useRegister } from '../../hooks/auth';
-import { kMaxLength } from 'buffer';
+    Button, Card, CardContent, CardHeader, CircularProgress,
+    Container, TextField
+} from '@material-ui/core'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { AxiosError } from 'axios'
+import React, { FC } from 'react'
+import { useForm } from "react-hook-form"
+import RegisterAlert from '../molecules/RegisterAlert'
 
 const useStyles = makeStyles(() => ({
     decorationLine: {
         borderImage: 'linear-gradient(0.25turn, transparent, #888, transparent)',
         borderImageSlice: 1,
     },
-}));
+}))
 type Inputs = {
     name: string
     age: number
     email: string
     password: string
-};
+}
 type Props = {
     error: AxiosError<any> | null
     isLoading: boolean
@@ -48,15 +38,14 @@ const Register: FC<Props> = (
         onSubmit
     }
 ) => {
-    const theme = useTheme();
+    const theme = useTheme()
     const { register, errors, handleSubmit, formState, getValues } = useForm({
         // 初回バリデーションのタイミング(mode)をonBlurに設定
         mode: "onBlur",
-    });
+    })
 
     return (
         <Box display="flex" flexDirection="column" minHeight="100vh">
-            <Header />
             <main style={{ flex: 1 }}>
                 <Container maxWidth="xs">
                     <Card style={{ margin: `${theme.spacing(6)}px 0` }}>
@@ -70,7 +59,7 @@ const Register: FC<Props> = (
                                     flexDirection="column"
                                     alignItems="center"
                                 >
-                                    {statusCode && <RegisterAlert statusCode={statusCode} error={error}/>}
+                                    {statusCode && <RegisterAlert statusCode={statusCode} error={error} />}
                                     <TextField
                                         inputRef={register({
                                             required: "必須項目です",
@@ -151,8 +140,8 @@ const Register: FC<Props> = (
                                             required: "必須項目です",
                                             validate: {
                                                 matchesPreviousPassword: value => {
-                                                    const { password } = getValues();
-                                                    return password === value || "パスワードは一致しません";
+                                                    const { password } = getValues()
+                                                    return password === value || "パスワードは一致しません"
                                                 }
                                             },
                                             maxLength: { value: 20, message: '20文字以内で入力してください' },
@@ -167,15 +156,14 @@ const Register: FC<Props> = (
                     </Card>
                 </Container>
             </main>
-            <Footer />
 
             {/* ローディング中の背景を変更 */}
             <Backdrop style={{ zIndex: theme.zIndex.drawer + 1 }} open={isLoading}>
                 <CircularProgress color="inherit" />
             </Backdrop>
         </Box>
-    );
+    )
 }
 
 
-export default Register;
+export default Register

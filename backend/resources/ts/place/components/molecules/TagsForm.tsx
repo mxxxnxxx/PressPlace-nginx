@@ -1,8 +1,8 @@
 import {
     Box, Button, TextField, Typography
-} from '@material-ui/core';
-import React from 'react';
-import { useFormContext } from "react-hook-form";
+} from '@material-ui/core'
+import React from 'react'
+import { useFormContext } from "react-hook-form"
 
 type Props = {
     tags: string[]
@@ -12,7 +12,7 @@ type Props = {
 
 const TagsForm: React.FC<Props> = ({ tags, addTag, removeTag }) => {
 
-    const methods = useFormContext();
+    const methods = useFormContext()
     return (
         <Box textAlign="center">
 
@@ -35,8 +35,8 @@ const TagsForm: React.FC<Props> = ({ tags, addTag, removeTag }) => {
                             maxLength: { value: 20, message: '20文字以内で入力してください' },
                             validate: {
                                 matchesTags: () => {
-                                    const { tag } = methods.getValues();
-                                    return tag.every((v: never, i: number, self: []) => self.indexOf(v) === i) || "タグが重複しています";
+                                    const { tag } = methods.getValues()
+                                    return tag.every((v: never, i: number, self: []) => self.indexOf(v) === i) || "タグが重複しています"
                                 }
                             },
                         })
@@ -65,4 +65,4 @@ const TagsForm: React.FC<Props> = ({ tags, addTag, removeTag }) => {
 
 
 }
-export default TagsForm;
+export default TagsForm

@@ -35,15 +35,18 @@ class PlaceController extends Controller
         // 画像の処理
         // 一枚目の写真がなければ処理をしない
         if ($request->place_image_0) {
+            \Debugbar::info('ここ');
             $count = count($request->file());
+            \Debugbar::info('ここ');
             for ($i = 0; $i < $count; $i++) {
                 $place_image = "place_image_{$i}";
                 $img = $request->file($place_image);
-                $path = \Storage::disk('s3')->putFile('place_images', $img, 'public');
+                \Debugbar::info($img);
+                $path = Storage::disk('s3')->putFile('place_images', $img, 'public');
                 $place->place_images()->create(['image_path' => $path]);
             };
         }
-
+\Debugbar::info('成功');
         // tagの処理
         // preg_match_allを使用してからの'スペース'の要素を除外し$matchを作成
         preg_match_all('/([a-zA-z0-9０-９ぁ-んァ-ヶ亜-熙]+)/', $request->tags, $match);
@@ -97,14 +100,14 @@ class PlaceController extends Controller
         $place->comment = $request->comment;
         $place->address = $request->address;
         $place->save();
-        
+
         // 不要な写真の削除
         // 消すデータを特定 array_diffするために配列の形を整える
         $old_s3_path_nest = $place->place_images()->get('image_path')->toArray();
         $old_s3_path_flat = array_map(function ($path) {
             return $path['image_path'];
         }, $old_s3_path_nest);
-        
+
         $old_place_images = [];
         if ($request->old_place_images) {
             $old_place_images += $request->old_place_images;
@@ -113,7 +116,7 @@ class PlaceController extends Controller
         $delete_s3_path = array_diff($old_s3_path_flat, $old_place_images);
         // $delete_s3_pathをmergeして配列を詰める
         $delete_s3_path_merge = array_merge($delete_s3_path);
-        
+
         for ($i = 0; $i < count($delete_s3_path_merge); $i++) {
             \Storage::disk('s3')->delete($delete_s3_path_merge[$i]);
             $place->place_images()->where('image_path', $delete_s3_path_merge[$i])->delete();
@@ -124,7 +127,7 @@ class PlaceController extends Controller
         for ($i = 0; $i < $new_count; $i++) {
             $place_image="place_image_{$i}" ;
             $img=$request->file($place_image);
-            $path = \Storage::disk('s3')->putFile('place_images', $img, 'public');
+            $path = Storage::disk('s3')->putFile('place_images', $img, 'public');
             $place->place_images()->create(['image_path' => $path]);
         };
 
@@ -189,34 +192,43 @@ class PlaceController extends Controller
 
     public function search(Request $request)
     {
-        // 検索条件の値を取得
-        // $s_tags = $request->input('tag');
         // データベースから検索
         $places_q = Place::query();
-        // // tagの検索
-        if (!$request->input('tag')[0]=="") {
-            $places_q->whereHas('tags', function ($places_q) use ($request) {
-                foreach ($request->input('tag') as $s_tag) {
-                    $places_q->where('name', 'like', '%' . $s_tag . '%');
-                }
-            });
+        $InputsData = $request->input('InputsData');
+        // React側から届いたInputsDataを分割代入
+        [   'name' => $name,
+            'address' => $address,
+            'comment' => $comment,
+            'tags' => $tags
+        ] = $InputsData;
+        if(!in_array(null,$tags)){
+            // tagの検索
+                $places_q->whereHas('tags', function ($places_q) use ($tags) {
+                    foreach ($tags as $tag) {
+                        $places_q->where('name', 'like', '%' . $tag . '%');
+                    }
+                });
+        }else{
+            \Debugbar::info('成功');
         }
-        if (!$request->input('name')=="") {
-            $places_q->where('name', 'like', '%' . $request->get('name') . '%');
+
+        if (!$name == "") {
+            $places_q->where('name', 'like', '%' . $name . '%');
         }
-        if (!$request->input('address')=="") {
-            $places_q->where('address', 'like', '%' . $request->get('address') . '%');
+        if (!$address == "") {
+            $places_q->where('address', 'like', '%' . $address . '%');
         }
-        if (!$request->input('comment')=="") {
-            $places_q->where('comment', 'like', '%' . $request->get('comment') . '%');
+        if (!$comment == "") {
+            $places_q->where('comment', 'like', '%' . $comment . '%');
         }
+
         $placeSearched = $places_q
         ->orderBy('created_at', 'desc')
         ->with('place_images')
         ->with('user')
         ->with('tags')
         ->paginate(15);
-        // \Debugbar::info($places);
+
         return $placeSearched;
     }
 }

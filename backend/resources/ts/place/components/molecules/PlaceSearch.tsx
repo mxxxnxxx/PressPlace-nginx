@@ -1,10 +1,10 @@
-import { Box, Container, Card, CardHeader, CardContent, TextField, Backdrop, CircularProgress, useTheme, Button } from '@material-ui/core';
-import React from 'react';
-import { useFormContext } from 'react-hook-form';
-import Footer from '../../../layout/components/organisms/Footer';
-import Header from '../../../layout/containers/organisms/Header';
-import TagsForm from '../../containers/molecules/TagsForm';
-import { Inputs } from '../../types/Inputs';
+import { Box, Container, Card, CardHeader, CardContent, TextField, Backdrop, CircularProgress, useTheme, Button } from '@material-ui/core'
+import React from 'react'
+import { useFormContext } from 'react-hook-form'
+import Footer from '../../../layout/components/organisms/Footer'
+import Header from '../../../layout/containers/organisms/Header'
+import TagsForm from '../../containers/molecules/TagsForm'
+import { Inputs } from '../../types/Inputs'
 
 type Props = {
     onSubmit: (data: Inputs) => Promise<void>
@@ -12,11 +12,10 @@ type Props = {
 const PlaceSearch: React.FC<Props> = ({
     onSubmit,
 }) => {
-    const methods = useFormContext();
-    const theme = useTheme();
+    const methods = useFormContext()
+    const theme = useTheme()
     return (
         <Box display='flex' flexDirection="column" minHeight="100vh" >
-            <Header />
             <main style={{ flex: 1 }}>
                 <Container maxWidth="xs" >
                     <Card style={{ margin: `${theme.spacing(6)}px 0` }}>
@@ -82,11 +81,10 @@ const PlaceSearch: React.FC<Props> = ({
                     </Card>
                 </Container>
             </main>
-            <Footer />
             {/* <Backdrop style={{ zIndex: theme.zIndex.drawer + 1 }} open={isLoading}>
                 <CircularProgress color="inherit" />
             </Backdrop> */}
         </Box>
     )
 }
-export default PlaceSearch;
+export default PlaceSearch

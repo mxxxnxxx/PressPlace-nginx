@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
     Modal,
     Box,
@@ -11,11 +11,11 @@ import {
     CardContent,
     useTheme,
     CardActions,
-} from '@material-ui/core';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import useDeletePlaceQuery from '../../hooks/useDeletePlace';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { Place } from '../../types/Place';
+} from '@material-ui/core'
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
+import useDeletePlaceQuery from '../../hooks/useDeletePlace'
+import DeleteIcon from '@material-ui/icons/Delete'
+import { Place } from '../../types/Place'
 type Props = {
     deleteModalOn: boolean
     setDeleteModalOn: (boolean: boolean) => void
@@ -26,8 +26,8 @@ const PlaceDelete: React.FC<Props> = ({
     setDeleteModalOn,
     place,
 }) => {
-    const deletePlaceQuery = useDeletePlaceQuery();
-    const theme = useTheme();
+    const deletePlaceQuery = useDeletePlaceQuery()
+    const theme = useTheme()
     return (
         <>
             <MenuItem>

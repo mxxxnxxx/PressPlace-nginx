@@ -1,10 +1,8 @@
 // 登録してその後ログインされる
-import React, { FC, useState, useCallback } from 'react';
-import { useForm, FormProvider } from "react-hook-form";
-import { useHistory, useLocation } from 'react-router-dom';
-import Register from '../../components/pages/Register';
-import { useRegister } from '../../hooks/auth';
-import { Provider } from '../../types/OAuth';
+import React, { FC, useEffect } from 'react'
+import { useHistory, useLocation } from 'react-router-dom'
+import Register from '../../components/pages/Register'
+import { useRegister } from '../../hooks/auth'
 
 type Inputs = {
     name: string
@@ -14,15 +12,15 @@ type Inputs = {
 }
 
 const EnhancedRegister: FC = () => {
-    const history = useHistory();
-    const location = useLocation();
+    const history = useHistory()
+    const location = useLocation()
     const { from } = (location.state as { from: string }) || {
         from: { pathname: '/' },
-    };
-    const { error, isLoading, mutate: registration } = useRegister();
-    const statusCode = error?.response?.status;
+    }
+    const { error, isLoading, mutate: registration } = useRegister()
+    const statusCode = error?.response?.status
     const onSubmit = async (data: Inputs): Promise<void> => {
-        const { name, age, email, password } = data;
+        const { name, age, email, password } = data
         if (
             !name ||
             !email ||
@@ -30,18 +28,20 @@ const EnhancedRegister: FC = () => {
             !age
         ) {
             // 空の場合はPOSTしない
-            return;
+            return
         }
         registration(
             { name, age, email, password },
             {
                 onSuccess: () => {
-                    history.replace(from);
+                    history.replace(from)
                 }
             }
         )
     }
-
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
     return (
         <Register
             error={error}
@@ -50,6 +50,6 @@ const EnhancedRegister: FC = () => {
             onSubmit={onSubmit}
         />
     )
-};
+}
 
-export default EnhancedRegister;
+export default EnhancedRegister

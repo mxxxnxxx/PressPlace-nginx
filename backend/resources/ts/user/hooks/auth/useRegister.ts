@@ -1,17 +1,17 @@
-import { useQueryClient, UseMutationResult, useMutation } from 'react-query';
-import axios, { AxiosError } from 'axios';
-import { User } from '../../types/User';
+import { useQueryClient, UseMutationResult, useMutation } from 'react-query'
+import axios, { AxiosError } from 'axios'
+import { User } from '../../types/User'
 type FormData = {
-    email: string;
-    password: string;
-    age: number;
-    name: string;
-};
+    email: string
+    password: string
+    age: number
+    name: string
+}
 
 const registration = async ({ email, password, name, age }: FormData): Promise<User> => {
-    const { data } = await axios.post('/api/register', { email, password, name, age });
-    return data;
-};
+    const { data } = await axios.post('/api/register', { email, password, name, age })
+    return data
+}
 
 const useRegister = (): UseMutationResult<
     User,
@@ -19,13 +19,13 @@ const useRegister = (): UseMutationResult<
     FormData,
     undefined
 > => {
-    const queryClient = useQueryClient();
+    const queryClient = useQueryClient()
 
     return useMutation(registration, {
         onSuccess: (data) => {
-            queryClient.setQueryData('user', data);
+            queryClient.setQueryData('user', data)
         },
-    });
+    })
 
 }
-export default useRegister;
+export default useRegister

@@ -7,18 +7,18 @@ import {
     Button,
     Typography,
     Box,
-} from '@material-ui/core';
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import SearchIcon from '@material-ui/icons/Search';
-import ListAltIcon from '@material-ui/icons/ListAlt';
-import React, { FC } from 'react';
-import { Inputs } from '../../types/Inputs';
-import { Places } from '../../types/Places';
+} from '@material-ui/core'
+import HighlightOffIcon from '@material-ui/icons/HighlightOff'
+import SearchIcon from '@material-ui/icons/Search'
+import ListAltIcon from '@material-ui/icons/ListAlt'
+import React, { FC } from 'react'
+import { Inputs } from '../../types/Inputs'
+import { Places } from '../../types/Places'
 
 type Props = {
     InputsData?: Inputs
     places?: Places
-    removeKey: (key?: string) => void
+    removeKey: (key?: string, index?: number) => void
 }
 const useStyles = makeStyles(() => ({
     SearchKeysArea: {
@@ -28,10 +28,10 @@ const useStyles = makeStyles(() => ({
         textDecoration: 'none',
         color: 'inherit',
     },
-}));
+}))
 
 const SearchedWords: FC<Props> = ({ InputsData, places, removeKey }) => {
-    const classes = useStyles();
+    const classes = useStyles()
     return (
         <section className={classes.SearchKeysArea}>
             <Box
@@ -57,7 +57,9 @@ const SearchedWords: FC<Props> = ({ InputsData, places, removeKey }) => {
                     <Button
                         startIcon={<HighlightOffIcon />}
                         className={classes.SearchKeys}
-                        onClick={() => removeKey("name")}
+                        onClick={() => {
+                            removeKey("name")
+                        }}
 
                     >
                         {InputsData?.name}
@@ -66,7 +68,9 @@ const SearchedWords: FC<Props> = ({ InputsData, places, removeKey }) => {
                     <Button
                         startIcon={<HighlightOffIcon />}
                         className={classes.SearchKeys}
-                        onClick={() => removeKey("address")}
+                        onClick={() => {
+                            removeKey("address")
+                        }}
                     >
                         {InputsData?.address}
                     </Button>}
@@ -74,20 +78,26 @@ const SearchedWords: FC<Props> = ({ InputsData, places, removeKey }) => {
                     <Button
                         startIcon={<HighlightOffIcon />}
                         className={classes.SearchKeys}
-                        onClick={() => removeKey("comment")}
+                        onClick={() => {
+                            removeKey("comment")
+                        }}
                     >
                         {InputsData?.comment}
                     </Button>}
-                {/* {!(InputsData?.tags.length === 0) &&
-                    InputsData?.tags.map((tag: string, index: number) => (
-                        <Button
-                            startIcon={<HighlightOffIcon />}
-                            className={classes.SearchKeys}
-                            key={index.toString()}
-                        >
-                            {tag}
-                        </Button>
-                    ))} */}
+
+                {InputsData?.tag?.map((tag: string, index: number) => (
+                    !(tag == "") &&
+                    <Button
+                        key={index.toString()}
+                        startIcon={<HighlightOffIcon />}
+                        className={classes.SearchKeys}
+                        onClick={() => {
+                            removeKey("tag", index)
+                        }}
+                    >
+                        {tag}
+                    </Button>
+                ))}
             </Box>
         </section>
     )

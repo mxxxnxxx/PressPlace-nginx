@@ -1,30 +1,30 @@
-import { useQueryClient, UseMutationResult, useMutation } from 'react-query';
-import axios, { AxiosError } from 'axios';
-import { User } from '../../types/User';
+import { useQueryClient, UseMutationResult, useMutation } from 'react-query'
+import axios, { AxiosError } from 'axios'
+import { User } from '../../types/User'
 
 type FormData = {
-  email: string;
-  password: string;
-};
+    email: string
+    password: string
+}
 
 const login = async (formData: FormData): Promise<User> => {
-  const { data } = await axios.post('/api/login', formData);
-  return data;
-};
+    const { data } = await axios.post('/api/login', formData)
+    return data
+}
 
 const useLogin = (): UseMutationResult<
-  User,
-  AxiosError,
-  FormData,
-  undefined
+    User,
+    AxiosError,
+    FormData,
+    undefined
 > => {
-  const queryClient = useQueryClient();
+    const queryClient = useQueryClient()
 
-  return useMutation(login, {
-    onSuccess: (data) => {
-      queryClient.setQueryData('user', data);
-    },
-  });
-};
+    return useMutation(login, {
+        onSuccess: (data) => {
+            queryClient.setQueryData('user', data)
+        },
+    })
+}
 
-export default useLogin;
+export default useLogin

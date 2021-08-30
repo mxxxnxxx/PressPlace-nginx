@@ -35,6 +35,7 @@ RUN apt-get update && \
   apt-get update && \
   apt-get install -y libmagickwand-dev && \
   apt-get install -y nodejs npm && \
+  apt-get update && apt-get install -y imagemagick libmagickwand-dev && \
   pecl install imagick && \
   docker-php-ext-enable imagick && \
   docker-php-ext-configure gd --with-freetype --with-jpeg && \

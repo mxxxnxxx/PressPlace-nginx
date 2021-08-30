@@ -1,12 +1,12 @@
-export type Provider = 'github';
+export type Provider = 'github'
 
 export type GitHubOAuthParams = {
-  code: string;
-  state: string;
-};
+    code: string
+    state: string
+}
 
-export type OAuthParams = GitHubOAuthParams;
+export type OAuthParams = GitHubOAuthParams
 
 export type OAuthRedirect = {
-  redirectUrl: string;
-};
+    redirectUrl: string
+}

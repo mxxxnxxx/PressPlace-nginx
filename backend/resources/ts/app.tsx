@@ -1,52 +1,51 @@
-import React, { FC, useCallback } from "react";
-import ReactDOM from "react-dom";
-import { QueryClient, QueryClientProvider, useQueryClient } from "react-query";
+import CssBaseline from '@material-ui/core/CssBaseline'
+import React, { FC, useCallback } from "react"
+import ReactDOM from "react-dom"
+import { QueryClient, QueryClientProvider, useQueryClient } from "react-query"
+import { ReactQueryDevtools } from 'react-query/devtools'
 import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Redirect,
-    useLocation,
-    RouteComponentProps
-} from "react-router-dom";
-import { ReactQueryDevtools } from 'react-query/devtools';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Place from './place/containers/pages/Place';
-import PlaceSearch from './place/containers/molecules/PlaceSearch';
-import Login from './user/containers/pages/Login';
-import Register from './user/containers/pages/Register';
-import Loding from './layout/components/pages/Loding';
-import PlaceForm from "./place/containers/molecules/NewPlaceForm";
-import PlaceSearched from "./place/containers/organisms/PlaceSearched";
-import EditPlaceForm from "./place/containers/molecules/EditPlaceForm";
-import MutationErrorAlertBar from './layout/components/molecules/MutationErrorAlertBar';
-import { useGetUserQuery, useCurrentUser } from './user/hooks';
-import { useMutationErrorQuery } from './layout/hooks/util';
-import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
-import Account from "./user/containers/pages/Account";
+    BrowserRouter as Router, Redirect, Route, Switch
+} from "react-router-dom"
+import { ToastContainer } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css'
+import Footer from './layout/components/organisms/Footer'
+import Loding from './layout/components/pages/Loding'
+import Header from './layout/containers/organisms/Header'
+import { useMutationErrorQuery } from './layout/hooks/util'
+import EditPlaceForm from "./place/containers/molecules/EditPlaceForm"
+import PlaceForm from "./place/containers/molecules/NewPlaceForm"
+import PlaceSearch from './place/containers/molecules/PlaceSearch'
+import PlaceSearched from "./place/containers/organisms/PlaceSearched"
+import Place from './place/containers/pages/Place'
+import Login from './user/containers/pages/Login'
+import Register from './user/containers/pages/Register'
+import UserEdit from './user/containers/pages/UserEdit'
+import UserPage from "./user/containers/pages/UserPage"
+import OtherUserPage from "./user/containers/pages/OtherUserPage"
+import UserSetting from "./user/containers/pages/UserSetting"
+import { useCurrentUser, useGetUserQuery } from './user/hooks'
 
-require('./bootstrap');
+require('./bootstrap')
 
 declare global {
     interface Window {
-        axios: any;
-        Popper: any;
-        _: any;
-        $: any;
-        jQuery: any;
+        axios: any
+        Popper: any
+        _: any
+        $: any
+        jQuery: any
     }
 }
 // UnAuthRouteとAuthRouteのpropsの型
 type Props = {
-    exact?: boolean;
-    path: string;
-    children: React.ReactNode;
-};
+    exact?: boolean
+    path: string
+    children: React.ReactNode
+}
 
 const UnAuthRoute: FC<Props> = ({ exact = false, path, children }) => {
     // useCurrentUserでログインしているか確認しuserに格納
-    const user = useCurrentUser();
+    const user = useCurrentUser()
     return (
         <Route
             exact={exact}
@@ -54,11 +53,11 @@ const UnAuthRoute: FC<Props> = ({ exact = false, path, children }) => {
             // ログインしていた場合はルートへしていなかった場合はchildrenを表示
             render={() => (user ? <Redirect to={{ pathname: '/' }} /> : children)}
         />
-    );
-};
+    )
+}
 
 const AuthRoute: FC<Props> = ({ exact = false, path, children }) => {
-    const user = useCurrentUser();
+    const user = useCurrentUser()
     return (
         <Route
             exact={exact}
@@ -72,8 +71,8 @@ const AuthRoute: FC<Props> = ({ exact = false, path, children }) => {
                 )
             }
         />
-    );
-};
+    )
+}
 
 const client = new QueryClient({
     defaultOptions: {
@@ -84,50 +83,59 @@ const client = new QueryClient({
             retry: 1,
         },
     },
-});
+})
 
 const App: FC = () => {
-    const queryClient = useQueryClient();
+    const queryClient = useQueryClient()
     const { isLoading } = useGetUserQuery({
         retry: 0,
         initialData: undefined,
         onError: () => {
-            queryClient.setQueryData('user', null);
+            queryClient.setQueryData('user', null)
         },
-    });
+    })
 
-    const { data: error } = useMutationErrorQuery();
+    const { data: error } = useMutationErrorQuery()
 
     const handleErrorBarClose = useCallback(
         (event?: React.SyntheticEvent, reason?: string) => {
             if (reason === 'clickaway') {
-                return;
+                return
             }
 
-            queryClient.resetQueries('error');
+            queryClient.resetQueries('error')
         },
         [queryClient]
-    );
+    )
 
     if (isLoading) {
-        return <Loding />;
+        return <Loding isLoading={isLoading} />
     }
 
     return (
         <>
+            <Header />
             <Switch>
                 <Route exact path="/">
                     <Place />
                 </Route>
+
                 <Route exact path="/places/search">
                     <PlaceSearch />
                 </Route>
+
                 <Route exact path="/places/searched">
                     <PlaceSearched />
                 </Route>
+
+                <Route exact path="/account/others">
+                    <OtherUserPage />
+                </Route>
+
                 <UnAuthRoute exact path="/login">
                     <Login />
                 </UnAuthRoute>
+
                 <UnAuthRoute exact path="/register">
                     <Register />
                 </UnAuthRoute>
@@ -139,20 +147,26 @@ const App: FC = () => {
                 <AuthRoute exact path="/place/edit/:placeId">
                     <EditPlaceForm />
                 </AuthRoute>
-                <AuthRoute exact path="/settings/account">
-                    <Account />
 
-                    {/* 以下でエラー時の説明 */}
-                    <MutationErrorAlertBar
-                        error={error}
-                        handleErrorBarClose={handleErrorBarClose}
-                    />
+                <AuthRoute path="/account/mypage">
+                    <UserPage />
                 </AuthRoute>
+
+                <AuthRoute path="/account/setting">
+                    <UserSetting />
+                </AuthRoute>
+
+                <AuthRoute path="/account/edit">
+                    <UserEdit />
+                </AuthRoute>
+
             </Switch>
+            <Footer />
+            {/* アラート機能 */}
             <ToastContainer hideProgressBar={true} />
         </>
-    );
-};
+    )
+}
 
 if (document.getElementById('app')) {
     ReactDOM.render(
@@ -166,5 +180,5 @@ if (document.getElementById('app')) {
             </QueryClientProvider>
         </Router>,
         document.getElementById('app')
-    );
+    )
 }

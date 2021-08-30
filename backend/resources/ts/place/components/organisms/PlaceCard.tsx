@@ -1,30 +1,23 @@
-import React, { FC, useCallback, useState } from 'react';
-import {
-    Box,
-    Card,
-    CardHeader,
-    CardContent,
-    CardMedia,
-    Avatar,
-    Typography,
-} from '@material-ui/core';
-import GeneralAlert from '../../../layout/components/atoms/GeneralAlert';
-import { INTERNAL_SERVER_ERROR } from '../../../constants/statusCode';
-import { Places } from '../../types/Places';
-import MenuButton from '../../components/molecules/MenuButton';
-import Loding from '../../../layout/components/pages/Loding';
-import { Place } from '../../types/Place';
-import Footer from '../../../layout/components/organisms/Footer';
+import { Box, Card } from '@material-ui/core'
+import React, { FC } from 'react'
+import { INTERNAL_SERVER_ERROR } from '../../../constants/statusCode'
+import GeneralAlert from '../../../layout/components/atoms/GeneralAlert'
+import Loding from '../../../layout/components/pages/Loding'
+import PlaceCardHeader from '../../containers/molecules/PlaceCardHeader'
+import { Place } from '../../types/Place'
+import { Places } from '../../types/Places'
+import PlaceCardContent from '../molecules/PlaceCardContent'
+import PlaceCardMedia from '../molecules/PlaceCardMedia'
 
 
 type Props = {
-    paginatePlaces?: Places[];
-    isLoading: boolean;
-    statusCode?: number;
-    loadMoreRef: (node: Element) => void;
-    hasNextPage?: boolean;
-    isFetchingNextPage: boolean;
-};
+    paginatePlaces?: Places[]
+    isLoading?: boolean
+    statusCode?: number
+    loadMoreRef?: (node: Element) => void
+    hasNextPage?: boolean
+    isFetchingNextPage?: boolean
+}
 
 const PlaceCard: FC<Props> = ({
     paginatePlaces,
@@ -35,7 +28,7 @@ const PlaceCard: FC<Props> = ({
     isFetchingNextPage,
 }) => {
     if (isLoading) {
-        return <Loding />
+        return <Loding isLoading={isLoading} />
     }
 
     if (statusCode) {
@@ -50,105 +43,28 @@ const PlaceCard: FC<Props> = ({
                     />
                 )}
             </>
-        );
+        )
     }
 
-    let loadMoreMessage;
+    let loadMoreMessage
     if (isFetchingNextPage) {
-        loadMoreMessage = '読み込み中...';
+        loadMoreMessage = '読み込み中...'
     } else {
-        loadMoreMessage = hasNextPage ? '続きを読み込む' : ' ';
+        loadMoreMessage = hasNextPage ? '続きを読み込む' : ' '
     }
 
     return (
         <section>
-            {/* <PlaceCardHeader
-                // searchWord={searchWord}
-                // handleChangeSearchWord={handleChangeSearchWord}
-                handleAddPlace={handleAddPlace}
-            /> */}
-            {/* 140px = ヘッダー：64 + メモ一覧ヘッダー：48 + 下部余白：28 */}
-
             {paginatePlaces?.map((page) => (
                 <React.Fragment key={page.currentPage.toString()}>
                     {page.data.map((place: Place, index) => (
                         <Card className='m-5' key={index.toString()}>
-                            <CardHeader
 
-                                // アバターアイコン
-                                avatar={
-                                    <Avatar
-                                        aria-label="Recipe"
-                                        src={`user_image/${place.user.userImage}`}
-                                    />
-                                }
+                            <PlaceCardHeader place={place} />
 
-                                action={
-                                    // ... のmoreボタン
-                                    // <IconButton>
-                                    //     <MoreVertIcon />
-                                    // </IconButton>
-                                    <>
-                                        <MenuButton place={place} />
-                                        {/* <PlaceMenu
-                                            menuId={menuId}
-                                            anchorEl={menuAnchorEl}
-                                            open={isPlaceMenuOpen}
-                                            handlePlaceMenuClose={handlePlaceMenuClose}
-                                            place={place}
-                                        /> */}
-                                    </>
-                                }
+                            <PlaceCardMedia place={place} />
 
-                                title={place.user.name}
-                            // subheader={place.tags}
-
-                            />
-                            {place.placeImages[0] ?
-
-                                <CardMedia
-                                    title="Paella dish"
-                                >
-                                    <img
-                                        src={`https://pressplace.s3.ap-northeast-1.amazonaws.com/${place.placeImages[0].imagePath}`}
-                                        style={{ height: 200 }}
-                                    />
-                                </CardMedia>
-                                :
-                                <Typography>
-                                    画像は投稿されていません
-                                </Typography>
-
-                            }
-                            <CardContent>
-                                <Typography variant="subtitle1" color="initial">
-                                    場所の名前
-                                </Typography>
-
-                                <Typography paragraph>
-                                    {place.name}
-                                </Typography>
-
-                                <Typography variant="subtitle1" color="initial">
-                                    住所
-                                </Typography>
-
-                                <Typography paragraph>
-                                    {place.address}
-                                </Typography>
-
-                                <Typography variant="subtitle1" color="initial">
-                                    コメント
-                                </Typography>
-
-                                <Typography>
-                                    {place.comment}
-                                </Typography>
-
-                                <Typography>
-                                    {place.createdAt}
-                                </Typography>
-                            </CardContent>
+                            <PlaceCardContent place={place} />
                         </Card>
                     ))}
                 </React.Fragment>
@@ -156,9 +72,8 @@ const PlaceCard: FC<Props> = ({
             <Box {...{ ref: loadMoreRef }} textAlign="center">
                 {loadMoreMessage}
             </Box>
-            <Footer />
         </section>
-    );
-};
+    )
+}
 
-export default PlaceCard;
+export default PlaceCard

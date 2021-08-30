@@ -1,4 +1,4 @@
 export type MutationError = {
-  statusCode?: number;
-  errorMessage: string;
-};
+    statusCode?: number
+    errorMessage: string
+}

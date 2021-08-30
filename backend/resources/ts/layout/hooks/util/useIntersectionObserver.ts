@@ -1,71 +1,71 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { FetchNextPageOptions, InfiniteQueryObserverResult } from 'react-query';
-import { AxiosError } from 'axios';
+import React, { useState, useCallback, useEffect } from 'react'
+import { FetchNextPageOptions, InfiniteQueryObserverResult } from 'react-query'
+import { AxiosError } from 'axios'
 
 type Argument = {
-  root?: React.RefObject<HTMLElement> | null;
-  onIntersect: (
-    options?: FetchNextPageOptions | undefined
-  ) => Promise<InfiniteQueryObserverResult<unknown, AxiosError>>;
-  threshold?: number | number[];
-  rootMargin?: string;
-  enabled?: boolean;
-};
+    root?: React.RefObject<HTMLElement> | null
+    onIntersect: (
+        options?: FetchNextPageOptions | undefined
+    ) => Promise<InfiniteQueryObserverResult<unknown, AxiosError>>
+    threshold?: number | number[]
+    rootMargin?: string
+    enabled?: boolean
+}
 
 type Response = {
-  loadMoreRef: (node: Element) => void;
-};
+    loadMoreRef: (node: Element) => void
+}
 
 const useIntersectionObserver = ({
-  root = null,
-  onIntersect,
-  threshold = 1.0,
-  rootMargin = '0px',
-  enabled = true,
+    root = null,
+    onIntersect,
+    threshold = 1.0,
+    rootMargin = '0px',
+    enabled = true,
 }: Argument): Response => {
-  const [target, setTarget] = useState<Element | null>(null);
+    const [target, setTarget] = useState<Element | null>(null)
 
-  // コールバックref（呼び出し側はこれを無限スクロール検知用要素のrefに渡せばいい）
-  const loadMoreRef = useCallback((node: Element) => {
-    if (node !== null) {
-      setTarget(node);
-    }
-  }, []);
-
-  const newIntersectionObserver = useCallback(
-    () =>
-      new IntersectionObserver(
-        (entries) =>
-          entries.forEach((entry) => entry.isIntersecting && onIntersect()),
-        {
-          root: root && root.current,
-          rootMargin,
-          threshold,
+    // コールバックref（呼び出し側はこれを無限スクロール検知用要素のrefに渡せばいい）
+    const loadMoreRef = useCallback((node: Element) => {
+        if (node !== null) {
+            setTarget(node)
         }
-      ),
-    [root, onIntersect, threshold, rootMargin]
-  );
+    }, [])
 
-  useEffect(() => {
-    if (!enabled) {
-      return;
-    }
-    const el = target;
+    const newIntersectionObserver = useCallback(
+        () =>
+            new IntersectionObserver(
+                (entries) =>
+                    entries.forEach((entry) => entry.isIntersecting && onIntersect()),
+                {
+                    root: root && root.current,
+                    rootMargin,
+                    threshold,
+                }
+            ),
+        [root, onIntersect, threshold, rootMargin]
+    )
 
-    if (!el) {
-      return;
-    }
-    const observer = newIntersectionObserver();
+    useEffect(() => {
+        if (!enabled) {
+            return
+        }
+        const el = target
 
-    // オブジェクトを指定
-    observer.observe(el);
+        if (!el) {
+            return
+        }
+        const observer = newIntersectionObserver()
 
-    return () => {
-      observer.unobserve(el);
-    };
-  }, [enabled, target, newIntersectionObserver]);
+        // オブジェクトを指定
+        observer.observe(el)
 
-  return { loadMoreRef };
-};
+        return () => {
+            observer.unobserve(el)
+        }
+    }, [enabled, target, newIntersectionObserver])
 
-export default useIntersectionObserver;
+    return { loadMoreRef }
+}
+
+export default useIntersectionObserver

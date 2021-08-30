@@ -15,7 +15,7 @@ class User extends Authenticatable implements MustVerifyEmailContract
 
     // 論理削除機能
     use SoftDeletes;
-    
+
     // protected $table = 'users';
     // protected $dates = ['deleted_at'];
     // protected $fillable = ['body'];
@@ -25,10 +25,10 @@ class User extends Authenticatable implements MustVerifyEmailContract
      *
      * @var array
      */
-    
-    
+
+
      protected $fillable = [
-        'name', 'email', 'password', 'user_image', 'introduction', 'age',
+        'id','name', 'email', 'password', 'user_image', 'introduction', 'age','page','userId'
     ];
 
     /**

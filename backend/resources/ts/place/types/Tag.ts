@@ -1,5 +1,5 @@
 export type Tag = {
-    
+
     id: number
     name: string
     pivot: { key: number }[]
