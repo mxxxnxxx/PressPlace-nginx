@@ -21,9 +21,9 @@ import Login from './user/containers/pages/Login'
 import Register from './user/containers/pages/Register'
 import UserEdit from './user/containers/pages/UserEdit'
 import UserPage from "./user/containers/pages/UserPage"
-import OtherUserPage from "./user/containers/pages/OtherUserPage"
 import UserSetting from "./user/containers/pages/UserSetting"
 import { useCurrentUser, useGetUserQuery } from './user/hooks'
+import UserFollowCount from './user/containers/pages/UserFollowCount'
 
 require('./bootstrap')
 
@@ -87,7 +87,7 @@ const client = new QueryClient({
 
 const App: FC = () => {
     const queryClient = useQueryClient()
-    const { isLoading } = useGetUserQuery({
+    const { isLoading, refetch: getUserQuery } = useGetUserQuery({
         retry: 0,
         initialData: undefined,
         onError: () => {
@@ -116,6 +116,7 @@ const App: FC = () => {
         <>
             <Header />
             <Switch>
+
                 <Route exact path="/">
                     <Place />
                 </Route>
@@ -128,12 +129,17 @@ const App: FC = () => {
                     <PlaceSearched />
                 </Route>
 
-                <Route exact path="/account/others">
-                    <OtherUserPage />
+                <Route exact path="/account/:userName">
+                    <UserPage />
                 </Route>
 
+                <Route exact path="/account/count/:userName/:followView">
+                    <UserFollowCount />
+                </Route>
+
+
                 <UnAuthRoute exact path="/login">
-                    <Login />
+                    <Login getUserQuery={getUserQuery} />
                 </UnAuthRoute>
 
                 <UnAuthRoute exact path="/register">
@@ -148,15 +154,18 @@ const App: FC = () => {
                     <EditPlaceForm />
                 </AuthRoute>
 
-                <AuthRoute path="/account/mypage">
+                {/* <AuthRoute path="/account/mypage">
                     <UserPage />
-                </AuthRoute>
+                </AuthRoute> */}
 
-                <AuthRoute path="/account/setting">
+
+
+
+                <AuthRoute exact path="/user/setting">
                     <UserSetting />
                 </AuthRoute>
 
-                <AuthRoute path="/account/edit">
+                <AuthRoute exact path="/user/edit">
                     <UserEdit />
                 </AuthRoute>
 

@@ -4,15 +4,15 @@ import UserPlaces from '../../containers/organisms/UserPlaces'
 import UserProfile from '../../containers/organisms/UserProfile'
 
 type Props = {
-    userId?: number
+    userName: string
 }
 
-const UserPage: React.FC<Props> = ({ userId }) => {
+const OtherUserPage: React.FC<Props> = ({ userName }) => {
     return (
         <Box>
-            <UserProfile userId={userId} />
-            <UserPlaces userId={userId} />
+            <UserProfile userName={userName} />
+            <UserPlaces userName={userName} />
         </Box>
     )
 }
-export default UserPage
+export default OtherUserPage

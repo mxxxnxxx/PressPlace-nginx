@@ -1,10 +1,15 @@
-import React, { FC, useState, useCallback, useEffect } from 'react'
+import { AxiosError } from 'axios'
+import React, { FC, useCallback, useEffect, useState } from 'react'
+import { RefetchOptions, QueryObserverResult } from 'react-query'
 import { useHistory, useLocation } from 'react-router-dom'
 import Login from '../../components/pages/Login'
 import { useLogin, useOAuthUrl } from '../../hooks/auth'
 import { Provider } from '../../types/OAuth'
-
-const EnhancedLogin: FC = () => {
+import { User } from '../../types/User'
+type Props = {
+    getUserQuery: (options?: RefetchOptions | undefined) => Promise<QueryObserverResult<User, AxiosError<any>>>
+}
+const EnhancedLogin: FC<Props> = ({ getUserQuery }) => {
     const history = useHistory()
     const location = useLocation()
 
@@ -47,7 +52,9 @@ const EnhancedLogin: FC = () => {
                 { email, password },
                 {
                     onSuccess: () => {
+                        getUserQuery()
                         history.replace(from)
+                        getUserQuery()
                     },
                 }
             )

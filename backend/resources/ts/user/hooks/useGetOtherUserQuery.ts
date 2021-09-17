@@ -4,8 +4,7 @@ import { useMutation, UseMutationResult, useQueryClient } from 'react-query'
 import { User } from '../types/User'
 
 const getOtherUser = async (userId: number): Promise<User> => {
-    console.log(userId);
-    const { data } = await axios.get(`/api/other/${userId}`)
+    const { data } = await axios.get(`/api/user/${userId}`)
     return camelcaseKeys(data)
 }
 

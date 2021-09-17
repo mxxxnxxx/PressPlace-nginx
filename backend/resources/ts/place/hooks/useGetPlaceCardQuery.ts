@@ -1,10 +1,10 @@
-import {
-    UseInfiniteQueryResult,
-    UseInfiniteQueryOptions,
-    useInfiniteQuery,
-} from 'react-query'
 import axios, { AxiosError } from 'axios'
 import camelcaseKeys from 'camelcase-keys'
+import {
+    useInfiniteQuery,
+    UseInfiniteQueryOptions,
+    UseInfiniteQueryResult
+} from 'react-query'
 import { Places } from '../types/Places'
 
 // 非同期でplacesを取得
@@ -17,9 +17,7 @@ const getPlaceCard = async ({ pageParam = 1 }): Promise<Places> => {
 
 
 const useGetPlaceCardQuery = <TData = Places>(
-
     options?: UseInfiniteQueryOptions<Places, AxiosError, TData>
-
 ): UseInfiniteQueryResult<TData, AxiosError> =>
     useInfiniteQuery('places', getPlaceCard, {
         ...options,

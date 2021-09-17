@@ -19,7 +19,12 @@ const EnhancedHeader: FC = () => {
         })
     }, [history, mutate])
 
-    return <Header userName={user?.name} handleLogout={handleLogout} />
+    return (
+        <Header
+            user={user}
+            handleLogout={handleLogout}
+        />
+    )
 }
 
 export default EnhancedHeader

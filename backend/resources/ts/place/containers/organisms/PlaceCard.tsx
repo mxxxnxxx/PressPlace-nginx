@@ -21,16 +21,6 @@ const EnhancedPlaceCard: FC<Props> = () => {
     const history = useHistory()
     const statusCode = error?.response?.status
 
-    const theme = useTheme()
-    const matches = useMediaQuery(theme.breakpoints.up('sm'))
-
-    useEffect(() => {
-        const firstPlaceId = paginatePlaces?.pages[0]?.data[0].placeId
-        if (!isFetching && matches && firstPlaceId) {
-            history.push(`/${firstPlaceId}`)
-        }
-    }, [history, isFetching, paginatePlaces, matches])
-
     // 無限スクロール処理
     const { loadMoreRef } = useIntersectionObserver({
         onIntersect: fetchNextPage,

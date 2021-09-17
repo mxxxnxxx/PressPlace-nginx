@@ -23,10 +23,16 @@ Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/user/me', 'UserController@current')->name('user');
 Route::get('/user/delete', 'UserController@softdelete')->name('user.softdelete');
 Route::get('/user/places','UserController@userPlaces')->name('user.places');
-Route::get('/other/{userId}','UserController@otherUserShow')->name('other.show');
-Route::apiResource('/user','UserController', ['only' =>['show', 'update']]);
-    Route::post('/register', 'Auth\RegisterController@register')->name('register');
-    Route::middleware('auth:api')->get('/user', function (Request $request) {
-        return $request->user();
-    });
+Route::get('/user/{userName}','UserController@show')->name('user.show');
+Route::apiResource('/user','UserController', ['only' =>['update']]);
+Route::post('/register', 'Auth\RegisterController@register')->name('register');
+    // Route::middleware('auth:api')->get('/user', function (Request $request) {
+    //     return $request->user();
+    // });
+Route::group(['prefix' => 'user/{id}'], function () {
+    Route::post('follow', 'UserFollowController@store')->name('follow');
+    Route::delete('unfollow', 'UserFollowController@destroy')->name('unfollow');
+});
+Route::get('/user/followings/{userName}','UserController@followings')->name('user.followings');
+Route::get('/user/followers/{userName}','UserController@followers')->name('user.followers');
 Auth::routes(['verify' => true]);

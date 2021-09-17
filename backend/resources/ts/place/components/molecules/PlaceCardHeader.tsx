@@ -5,7 +5,7 @@ import MenuButton from "./MenuButton"
 
 type Props = {
     place: Place
-    goToOtherUser: (userId: number) => void
+    goToOtherUser: (userName: string) => void
 }
 
 const PlaceCardHeader: React.FC<Props> = ({
@@ -16,7 +16,7 @@ const PlaceCardHeader: React.FC<Props> = ({
         <CardHeader
             avatar={
                 <Button
-                    onClick={() => goToOtherUser(place.user.id)}
+                    onClick={() => goToOtherUser(place.user.name)}
                 >
                     <Avatar
                         aria-label="Recipe"

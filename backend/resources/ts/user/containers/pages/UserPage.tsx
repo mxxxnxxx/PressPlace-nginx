@@ -1,16 +1,14 @@
 import React, { FC, useEffect } from 'react'
-import UserPage from '../../components/pages/UserPage'
-import { useCurrentUser } from '../../hooks'
+import { useParams } from 'react-router'
+import OtherUserPage from '../../components/pages/UserPage'
 
 const EnhancedUserPage: FC = () => {
-
-    const currentUser = useCurrentUser()
-    const userId = currentUser?.id
+    const { userName } = useParams<{ userName: string }>()
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
     return (
-        <UserPage userId={userId} />
+        <OtherUserPage userName={userName} />
     )
 }
 export default EnhancedUserPage

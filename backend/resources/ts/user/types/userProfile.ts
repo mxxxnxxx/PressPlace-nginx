@@ -6,4 +6,5 @@ export type UserProfile = {
     loginUserId: boolean
     countFollowings: number
     countFollowers: number
+    followState: boolean
 }

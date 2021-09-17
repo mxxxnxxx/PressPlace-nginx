@@ -13,44 +13,40 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 
 class UserController extends Controller{
-    public function __construct()
-    {
-    $this->middleware('auth');
-    }
     //ユーザーページ表示を行う記述
-    public function show($userId){
-        // 以下でユーザー情報を入手
-        $user = User::find($userId);
+    public function show($userName){
+        // 以下で表示させたいユーザー情報を入手
+        $user = User::where('name',$userName)->first();
+        $login_user_id = null;
+        $followState = null;
         // ログインしているユーザーの情報を取得し編集ボタンの表示有無を変更
-        $user_in = Auth::user();
+        if (Auth::user()) {
+            $auth = Auth::user();
 
-        if ($user_in->id == $userId) {
-            $login_user_id = true;
-        } else {
-            $login_user_id = false;
+            if ($auth->name == $userName) {
+                $login_user_id = true;
+            } else {
+                $login_user_id = false;
+            }
+            // ログインしているユーザーが$userIdでしていしたユーザーをフォローしているか確認
+            // Authコントローラーを汚さないためにUserモデルのクラスに記述
+            $followState = $user->in_is_following($auth->id);
         }
+
         $data =[
             'user' => $user,
-            'login_user_id' => $login_user_id
+            'login_user_id' => $login_user_id,
+            'followState' => $followState
         ];
         $data += $this->counts($user);
         return $data;
     }
 
-    public function otherUserShow($userId){
-        \Debugbar::info($userId);
-        // 以下でユーザー情報を入手
-        $user = User::find($userId);
-        // ログインしているユーザーの情報を取得し編集ボタンの表示有無を変更
-        $data =[
-        'user' => $user,
-        ];
-        return $data;
-    }
     public function userPlaces(Request $request){
             // axiosで送られてきたparamsに悪世する場合は第一引数の変数に配列として入る
             // urlパラメータは第二引数に入る
-            $places = Place::where('user_id', $request->input('id'))
+            $user = User::where('name',$request->input('userName'))->first();
+            $places = Place::where('user_id', $user['id'])
             ->orderBy('created_at', 'desc')
             ->with('place_images')
             ->with('user')
@@ -63,33 +59,31 @@ class UserController extends Controller{
         return Auth::user();
     }
     // フォローしている人を出す処理
-    public function followings($user){
-        $user = User::find($user);
-        $followings = $user->followings()->paginate(9);
-
-        $data = [
-        'user' => $user,
-        'users' => $followings,
-        ];
-
-        $data += $this->counts($user);
-
-        return view('user.followings', $data);
+    public function followings($userName){
+        $user = User::where('name',$userName)->first();
+        // ネスト先も配列に変えたいのので all() ではなく toArray() を利用
+        $followings = $user->followings()->paginate(9)->toArray();
+        // followingsでとくていしIdでshowメドッド繰り返せばuserProfileの配列が作れる
+        $data=[];
+        foreach($followings['data'] as $following ){
+            array_push( $data, $this->show($following['name']));
+        }
+        $followings['data'] = $data;
+        return $followings;
     }
 
     // フォローされている人を出す処理
-    public function followers($user){
-        $user = User::find($user);
-        $followers = $user->followers()->paginate(9);
+    public function followers($userName){
 
-        $data = [
-        'user' => $user,
-        'users' => $followers,
-        ];
+        $user = User::where('name',$userName)->first();
+        $followers = $user->followers()->paginate(9)->toArray();
 
-        $data += $this->counts($user);
-
-        return view('user.followers', $data);
+        $data=[];
+        foreach($followers['data'] as $follower ){
+        array_push( $data, $this->show($follower['name']));
+        }
+        $followers['data'] = $data;
+        return $followers;
     }
 
 

@@ -15,6 +15,7 @@ import HelpOutlineIcon from '@material-ui/icons/HelpOutline'
 import SettingsIcon from '@material-ui/icons/Settings'
 import React, { FC } from 'react'
 import { Link } from 'react-router-dom'
+import { User } from '../../types/User'
 
 const useStyles = makeStyles(() => ({
     sidebarMenuItem: {
@@ -25,7 +26,7 @@ const useStyles = makeStyles(() => ({
 
 type Props = {
     menuId: string
-    userName?: string
+    user: User | undefined | null
     anchorEl: Element | null
     open: boolean
     handleAccountMenuClose: VoidFunction
@@ -34,7 +35,7 @@ type Props = {
 
 const AccountMenu: FC<Props> = ({
     menuId,
-    userName,
+    user,
     anchorEl,
     open,
     handleAccountMenuClose,
@@ -65,32 +66,32 @@ const AccountMenu: FC<Props> = ({
                     textOverflow="ellipsis"
                     overflow="hidden"
                 >
-                    {userName}
+                    {user?.name}
                 </Box>
             </ListItem>
             <Divider />
 
             <MenuList>
 
-                <MenuItem>
+                <MenuItem onClick={handleAccountMenuClose}>
                     <ListItemIcon>
                         <AccountCircleIcon />
                     </ListItemIcon>
-                    <Link to="/account/mypage" className={classes.sidebarMenuItem}>
+                    <Link to={`/account/${user?.name}`} className={classes.sidebarMenuItem}>
                         マイページ
                     </Link>
                 </MenuItem>
 
-                <MenuItem>
+                <MenuItem onClick={handleAccountMenuClose}>
                     <ListItemIcon>
                         <SettingsIcon />
                     </ListItemIcon>
-                    <Link to="/account/setting" className={classes.sidebarMenuItem}>
+                    <Link to="/user/setting" className={classes.sidebarMenuItem}>
                         設定
                     </Link>
                 </MenuItem>
 
-                <MenuItem>
+                <MenuItem onClick={handleAccountMenuClose}>
                     <ListItemIcon>
                         <HelpOutlineIcon />
                     </ListItemIcon>

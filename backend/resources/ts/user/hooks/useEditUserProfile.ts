@@ -2,7 +2,6 @@ import axios, { AxiosError } from 'axios'
 import { useMutation, UseMutationResult, useQueryClient } from 'react-query'
 import { toast } from 'react-toastify'
 import { User } from '../types/User'
-import useCurrentUser from './useCurrentUser'
 
 type EditPost = {
     formData: FormData
@@ -10,7 +9,6 @@ type EditPost = {
 }
 const editUserProfile = async ({ formData, userId }: EditPost): Promise<User> => {
     const config = { headers: { 'Content-Type': 'multipart/form-data' } }
-    console.log(...formData.entries());
     const { data } = await axios.post(`/api/user/${userId} `, formData, config)
     return data
 }

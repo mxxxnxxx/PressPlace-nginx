@@ -53,46 +53,61 @@ class User extends Authenticatable implements MustVerifyEmailContract
     {
         return $this->hasMany('App\place');
     }
+
+
 // ユーザのフォロー中のユーザを取得する
     public function followings()
     {
-    return $this->belongsToMany(User::class, 'user_follow', 'user_id', 'follow_id')->withTimestamps();
+        return $this->belongsToMany(User::class, 'user_follow', 'user_id', 'follow_id')->withTimestamps();
     }
+
 
 // ユーザーのフォロワーを取得する
     public function followers()
     {
-    return $this->belongsToMany(User::class, 'user_follow', 'follow_id', 'user_id')->withTimestamps();
+        return $this->belongsToMany(User::class, 'user_follow', 'follow_id', 'user_id')->withTimestamps();
     }
+
+
 // 重複してフォローしていないかを関数化
+// コントローラー側でしていしたユーザーが
+// 引数にで指定したユーザーをフォローしているか確認している
     public function is_following($userId)
     {
-    return $this->followings()->where('follow_id', $userId)->exists();
+        return $this->followings()->where('follow_id', $userId)->exists();
+    }
+
+    // "コントローラーでfindしたユーザー"の'フォローワー'のなかに"ログインしているユーザー"がいるかどうか
+    // つまりログインユーザーが開いたotherUserをフォローしているかどうか
+    // Authコントローラーを汚さないためこちらに記述
+    public function in_is_following($auth_id)
+    {
+        return $this->followers()->where('user_id', $auth_id)->exists();
     }
 
     public function follow($userId)
     {
     // すでにフォロー済みではないか？
-    $existing = $this->is_following($userId);
+        $existing = $this->is_following($userId);
     // フォローする相手がユーザ自身ではないか？
-    $myself = $this->id == $userId;
+        $myself = $this->id == $userId;
 
     // フォロー済みではない、かつフォロー相手がユーザ自身ではない場合、フォロー
     if (!$existing && !$myself) {
-    $this->followings()->attach($userId);
+        $this->followings()->attach($userId);
     }
     }
 
     public function unfollow($userId)
     {
     // すでにフォロー済みではないか？
-    $existing = $this->is_following($userId);
+        $existing = $this->is_following($userId);
     // フォローする相手がユーザ自身ではないか？
-    $myself = $this->id == $userId;
+        $myself = $this->id == $userId;
 
     // すでにフォロー済みならば、フォローを外す
     if ($existing && !$myself) {
-    $this->followings()->detach($userId);
+        $this->followings()->detach($userId);
     }
     }
 }

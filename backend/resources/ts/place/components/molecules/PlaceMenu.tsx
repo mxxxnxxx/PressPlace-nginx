@@ -26,7 +26,7 @@ type Props = {
     open: boolean
     handlePlaceMenuClose: VoidFunction
     place: Place
-    goToOtherUser: (userId: number) => void
+    goToOtherUser: (userName: string) => void
 }
 
 const PlaceMenu: FC<Props> = ({
@@ -78,7 +78,7 @@ const PlaceMenu: FC<Props> = ({
                     <Button
                         startIcon={<AccountCircleIcon />}
                         component={Link}
-                        to={"/account/mypage"}
+                        to={`/account/${user.name}`}
                         className={classes.sidebarMenuItem}
                     >
                         マイページ
@@ -87,7 +87,7 @@ const PlaceMenu: FC<Props> = ({
                     <Button
                         startIcon={<AccountCircleIcon />}
                         className={classes.sidebarMenuItem}
-                        onClick={() => { goToOtherUser(place.user.id) }}
+                        onClick={() => { goToOtherUser(place.user.name) }}
                     >
                         ユーザーページ
                     </Button>

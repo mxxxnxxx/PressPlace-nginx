@@ -8,19 +8,19 @@ import CreateIcon from '@material-ui/icons/Create'
 import VpnKeyIcon from '@material-ui/icons/VpnKey'
 import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew'
 import SearchIcon from '@material-ui/icons/Search'
+import { User } from '../../../user/types/User'
 
 type Props = {
-    userName?: string
+    user: User | undefined | null
     handleLogout: VoidFunction
 
 }
 
 
-const Header: FC<Props> = ({ userName, handleLogout }) => {
+const Header: FC<Props> = ({ user, handleLogout }) => {
     const theme = useTheme()
     const menuId = 'account-menu'
 
-    // componentsには基本的にロジックを持たせないが、UIの状態に関するものなので、ここで定義している
     const [menuAnchorEl, setMenuAnchorEl] = useState<Element | null>(null)
 
     // メニューバーの状態 Boolean()でBooleanで値を返す
@@ -68,7 +68,7 @@ const Header: FC<Props> = ({ userName, handleLogout }) => {
                         search
                     </Button>
 
-                    {userName && (
+                    {user && (
                         <Button
                             startIcon={<CreateIcon />}
                             component={Link}
@@ -82,7 +82,7 @@ const Header: FC<Props> = ({ userName, handleLogout }) => {
 
 
                     {/* ログインボタン */}
-                    {!userName && (
+                    {!user && (
                         <Button
                             startIcon={<VpnKeyIcon />}
                             component={Link}
@@ -94,7 +94,7 @@ const Header: FC<Props> = ({ userName, handleLogout }) => {
                         </Button>
                     )}
 
-                    {!userName && (
+                    {!user && (
                         <Button
                             startIcon={<AccessibilityNewIcon />}
                             component={Link}
@@ -104,15 +104,16 @@ const Header: FC<Props> = ({ userName, handleLogout }) => {
                         </Button>
                     )}
                     {/* ユーザーメニュー */}
-                    {userName && (
+                    {user && (
                         <>
                             <AccountButton
+                                user={user}
                                 menuId={menuId}
                                 handleAccountMenuOpen={handleAccountMenuOpen}
                             />
                             <AccountMenu
                                 menuId={menuId}
-                                userName={userName}
+                                user={user}
                                 anchorEl={menuAnchorEl}
                                 open={isAccouuntMenuOpen}
                                 handleAccountMenuClose={handleAccountMenuClose}

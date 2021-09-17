@@ -5,7 +5,7 @@ import PlaceMenu from './PlaceMenu'
 import { Place } from '../../types/Place'
 type Props = {
     place: Place
-    goToOtherUser: (userId: number) => void
+    goToOtherUser: (userName: string) => void
     // edge?: 'start' | 'end' | false
 }
 

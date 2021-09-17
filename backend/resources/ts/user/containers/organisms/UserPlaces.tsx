@@ -4,9 +4,9 @@ import UserPlaces from "../../components/organisms/UserPlaces"
 import useGetUserPlaces from "../../hooks/useGetUserPlacesQuery"
 
 type Props = {
-    userId?: number
+    userName: string
 }
-const EnhancedUserPlaces: FC<Props> = ({ userId }) => {
+const EnhancedUserPlaces: FC<Props> = ({ userName }) => {
     const [page, setPage] = useState<number>(1)
     const queryClient = useQueryClient()
     const {
@@ -15,7 +15,7 @@ const EnhancedUserPlaces: FC<Props> = ({ userId }) => {
         isLoading,
         isPreviousData,
         refetch: getUserPlaces
-    } = useGetUserPlaces(page, userId)
+    } = useGetUserPlaces(page, userName)
     useEffect(() => {
         // 2ページ目以降があれば
         if (!(places?.lastPage === page + 1)) {

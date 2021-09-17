@@ -3,23 +3,23 @@ import axios, { AxiosError } from 'axios'
 import camelcaseKeys from 'camelcase-keys'
 import { Places } from '../../place/types/Places'
 
-const getUserPlaces = async (page: number, id?: number): Promise<Places> => {
+const getUserPlaces = async (page: number, userName: string): Promise<Places> => {
     const { data } = await axios.get(`/api/user/places`, {
         params: {
+            userName: userName,
             page: page,
-            id: id
         }
     })
     return camelcaseKeys(data, { deep: true })
 }
 const useGetUserPlaces = <TData = Places>(
     page: number,
-    id?: number,
+    userName: string,
     options?: UseQueryOptions<Places, AxiosError, TData>
 ): UseQueryResult<TData, AxiosError> => {
     return useQuery(
         ['userPlaces', page],
-        () => getUserPlaces(page, id),
+        () => getUserPlaces(page, userName),
         {
             // オプション
             keepPreviousData: true,
