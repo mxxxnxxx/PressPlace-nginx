@@ -5,11 +5,18 @@ import List from '@material-ui/core/List'
 import Typography from '@material-ui/core/Typography'
 import { useTheme } from '@material-ui/core/styles'
 import FooterNavItem from '../molecules/FooterNavItem'
-
+import { makeStyles } from '@material-ui/styles'
+const useStyle = makeStyles(() => ({
+    footer: {
+        marginTop: 'auto',
+    }
+}
+))
 const Footer: FC = () => {
+    const classes = useStyle()
     const theme = useTheme()
     return (
-        <Box component="footer" p={4} bgcolor={theme.palette.common.white}>
+        <Box component="footer" p={4} bgcolor={theme.palette.common.white} className={classes.footer}>
             <Grid container spacing={4}>
                 <Grid item xs={12} sm={4} component="nav">
                     <Typography component="h4" variant="h6">

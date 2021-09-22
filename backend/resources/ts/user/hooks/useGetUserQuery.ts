@@ -5,7 +5,6 @@ import { User } from '../types/User'
 
 const getLoginUser = async (): Promise<User> => {
     const { data } = await axios.get('/api/user/me')
-    console.log(data);
     return camelcaseKeys(data)
 }
 

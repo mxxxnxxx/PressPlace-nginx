@@ -11,8 +11,8 @@ type Props = {
     // 以下は画像のstate
     photos: File[]
     setPhotos: (files: File[]) => void
-    oldPhotos: PlaceImage[]
-    setOldPhotos: (photo: PlaceImage[]) => void
+    oldPhotos?: PlaceImage[]
+    setOldPhotos?: (photo: PlaceImage[]) => void
 }
 
 
@@ -118,7 +118,7 @@ const ImageUp: React.FC<Props> = ({
     }
     const handleCancelOld = (photoIndex: number) => {
         // windowで確認を取る
-        if (confirm("選択した画像を消してよろしいですか？")) {
+        if (confirm("選択した画像を消してよろしいですか？") && oldPhotos && setOldPhotos) {
             // エラーを初期化
             resetErrors()
             // concatでphotosをコピー
@@ -164,7 +164,7 @@ const ImageUp: React.FC<Props> = ({
                 {/* if文の省略形 なければサンプルが出る */}
                 <Grid container spacing={1}>
                     {[...Array(3)].map((_: number, index: number) =>
-                        index < oldPhotos.length && (
+                        oldPhotos && index < oldPhotos.length && (
 
                             <Grid key={index.toString()} item>
                                 <button
@@ -223,7 +223,7 @@ const ImageUp: React.FC<Props> = ({
                 </Alert>
             )}
 
-            {photos.length + oldPhotos.length < 3 && (
+            {oldPhotos && photos.length + oldPhotos.length < 3 && (
                 <label className={stylePhot.label} htmlFor={name} style={{ marginTop: 20 }}>
                     <Button
                         variant="outlined"

@@ -88,11 +88,8 @@ const NewPlaceForm: React.FC = () => {
                 setPhotos={setPhotos}
                 onSubmit={onSubmit}
                 isLoading={isLoading}
-                oldPlace={oldPlace}
                 statusCode={statusCode}
                 error={error}
-                oldPhotos={oldPhotos}
-                setOldPhotos={setOldPhotos}
             />
         </FormProvider>
     )

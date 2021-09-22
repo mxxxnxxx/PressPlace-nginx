@@ -29,6 +29,9 @@ Route::post('/register', 'Auth\RegisterController@register')->name('register');
     // Route::middleware('auth:api')->get('/user', function (Request $request) {
     //     return $request->user();
     // });
+Route::post('/user/email', 'ChangeEmailController@sendChangeEmailLink');
+Route::get('/user/email/reset/{token}', 'ChangeEmailController@reset');
+
 Route::group(['prefix' => 'user/{id}'], function () {
     Route::post('follow', 'UserFollowController@store')->name('follow');
     Route::delete('unfollow', 'UserFollowController@destroy')->name('unfollow');

@@ -14,8 +14,6 @@ import PhotosUpload from "./ImageUp"
 import PostalCode from "./PostalCode"
 import PostPlaceAlert from './PostPlaceAlert'
 
-// hooks Formの処理 管理しやすするためこのファイルににまとめます
-//stateの定義のみEnhancedで定義
 
 // 型定義
 type Inputs = {
@@ -35,8 +33,8 @@ type Props = {
     isLoading: boolean
     error: AxiosError<any> | null
     statusCode?: number
-    oldPhotos: PlaceImage[]
-    setOldPhotos: (photo: PlaceImage[]) => void
+    oldPhotos?: PlaceImage[]
+    setOldPhotos?: (photo: PlaceImage[]) => void
 }
 
 const PlaceForm: React.FC<Props> = ({

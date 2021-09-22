@@ -24,6 +24,8 @@ import UserPage from "./user/containers/pages/UserPage"
 import UserSetting from "./user/containers/pages/UserSetting"
 import { useCurrentUser, useGetUserQuery } from './user/hooks'
 import UserFollowCount from './user/containers/pages/UserFollowCount'
+import UserChangedEmail from './user/containers/pages/UserChangedEmail'
+import { makeStyles } from '@material-ui/styles'
 
 require('./bootstrap')
 
@@ -36,6 +38,14 @@ declare global {
         jQuery: any
     }
 }
+const useStyle = makeStyles(() => ({
+    wrapper: {
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+        paddingBottom: '0'
+    }
+}))
 // UnAuthRouteとAuthRouteのpropsの型
 type Props = {
     exact?: boolean
@@ -87,6 +97,7 @@ const client = new QueryClient({
 
 const App: FC = () => {
     const queryClient = useQueryClient()
+    const classes = useStyle()
     const { isLoading, refetch: getUserQuery } = useGetUserQuery({
         retry: 0,
         initialData: undefined,
@@ -113,8 +124,9 @@ const App: FC = () => {
     }
 
     return (
-        <>
+        <div className={classes.wrapper} >
             <Header />
+
             <Switch>
 
                 <Route exact path="/">
@@ -154,12 +166,13 @@ const App: FC = () => {
                     <EditPlaceForm />
                 </AuthRoute>
 
+                <AuthRoute exact path="/user/email/reset/:token">
+                    <UserChangedEmail />
+                </AuthRoute>
+
                 {/* <AuthRoute path="/account/mypage">
                     <UserPage />
                 </AuthRoute> */}
-
-
-
 
                 <AuthRoute exact path="/user/setting">
                     <UserSetting />
@@ -170,10 +183,11 @@ const App: FC = () => {
                 </AuthRoute>
 
             </Switch>
+
             <Footer />
             {/* アラート機能 */}
             <ToastContainer hideProgressBar={true} />
-        </>
+        </div>
     )
 }
 

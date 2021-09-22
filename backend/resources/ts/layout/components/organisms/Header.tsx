@@ -36,7 +36,6 @@ const Header: FC<Props> = ({ user, handleLogout }) => {
     const handleAccountMenuClose = useCallback(() => {
         setMenuAnchorEl(null)
     }, [])
-
     return (
         <>
             <AppBar
@@ -50,7 +49,9 @@ const Header: FC<Props> = ({ user, handleLogout }) => {
                     <Typography
                         component="h1"
                         variant="h6"
-                        style={{ flexGrow: 1 }}
+                        style={{
+                            flexGrow: 1,
+                        }}
                         align="left"
                     >
                         <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
@@ -63,7 +64,7 @@ const Header: FC<Props> = ({ user, handleLogout }) => {
                         component={Link}
                         variant="outlined"
                         to="/places/search"
-                        style={{ marginRight: 20 }}
+                        style={{ marginRight: theme.spacing(2) }}
                     >
                         search
                     </Button>
@@ -74,7 +75,7 @@ const Header: FC<Props> = ({ user, handleLogout }) => {
                             component={Link}
                             to="/press"
                             variant="outlined"
-                            style={{ marginRight: 20 }}
+                            style={{ marginRight: theme.spacing(2) }}
                         >
                             press
                         </Button>
@@ -87,7 +88,7 @@ const Header: FC<Props> = ({ user, handleLogout }) => {
                             startIcon={<VpnKeyIcon />}
                             component={Link}
                             to="/login"
-                            style={{ marginRight: 20 }}
+                            style={{ marginRight: theme.spacing(2) }}
                         >
 
                             ログイン

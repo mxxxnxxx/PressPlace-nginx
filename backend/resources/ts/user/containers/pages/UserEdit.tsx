@@ -8,7 +8,6 @@ import useEditUserProfile from '../../hooks/useEditUserProfile'
 import { UserEditData } from "../../types/UserEditData"
 
 const EnhancedUserEdit: React.FC = () => {
-    console.log('コンポーネントは出せている');
     const history = useHistory()
     const location = useLocation()
     const { from } = (location.state as { from: string }) || {
