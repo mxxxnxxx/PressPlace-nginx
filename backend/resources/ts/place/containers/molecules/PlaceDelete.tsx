@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import PlaceDelete from '../../components/atoms/PlaceDelete'
+import PlaceDelete from '../../components/molecules/PlaceDelete'
 import { Place } from '../../types/Place'
 type Props = {
     place: Place

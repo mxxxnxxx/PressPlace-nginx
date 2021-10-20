@@ -1,6 +1,7 @@
 import { useQueryClient, UseMutationResult, useMutation } from 'react-query'
 import axios, { AxiosError } from 'axios'
 import { User } from '../../types/User'
+import { toast } from 'react-toastify'
 type FormData = {
     email: string
     password: string
@@ -24,6 +25,7 @@ const useRegister = (): UseMutationResult<
     return useMutation(registration, {
         onSuccess: (data) => {
             queryClient.setQueryData('user', data)
+            toast.info(`${data.name}さんご登録ありがとうございます!!`)
         },
     })
 

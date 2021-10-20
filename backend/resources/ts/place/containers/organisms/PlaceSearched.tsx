@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useState } from 'react'
 import { useQueryClient } from 'react-query'
 import { useHistory, useLocation } from 'react-router-dom'
-import PlaceSearched from '../../components/organisms/PlaceSearched'
-import useGetPlaceSearch from '../../hooks/useGetPlaceSearch'
+import PlaceSearched from '../../components/molecules/PlaceSearched'
+import useGetPlaceSearch from '../../hooks/useGetPlaceSearchQuery'
 import { Inputs } from '../../types/Inputs'
 
 

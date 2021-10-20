@@ -1,14 +1,13 @@
-import { Avatar, Backdrop, Box, Card, CardContent, CardHeader, CardMedia, CircularProgress, makeStyles, Typography, useTheme } from "@material-ui/core"
+import { Box, Card, makeStyles } from "@material-ui/core"
 import { AxiosError } from "axios"
 import React, { FC } from 'react'
-import MenuButton from "../../../place/components/molecules/MenuButton"
+import Loding from "../../../layout/components/pages/Loding"
+import PageNextBack from "../../../place/components/molecules/PageNextBack"
 import PlaceCardContent from "../../../place/components/molecules/PlaceCardContent"
 import PlaceCardHeader from '../../../place/containers/molecules/PlaceCardHeader'
-import PlaceCardMedia from "../../../place/components/molecules/PlaceCardMedia"
-import PageNextBack from "../../../place/components/organisms/PageNextBack"
 import { Place } from "../../../place/types/Place"
 import { Places } from "../../../place/types/Places"
-import Loding from "../../../layout/components/pages/Loding"
+import PlaceCardAction from "../../../place/components/molecules/PlaceCardAction"
 
 type Props = {
     places?: Places
@@ -53,8 +52,8 @@ const UserPlaces: FC<Props> = ({
                 {places?.data && places?.data?.map((place: Place, index) => (
                     <Card className='m-3' key={index.toString()}>
                         <PlaceCardHeader place={place} />
-                        <PlaceCardMedia place={place} />
                         <PlaceCardContent place={place} />
+                        <PlaceCardAction place={place} />
                     </Card>
                 ))}
 

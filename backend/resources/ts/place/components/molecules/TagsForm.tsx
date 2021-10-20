@@ -1,5 +1,5 @@
 import {
-    Box, Button, TextField, Typography
+    Box, Button, TextField, Typography, useTheme
 } from '@material-ui/core'
 import React from 'react'
 import { useFormContext } from "react-hook-form"
@@ -13,17 +13,9 @@ type Props = {
 const TagsForm: React.FC<Props> = ({ tags, addTag, removeTag }) => {
 
     const methods = useFormContext()
+    const theme = useTheme()
     return (
-        <Box textAlign="center">
-
-            <Button type="button" onClick={() => addTag()}>
-                +
-            </Button>
-            {tags.length > 1 && (
-                <Button type="button" onClick={() => { removeTag() }}>
-                    -
-                </Button>
-            )}
+        <Box textAlign="center" style={{ margin: theme.spacing(2) }}>
             {tags.map((tag, _) => {
                 return (
                     <TextField
@@ -59,7 +51,14 @@ const TagsForm: React.FC<Props> = ({ tags, addTag, removeTag }) => {
                         タグが重複しています
                     </Typography>}
             </Box>
-
+            <Button type="button" onClick={() => addTag()}>
+                +
+            </Button>
+            {tags.length > 1 && (
+                <Button type="button" onClick={() => { removeTag() }}>
+                    -
+                </Button>
+            )}
         </Box>
     )
 

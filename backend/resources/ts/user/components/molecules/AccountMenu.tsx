@@ -77,7 +77,7 @@ const AccountMenu: FC<Props> = ({
                     <ListItemIcon>
                         <AccountCircleIcon />
                     </ListItemIcon>
-                    <Link to={`/account/${user?.name}`} className={classes.sidebarMenuItem}>
+                    <Link to={`/account/${user?.name}/myPlace`} className={classes.sidebarMenuItem}>
                         マイページ
                     </Link>
                 </MenuItem>

@@ -8,7 +8,7 @@ import EditIcon from '@material-ui/icons/Edit'
 import React, { FC } from 'react'
 import { Link } from 'react-router-dom'
 import { useCurrentUser } from '../../../user/hooks'
-import PlaceDelete from '../../containers/atoms/PlaceDelete'
+import PlaceDelete from '../../containers/molecules/PlaceDelete'
 import { Place } from '../../types/Place'
 
 
@@ -75,22 +75,26 @@ const PlaceMenu: FC<Props> = ({
                 )}
 
                 {user && user.id === place.user.id ? (
-                    <Button
-                        startIcon={<AccountCircleIcon />}
-                        component={Link}
-                        to={`/account/${user.name}`}
-                        className={classes.sidebarMenuItem}
-                    >
-                        マイページ
-                    </Button>
+                    <MenuItem>
+                        <Button
+                            startIcon={<AccountCircleIcon />}
+                            component={Link}
+                            to={`/account/${user.name}/myPlace`}
+                            className={classes.sidebarMenuItem}
+                        >
+                            マイページ
+                        </Button>
+                    </MenuItem>
                 ) :
-                    <Button
-                        startIcon={<AccountCircleIcon />}
-                        className={classes.sidebarMenuItem}
-                        onClick={() => { goToOtherUser(place.user.name) }}
-                    >
-                        ユーザーページ
-                    </Button>
+                    <MenuItem>
+                        <Button
+                            startIcon={<AccountCircleIcon />}
+                            className={classes.sidebarMenuItem}
+                            onClick={() => { goToOtherUser(place.user.name) }}
+                        >
+                            ユーザーページ
+                        </Button>
+                    </MenuItem>
                 }
             </MenuList>
 

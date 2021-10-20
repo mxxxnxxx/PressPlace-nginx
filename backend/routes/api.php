@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/places/search', 'PlaceController@search')->name('search');
+Route::post('/places/{placeId}/favorite','FavoriteController@store')->name('favorite');
+Route::delete('/places/{placeId}/unfavorite','FavoriteController@destroy')->name('unfavorite');
 Route::get('/ajax/postal_search', 'PlaceController@postal_search')->name('postal_search');
 Route::get('/places/delete/{id} ', 'PlaceController@softdelete')->name('place.softdelete');
 Route::apiResource('/places','PlaceController');
@@ -23,6 +26,7 @@ Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/user/me', 'UserController@current')->name('user');
 Route::get('/user/delete', 'UserController@softdelete')->name('user.softdelete');
 Route::get('/user/places','UserController@userPlaces')->name('user.places');
+Route::get('/user/favorite/places','UserController@favoritePlaces')->name('user.favoritePlaces');
 Route::get('/user/{userName}','UserController@show')->name('user.show');
 Route::apiResource('/user','UserController', ['only' =>['update']]);
 Route::post('/register', 'Auth\RegisterController@register')->name('register');
@@ -38,4 +42,5 @@ Route::group(['prefix' => 'user/{id}'], function () {
 });
 Route::get('/user/followings/{userName}','UserController@followings')->name('user.followings');
 Route::get('/user/followers/{userName}','UserController@followers')->name('user.followers');
+
 Auth::routes(['verify' => true]);

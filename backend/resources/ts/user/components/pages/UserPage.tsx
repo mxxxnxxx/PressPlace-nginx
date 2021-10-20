@@ -1,6 +1,6 @@
 import { Box } from '@material-ui/core'
 import React from 'react'
-import UserPlaces from '../../containers/organisms/UserPlaces'
+import UserContent from '../../containers/organisms/UserContents'
 import UserProfile from '../../containers/organisms/UserProfile'
 
 type Props = {
@@ -11,7 +11,7 @@ const OtherUserPage: React.FC<Props> = ({ userName }) => {
     return (
         <Box>
             <UserProfile userName={userName} />
-            <UserPlaces userName={userName} />
+            <UserContent />
         </Box>
     )
 }

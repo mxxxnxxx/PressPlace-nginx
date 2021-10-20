@@ -85,6 +85,7 @@ const FollowingList: React.FC<Props> = ({
                                     className={classes.item1}
                                 >
                                     <Avatar
+                                        variant="rounded"
                                         src={`https://pressplace.s3.ap-northeast-1.amazonaws.com/${userProfile.user.userImage}`}
                                     />
                                 </ListItemAvatar>

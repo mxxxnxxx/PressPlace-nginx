@@ -15,12 +15,15 @@ const EnhancedPlaceCardHeader: React.FC<Props> = ({ place }) => {
 
             if (userName) {
                 queryClient.setQueryData('otherUserId', userName)
-                history.push(`/account/${userName}`)
+                history.push(`/account/${userName}/myPlace`)
             }
         }, [])
 
     return (
-        <PlaceCardHeader place={place} goToOtherUser={goToOtherUser} />
+        <PlaceCardHeader
+            place={place}
+            goToOtherUser={goToOtherUser}
+        />
     )
 }
 export default EnhancedPlaceCardHeader

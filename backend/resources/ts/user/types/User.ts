@@ -1,4 +1,4 @@
-import { Places } from "../../place/types/Places"
+import { Place } from "../../place/types/Place"
 export type User = {
     id: number
     name: string
@@ -9,6 +9,8 @@ export type User = {
     introduction: string
     createdAt: Date
     updatedAt: Date
-    deletedAt: Date
+    deletedAt: Date | null
+    favoritePlaces: Place[]
     errors: object
+
 }

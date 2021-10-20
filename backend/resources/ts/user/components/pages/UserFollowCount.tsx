@@ -82,7 +82,6 @@ const UserFollowCount: React.FC<Props> = ({
     const classes = useStyles()
 
     return (
-
         <Box className={classes.root}>
             <Typography
                 className={classes.userName}
@@ -119,9 +118,7 @@ const UserFollowCount: React.FC<Props> = ({
                     goToOtherUser={goToOtherUser}
                 />
             </TabPanel>
-
         </Box>
-
     )
 }
 export default UserFollowCount

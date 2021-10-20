@@ -6,10 +6,10 @@ import PlaceCardHeader from '../../containers/molecules/PlaceCardHeader'
 import { Inputs } from '../../types/Inputs'
 import { Place } from '../../types/Place'
 import { Places } from '../../types/Places'
-import PlaceCardContent from '../molecules/PlaceCardContent'
-import PlaceCardMedia from '../molecules/PlaceCardMedia'
-import SearchedWords from '../molecules/SearchedWords'
+import PlaceCardContent from './PlaceCardContent'
+import SearchedWords from './SearchedWords'
 import PageNextBack from './PageNextBack'
+import PlaceCardAction from './PlaceCardAction'
 
 
 type Props = {
@@ -67,8 +67,8 @@ const PlaceSearched: FC<Props> = ({
             {places?.data?.map((place: Place, index) => (
                 <Card className='m-3' key={index.toString()}>
                     <PlaceCardHeader place={place} />
-                    <PlaceCardMedia place={place} />
                     <PlaceCardContent place={place} />
+                    <PlaceCardAction place={place} />
                 </Card>
             ))}
             {places?.total && <PageNextBack

@@ -10,6 +10,7 @@ use App\User;
 use App\Place_image;
 use Illuminate\Http\Request;
 
+
 use App\Http\Requests\UserRequest;
 
 class UserController extends Controller{
@@ -52,12 +53,29 @@ class UserController extends Controller{
             ->with('user')
             ->with('tags')
             ->paginate(15);
-            return $places;
+            return response()->json($places);
+    }
+    public function favoritePlaces(Request $request){
+
+        $favoritePlaces = Place::whereHas('favoriteUsers',function($query) use($request){
+            return $query->where('name',$request->input('userName'));
+        })
+        ->orderBy('created_at', 'desc')
+        ->with('place_images')
+        ->with('user')
+        ->with('tags')
+        ->paginate(15);
+        \Debugbar::info($favoritePlaces->toArray());
+        return response()->json($favoritePlaces);
     }
 
     public function current(){
-        return Auth::user();
+        $authUser = Auth::user()->toArray();
+        $favoritePlaces = Auth::user()->favoritePlaces()->get()->toArray();
+        $authUser['favoritePlaces'] = $favoritePlaces;
+        return response()->json($authUser);
     }
+
     // フォローしている人を出す処理
     public function followings($userName){
         $user = User::where('name',$userName)->first();

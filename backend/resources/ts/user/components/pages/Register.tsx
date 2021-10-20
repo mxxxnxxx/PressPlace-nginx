@@ -10,12 +10,6 @@ import React, { FC } from 'react'
 import { useForm } from "react-hook-form"
 import RegisterAlert from '../molecules/RegisterAlert'
 
-const useStyles = makeStyles(() => ({
-    decorationLine: {
-        borderImage: 'linear-gradient(0.25turn, transparent, #888, transparent)',
-        borderImageSlice: 1,
-    },
-}))
 type Inputs = {
     name: string
     age: number

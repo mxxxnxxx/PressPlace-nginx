@@ -6,7 +6,6 @@ import { Place } from '../../types/Place'
 type Props = {
     place: Place
     goToOtherUser: (userName: string) => void
-    // edge?: 'start' | 'end' | false
 }
 
 const MenuButton: FC<Props> = ({
@@ -33,7 +32,6 @@ const MenuButton: FC<Props> = ({
     return (
         <>
             <IconButton
-                // edge={edge || false}
                 aria-label="アカウントメニューを開く"
                 aria-controls={menuId}
                 aria-haspopup="menu"

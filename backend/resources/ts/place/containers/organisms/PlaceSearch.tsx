@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react'
-import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useQueryClient } from 'react-query'
 import { useHistory, useLocation } from 'react-router-dom'
 import PlaceSearch from '../../components/molecules/PlaceSearch'
-import useGetPlaceSearch from '../../hooks/useGetPlaceSearch'
 import { Inputs } from '../../types/Inputs'
 
 const EnhancedPlaceSearch: React.FC = () => {

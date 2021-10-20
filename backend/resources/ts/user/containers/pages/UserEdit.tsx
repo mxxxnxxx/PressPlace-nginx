@@ -4,7 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { useHistory, useLocation } from "react-router-dom"
 import UserEdit from "../../components/pages/UserEdit"
 import { useCurrentUser } from '../../hooks'
-import useEditUserProfile from '../../hooks/useEditUserProfile'
+import useEditUserProfile from '../../hooks/useEditUserProfileMutation'
 import { UserEditData } from "../../types/UserEditData"
 
 const EnhancedUserEdit: React.FC = () => {

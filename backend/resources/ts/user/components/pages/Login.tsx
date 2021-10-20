@@ -10,6 +10,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import { AxiosError } from 'axios'
 import React, { FC } from 'react'
+import UserChangePassword from '../../containers/organisms/UserResetPasswordSendForm'
 import { Provider } from '../../types/OAuth'
 import LegalLink from '../molecules/LegalLink'
 import LoginAlert from '../molecules/LoginAlert'
@@ -95,6 +96,8 @@ const Login: FC<Props> = ({
                                     </Box>
                                 </Box>
                             </form>
+                            {/* パスワードリセット */}
+                            <UserChangePassword />
                         </CardContent>
                     </Card>
                 </Container>

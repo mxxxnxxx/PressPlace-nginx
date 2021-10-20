@@ -13,7 +13,7 @@ import {
     CardActions,
 } from '@material-ui/core'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
-import useDeletePlaceQuery from '../../hooks/useDeletePlace'
+import useDeletePlaceQuery from '../../hooks/useDeletePlaceMutation'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { Place } from '../../types/Place'
 type Props = {

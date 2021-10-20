@@ -2,6 +2,7 @@ import { useQueryClient, UseMutationResult, useMutation } from 'react-query'
 import axios, { AxiosError } from 'axios'
 import { User } from '../../types/User'
 import camelcaseKeys from 'camelcase-keys'
+import { toast } from 'react-toastify'
 
 type FormData = {
     email: string
@@ -19,11 +20,10 @@ const useLogin = (): UseMutationResult<
     FormData,
     undefined
 > => {
-    const queryClient = useQueryClient()
 
     return useMutation(login, {
         onSuccess: (data) => {
-            queryClient.setQueryData('user', data)
+            toast.info(`${data.name}さんがログインしました!!`)
         },
     })
 }

@@ -1,13 +1,13 @@
-import { Box, Card } from '@material-ui/core'
+import { Box, Card, makeStyles } from '@material-ui/core'
 import React, { FC } from 'react'
 import { INTERNAL_SERVER_ERROR } from '../../../constants/statusCode'
 import GeneralAlert from '../../../layout/components/atoms/GeneralAlert'
 import Loding from '../../../layout/components/pages/Loding'
+import PlaceCardContent from '../../containers/molecules/PlaceCardContent'
 import PlaceCardHeader from '../../containers/molecules/PlaceCardHeader'
 import { Place } from '../../types/Place'
 import { Places } from '../../types/Places'
-import PlaceCardContent from '../molecules/PlaceCardContent'
-import PlaceCardMedia from '../molecules/PlaceCardMedia'
+import PlaceCardAction from './PlaceCardAction'
 
 
 type Props = {
@@ -18,7 +18,13 @@ type Props = {
     hasNextPage?: boolean
     isFetchingNextPage?: boolean
 }
-
+const useStyle = makeStyles((theme) => ({
+    card: {
+        display: 'flex',
+        flexDirection: 'column',
+        margin: theme.spacing(5)
+    }
+}))
 const PlaceCard: FC<Props> = ({
     paginatePlaces,
     isLoading,
@@ -52,19 +58,16 @@ const PlaceCard: FC<Props> = ({
     } else {
         loadMoreMessage = hasNextPage ? '続きを読み込む' : ' '
     }
-
+    const classes = useStyle()
     return (
         <section>
             {paginatePlaces?.map((page) => (
                 <React.Fragment key={page.currentPage.toString()}>
                     {page.data.map((place: Place, index) => (
-                        <Card className='m-5' key={index.toString()}>
-
+                        <Card className={classes.card} key={index.toString()}>
                             <PlaceCardHeader place={place} />
-
-                            <PlaceCardMedia place={place} />
-
                             <PlaceCardContent place={place} />
+                            <PlaceCardAction place={place} />
                         </Card>
                     ))}
                 </React.Fragment>

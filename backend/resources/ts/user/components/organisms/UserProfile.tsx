@@ -61,6 +61,7 @@ const UserProfile: FC<Props> = ({
                     <Avatar
                         src={`https://pressplace.s3.ap-northeast-1.amazonaws.com/${userProfile?.user.userImage}`}
                         alt="avatar"
+                        variant="rounded"
                     />
                 }
             </Box>

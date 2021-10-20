@@ -52,7 +52,6 @@ const EnhancedLogin: FC<Props> = ({ getUserQuery }) => {
                 { email, password },
                 {
                     onSuccess: () => {
-                        getUserQuery()
                         history.replace(from)
                         getUserQuery()
                     },

@@ -1,10 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { useQueryClient } from 'react-query'
+import React, { useCallback, useState } from 'react'
 import FollowButton from '../../components/atoms/FollowButton'
 import { useCurrentUser } from '../../hooks'
 import Follow from '../../hooks/useFollowUser'
 import UnFollow from '../../hooks/useUnFollowUser'
-import { UserProfile } from "../../types/userProfile"
 
 // 使う親のcomponentからfollowButtonの初期値を決めるPropsをもらう
 type Props = {
@@ -15,7 +13,7 @@ const EnhancedFollowButton: React.FC<Props> = ({
     followState,
     targetUser
 }) => {
-    // 以下はフォローボタンの状態 nullはログインをしていない状態でボタン自体がない状態
+    // 以下はフォローボタンの状態undefinedはログイン前の状態
     const [followButton, setFollowButton] = useState(followState)
     const currentUser = useCurrentUser()
 
@@ -29,13 +27,6 @@ const EnhancedFollowButton: React.FC<Props> = ({
         setFollowButton(false)
     }, [])
 
-    // useEffect(
-    //     () => {
-    //         if (!(followState == undefined)) {
-    //             () => setFollowButton(followState)
-    //         }
-    //     }
-    //     , [])
     return (
         <FollowButton
             loginUserId={currentUser?.id}

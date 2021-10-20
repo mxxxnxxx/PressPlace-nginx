@@ -22,8 +22,7 @@ const useChangeEmail = (): UseMutationResult<
         onError: () => {
             toast.error('確認メールの送信に失敗しました')
         }
-    }
-    )
+    })
 }
 
 export default useChangeEmail

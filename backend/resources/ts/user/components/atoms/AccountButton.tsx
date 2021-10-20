@@ -19,7 +19,6 @@ const AccountButton: FC<Props> = ({
     return (
         <>
             <IconButton
-                edge={edge || false}
                 aria-label="アカウントメニューを開く"
                 aria-controls={menuId}
                 aria-haspopup="menu"
@@ -29,6 +28,7 @@ const AccountButton: FC<Props> = ({
                 <Avatar
                     src={`https://pressplace.s3.ap-northeast-1.amazonaws.com/${user?.userImage}`}
                     alt="avatar"
+                    variant="rounded"
                 />
             </IconButton>
         </>

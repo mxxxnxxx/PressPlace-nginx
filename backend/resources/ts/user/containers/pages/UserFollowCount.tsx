@@ -18,7 +18,7 @@ const EnhancedUserFollowCount: React.FC = () => {
     const goToOtherUser = useCallback(
         (userName: string) => {
             if (userName) {
-                history.push(`/account/${userName}`)
+                history.push(`/account/${userName}/myPlace`)
             }
         }, [])
 

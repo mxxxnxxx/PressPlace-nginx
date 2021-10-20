@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react'
 import camelcaseKeys from 'camelcase-keys'
 import { useForm, FormProvider } from 'react-hook-form'
 import { useHistory, useLocation, useParams } from 'react-router-dom'
-import PlaceForm from '../../components/molecules/PlaceForm'
+import EditPlaceForm from '../../components/organisms/EditPlaceForm'
 import { useCurrentUser } from '../../../user/hooks'
 import imageCompression from "browser-image-compression"
-import useEditPostPlaceQuery from '../../hooks/useEditPostPlaceQuery'
+import useEditPostPlaceQuery from '../../hooks/useEditPostPlaceMutation'
 import { Place } from '../../types/Place'
 import { PlaceImage } from '../../types/PlaceImage'
 import axios from 'axios'
@@ -20,7 +20,7 @@ type Inputs = {
 }
 
 
-const EditPlaceForm: React.FC = () => {
+const EnhancedEditPlaceForm: React.FC = () => {
     // ログインできてるか確認
     const user = useCurrentUser()
     const methods = useForm<Inputs>({ shouldUnregister: false, })
@@ -37,6 +37,7 @@ const EditPlaceForm: React.FC = () => {
     const params = useParams<{ placeId: string }>()
     const [targetPlaceId, setTargetPlaceId] = useState<string>()
     const [oldPlace, setOldPlace] = useState<Place>()
+    const photoCount = photos.length + oldPhotos.length
     const [loadOldPlace, setLoadOldPlace] = useState<boolean>(true)
 
     const set = (camelOldPlace: Place) => {
@@ -137,19 +138,21 @@ const EditPlaceForm: React.FC = () => {
     }
     return (
         <FormProvider {...methods}>
-            <PlaceForm
+            <EditPlaceForm
                 userName={user?.name}
                 photos={photos}
                 setPhotos={setPhotos}
-                onSubmit={onSubmit}
-                isLoading={isLoading}
                 oldPlace={oldPlace}
-                statusCode={statusCode}
-                error={error}
                 oldPhotos={oldPhotos}
                 setOldPhotos={setOldPhotos}
+                onSubmit={onSubmit}
+                isLoading={isLoading}
+                statusCode={statusCode}
+                error={error}
+                photoCount={photoCount}
+
             />
         </FormProvider>
     )
 }
-export default EditPlaceForm
+export default EnhancedEditPlaceForm

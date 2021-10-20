@@ -28,4 +28,11 @@ class Place extends Model{
     public function place_images(){
         return $this->hasMany('App\Place_image');
     }
+
+    // Usersに対してのお気に入り機能
+    public function favoriteUsers()
+    {
+        return $this->belongsToMany('App\User',)->withTimestamps();
+    }
+
 }

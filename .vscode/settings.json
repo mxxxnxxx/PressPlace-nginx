@@ -31,9 +31,11 @@
         "swipeable",
         "swiper",
         "toastify",
+        "unfavorites",
         "unfollow",
         "unprocessable",
         "upsize",
         "xsrf"
-    ]
+    ],
+    "search.useGlobalIgnoreFiles": true
 }

@@ -14,7 +14,7 @@ import Header from './layout/containers/organisms/Header'
 import { useMutationErrorQuery } from './layout/hooks/util'
 import EditPlaceForm from "./place/containers/molecules/EditPlaceForm"
 import PlaceForm from "./place/containers/molecules/NewPlaceForm"
-import PlaceSearch from './place/containers/molecules/PlaceSearch'
+import PlaceSearch from './place/containers/organisms/PlaceSearch'
 import PlaceSearched from "./place/containers/organisms/PlaceSearched"
 import Place from './place/containers/pages/Place'
 import Login from './user/containers/pages/Login'
@@ -26,6 +26,7 @@ import { useCurrentUser, useGetUserQuery } from './user/hooks'
 import UserFollowCount from './user/containers/pages/UserFollowCount'
 import UserChangedEmail from './user/containers/pages/UserChangedEmail'
 import { makeStyles } from '@material-ui/styles'
+import UserResetPassword from './user/containers/pages/UserResetPassword'
 
 require('./bootstrap')
 
@@ -133,6 +134,7 @@ const App: FC = () => {
                     <Place />
                 </Route>
 
+
                 <Route exact path="/places/search">
                     <PlaceSearch />
                 </Route>
@@ -141,14 +143,13 @@ const App: FC = () => {
                     <PlaceSearched />
                 </Route>
 
-                <Route exact path="/account/:userName">
+                <Route exact path="/account/:userName/:contentsView">
                     <UserPage />
                 </Route>
 
                 <Route exact path="/account/count/:userName/:followView">
                     <UserFollowCount />
                 </Route>
-
 
                 <UnAuthRoute exact path="/login">
                     <Login getUserQuery={getUserQuery} />
@@ -157,6 +158,14 @@ const App: FC = () => {
                 <UnAuthRoute exact path="/register">
                     <Register />
                 </UnAuthRoute>
+
+                <UnAuthRoute exact path="/user/password/reset/:token">
+                    <UserResetPassword />
+                </UnAuthRoute>
+                {/*
+                <UnAuthRoute exact path="/">
+                    <Register />
+                </UnAuthRoute> */}
 
                 <AuthRoute exact path="/press">
                     <PlaceForm />

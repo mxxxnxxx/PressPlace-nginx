@@ -7,6 +7,7 @@ use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Notifications\PasswordResetNotification;
 
 class User extends Authenticatable implements MustVerifyEmailContract
 {
@@ -110,4 +111,15 @@ class User extends Authenticatable implements MustVerifyEmailContract
         $this->followings()->detach($userId);
     }
     }
+    public function sendPasswordResetNotification($token)
+    {
+    $this->notify(new PasswordResetNotification($token));
+    }
+
+    // placesに対してお気に入り機能
+    public function favoritePlaces()
+    {
+        return $this->belongsToMany('App\Place')->withTimestamps();
+    }
+
 }

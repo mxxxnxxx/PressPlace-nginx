@@ -1,8 +1,6 @@
-import { Box, Container, Card, CardHeader, CardContent, TextField, Backdrop, CircularProgress, useTheme, Button } from '@material-ui/core'
+import { Box, Button, Card, CardContent, CardHeader, Container, TextField, useTheme } from '@material-ui/core'
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
-import Footer from '../../../layout/components/organisms/Footer'
-import Header from '../../../layout/containers/organisms/Header'
 import TagsForm from '../../containers/molecules/TagsForm'
 import { Inputs } from '../../types/Inputs'
 

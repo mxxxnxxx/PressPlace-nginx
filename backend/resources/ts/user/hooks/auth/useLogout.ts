@@ -1,6 +1,7 @@
 import { useQueryClient, UseMutationResult, useMutation } from 'react-query'
 import axios, { AxiosError } from 'axios'
 import { MutationError } from '../../../layout/types/MutationError'
+import { toast } from 'react-toastify'
 
 const logout = async (): Promise<void> => {
     await axios.post('/api/logout')

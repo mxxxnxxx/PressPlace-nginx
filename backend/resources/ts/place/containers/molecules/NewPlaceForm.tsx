@@ -3,10 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useHistory, useLocation } from 'react-router-dom'
 import { useCurrentUser } from '../../../user/hooks'
-import PlaceForm from '../../components/molecules/PlaceForm'
-import usePostPlaceQuery from '../../hooks/usePostPlaceQuery'
-import { Place } from '../../types/Place'
-import { PlaceImage } from '../../types/PlaceImage'
+import NewPlaceForm from '../../components/organisms/NewPlaceForm'
+import usePostPlaceQuery from '../../hooks/usePostPlaceMutation'
 
 type Inputs = {
     name: string
@@ -16,7 +14,7 @@ type Inputs = {
     photos?: File[]
 }
 
-const NewPlaceForm: React.FC = () => {
+const EnhancedNewPlaceForm: React.FC = () => {
     // ログインできてるか確認
     const user = useCurrentUser()
     const history = useHistory()
@@ -26,13 +24,10 @@ const NewPlaceForm: React.FC = () => {
     }
     // 投稿画像のstateを設定
     const [photos, setPhotos] = useState<File[]>([])
+    const photoCount = photos.length
     const { error, isLoading, mutate: postPlace } = usePostPlaceQuery()
     const statusCode = error?.response?.status
     const methods = useForm<Inputs>({ shouldUnregister: false, })
-
-    // PlaceForm.tsxをきょうゆうで利用するためにProps部分のみ定義
-    const [oldPlace, setOldPlace] = useState<Place>()
-    const [oldPhotos, setOldPhotos] = useState<PlaceImage[]>([])
 
     const onSubmit = async (data: Inputs): Promise<void> => {
         const { name, comment, address, tag } = data
@@ -82,7 +77,7 @@ const NewPlaceForm: React.FC = () => {
     }, [])
     return (
         <FormProvider {...methods}>
-            <PlaceForm
+            <NewPlaceForm
                 userName={user?.name}
                 photos={photos}
                 setPhotos={setPhotos}
@@ -90,8 +85,9 @@ const NewPlaceForm: React.FC = () => {
                 isLoading={isLoading}
                 statusCode={statusCode}
                 error={error}
+                photoCount={photoCount}
             />
         </FormProvider>
     )
 };
-export default NewPlaceForm
+export default EnhancedNewPlaceForm

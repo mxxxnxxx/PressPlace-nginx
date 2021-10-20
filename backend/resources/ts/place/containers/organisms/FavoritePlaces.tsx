@@ -1,12 +1,14 @@
-import React, { FC, useEffect, useState } from "react"
-import { useQueryClient } from "react-query"
-import UserPlaces from "../../components/organisms/UserPlaces"
-import useGetUserPlaces from "../../hooks/useGetUserPlacesQuery"
+import React, { useEffect, useState } from 'react'
+import { useQueryClient } from 'react-query'
+import FavoritePlaces from '../../components/organisms/FavoritePlaces'
+import useGetFavoritePlaces from '../../hooks/useGetFavoritePlacesQuery'
 
 type Props = {
     userName: string
 }
-const EnhancedUserPlaces: FC<Props> = ({ userName }) => {
+const EnhancedFavoritePlaces: React.FC<Props> = ({
+    userName
+}) => {
     const [page, setPage] = useState<number>(1)
     const queryClient = useQueryClient()
     const {
@@ -15,7 +17,8 @@ const EnhancedUserPlaces: FC<Props> = ({ userName }) => {
         isLoading,
         isPreviousData,
         refetch: getUserPlaces
-    } = useGetUserPlaces(page, userName)
+    } = useGetFavoritePlaces(page, userName)
+
     useEffect(() => {
         // 2ページ目以降があれば
         if (!(places?.lastPage === page + 1)) {
@@ -24,8 +27,9 @@ const EnhancedUserPlaces: FC<Props> = ({ userName }) => {
             )
         }
     }, [page, queryClient])
+
     return (
-        <UserPlaces
+        <FavoritePlaces
             places={places}
             error={error}
             isLoading={isLoading}
@@ -34,5 +38,6 @@ const EnhancedUserPlaces: FC<Props> = ({ userName }) => {
             setPage={setPage}
         />
     )
+
 }
-export default EnhancedUserPlaces
+export default EnhancedFavoritePlaces
