@@ -1,6 +1,7 @@
 import { Button } from "@material-ui/core"
 import React from 'react'
-import { UserProfile } from '../../types/userProfile'
+import AddIcon from '@material-ui/icons/Add'
+import RemoveIcon from '@material-ui/icons/Remove'
 
 type Props = {
     loginUserId?: number
@@ -26,6 +27,8 @@ const FollowButton: React.FC<Props> = ({
                     // startIcon={}
                     onClick={() => follow(targetUser)}
                     variant="outlined"
+                    size='small'
+                    startIcon={<AddIcon />}
                 >
                     フォロー
                 </Button>
@@ -38,6 +41,8 @@ const FollowButton: React.FC<Props> = ({
                     // startIcon={}
                     onClick={() => unFollow(targetUser)}
                     variant="outlined"
+                    size='small'
+                    startIcon={<RemoveIcon />}
                 >
                     フォロー解除
                 </Button>

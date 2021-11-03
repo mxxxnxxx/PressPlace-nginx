@@ -4,7 +4,7 @@ import UserPlaces from "../../../user/components/organisms/UserPlaces"
 import useGetUserPlaces from "../../../user/hooks/useGetUserPlacesQuery"
 
 type Props = {
-    userName: string
+    userName?: string
 }
 const EnhancedUserPlaces: FC<Props> = ({ userName }) => {
     const [page, setPage] = useState<number>(1)

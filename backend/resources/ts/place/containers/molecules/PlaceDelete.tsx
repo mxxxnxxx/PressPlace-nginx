@@ -7,11 +7,13 @@ type Props = {
 
 const EnhancedPlaceDelete: React.FC<Props> = ({ place }) => {
     const [deleteModalOn, setDeleteModalOn] = useState<boolean>(false)
+    const handleClose = () => setDeleteModalOn(false)
     return (
         <PlaceDelete
             deleteModalOn={deleteModalOn}
             setDeleteModalOn={setDeleteModalOn}
             place={place}
+            handleClose={handleClose}
         />
     )
 }

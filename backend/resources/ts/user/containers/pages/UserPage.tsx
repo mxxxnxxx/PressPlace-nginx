@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react'
 import { useParams } from 'react-router'
-import OtherUserPage from '../../components/pages/UserPage'
+import UserPage from '../../components/pages/UserPage'
 
 const EnhancedUserPage: FC = () => {
     const { userName } = useParams<{ userName: string }>()
@@ -8,7 +8,7 @@ const EnhancedUserPage: FC = () => {
         window.scrollTo(0, 0)
     }, [])
     return (
-        <OtherUserPage userName={userName} />
+        <UserPage userName={userName} />
     )
 }
 export default EnhancedUserPage

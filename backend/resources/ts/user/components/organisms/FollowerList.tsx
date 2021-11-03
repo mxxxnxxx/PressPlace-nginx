@@ -1,4 +1,4 @@
-import { Avatar, Box, CardContent, createStyles, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, makeStyles, Theme, Typography, useTheme } from '@material-ui/core'
+import { Avatar, Box, createStyles, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, makeStyles, Paper, Theme, Typography, useTheme } from '@material-ui/core'
 import React from 'react'
 import Loding from '../../../layout/components/pages/Loding'
 import FollowButton from '../../containers/atoms/FollowButton'
@@ -12,7 +12,6 @@ const useStyles = makeStyles((theme: Theme) =>
             maxWidth: '500px',
             marginRight: 'auto',
             marginLeft: 'auto',
-            border: 'thin solid',
             padding: '30px'
         },
         container: {
@@ -70,7 +69,7 @@ const FollowerList: React.FC<Props> = ({
         loadMoreMessage = hasNextPage ? '続きを読み込む' : ' '
     }
     return (
-        <section className={classes.root}>
+        <Paper className={classes.root} >
             <List component="nav" >
                 {paginateUsers?.map((page) => (
                     <React.Fragment key={page.currentPage.toString()}>
@@ -118,7 +117,7 @@ const FollowerList: React.FC<Props> = ({
                     </Typography>
                 </Box>
             }
-        </section>
+        </Paper>
     )
 }
 export default FollowerList

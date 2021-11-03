@@ -2,7 +2,7 @@ import axios, { AxiosError } from "axios"
 import { useMutation, UseMutationResult } from "react-query"
 import { toast } from "react-toastify"
 
-const DeleteUnfavoritePlace = async (placeId: string): Promise<boolean> => {
+const DeleteUnfavoritePlace = async (placeId: number): Promise<boolean> => {
     const { data } = await axios.delete(`/api/places/${placeId}/unfavorite`)
     return data
 }
@@ -10,7 +10,7 @@ const DeleteUnfavoritePlace = async (placeId: string): Promise<boolean> => {
 const useDeleteUnfavoritePlace = (): UseMutationResult<
     boolean,
     AxiosError,
-    string,
+    number,
     undefined
 > => {
     return useMutation(DeleteUnfavoritePlace,

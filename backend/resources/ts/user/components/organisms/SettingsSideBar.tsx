@@ -4,7 +4,7 @@ import Paper from '@material-ui/core/Paper'
 import SideBarItem from '../molecules/SidebarItem'
 
 const SettingsSideBar: FC = () => (
-    <Paper component="nav">
+    <Paper component="nav" >
         <MenuList>
             <SideBarItem title="マイページ" linkUrl="/account/mypage" />
             <SideBarItem title="アカウント設定" linkUrl="/account/setting" />

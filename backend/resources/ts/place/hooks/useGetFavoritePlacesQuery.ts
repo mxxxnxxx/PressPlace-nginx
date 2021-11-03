@@ -3,7 +3,7 @@ import camelcaseKeys from "camelcase-keys"
 import { useQuery, UseQueryOptions, UseQueryResult } from "react-query"
 import { Places } from '../types/Places'
 
-const getFavoritePlaces = async (page: number, userName: string): Promise<Places> => {
+const getFavoritePlaces = async (page: number, userName?: string): Promise<Places> => {
     const { data } = await axios.get(`/api/user/favorite/places`, {
         params: {
             userName: userName,
@@ -15,7 +15,7 @@ const getFavoritePlaces = async (page: number, userName: string): Promise<Places
 
 const useGetFavoritePlaces = <TData = Places>(
     page: number,
-    userName: string,
+    userName?: string,
     options?: UseQueryOptions<Places, AxiosError, TData>
 ): UseQueryResult<TData, AxiosError> => {
     return useQuery(

@@ -5,12 +5,12 @@ import PlaceMenu from './PlaceMenu'
 import { Place } from '../../types/Place'
 type Props = {
     place: Place
-    goToOtherUser: (userName: string) => void
+    goToUserPage: (userName: string, currentUserName?: string) => void
 }
 
 const MenuButton: FC<Props> = ({
     place,
-    goToOtherUser
+    goToUserPage
 }) => {
     const menuId = "place-menu"
     const [menuAnchorEl, setMenuAnchorEl] = useState<Element | null>(null)
@@ -46,7 +46,7 @@ const MenuButton: FC<Props> = ({
                 open={isPlaceMenuOpen}
                 handlePlaceMenuClose={handlePlaceMenuClose}
                 place={place}
-                goToOtherUser={goToOtherUser}
+                goToUserPage={goToUserPage}
             />
         </>
     )

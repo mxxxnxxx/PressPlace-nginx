@@ -6,11 +6,16 @@ import {
     TextField,
     FormLabel,
     Typography,
+    makeStyles,
 } from '@material-ui/core'
 interface PostalCodeProps {
     name: string
 }
-
+const useStyle = makeStyles(() => ({
+    postalCode: {
+        alignSelf: 'flex-start'
+    }
+}))
 const PostalCode: React.FC<PostalCodeProps> = ({
     name
 }: PostalCodeProps): React.ReactElement => {
@@ -61,41 +66,44 @@ const PostalCode: React.FC<PostalCodeProps> = ({
     }
 
     const methods = useFormContext()
-    // tsxのhtml部分
+    const classes = useStyle()
     return (
-        <Box textAlign="left">
-            <FormLabel htmlFor="first_code">住所</FormLabel>
-            <br />
-            <FormLabel htmlFor="first_code">〒</FormLabel>
-            <input
-                name="first_code"
-                size={3}
-                maxLength={3}
-                type="text"
-                // 以下でvalueに変化が会った時にイベントが発生する
-                // setPostalCodeの引数にpostalCodeのfirstCode: e.target.valueをしていしてjsonに値を入れている
-                onKeyUp={(e): void => {
-                    nextFeild(e, inputEl)
-                }}
-                onChange={(e): void => {
-                    setFirstCodeCount({ count: e.currentTarget.value.length })
-                }}
-                // タイミングをずらすためにフォーカスを外したときに反応
-                onBlur={(e): void => {
-                    setFirstCodeValue({ value: e.currentTarget.value })
-                }}
-            />
-            -
-            <input
-                name="last_code"
-                size={4}
-                maxLength={4}
-                type="text"
-                ref={inputEl}
-                // 以下でvalueに変化が会った時にイベントが発生する
-                onKeyUp={(e): void => { setLastCodeCount({ count: e.currentTarget.value.length }) }}
-                onChange={(e): void => { setLastCodeValue({ value: e.currentTarget.value }) }}
-            />
+        <>
+            <Box className={classes.postalCode}>
+                <div>
+                    <FormLabel htmlFor="first_code">住所</FormLabel>
+                </div>
+                <FormLabel htmlFor="first_code">〒</FormLabel>
+                <input
+                    name="first_code"
+                    size={3}
+                    maxLength={3}
+                    type="text"
+                    // 以下でvalueに変化が会った時にイベントが発生する
+                    // setPostalCodeの引数にpostalCodeのfirstCode: e.target.valueをしていしてjsonに値を入れている
+                    onKeyUp={(e): void => {
+                        nextFeild(e, inputEl)
+                    }}
+                    onChange={(e): void => {
+                        setFirstCodeCount({ count: e.currentTarget.value.length })
+                    }}
+                    // タイミングをずらすためにフォーカスを外したときに反応
+                    onBlur={(e): void => {
+                        setFirstCodeValue({ value: e.currentTarget.value })
+                    }}
+                />
+                -
+                <input
+                    name="last_code"
+                    size={4}
+                    maxLength={4}
+                    type="text"
+                    ref={inputEl}
+                    // 以下でvalueに変化が会った時にイベントが発生する
+                    onKeyUp={(e): void => { setLastCodeCount({ count: e.currentTarget.value.length }) }}
+                    onChange={(e): void => { setLastCodeValue({ value: e.currentTarget.value }) }}
+                />
+            </Box>
             <TextField
                 name={name}
                 id={name}
@@ -107,7 +115,7 @@ const PostalCode: React.FC<PostalCodeProps> = ({
                     maxLength: { value: 50, message: '50文字以内で入力してください' },
                 })}
             />
-        </Box>
+        </>
     )
 }
 

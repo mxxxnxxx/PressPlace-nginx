@@ -20,16 +20,15 @@ const EnhancedTagsForm: React.FC<Props> = ({ oldPlace }) => {
     }
 
 
-
     const removeTag = () => {
         // 以下で最後尾のtagFormのvalueを取得
         const tagVal = document.getElementById(tags.slice(-1)[0]);
         if (tags.length > 1 && tagVal) {
-            const rmTags = [...tags];
+            const rmTags = [...tags]
             methods.setValue(tagVal.id, '')
             // popでtagFormから一番末尾の1つだけ削除している
             rmTags.pop()
-            setTags(rmTags);
+            setTags(rmTags)
         }
     }
 

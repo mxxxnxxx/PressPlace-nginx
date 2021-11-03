@@ -53,7 +53,7 @@ const Footer: FC = () => {
                         <FooterNavItem
                             type="external"
                             title="GitHub"
-                            linkUrl="https://github.com/h-yoshikawa44/ooui-memo"
+                            linkUrl="https://github.com/mxxxnxxx/pressplace"
                         />
                     </List>
                 </Grid>

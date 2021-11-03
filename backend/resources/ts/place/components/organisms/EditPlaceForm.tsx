@@ -13,7 +13,7 @@ import { Place } from '../../types/Place'
 import { PlaceImage } from '../../types/PlaceImage'
 import PostalCode from "../molecules/PostalCode"
 import PostPlaceAlert from '../molecules/PostPlaceAlert'
-
+import Sphere from '/work/backend/public/background_image/sphere.png'
 
 // 型定義
 type Inputs = {
@@ -39,17 +39,22 @@ type Props = {
 }
 
 const useStyle = makeStyles((theme) => ({
+    root: {
+        backgroundImage: `url(${Sphere})`,
+        backgroundAttachment: 'fixed',
+        backgroundSize: 'cover',
+    },
     cardContent: {
         padding: '20px'
     },
     placeForm: {
         display: 'flex',
         flexDirection: 'column',
+        alignItems: 'center'
     },
     onSubmitButton: {
-        textAlign: 'center'
+        marginTop: theme.spacing(2),
     }
-
 }))
 const EditPlaceForm: React.FC<Props> = ({
     photos,
@@ -69,7 +74,12 @@ const EditPlaceForm: React.FC<Props> = ({
     const theme = useTheme()
 
     return (
-        <Box display="flex" flexDirection="column" minHeight="100vh" >
+        <Box
+            display="flex"
+            flexDirection="column"
+            minHeight="100vh"
+            className={classes.root}
+        >
             <Container maxWidth="xs" >
                 <Card style={{ margin: `${theme.spacing(6)}px 0` }}>
                     <CardHeader title="場所の編集をする" style={{ textAlign: 'center', marginTop: 30 }} />

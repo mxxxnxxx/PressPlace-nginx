@@ -1,33 +1,24 @@
-import React from 'react'
 import {
-    Modal,
-    Box,
     Button,
-    MenuItem,
-    ListItemIcon,
-    Container,
-    Card,
-    CardHeader,
-    CardContent,
-    useTheme,
-    CardActions,
+    MenuItem, Modal
 } from '@material-ui/core'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
-import useDeletePlaceQuery from '../../hooks/useDeletePlaceMutation'
-import DeleteIcon from '@material-ui/icons/Delete'
+import React from 'react'
+import PlaceDeleteModal from '../../containers/organisms/PlaceDeleteModal'
 import { Place } from '../../types/Place'
 type Props = {
     deleteModalOn: boolean
     setDeleteModalOn: (boolean: boolean) => void
     place: Place
+    handleClose: () => void
 }
 const PlaceDelete: React.FC<Props> = ({
     deleteModalOn,
     setDeleteModalOn,
     place,
+    handleClose
 }) => {
-    const deletePlaceQuery = useDeletePlaceQuery()
-    const theme = useTheme()
+
     return (
         <>
             <MenuItem>
@@ -42,23 +33,15 @@ const PlaceDelete: React.FC<Props> = ({
             {/* 以下からモーダル */}
             <Modal
                 open={deleteModalOn}
-                onClose={() => setDeleteModalOn(false)}
+                onClose={handleClose}
             >
-                <Container maxWidth="xs" >
-                    <Card style={{ margin: `${theme.spacing(6)}px 0` }}>
-                        <CardHeader title="Placeの削除をしますか?" style={{ textAlign: 'center', marginTop: 30 }} />
-                        <CardActions style={{ justifyContent: 'center', marginBottom: 30 }}>
-                            <Button
-                                onClick={() => deletePlaceQuery.mutate(place.id)}
-                                variant="contained"
-                                color="secondary"
-                                startIcon={<DeleteIcon />}
-                            >
-                                削除
-                            </Button>
-                        </CardActions>
-                    </Card>
-                </Container>
+                <>
+                    <PlaceDeleteModal
+                        placeId={place.id}
+                        handleClose={handleClose}
+                    />
+                </>
+
             </Modal>
         </>
     )

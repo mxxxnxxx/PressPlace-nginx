@@ -4,7 +4,7 @@ import Place from '../components/pages/Place';
 import { toast } from 'react-toastify';
 
 
-const deletePlace = async (id:string) => {
+const deletePlace = async (id: number) => {
     const { data } = await axios.get(`/api/places/delete/${id}`);
     return data;
 }

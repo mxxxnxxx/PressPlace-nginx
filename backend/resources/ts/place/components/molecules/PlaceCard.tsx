@@ -1,13 +1,14 @@
 import { Box, Card, makeStyles } from '@material-ui/core'
+import { minWidth } from '@material-ui/system'
 import React, { FC } from 'react'
 import { INTERNAL_SERVER_ERROR } from '../../../constants/statusCode'
 import GeneralAlert from '../../../layout/components/atoms/GeneralAlert'
 import Loding from '../../../layout/components/pages/Loding'
+import PlaceCardAction from '../../containers/molecules/PlaceCardAction'
 import PlaceCardContent from '../../containers/molecules/PlaceCardContent'
 import PlaceCardHeader from '../../containers/molecules/PlaceCardHeader'
 import { Place } from '../../types/Place'
 import { Places } from '../../types/Places'
-import PlaceCardAction from './PlaceCardAction'
 
 
 type Props = {
@@ -22,7 +23,12 @@ const useStyle = makeStyles((theme) => ({
     card: {
         display: 'flex',
         flexDirection: 'column',
-        margin: theme.spacing(5)
+        justifyContent: 'center',
+        margin: 'auto',
+        marginTop: theme.spacing(10),
+        marginBottom: theme.spacing(10),
+        maxWidth: theme.spacing(80),
+        minWidth: theme.spacing(65),
     }
 }))
 const PlaceCard: FC<Props> = ({
@@ -64,18 +70,23 @@ const PlaceCard: FC<Props> = ({
             {paginatePlaces?.map((page) => (
                 <React.Fragment key={page.currentPage.toString()}>
                     {page.data.map((place: Place, index) => (
-                        <Card className={classes.card} key={index.toString()}>
-                            <PlaceCardHeader place={place} />
-                            <PlaceCardContent place={place} />
-                            <PlaceCardAction place={place} />
-                        </Card>
+                        <Box className={classes.card} key={index.toString()} >
+                            <Card >
+                                <PlaceCardHeader place={place} />
+                                <PlaceCardContent place={place} />
+                                {place.tags.length > 0 &&
+                                    <PlaceCardAction place={place} />
+                                }
+                            </Card>
+                        </Box>
                     ))}
                 </React.Fragment>
-            ))}
+            ))
+            }
             <Box {...{ ref: loadMoreRef }} textAlign="center">
                 {loadMoreMessage}
             </Box>
-        </section>
+        </section >
     )
 }
 

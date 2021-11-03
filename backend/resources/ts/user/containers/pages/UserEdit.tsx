@@ -1,21 +1,24 @@
 import imageCompression from 'browser-image-compression'
 import React, { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
+import { useQueryClient } from 'react-query'
 import { useHistory, useLocation } from "react-router-dom"
 import UserEdit from "../../components/pages/UserEdit"
-import { useCurrentUser } from '../../hooks'
+import { useCurrentUser, useGetUserQuery } from '../../hooks'
 import useEditUserProfile from '../../hooks/useEditUserProfileMutation'
 import { UserEditData } from "../../types/UserEditData"
 
 const EnhancedUserEdit: React.FC = () => {
+    const queryClient = useQueryClient()
+    const currentUser = useCurrentUser()
     const history = useHistory()
     const location = useLocation()
     const { from } = (location.state as { from: string }) || {
-        from: { pathname: '/account/mypage' },
+        from: { pathname: '/mypage/myPlace' },
     }
     const [userImage, setUserImage] = useState<File[]>()
     const [oldUserImage, setOldUserImage] = useState<string>()
-    const currentUser = useCurrentUser()
+
     // ここでoldデータの取得を行う
     useEffect(
         () => {
@@ -26,7 +29,7 @@ const EnhancedUserEdit: React.FC = () => {
         }, [currentUser])
 
     // ここにmutation
-    const { error, isLoading, mutate: editPostPlace } = useEditUserProfile()
+    const { isLoading, mutate: editPostPlace } = useEditUserProfile()
 
 
     const methods = useForm<UserEditData>({ shouldUnregister: false })
@@ -56,7 +59,9 @@ const EnhancedUserEdit: React.FC = () => {
 
             editPostPlace({ formData, userId },
                 {
-                    onSuccess: () => {
+                    onSuccess: async () => {
+                        await queryClient.refetchQueries(['user'], { exact: true })
+                        await queryClient.refetchQueries(['userProfile'], { exact: true })
                         history.replace(from)
                     }
                 }

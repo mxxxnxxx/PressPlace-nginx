@@ -9,8 +9,8 @@ import { Places } from '../../types/Places'
 import PlaceCardContent from './PlaceCardContent'
 import SearchedWords from './SearchedWords'
 import PageNextBack from './PageNextBack'
-import PlaceCardAction from './PlaceCardAction'
-
+import EnhancedPlaceCardAction from '../../containers/molecules/PlaceCardAction'
+import { ActionType } from '../../types/ActionType'
 
 type Props = {
     places?: Places
@@ -21,7 +21,7 @@ type Props = {
     data?: Places
     isPreviousData: boolean
     InputsData?: Inputs
-    removeKey: (key?: string) => void
+    removeKey: (type: any, index?: number | undefined) => Promise<void>
 }
 
 const useStyle = makeStyles(() => ({
@@ -51,27 +51,25 @@ const PlaceSearched: FC<Props> = ({
     return (
         <section>
             <SearchedWords places={places} InputsData={InputsData} removeKey={removeKey} />
-            {places?.total === 0 &&
+            {places?.total == 0 &&
                 <Box
                     className={classes.noSearched}
                 >
                     検索結果が見つかりませんでした
                 </Box>
             }
-            {places?.total && <PageNextBack
-                page={page}
-                setPage={setPage}
-                isPreviousData={isPreviousData}
-                places={places}
-            />}
             {places?.data?.map((place: Place, index) => (
                 <Card className='m-3' key={index.toString()}>
                     <PlaceCardHeader place={place} />
                     <PlaceCardContent place={place} />
-                    <PlaceCardAction place={place} />
+                    {place.tags.length > 0 &&
+                        <EnhancedPlaceCardAction
+                            place={place}
+                        />
+                    }
                 </Card>
             ))}
-            {places?.total && <PageNextBack
+            {places && places.total > 0 && <PageNextBack
                 page={page}
                 setPage={setPage}
                 isPreviousData={isPreviousData}

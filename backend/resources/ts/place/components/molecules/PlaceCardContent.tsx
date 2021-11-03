@@ -1,10 +1,12 @@
 import { Box, Button, CardContent, Dialog, DialogActions, DialogContent, DialogProps, DialogTitle, IconButton, makeStyles, Typography } from '@material-ui/core'
 import ClearAllIcon from '@material-ui/icons/ClearAll'
+import { typography } from '@material-ui/system'
 import React, { useState } from "react"
 import 'swiper/css/swiper.css'
 import PlaceGoogleMap from '../../containers/molecules/PlaceGoogleMap'
 import ShowPlaceModal from '../../containers/organisms/ShowPlaceModal'
 import { Place } from '../../types/Place'
+import OverlapImage from '/work/backend/public/images/overlapImage.png'
 
 type Props = {
     place: Place
@@ -25,7 +27,11 @@ const useStyle = makeStyles((theme) => ({
     placeImageButton: {
         "& img": {
             maxWidth: '100%'
-        }
+        },
+    },
+    overlapImage: {
+
+
     },
 
     item2: {
@@ -46,13 +52,20 @@ const useStyle = makeStyles((theme) => ({
         marginRight: theme.spacing(2),
     },
     placeCommentContainer: {
-        margin: '20px'
+        margin: '20px',
     },
     placeCommentLabel: {
         fontStyle: 'italic',
         color: 'Silver',
         fontSize: '12px',
         marginBottom: theme.spacing(1)
+    },
+    placeComment: {
+        overflow: 'hidden',
+        whiteSpace: 'pre-line',
+        display: '-webkit-box',
+        '-webkit-box-orient': 'vertical',
+        '-webkit-line-clamp': '3',
     },
 
 
@@ -97,6 +110,8 @@ const PlaceCardContent: React.FC<Props> = ({ place }) => {
         setOpen(false)
     }
 
+
+
     return (
         <CardContent className={classes.container}>
             <Box
@@ -107,9 +122,13 @@ const PlaceCardContent: React.FC<Props> = ({ place }) => {
                     aria-label=""
                     onClick={() => handleOpen('paper')}
                 >
-                    {place.placeImages.length >= 1 ?
-                        <img src={`https://pressplace.s3.ap-northeast-1.amazonaws.com/${place.placeImages[0]?.imagePath}`} alt="placeImage" />
-                        :
+                    {place.placeImages.length > 0 &&
+                        <img
+                            src={`https://pressplace.s3.ap-northeast-1.amazonaws.com/${place.placeImages[0]?.imagePath}`}
+                            alt="placeImage"
+                        />
+                    }
+                    {place.placeImages.length === 0 &&
                         <ClearAllIcon />
                     }
                 </IconButton>
@@ -155,9 +174,9 @@ const PlaceCardContent: React.FC<Props> = ({ place }) => {
                     >
                         -コメント-
                     </Typography>
-                    <Typography>
+                    <p className={classes.placeComment}>
                         {place.comment}
-                    </Typography>
+                    </p>
                 </Box>
             </Box>
             <Box className={classes.item3}>
@@ -177,7 +196,7 @@ const PlaceCardContent: React.FC<Props> = ({ place }) => {
                     />
                 </Box>
             </Box>
-        </CardContent>
+        </CardContent >
     )
 }
 export default PlaceCardContent

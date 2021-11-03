@@ -35,7 +35,7 @@ const EnhancedEditPlaceForm: React.FC = () => {
     const [oldPhotos, setOldPhotos] = useState<PlaceImage[]>([])
     // 前のplaceの値を取得
     const params = useParams<{ placeId: string }>()
-    const [targetPlaceId, setTargetPlaceId] = useState<string>()
+    const [targetPlaceId, setTargetPlaceId] = useState<number>()
     const [oldPlace, setOldPlace] = useState<Place>()
     const photoCount = photos.length + oldPhotos.length
     const [loadOldPlace, setLoadOldPlace] = useState<boolean>(true)
@@ -86,7 +86,7 @@ const EnhancedEditPlaceForm: React.FC = () => {
         // 以下を追加しないとlaravel側の仕様でエラー
         formData.append("_method", 'PATCH')
         // appendでformDataにキーと値を追加
-        targetPlaceId && formData.append("id", targetPlaceId)
+        targetPlaceId && formData.append("id", targetPlaceId.toString())
         formData.append("name", name)
         formData.append("comment", comment)
         formData.append("address", address)

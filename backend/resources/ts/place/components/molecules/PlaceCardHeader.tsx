@@ -1,13 +1,15 @@
 import { Avatar, Button, CardHeader } from "@material-ui/core"
 import { makeStyles } from "@material-ui/styles"
 import React from "react"
+import { User } from "../../../user/types/User"
 import PlaceFavoriteButton from "../../containers/atoms/PlaceFavoriteButton"
 import { Place } from "../../types/Place"
 import MenuButton from "./MenuButton"
 
 type Props = {
     place: Place
-    goToOtherUser: (userName: string) => void
+    currentUser?: User | null
+    goToUserPage: (userName: string, currentUserName?: string) => void
 }
 const useStyle = makeStyles(() => ({
     root: {
@@ -19,11 +21,13 @@ const useStyle = makeStyles(() => ({
             opacity: '1',
         }
     },
-    title: {
-        textDecoration: 'underline',
+    avatar: {
+        margin: '0'
     },
+
     action: {
-        alignSelf: 'center'
+        alignSelf: 'center',
+        margin: '0'
     },
 
 
@@ -32,36 +36,47 @@ const useStyle = makeStyles(() => ({
 
 const PlaceCardHeader: React.FC<Props> = ({
     place,
-    goToOtherUser,
+    currentUser,
+    goToUserPage,
 }) => {
     const classes = useStyle()
     return (
         <CardHeader
+            className={classes.root}
+            classes={{
+                action: classes.action,
+                avatar: classes.avatar
+            }}
             avatar={
-                <Button
-                    onClick={() => goToOtherUser(place.user.name)}
-                >
-                    <Avatar
-                        aria-label="Recipe"
-                        variant="rounded"
-                        src={`https://pressplace.s3.ap-northeast-1.amazonaws.com/${place.user.userImage}`}
-                    />
-                </Button>
+                <>
+                    <Button
+                        onClick={() => {
+                            goToUserPage(place.user.name, currentUser?.name)
+                        }}
+                    >
+                        <Avatar
+                            aria-label="Recipe"
+                            variant="rounded"
+                            src={`https://pressplace.s3.ap-northeast-1.amazonaws.com/${place.user.userImage}`}
+                        />
+                    </Button>
+                </>
             }
             action={
                 <>
                     <PlaceFavoriteButton
                         place={place}
                     />
-                    <MenuButton place={place} goToOtherUser={goToOtherUser} />
+                    <MenuButton place={place} goToUserPage={goToUserPage} />
                 </>
             }
-            title={place.user.name}
-            className={classes.root}
-            classes={{
-                content: classes.title,
-                action: classes.action
-            }}
+            title={
+                <Button
+                    onClick={() => goToUserPage(place.user.name)}
+                >
+                    {place.user.name}
+                </Button>
+            }
         />
     )
 }

@@ -1,10 +1,10 @@
 import { Box, Button, CardActions, makeStyles, Typography } from "@material-ui/core"
-import useTheme from '@material-ui/core/styles/useTheme'
 import React from "react"
 import { Place } from "../../types/Place"
 
 type Props = {
     place: Place
+    tagSearch: (tag: string) => Promise<void>
 }
 const useStyle = makeStyles((theme) => ({
     root: {
@@ -25,25 +25,41 @@ const useStyle = makeStyles((theme) => ({
         marginRight: theme.spacing(2)
     },
     placeTag: {
-
+        marginRight: theme.spacing(1)
+    },
+    tagButton: {
+        textTransform: 'none'
     }
 }))
-const PlaceCardAction: React.FC<Props> = ({ place }) => {
+const PlaceCardAction: React.FC<Props> = ({
+    place,
+    tagSearch
+}) => {
     const classes = useStyle()
-    const theme = useTheme()
     return (
-        <CardActions className={classes.root}>
-            <Box className={classes.placeTagsContainer}>
-                <Box className={classes.placeTagsLabel}>
-                    <Typography >
-                        Tag
+        <CardActions
+            className={classes.root}
+        >
+            <Box
+                className={classes.placeTagsContainer}
+            >
+                <Box
+                    className={classes.placeTagsLabel}
+                >
+                    <Typography>
+                        Tag:
                     </Typography>
                 </Box>
                 {place.tags.map((tag, index) => (
-                    <Box className={classes.placeTag} key={index.toString()}>
+                    <Box
+                        key={index.toString()}
+                        className={classes.placeTag}
+                    >
                         <Button
                             variant="outlined"
-                            style={{ marginRight: theme.spacing(2) }}
+                            size='small'
+                            onClick={() => tagSearch(tag.name)}
+                            className={classes.tagButton}
                         >
                             {tag.name}
                         </Button>

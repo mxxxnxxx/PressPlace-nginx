@@ -1,19 +1,35 @@
-import { Box, Button, Card, CardContent, CardHeader, Container, TextField, useTheme } from '@material-ui/core'
+import { Box, Button, Card, CardContent, CardHeader, Container, makeStyles, TextField, useTheme } from '@material-ui/core'
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
 import TagsForm from '../../containers/molecules/TagsForm'
 import { Inputs } from '../../types/Inputs'
-
+import Map from '/work/backend/public/background_image/map.png'
 type Props = {
     onSubmit: (data: Inputs) => Promise<void>
 }
+const useStyle = makeStyles((theme) => ({
+    root: {
+        backgroundImage: `url(${Map})`,
+        backgroundAttachment: 'fixed',
+        backgroundSize: 'cover'
+    },
+    onSubmitButton: {
+        marginTop: theme.spacing(2),
+    }
+}))
 const PlaceSearch: React.FC<Props> = ({
     onSubmit,
 }) => {
+    const classes = useStyle()
     const methods = useFormContext()
     const theme = useTheme()
     return (
-        <Box display='flex' flexDirection="column" minHeight="100vh" >
+        <Box
+            display='flex'
+            flexDirection="column"
+            minHeight="100vh"
+            className={classes.root}
+        >
             <main style={{ flex: 1 }}>
                 <Container maxWidth="xs" >
                     <Card style={{ margin: `${theme.spacing(6)}px 0` }}>
@@ -69,7 +85,7 @@ const PlaceSearch: React.FC<Props> = ({
                                         helperText={methods.errors.comment && methods.errors.comment.message}
                                     />
                                     <TagsForm />
-                                    <Box>
+                                    <Box className={classes.onSubmitButton}>
                                         <Button variant={'contained'} type="submit" disabled={!methods.formState.isDirty || methods.formState.isSubmitting}>検索</Button>
                                         <Button type="button" disabled={!methods.formState.isDirty || methods.formState.isSubmitting} onClick={() => methods.reset()}>クリア</Button>
                                     </Box>

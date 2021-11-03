@@ -35,12 +35,6 @@ const UserImageUp: React.FC<Props> = ({
     // styleのテーマ
     const useStyles = makeStyles(() =>
         createStyles({
-            topContainer: {
-
-            },
-            imageContainer: {
-
-            },
             container: {
                 margin: '20px'
             },
@@ -48,8 +42,6 @@ const UserImageUp: React.FC<Props> = ({
                 width: 70,
                 margin: 2,
             },
-            note: {},
-            label: {},
             plus: {
                 textAlign: 'left'
             },
@@ -66,7 +58,7 @@ const UserImageUp: React.FC<Props> = ({
     const classes = useStyles()
     return (
         <>
-            <Box className={classes.topContainer}>
+            <Box>
                 {oldUserImage &&
                     <Grid
                         container
@@ -85,7 +77,7 @@ const UserImageUp: React.FC<Props> = ({
                             </button>
                         </Grid>
                     </Grid>}
-                {userImage?.length && !(oldUserImage) &&
+                {userImage && userImage.length >= 1 && !(oldUserImage) &&
                     <Grid
                         container
                         spacing={1}
@@ -94,7 +86,6 @@ const UserImageUp: React.FC<Props> = ({
                         <Grid item>
                             <button
                                 type="button"
-                                className={classes.imageContainer}
                                 onClick={() => handleCancelNew()}
                             >
 
@@ -106,7 +97,7 @@ const UserImageUp: React.FC<Props> = ({
                         </Grid>
                     </Grid>}
 
-                {!(userImage?.length) && oldUserImage == "" &&
+                {userImage && !(userImage.length > 0) && oldUserImage == "" &&
                     <Typography
                         className={classes.imageNon}
                     >
@@ -120,8 +111,8 @@ const UserImageUp: React.FC<Props> = ({
                 </Alert>
             )}
 
-            {!(userImage?.length && oldUserImage) && (
-                <label className={classes.label} htmlFor={name} style={{ marginTop: 20 }}>
+            {!(userImage && userImage.length > 0) && (
+                <label htmlFor={name} style={{ marginTop: 20 }}>
                     <Button
                         variant="outlined"
                         aria-label="upload picture" component="span"

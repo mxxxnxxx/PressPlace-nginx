@@ -1,6 +1,6 @@
-import { Box, Paper, Typography, Button, Theme, Container, Card, useTheme, CardContent } from '@material-ui/core'
-import SettingsIcon from '@material-ui/icons/Settings'
+import { Box, Button, Card, CardContent, Container, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import SettingsIcon from '@material-ui/icons/Settings'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Loding from '../../../layout/components/pages/Loding'

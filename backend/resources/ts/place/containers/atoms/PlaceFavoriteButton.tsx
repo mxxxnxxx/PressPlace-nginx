@@ -1,9 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { useQueryClient } from 'react-query'
-import { useCurrentUser, useGetUserQuery } from '../../../user/hooks'
+import { useCurrentUser } from '../../../user/hooks'
 import useDeleteUnfavoritePlace from '../../../user/hooks/useDeleteUnfavoritePlace'
 import usePostFavoritePlace from '../../../user/hooks/usePostAddFavoritePlace'
-import { User } from '../../../user/types/User'
 import PlaceFavoriteButton from '../../components/atoms/PlaceFavoriteButton'
 import { Place } from '../../types/Place'
 type Props = {
@@ -13,7 +11,6 @@ type Props = {
 const EnhancedPlaceFavoriteButton: React.FC<Props> = ({
     place,
 }) => {
-    const queryClient = useQueryClient()
     // ボタンの初期値の選定
     const initialize = (placeId: any, favoritePlacesIds?: number[]) => {
         if (favoritePlacesIds?.includes(placeId)) {
@@ -42,7 +39,7 @@ const EnhancedPlaceFavoriteButton: React.FC<Props> = ({
 
     // Favorite追加処理
     const addFavoriteMutate = usePostFavoritePlace()
-    const addFavorite = useCallback((placeId: string) => {
+    const addFavorite = useCallback((placeId: number) => {
         addFavoriteMutate.mutate(placeId, {
             onSuccess: async () => {
             }
@@ -51,7 +48,7 @@ const EnhancedPlaceFavoriteButton: React.FC<Props> = ({
     }, [])
     // Favorite削除処理
     const unFavoriteMutate = useDeleteUnfavoritePlace()
-    const unFavorite = useCallback((placeId: string) => {
+    const unFavorite = useCallback((placeId: number) => {
         unFavoriteMutate.mutate(placeId, {
             onSuccess: () => {
             }

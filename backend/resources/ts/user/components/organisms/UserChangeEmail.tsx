@@ -1,10 +1,11 @@
-import React from 'react'
+import { Accordion, AccordionSummary, Backdrop, Box, Button, CircularProgress, makeStyles, TextField, useTheme } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
-import { User } from '../../types/User'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { AxiosError } from 'axios'
-import { ChangeEmailType } from '../../types/ChangeEmailType'
+import React from 'react'
 import { useFormContext } from 'react-hook-form'
-import { Backdrop, Box, Button, CircularProgress, Paper, TextField, useMediaQuery, useTheme } from '@material-ui/core'
+import { ChangeEmailType } from '../../types/ChangeEmailType'
+import { User } from '../../types/User'
 
 type Props = {
     user: User | null | undefined
@@ -13,7 +14,20 @@ type Props = {
     statusCode?: number
     error: AxiosError<any> | null
 }
-
+const useStyle = makeStyles((theme) => ({
+    root: {
+        display: "flex",
+        flexDirection: "column",
+    },
+    AccordionContents: {
+        marginLeft: theme.spacing(3),
+        marginRight: theme.spacing(3),
+        marginBottom: theme.spacing(3)
+    },
+    button: {
+        textAlign: 'center'
+    }
+}))
 const UserChangeEmail: React.FC<Props> = ({
     user,
     onSubmit,
@@ -23,62 +37,62 @@ const UserChangeEmail: React.FC<Props> = ({
 }) => {
     const methods = useFormContext()
     const theme = useTheme()
-
+    const classes = useStyle()
     return (
-        <Box
-            display="flex"
-            flexDirection="column"
-            textAlign="center"
-            padding="50px"
-            borderBottom="dashed"
+        <Box className={classes.root}>
+            <Accordion>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-label="Expand"
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                >
+                    <Typography>
+                        メールアドレスの変更
+                    </Typography>
+                </AccordionSummary>
+                <Box className={classes.AccordionContents}>
+                    <Typography
+                        color="initial"
+                    >
+                        現在のメールアドレス
+                    </Typography>
+                    <Typography
+                        variant="h6"
+                        color="initial"
+                    >
+                        {user?.email}
+                    </Typography>
+                    <form onSubmit={methods.handleSubmit(onSubmit)}>
+                        <TextField
+                            inputRef={methods.register({
+                                required: "必須項目です",
+                                pattern: {
+                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                    message: 'メールアドレスの形式に合わせてください'
+                                },
+                            })}
+                            label="新しいEmailアドレス"
+                            variant="outlined"
+                            id="address"
+                            name="address"
+                            margin="normal"
+                            fullWidth
+                            error={Boolean(methods.errors.address)}
+                            helperText={methods.errors.address && methods.errors.address.message}
+                        />
 
-        >
-
-            <Typography
-                variant="h5"
-                color="initial"
-            >
-                メールアドレスの変更
-            </Typography>
-            <Typography
-                color="initial"
-            >
-                現在のメールアドレス
-            </Typography>
-            <Typography
-                variant="h6"
-                color="initial"
-            >
-                {user?.email}
-            </Typography>
-            <form onSubmit={methods.handleSubmit(onSubmit)}>
-                <TextField
-                    inputRef={methods.register({
-                        required: "必須項目です",
-                        pattern: {
-                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            message: 'メールアドレスの形式に合わせてください'
-                        },
-                    })}
-                    label="新しいEmailアドレス"
-                    variant="outlined"
-                    id="address"
-                    name="address"
-                    margin="normal"
-                    fullWidth
-                    error={Boolean(methods.errors.address)}
-                    helperText={methods.errors.address && methods.errors.address.message}
-                />
-
-                <Box>
-                    <Button
-                        variant={'contained'}
-                        type="submit"
-                        disabled={!methods.formState.isDirty || methods.formState.isSubmitting}>
-                        登録
-                    </Button>
+                        <Box className={classes.button}>
+                            <Button
+                                variant={'contained'}
+                                type="submit"
+                                disabled={!methods.formState.isDirty || methods.formState.isSubmitting}>
+                                登録
+                            </Button>
+                        </Box>
+                    </form>
                 </Box>
-            </form>
+            </Accordion>
             <Backdrop
                 style={{ zIndex: theme.zIndex.drawer + 1 }}
                 open={isLoading}

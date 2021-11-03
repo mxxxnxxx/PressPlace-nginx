@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react';
 import { useQueryClient } from 'react-query';
 import { useHistory } from 'react-router-dom';
+import { useCurrentUser } from '../../../user/hooks';
+import { User } from '../../../user/types/User';
 import PlaceCardHeader from '../../components/molecules/PlaceCardHeader';
 import { Place } from "../../types/Place";
 
@@ -9,11 +11,13 @@ type Props = {
 }
 const EnhancedPlaceCardHeader: React.FC<Props> = ({ place }) => {
     const history = useHistory()
+    const currentUser = useCurrentUser()
     const queryClient = useQueryClient()
-    const goToOtherUser = useCallback(
-        (userName: string) => {
-
-            if (userName) {
+    const goToUserPage = useCallback(
+        (userName: string, currentUserName?: string) => {
+            if (userName === currentUserName) {
+                history.push(`/mypage/myPlace`)
+            } else {
                 queryClient.setQueryData('otherUserId', userName)
                 history.push(`/account/${userName}/myPlace`)
             }
@@ -22,7 +26,8 @@ const EnhancedPlaceCardHeader: React.FC<Props> = ({ place }) => {
     return (
         <PlaceCardHeader
             place={place}
-            goToOtherUser={goToOtherUser}
+            currentUser={currentUser}
+            goToUserPage={goToUserPage}
         />
     )
 }

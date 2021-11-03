@@ -7,9 +7,10 @@ type Props = {
     isPreviousData: boolean
     places?: Places
 }
-const useStyle = makeStyles(() => ({
+const useStyle = makeStyles((theme) => ({
     nextBack: {
         textAlign: 'center',
+        marginBottom: theme.spacing(4)
     }
 }))
 const PageNextBack: FC<Props> = ({
@@ -38,7 +39,6 @@ const PageNextBack: FC<Props> = ({
                     setPage((old: number) => old + 1)
                 }}
                 disabled={isPreviousData || places?.lastPage === page}
-                className={classes.nextBack}
             >
                 Next
             </Button>

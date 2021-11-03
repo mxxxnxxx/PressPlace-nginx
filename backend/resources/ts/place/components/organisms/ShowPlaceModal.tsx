@@ -1,12 +1,12 @@
-import { Box, IconButton, makeStyles, Paper, Typography } from '@material-ui/core'
-import React, { useState } from 'react'
-import { Place } from '../../types/Place'
-import { PlaceImage } from '../../types/PlaceImage'
-import Swiper, { SwiperRefNode } from "react-id-swiper"
+import { Box, IconButton, makeStyles, Typography } from '@material-ui/core'
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
+import React, { useState } from 'react'
+import Swiper, { SwiperRefNode } from "react-id-swiper"
 import 'swiper/css/swiper.css'
 import PlaceGoogleMap from '../../containers/molecules/PlaceGoogleMap'
+import { Place } from '../../types/Place'
+import { PlaceImage } from '../../types/PlaceImage'
 
 
 
@@ -16,7 +16,7 @@ type Props = {
     swiperRef: React.RefObject<SwiperRefNode>
     goNext: () => void
     goPrev: () => void
-    forwardRef: any
+    forwardRef?: React.Ref<HTMLDivElement>
 }
 const useStyle = makeStyles((theme) => ({
     root: {
@@ -24,19 +24,9 @@ const useStyle = makeStyles((theme) => ({
         flexDirection: 'column',
         justifyContent: 'center',
         padding: theme.spacing(5),
+        width: theme.spacing(70),
+        minWidth: theme.spacing(50)
     },
-    // sliderBox: {
-    //     [theme.breakpoints.down("sm")]: {
-    //         margin: "0 auto 24px auto",
-    //         height: 320,
-    //         width: 320
-    //     },
-    //     [theme.breakpoints.up("sm")]: {
-    //         margin: "0 auto",
-    //         height: 400,
-    //         width: 400
-    //     }
-    // },
     "swiper-container": {
         position: 'relative',
         overflow: 'hidden',
@@ -66,10 +56,15 @@ const useStyle = makeStyles((theme) => ({
     placeContentLabel: {
         color: 'Silver',
         fontStyle: 'italic',
+        marginBottom: theme.spacing(1)
 
     },
     placeContent: {
-        margin: theme.spacing(3)
+        marginBottom: theme.spacing(3)
+    },
+    placeComment: {
+        whiteSpace: 'pre-line',
+        marginBottom: theme.spacing(3)
     },
     placeGoogleMap: {
         alignSelf: 'center'
@@ -85,6 +80,7 @@ const ShowPlaceModal: React.FC<Props> = ({
     goPrev,
     forwardRef
 }) => {
+    // スワイパーの設定パラメーター
     const [params] = useState({
         pagination: {
         },
@@ -96,78 +92,76 @@ const ShowPlaceModal: React.FC<Props> = ({
     })
     const classes = useStyle()
     return (
-        <div ref={forwardRef}>
-            <Box className={classes.root}>
+        <div ref={forwardRef} className={classes.root}>
 
-                {place.placeImages.length >= 1 &&
-                    <Box>
-                        <Swiper
-                            {...params}
-                            ref={swiperRef}
-                            containerClass={classes["swiper-container"]}
-                            slideClass={classes["swiper-slide"]}
-                        >
-                            {place.placeImages.map((placeImage: PlaceImage, index) => (
-                                <div className='p-media__thumb' key={index.toString()} >
-                                    <img
-                                        src={`https://pressplace.s3.ap-northeast-1.amazonaws.com/${placeImage.imagePath}`}
-                                        className={classes.placeImg}
-                                    />
-                                </div>
-                            ))}
-                        </Swiper>
-                    </Box>
-                }
-                {place.placeImages.length > 1 &&
-                    <Box className={classes.swiperButton}>
-                        <IconButton onClick={goPrev} >
-                            <NavigateBeforeIcon />
-                        </IconButton>
-                        <IconButton onClick={goNext} >
-                            <NavigateNextIcon />
-                        </IconButton>
-                    </Box>
-                }
+            {place.placeImages.length >= 1 &&
                 <Box>
-                    <Box>
-                        <Typography className={classes.placeContentLabel}>
-                            -場所の名前-
-                        </Typography>
-                    </Box>
-                    <Box>
-                        <Typography className={classes.placeContent}>
-                            {place.name}
-                        </Typography>
-                    </Box>
+                    <Swiper
+                        {...params}
+                        ref={swiperRef}
+                        containerClass={classes["swiper-container"]}
+                        slideClass={classes["swiper-slide"]}
+                    >
+                        {place.placeImages.map((placeImage: PlaceImage, index) => (
+                            <div className='p-media__thumb' key={index.toString()} >
+                                <img
+                                    src={`https://pressplace.s3.ap-northeast-1.amazonaws.com/${placeImage.imagePath}`}
+                                    className={classes.placeImg}
+                                />
+                            </div>
+                        ))}
+                    </Swiper>
                 </Box>
+            }
+            {place.placeImages.length > 1 &&
+                <Box className={classes.swiperButton}>
+                    <IconButton onClick={goPrev} >
+                        <NavigateBeforeIcon />
+                    </IconButton>
+                    <IconButton onClick={goNext} >
+                        <NavigateNextIcon />
+                    </IconButton>
+                </Box>
+            }
+            <Box>
+                <Box>
+                    <Typography className={classes.placeContentLabel}>
+                        -場所の名前-
+                    </Typography>
+                </Box>
+                <Box>
+                    <Typography className={classes.placeContent}>
+                        {place.name}
+                    </Typography>
+                </Box>
+            </Box>
 
+            <Box>
                 <Box>
-                    <Box>
-                        <Typography className={classes.placeContentLabel}>-コメント-</Typography>
-                    </Box>
-                    <Box>
-                        <Typography className={classes.placeContent}>
-                            {place.comment}
-                        </Typography>
-                    </Box>
+                    <Typography className={classes.placeContentLabel}>-コメント-</Typography>
                 </Box>
                 <Box>
-                    <Box>
-                        <Typography className={classes.placeContentLabel}>
-                            -場所-
-                        </Typography>
-                    </Box>
-                    <Box>
-                        <Typography className={classes.placeContent}>
-                            {place.address}
-                        </Typography>
-                    </Box>
+                    <Typography className={classes.placeComment}>
+                        {place.comment}
+                    </Typography>
                 </Box>
-                <Box className={classes.placeGoogleMap}>
-                    <PlaceGoogleMap
-                        place={place}
-                    />
+            </Box>
+            <Box>
+                <Box>
+                    <Typography className={classes.placeContentLabel}>
+                        -場所-
+                    </Typography>
                 </Box>
+                <Box>
+                    <Typography className={classes.placeContent}>
+                        {place.address}
+                    </Typography>
+                </Box>
+            </Box>
+            <Box className={classes.placeGoogleMap}>
+                <PlaceGoogleMap
+                    place={place}
+                />
             </Box>
         </div >
     )

@@ -1,4 +1,5 @@
 import CssBaseline from '@material-ui/core/CssBaseline'
+import { makeStyles } from '@material-ui/styles'
 import React, { FC, useCallback } from "react"
 import ReactDOM from "react-dom"
 import { QueryClient, QueryClientProvider, useQueryClient } from "react-query"
@@ -13,20 +14,20 @@ import Loding from './layout/components/pages/Loding'
 import Header from './layout/containers/organisms/Header'
 import { useMutationErrorQuery } from './layout/hooks/util'
 import EditPlaceForm from "./place/containers/molecules/EditPlaceForm"
-import PlaceForm from "./place/containers/molecules/NewPlaceForm"
+import NewPlaceForm from "./place/containers/molecules/NewPlaceForm"
 import PlaceSearch from './place/containers/organisms/PlaceSearch'
 import PlaceSearched from "./place/containers/organisms/PlaceSearched"
 import Place from './place/containers/pages/Place'
+import AuthUserPage from './user/containers/pages/AuthUserPage'
 import Login from './user/containers/pages/Login'
 import Register from './user/containers/pages/Register'
+import UserChangedEmail from './user/containers/pages/UserChangedEmail'
 import UserEdit from './user/containers/pages/UserEdit'
+import UserFollowCount from './user/containers/pages/UserFollowCount'
 import UserPage from "./user/containers/pages/UserPage"
+import UserResetPassword from './user/containers/pages/UserResetPassword'
 import UserSetting from "./user/containers/pages/UserSetting"
 import { useCurrentUser, useGetUserQuery } from './user/hooks'
-import UserFollowCount from './user/containers/pages/UserFollowCount'
-import UserChangedEmail from './user/containers/pages/UserChangedEmail'
-import { makeStyles } from '@material-ui/styles'
-import UserResetPassword from './user/containers/pages/UserResetPassword'
 
 require('./bootstrap')
 
@@ -134,7 +135,6 @@ const App: FC = () => {
                     <Place />
                 </Route>
 
-
                 <Route exact path="/places/search">
                     <PlaceSearch />
                 </Route>
@@ -162,13 +162,13 @@ const App: FC = () => {
                 <UnAuthRoute exact path="/user/password/reset/:token">
                     <UserResetPassword />
                 </UnAuthRoute>
-                {/*
-                <UnAuthRoute exact path="/">
-                    <Register />
-                </UnAuthRoute> */}
 
                 <AuthRoute exact path="/press">
-                    <PlaceForm />
+                    <NewPlaceForm />
+                </AuthRoute>
+
+                <AuthRoute exact path="/mypage/:contentsView">
+                    <AuthUserPage />
                 </AuthRoute>
 
                 <AuthRoute exact path="/place/edit/:placeId">
@@ -178,10 +178,6 @@ const App: FC = () => {
                 <AuthRoute exact path="/user/email/reset/:token">
                     <UserChangedEmail />
                 </AuthRoute>
-
-                {/* <AuthRoute path="/account/mypage">
-                    <UserPage />
-                </AuthRoute> */}
 
                 <AuthRoute exact path="/user/setting">
                     <UserSetting />

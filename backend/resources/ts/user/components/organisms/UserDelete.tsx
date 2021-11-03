@@ -1,7 +1,8 @@
 
-import { Backdrop, Box, Button, CircularProgress, makeStyles, Paper, Typography, useMediaQuery, useTheme } from "@material-ui/core"
+import { Accordion, AccordionSummary, Backdrop, Box, Button, CircularProgress, makeStyles, Typography, useMediaQuery, useTheme } from "@material-ui/core"
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { AxiosError } from "axios"
-import React, { FC, useCallback, useState } from "react"
+import React, { useCallback, useState } from "react"
 import UserDeleteAlert from "../molecules/UserDeleteAlert"
 import UserDeleteDialog from "../molecules/UserDeleteDialog"
 
@@ -11,13 +12,25 @@ type Props = {
     handleDeleteUser: VoidFunction
     error: AxiosError<any> | null
 }
+const useStyle = makeStyles((theme) => ({
+    AccordionContents: {
+        display: 'flex',
+        flexDirection: 'column',
+        marginLeft: theme.spacing(3),
+        marginRight: theme.spacing(3),
+        marginBottom: theme.spacing(3)
+    },
+    button: {
+        alignSelf: 'center'
+    }
+}))
 const UserDelete: React.FC<Props> = ({
     handleDeleteUser,
     statusCode,
     isLoading,
     error
 }) => {
-
+    const classes = useStyle()
     const theme = useTheme()
     const matches = useMediaQuery(theme.breakpoints.up('sm'))
     const paddingY = 2
@@ -38,30 +51,36 @@ const UserDelete: React.FC<Props> = ({
         <Box
             pt={paddingY * 2}
             pb={paddingY}
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
         >
-
-            <Typography component="h3" variant="h5" color="secondary" paragraph>
-                アカウント削除
-            </Typography>
-            <Typography paragraph>
-                削除すると元に戻すことは出来ません。
-            </Typography>
-            {statusCode && <Box mb={2}>
-                <UserDeleteAlert statusCode={statusCode} error={error} />
-            </Box>}
-            <Button
-                color="secondary"
-                variant="outlined"
-                aria-label="ログインユーザを削除"
-                aria-controls={dialogId}
-                aria-haspopup="dialog"
-                onClick={handleDeleteDialogOpen}
-            >
-                アカウント削除
-            </Button>
+            <Accordion>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-label="Expand"
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                >
+                    <Typography>アカウントを削除</Typography>
+                </AccordionSummary>
+                <Box className={classes.AccordionContents}>
+                    <Typography paragraph>
+                        削除すると元に戻すことは出来ません。
+                    </Typography>
+                    {statusCode && <Box mb={2}>
+                        <UserDeleteAlert statusCode={statusCode} error={error} />
+                    </Box>}
+                    <Button
+                        color="secondary"
+                        className={classes.button}
+                        variant="outlined"
+                        aria-label="ログインユーザを削除"
+                        aria-controls={dialogId}
+                        aria-haspopup="dialog"
+                        onClick={handleDeleteDialogOpen}
+                    >
+                        アカウント削除
+                    </Button>
+                </Box>
+            </Accordion>
             <UserDeleteDialog
                 dialogId={dialogId}
                 open={isDeleteDialogOpen}

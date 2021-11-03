@@ -2,7 +2,7 @@ import axios, { AxiosError } from "axios"
 import { useMutation, UseMutationResult } from "react-query"
 import { toast } from "react-toastify"
 
-const AddFavoritePlace = async (placeId: string): Promise<boolean> => {
+const AddFavoritePlace = async (placeId: number): Promise<boolean> => {
     const { data } = await axios.post(`/api/places/${placeId}/favorite`)
     return data
 }
@@ -10,7 +10,7 @@ const AddFavoritePlace = async (placeId: string): Promise<boolean> => {
 const useAddFavoritePlace = (): UseMutationResult<
     boolean,
     AxiosError,
-    string,
+    number,
     undefined
 > => {
     return useMutation(AddFavoritePlace,

@@ -1,44 +1,58 @@
-import { Box, makeStyles, Typography } from "@material-ui/core"
+import { Box, Card, CardContent, CardHeader, Container, makeStyles, Paper, Typography, useTheme } from "@material-ui/core"
 import React, { FC } from "react"
 import UserChangeEmail from "../../containers/organisms/UserChangeEmail"
 import UserDelete from "../../containers/organisms/UserDelete"
-
+import Tunnel from '/work/backend/public/background_image/tunnel.png'
 type Props = {
 }
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
         flexDirection: "column",
-        alignItems: "center"
+        backgroundImage: `url(${Tunnel})`,
+        backgroundAttachment: 'fixed',
+        backgroundSize: 'cover'
     },
-    title: {
-        margin: '30px',
-        borderBottom: 'dashed',
+    decorationLine: {
+        borderImage: 'linear-gradient(0.25turn, transparent, #888, transparent)',
+        borderImageSlice: 1,
+        marginBottom: theme.spacing(4)
     },
-    contents: {
-        border: 'dashed'
+    userChangeEmail: {
+        marginLeft: theme.spacing(4),
+        marginBottom: theme.spacing(4)
+    },
+    userDelete: {
+        marginLeft: theme.spacing(4)
     }
 }))
 const UserSetting: FC<Props> = ({
 }) => {
     const classes = useStyles()
+    const theme = useTheme()
 
-    // componentsには基本的にロジックを持たせないが、UIの状態に関するものなので、ここで定義している
     return (
+
         <Box className={classes.root}>
-            <Box className={classes.title}>
-                <Typography
-                    align="center"
-                    component="h5"
-                    variant="h4"
-                >
-                    アカウント設定
-                </Typography>
-            </Box>
-            <Box className={classes.contents}>
-                <UserChangeEmail />
-                <UserDelete />
-            </Box>
+            <main style={{ flex: 1 }}>
+                <Container maxWidth="sm">
+                    <Card style={{ margin: `${theme.spacing(6)}px 0` }}>
+                        <CardHeader title="User設定" style={{ textAlign: 'center', marginTop: 30 }} />
+
+                        <Box p={2} borderBottom={1} className={classes.decorationLine}>
+                        </Box>
+
+                        <CardContent>
+                            <Box className={classes.userChangeEmail}>
+                                <UserChangeEmail />
+                            </Box>
+                            <Box className={classes.userDelete}>
+                                <UserDelete />
+                            </Box>
+                        </CardContent>
+                    </Card>
+                </Container>
+            </main>
         </Box>
 
     )

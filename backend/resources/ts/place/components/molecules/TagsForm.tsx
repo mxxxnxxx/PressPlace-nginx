@@ -15,7 +15,8 @@ const TagsForm: React.FC<Props> = ({ tags, addTag, removeTag }) => {
     const methods = useFormContext()
     const theme = useTheme()
     return (
-        <Box textAlign="center" style={{ margin: theme.spacing(2) }}>
+        <>
+            {/* // Box textAlign="center" style={{ margin: theme.spacing(2) }} */}
             {tags.map((tag, _) => {
                 return (
                     <TextField
@@ -27,8 +28,17 @@ const TagsForm: React.FC<Props> = ({ tags, addTag, removeTag }) => {
                             maxLength: { value: 20, message: '20文字以内で入力してください' },
                             validate: {
                                 matchesTags: () => {
+                                    // 以下で 単体のタグではなく 全体 のタグ を配列で取得
                                     const { tag } = methods.getValues()
-                                    return tag.every((v: never, i: number, self: []) => self.indexOf(v) === i) || "タグが重複しています"
+                                    // ''を無視してバリデーションをするために ''をフィルター
+                                    const tags = tag.filter(Boolean)
+                                    // every関数で配列内の要素にたいして していした関数を実行
+                                    // indexOfでタグの値をつかい検索
+                                    // 重複していなければ全ての 返り値が配列のindexと 一致する
+                                    // 一致すればevery関数がtrueを返す
+                                    // 位置しなければfalseを返しメッセージを表示
+                                    // 空白は飛ばそう
+                                    return tags.every((v: never, i: number, self: []) => self.indexOf(v) === i) || "タグが重複しています"
                                 }
                             },
                         })
@@ -49,17 +59,22 @@ const TagsForm: React.FC<Props> = ({ tags, addTag, removeTag }) => {
                 {methods.errors.tag &&
                     <Typography variant="overline" color="error">
                         タグが重複しています
-                    </Typography>}
+                    </Typography>
+                }
             </Box>
-            <Button type="button" onClick={() => addTag()}>
-                +
-            </Button>
-            {tags.length > 1 && (
-                <Button type="button" onClick={() => { removeTag() }}>
-                    -
-                </Button>
-            )}
-        </Box>
+            <Box>
+                {tags.length < 5 &&
+                    < Button type="button" onClick={() => addTag()}>
+                        +
+                    </Button>
+                }
+                {tags.length > 1 &&
+                    <Button type="button" onClick={() => { removeTag() }}>
+                        -
+                    </Button>
+                }
+            </Box>
+        </>
     )
 
 

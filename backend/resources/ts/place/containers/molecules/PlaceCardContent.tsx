@@ -6,9 +6,6 @@ type Props = {
 }
 
 const EnhancedPlaceCardContent: React.FC<Props> = ({ place }) => {
-    const goMap = () => {
-        window.location.href = `https://www.google.com/maps/search/?api=1&query=${place.address}`
-    }
     return (
         <PlaceCardContent
             place={place}

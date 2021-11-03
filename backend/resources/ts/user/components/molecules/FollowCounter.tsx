@@ -6,11 +6,17 @@ type Props = {
     goUserFollowingCount: () => void
     goUserFollowerCount: () => void
 }
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+        justifyContent: 'center',
+        width: theme.spacing(50),
+        minWidth: theme.spacing(50)
+    },
     followCounterLabel: {
         fontSize: 'smaller',
         textAlign: 'center',
-        margin: '20px'
+        margin: theme.spacing(3)
     }
 }))
 const FollowCounter: React.FC<Props> = ({
@@ -21,33 +27,35 @@ const FollowCounter: React.FC<Props> = ({
     const classes = useStyles()
     return (
         <>
-            {/* フォロー数 */}
-            <Box className={classes.followCounterLabel} >
-                <Button
-                    onClick={() => goUserFollowingCount()}
-                >
-                    <Typography variant="h4" color="initial">
-                        {userProfile?.countFollowings}
-                    </Typography>
-                    <Typography color="initial">
-                        フォロー数
-                    </Typography>
-                </Button>
-            </Box >
+            <Box className={classes.root}>
+                {/* フォロー数 */}
+                <Box className={classes.followCounterLabel} >
+                    <Button
+                        onClick={() => goUserFollowingCount()}
+                    >
+                        <Typography variant="h4" color="initial">
+                            {userProfile?.countFollowings}
+                        </Typography>
+                        <Typography color="initial">
+                            フォロー数
+                        </Typography>
+                    </Button>
+                </Box >
 
-            {/* フォロワー数 */}
-            <Box className={classes.followCounterLabel} >
-                <Button
-                    onClick={() => goUserFollowerCount()}
-                >
-                    <Typography variant="h4" color="initial">
-                        {userProfile?.countFollowers}
-                    </Typography>
-                    <Typography color="initial">
-                        フォロワー数
-                    </Typography>
-                </Button>
-            </Box >
+                {/* フォロワー数 */}
+                <Box className={classes.followCounterLabel} >
+                    <Button
+                        onClick={() => goUserFollowerCount()}
+                    >
+                        <Typography variant="h4" color="initial">
+                            {userProfile?.countFollowers}
+                        </Typography>
+                        <Typography color="initial">
+                            フォロワー数
+                        </Typography>
+                    </Button>
+                </Box >
+            </Box>
         </>
     )
 }

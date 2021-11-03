@@ -9,6 +9,7 @@ import { AxiosError } from 'axios'
 import React, { FC } from 'react'
 import { useForm } from "react-hook-form"
 import RegisterAlert from '../molecules/RegisterAlert'
+import Window from '/work/backend/public/background_image/window.jpg'
 
 type Inputs = {
     name: string
@@ -22,6 +23,13 @@ type Props = {
     statusCode?: number
     onSubmit: (data: Inputs) => Promise<void>
 }
+const useStyle = makeStyles(() => ({
+    root: {
+        backgroundImage: `url(${Window})`,
+        backgroundAttachment: 'fixed',
+        backgroundSize: 'cover'
+    },
+}))
 const numberRegExp = /^[0-9]+$/
 
 const Register: FC<Props> = (
@@ -32,6 +40,7 @@ const Register: FC<Props> = (
         onSubmit
     }
 ) => {
+    const classes = useStyle()
     const theme = useTheme()
     const { register, errors, handleSubmit, formState, getValues } = useForm({
         // 初回バリデーションのタイミング(mode)をonBlurに設定
@@ -39,7 +48,12 @@ const Register: FC<Props> = (
     })
 
     return (
-        <Box display="flex" flexDirection="column" minHeight="100vh">
+        <Box
+            display="flex"
+            flexDirection="column"
+            minHeight="100vh"
+            className={classes.root}
+        >
             <main style={{ flex: 1 }}>
                 <Container maxWidth="xs">
                     <Card style={{ margin: `${theme.spacing(6)}px 0` }}>

@@ -18,11 +18,9 @@ const Loding: React.FC<Props> = ({ isLoading }) => {
     const classes = useStyles();
 
     return (
-        <div>
-            <Backdrop className={classes.backdrop} open={isLoading}>
-                <CircularProgress color="primary" />
-            </Backdrop>
-        </div>
+        <Backdrop className={classes.backdrop} open={isLoading}>
+            <CircularProgress color="primary" />
+        </Backdrop>
     )
 }
 

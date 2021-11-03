@@ -1,13 +1,14 @@
-import { Box, Card, makeStyles } from "@material-ui/core"
+import { Box, Card, makeStyles, Typography } from "@material-ui/core"
 import { AxiosError } from "axios"
 import React, { FC } from 'react'
 import Loding from "../../../layout/components/pages/Loding"
+import PressButton from "../../../place/components/atoms/PressButton"
 import PageNextBack from "../../../place/components/molecules/PageNextBack"
 import PlaceCardContent from "../../../place/components/molecules/PlaceCardContent"
+import PlaceCardAction from "../../../place/containers/molecules/PlaceCardAction"
 import PlaceCardHeader from '../../../place/containers/molecules/PlaceCardHeader'
 import { Place } from "../../../place/types/Place"
 import { Places } from "../../../place/types/Places"
-import PlaceCardAction from "../../../place/components/molecules/PlaceCardAction"
 
 type Props = {
     places?: Places
@@ -17,13 +18,17 @@ type Props = {
     page: number
     setPage: (number: number) => void
 }
-const useStyle = makeStyles(() => ({
+const useStyle = makeStyles((theme) => ({
     noSearched: {
         textAlign: 'center',
         color: 'red',
+        padding: theme.spacing(4)
     },
     nextBack: {
         textAlign: 'center',
+    },
+    noPlace: {
+        marginBottom: theme.spacing(2)
     }
 }))
 const UserPlaces: FC<Props> = ({
@@ -42,22 +47,30 @@ const UserPlaces: FC<Props> = ({
         <Box>
             {/* placeカード */}
             <section>
-                {places?.total === 0 &&
+                {places?.data && places?.data?.length > 0 ?
+                    places?.data && places?.data?.map((place: Place, index) => (
+                        <Card className='m-3' key={index.toString()}>
+                            <PlaceCardHeader place={place} />
+                            <PlaceCardContent place={place} />
+                            {place.tags.length > 0 &&
+                                <PlaceCardAction place={place} />
+                            }
+                        </Card>
+                    ))
+                    :
                     <Box className={classes.noSearched}>
-                        まだPlaceをpressしていません
+                        <Typography className={classes.noPlace}>
+                            まだPlaceを投稿していません
+                        </Typography>
+                        <PressButton />
                     </Box>
                 }
-                {places?.total && <PageNextBack page={page} setPage={setPage} isPreviousData={isPreviousData} places={places} />}
-
-                {places?.data && places?.data?.map((place: Place, index) => (
-                    <Card className='m-3' key={index.toString()}>
-                        <PlaceCardHeader place={place} />
-                        <PlaceCardContent place={place} />
-                        <PlaceCardAction place={place} />
-                    </Card>
-                ))}
-
-                {places?.total && <PageNextBack page={page} setPage={setPage} isPreviousData={isPreviousData} places={places} />}
+                <PageNextBack
+                    page={page}
+                    setPage={setPage}
+                    isPreviousData={isPreviousData}
+                    places={places}
+                />
             </section>
         </Box>
     )

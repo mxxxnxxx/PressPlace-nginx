@@ -7,8 +7,8 @@ import BackspaceIcon from '@material-ui/icons/Backspace'
 type Props = {
     place: Place
     buttonState?: boolean
-    addFavorite: (placeId: string) => void
-    unFavorite: (placeId: string) => void
+    addFavorite: (placeId: number) => void
+    unFavorite: (placeId: number) => void
 
 }
 const useStyle = makeStyles(() => ({

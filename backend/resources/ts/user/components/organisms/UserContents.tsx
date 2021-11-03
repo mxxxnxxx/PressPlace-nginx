@@ -43,7 +43,7 @@ function a11yProps(index: any) {
         'aria-controls': `wrapped-tabpanel-${index}`,
     }
 }
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         width: '90%',
         marginTop: '30px',
@@ -56,11 +56,8 @@ const useStyles = makeStyles(() => ({
     },
     tabs: {
         width: '70%',
-        boxShadow: 'none',
         backgroundColor: 'white',
-        marginBottom: '20px',
-        padding: '30px',
-        borderBottom: 'dashed thin',
+        padding: theme.spacing(3),
         marginLeft: 'auto',
         marginRight: 'auto'
 
@@ -80,11 +77,6 @@ const UserContents: React.FC<Props> = ({
     return (
 
         <Box className={classes.root}>
-            <Typography
-                className={classes.userName}
-            >
-                あなたの場所
-            </Typography>
             <AppBar position="static" color="default" className={classes.tabs}>
                 <Tabs
                     value={value}
@@ -97,8 +89,8 @@ const UserContents: React.FC<Props> = ({
                     variant="fullWidth"
                     centered
                 >
-                    <Tab className={classes.tab} value="myPlace" label="myPlace" {...a11yProps('following')} />
-                    <Tab className={classes.tab} value="favoritePlace" label="favoritePlace" {...a11yProps('follower')} />
+                    <Tab className={classes.tab} value="myPlace" label="投稿した場所" {...a11yProps('following')} />
+                    <Tab className={classes.tab} value="favoritePlace" label="お気に入りの場所" {...a11yProps('follower')} />
                 </Tabs>
             </AppBar>
 

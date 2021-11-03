@@ -4,7 +4,7 @@ import FavoritePlaces from '../../components/organisms/FavoritePlaces'
 import useGetFavoritePlaces from '../../hooks/useGetFavoritePlacesQuery'
 
 type Props = {
-    userName: string
+    userName?: string
 }
 const EnhancedFavoritePlaces: React.FC<Props> = ({
     userName

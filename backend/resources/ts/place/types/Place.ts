@@ -6,7 +6,7 @@ import { Tag } from './Tag'
 
 export type Place = {
     data: { key: string[] }
-    id: any
+    id: number
     name: string
     address: string
     comment: string

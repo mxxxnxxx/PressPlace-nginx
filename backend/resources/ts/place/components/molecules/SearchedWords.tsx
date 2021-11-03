@@ -14,11 +14,12 @@ import ListAltIcon from '@material-ui/icons/ListAlt'
 import React, { FC } from 'react'
 import { Inputs } from '../../types/Inputs'
 import { Places } from '../../types/Places'
+import { ActionType } from '../../types/ActionType'
 
 type Props = {
     InputsData?: Inputs
     places?: Places
-    removeKey: (key?: string, index?: number) => void
+    removeKey: (type: any, index?: number | undefined) => Promise<void>
 }
 const useStyles = makeStyles(() => ({
     SearchKeysArea: {
@@ -26,6 +27,7 @@ const useStyles = makeStyles(() => ({
     },
     SearchKeys: {
         textDecoration: 'none',
+        textTransform: 'none',
         color: 'inherit',
     },
 }))
@@ -99,7 +101,7 @@ const SearchedWords: FC<Props> = ({ InputsData, places, removeKey }) => {
                     </Button>
                 ))}
             </Box>
-        </section>
+        </section >
     )
 }
 export default SearchedWords

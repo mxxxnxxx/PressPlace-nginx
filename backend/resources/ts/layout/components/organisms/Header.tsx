@@ -9,6 +9,7 @@ import VpnKeyIcon from '@material-ui/icons/VpnKey'
 import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew'
 import SearchIcon from '@material-ui/icons/Search'
 import { User } from '../../../user/types/User'
+import PressButton from '../../../place/components/atoms/PressButton'
 
 type Props = {
     user: User | undefined | null
@@ -69,17 +70,9 @@ const Header: FC<Props> = ({ user, handleLogout }) => {
                         search
                     </Button>
 
-                    {user && (
-                        <Button
-                            startIcon={<CreateIcon />}
-                            component={Link}
-                            to="/press"
-                            variant="outlined"
-                            style={{ marginRight: theme.spacing(2) }}
-                        >
-                            press
-                        </Button>
-                    )}
+                    {user &&
+                        <PressButton />
+                    }
 
 
                     {/* ログインボタン */}
