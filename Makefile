@@ -9,19 +9,19 @@ create-project:
 	@make build
 	@make up
 	@make laravel-install
-	docker compose exec app php artisan key:generate
-	docker compose exec app php artisan storage:link
-	docker compose exec app chmod -R 777 storage bootstrap/cache
+	docker-compose exec app php artisan key:generate
+	docker-compose exec app php artisan storage:link
+	docker-compose exec app chmod -R 777 storage bootstrap/cache
 	@make fresh
 install-recommend-packages:
-	docker compose exec app composer require doctrine/dbal
-	docker compose exec app composer require --dev ucan-lab/laravel-dacapo
-	docker compose exec app composer require --dev barryvdh/laravel-ide-helper
-	docker compose exec app composer require --dev beyondcode/laravel-dump-server
-	docker compose exec app composer require --dev barryvdh/laravel-debugbar
-	docker compose exec app composer require --dev roave/security-advisories:dev-master
-	docker compose exec app php artisan vendor:publish --provider="BeyondCode\DumpServer\DumpServerServiceProvider"
-	docker compose exec app php artisan vendor:publish --provider="Barryvdh\Debugbar\ServiceProvider"
+	docker-compose exec app composer require doctrine/dbal
+	docker-compose exec app composer require --dev ucan-lab/laravel-dacapo
+	docker-compose exec app composer require --dev barryvdh/laravel-ide-helper
+	docker-compose exec app composer require --dev beyondcode/laravel-dump-server
+	docker-compose exec app composer require --dev barryvdh/laravel-debugbar
+	docker-compose exec app composer require --dev roave/security-advisories:dev-master
+	docker-compose exec app php artisan vendor:publish --provider="BeyondCode\DumpServer\DumpServerServiceProvider"
+	docker-compose exec app php artisan vendor:publish --provider="Barryvdh\Debugbar\ServiceProvider"
 init:
 	docker-compose up -d --build
 	docker-compose exec app composer install
@@ -65,7 +65,7 @@ log-db-watch:
 web:
 	docker-compose exec web ash
 app:
-	docker compose exec app bash
+	docker-compose exec app bash
 migrate:
 	docker-compose exec app php artisan migrate
 fresh:
@@ -75,7 +75,7 @@ seed:
 	docker-compose exec app php artisan db:seed
 	docker-compose exec app php artisan import:postal-code
 dacapo:
-	docker compose exec app php artisan dacapo
+	docker-compose exec app php artisan dacapo
 rollback-test:
 	docker-compose exec app php artisan migrate:fresh
 	docker-compose exec app php artisan migrate:refresh
