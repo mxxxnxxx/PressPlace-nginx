@@ -41,8 +41,8 @@ class ImportPostalCodeCommand extends Command
         \App\PostalCode::truncate();
 
         // CSVファイルの文字コード変換
-        $csv_path = storage_path('app/csv/KEN_ALL.CSV');
-        $converted_csv_path = storage_path('app/csv/postal_code_utf8.csv');
+        $csv_path = public_path('csv/KEN_ALL.CSV');
+        $converted_csv_path = public_path('csv/postal_code_utf8.csv');
         file_put_contents(
             $converted_csv_path,
             mb_convert_encoding(
@@ -69,7 +69,7 @@ class ImportPostalCodeCommand extends Command
                 ]);
             }
         }
-        
+
     }
-    
+
 }
