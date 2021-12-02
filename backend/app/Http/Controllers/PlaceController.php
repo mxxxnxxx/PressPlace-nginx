@@ -169,8 +169,7 @@ class PlaceController extends Controller
         ->with('place_images')
         ->with('user')
         ->with('tags')
-        ->paginate(15)
-        ;
+        ->paginate(15);
 
         return $places;
     }

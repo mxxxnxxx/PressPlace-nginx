@@ -5,10 +5,11 @@ import React, { FC } from 'react'
 import PlaceCard from '../../containers/organisms/PlaceCard'
 import Map from '/work/backend/public/background_image/map.png'
 
-const useStyle = makeStyles((theme) => ({
+const useStyle = makeStyles(() => ({
     root: {
         backgroundImage: `url(${Map})`,
         backgroundAttachment: 'fixed',
+        backgroundSize: 'cover'
 
     }
 }))
