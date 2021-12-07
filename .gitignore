@@ -60,7 +60,6 @@ fabric.properties
 
 # Docker Compose
 .env
-.env.example
 #.history
 .history
 node_modules
