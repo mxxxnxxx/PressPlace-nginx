@@ -65,7 +65,6 @@ class UserController extends Controller{
         ->with('user')
         ->with('tags')
         ->paginate(15);
-        \Debugbar::info($favoritePlaces->toArray());
         return response()->json($favoritePlaces);
     }
 
@@ -152,7 +151,6 @@ class UserController extends Controller{
     // ソフトデリート
     public function softdelete(){
         $user = Auth::user();
-        \Debugbar::info($user);
         $user->delete();
         return redirect()->to('/');
     }

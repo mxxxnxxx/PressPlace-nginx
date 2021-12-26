@@ -35,18 +35,14 @@ class PlaceController extends Controller
         // 画像の処理
         // 一枚目の写真がなければ処理をしない
         if ($request->place_image_0) {
-            \Debugbar::info('ここ');
             $count = count($request->file());
-            \Debugbar::info('ここ');
             for ($i = 0; $i < $count; $i++) {
                 $place_image = "place_image_{$i}";
                 $img = $request->file($place_image);
-                \Debugbar::info($img);
                 $path = Storage::disk('s3')->putFile('place_images', $img, 'public');
                 $place->place_images()->create(['image_path' => $path]);
             };
         }
-\Debugbar::info('成功');
         // tagの処理
         // preg_match_allを使用してからの'スペース'の要素を除外し$matchを作成
         preg_match_all('/([a-zA-z0-9０-９ぁ-んァ-ヶ亜-熙]+)/', $request->tags, $match);
@@ -200,15 +196,16 @@ class PlaceController extends Controller
             'comment' => $comment,
             'tags' => $tags
         ] = $InputsData;
-        if(!in_array(null,$tags)){
-            // tagの検索
-                $places_q->whereHas('tags', function ($places_q) use ($tags) {
-                    foreach ($tags as $tag) {
-                        $places_q->where('name', 'like', '%' . $tag . '%');
-                    }
-                });
-        }else{
-            \Debugbar::info('成功');
+        // タグは後で削除された場合react側では' 'でそうしんされて$tagsのだんかいではnullになる
+        // $tagsのnullをフィルター
+        $tags_no_null = array_filter($tags);
+        // whereHasで配列がからで検索をかけると該当がなくなるのでifで回避
+        if (!$tags_no_null == []) {
+            $places_q->whereHas('tags', function ($places_q) use ($tags_no_null) {
+            foreach ($tags_no_null as $tag) {
+            $places_q->where('name', 'like', '%' . $tag . '%');
+            }
+            });
         }
 
         if (!$name == "") {
@@ -220,7 +217,6 @@ class PlaceController extends Controller
         if (!$comment == "") {
             $places_q->where('comment', 'like', '%' . $comment . '%');
         }
-
         $placeSearched = $places_q
         ->orderBy('created_at', 'desc')
         ->with('place_images')
