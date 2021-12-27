@@ -36,7 +36,7 @@ const EnhancedPlaceSearched: FC = () => {
             case 'comment':
                 return { ...keyWordState, comment: '' }
             case 'tag':
-                return { ...keyWordState, tag: keyWordState?.tag?.splice(action.index, 1) }
+                return { ...keyWordState, tag: keyWordState?.tag?.splice(action.index, 1, '') }
         }
     }
 
@@ -65,7 +65,12 @@ const EnhancedPlaceSearched: FC = () => {
                 getPlaceSearch
             )
         }
+        // if (
+        //     ||) {
+        //     history.push('/places/search')
+        // }
         window.scrollTo(0, 0)
+
     }, [page, queryClient])
 
     return (

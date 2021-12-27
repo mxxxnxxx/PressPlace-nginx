@@ -1,4 +1,4 @@
-import { Backdrop, Box, Card, CircularProgress, makeStyles } from '@material-ui/core'
+import { Backdrop, Box, Card, CircularProgress, makeStyles, Typography } from '@material-ui/core'
 import { useTheme } from '@material-ui/core/styles'
 import { AxiosError } from 'axios'
 import React, { FC } from 'react'
@@ -10,7 +10,8 @@ import PlaceCardContent from './PlaceCardContent'
 import SearchedWords from './SearchedWords'
 import PageNextBack from './PageNextBack'
 import EnhancedPlaceCardAction from '../../containers/molecules/PlaceCardAction'
-import { ActionType } from '../../types/ActionType'
+import Map from '/work/backend/public/background_image/map.png'
+import PlaceSearchButton from '../atoms/PlaceSearchButton'
 
 type Props = {
     places?: Places
@@ -24,8 +25,14 @@ type Props = {
     removeKey: (type: any, index?: number | undefined) => Promise<void>
 }
 
-const useStyle = makeStyles(() => ({
+const useStyle = makeStyles((theme) => ({
+    root: {
+        backgroundImage: `url(${Map})`,
+        backgroundAttachment: 'fixed',
+        backgroundSize: 'cover'
+    },
     noSearched: {
+        margin: theme.spacing(8),
         textAlign: 'center',
         color: 'red',
     },
@@ -49,14 +56,21 @@ const PlaceSearched: FC<Props> = ({
     const theme = useTheme()
     const classes = useStyle()
     return (
-        <section>
+        <section className={classes.root}>
             <SearchedWords places={places} InputsData={InputsData} removeKey={removeKey} />
             {places?.total == 0 &&
-                <Box
+                <Card
                     className={classes.noSearched}
                 >
-                    検索結果が見つかりませんでした
-                </Box>
+                    <Box>
+                        <Typography color="initial">
+                            検索結果が見つかりませんでした
+                        </Typography>
+                    </Box>
+                    <Box>
+                        <PlaceSearchButton />
+                    </Box>
+                </Card>
             }
             {places?.data?.map((place: Place, index) => (
                 <Card className='m-3' key={index.toString()}>
