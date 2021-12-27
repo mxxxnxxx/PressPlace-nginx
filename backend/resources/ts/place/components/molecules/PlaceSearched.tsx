@@ -36,6 +36,9 @@ const useStyle = makeStyles((theme) => ({
         textAlign: 'center',
         color: 'red',
     },
+    noSearchedText: {
+        margin: theme.spacing(3)
+    },
     nextBack: {
         textAlign: 'center',
     }
@@ -57,17 +60,17 @@ const PlaceSearched: FC<Props> = ({
     const classes = useStyle()
     return (
         <section className={classes.root}>
-            <SearchedWords places={places} InputsData={InputsData} removeKey={removeKey} />
+            <Card>
+                <SearchedWords places={places} InputsData={InputsData} removeKey={removeKey} />
+            </Card>
             {places?.total == 0 &&
                 <Card
                     className={classes.noSearched}
                 >
-                    <Box>
+                    <Box className={classes.noSearchedText}>
                         <Typography color="initial">
                             検索結果が見つかりませんでした
                         </Typography>
-                    </Box>
-                    <Box>
                         <PlaceSearchButton />
                     </Box>
                 </Card>
