@@ -22,7 +22,7 @@ type Props = {
     data?: Places
     isPreviousData: boolean
     InputsData?: Inputs
-    removeKey: (type: any, index?: number | undefined) => Promise<void>
+    removeKey: (type: any, index?: number | undefined) => void
 }
 
 const useStyle = makeStyles((theme) => ({

@@ -36,12 +36,13 @@ const EnhancedPlaceSearched: FC = () => {
             case 'comment':
                 return { ...keyWordState, comment: '' }
             case 'tag':
-                return { ...keyWordState, tag: keyWordState?.tag?.splice(action.index, 1, '') }
+                keyWordState?.tag?.splice(action.index, 1, '')
+                return { ...keyWordState, tag: keyWordState?.tag }
         }
     }
 
     const [InputsData, dispatch] = useReducer(reducerFC, initialState)
-    console.log(InputsData);
+
     const {
         data: places,
         isLoading,
@@ -50,7 +51,7 @@ const EnhancedPlaceSearched: FC = () => {
         refetch: getPlaceSearch
     } = useGetPlaceSearch(page, InputsData)
 
-    const removeKey = async (type: any, index?: number): Promise<void> => {
+    const removeKey = (type: any, index?: number) => {
         queryClient.removeQueries('PlaceSearched', { exact: false });
         dispatch({ type: type, index: index });
         () => setPage(() => 1)
@@ -59,16 +60,32 @@ const EnhancedPlaceSearched: FC = () => {
     }
 
     useEffect(() => {
-        // 2ページ目以降があれば
+        // 2ページ目以降があれば事前に次のページの情報を読み込む
         if (!(places?.lastPage === page + 1)) {
             queryClient.prefetchQuery(['PlaceSearched', page + 1], () =>
                 getPlaceSearch
             )
         }
-        // if (
-        //     ||) {
-        //     history.push('/places/search')
-        // }
+        if (
+            // 検索ページで更新をかけるとundefinedになるのでフォームへ移動
+            Object.values(InputsData).every((v) => v == undefined)
+            ||
+            // InputsDataの検索条件がすべて削除されて''になったときにフォームへ移動
+            Object.values(InputsData).every((v) => {
+                // InputsDataのtag以外はstring
+                if (typeof v == 'string') {
+                    return v == ''
+                }
+                // tagは配列なのでobject
+                if (typeof v == 'object') {
+                    return v.every((tag) => {
+                        tag == ''
+                    })
+                }
+            })
+        ) {
+            history.push('/places/search')
+        }
         window.scrollTo(0, 0)
 
     }, [page, queryClient])

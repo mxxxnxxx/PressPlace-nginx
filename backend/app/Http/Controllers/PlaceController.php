@@ -197,16 +197,16 @@ class PlaceController extends Controller
             'tags' => $tags
         ] = $InputsData;
         // タグは後で削除された場合react側では' 'でそうしんされて$tagsのだんかいではnullになる
-        // $tagsのnullをフィルター
-        $tags_no_null = array_filter($tags);
-        // whereHasで配列がからで検索をかけると該当がなくなるのでifで回避
-        if (!$tags_no_null == []) {
-            $places_q->whereHas('tags', function ($places_q) use ($tags_no_null) {
-            foreach ($tags_no_null as $tag) {
-            $places_q->where('name', 'like', '%' . $tag . '%');
+        // $tagsがすべてnullでなければ検索をかける
+            $places_q->whereHas('tags', function ($places_q) use ($tags) {
+            // whereHasで配列がからで検索をかけると該当がなくなるのでifで回避
+            foreach ($tags as $tag) {
+                if(isset($tag)){
+                    $places_q->where('name', 'like', '%' . $tag . '%');
+                }
             }
-            });
-        }
+        });
+
 
         if (!$name == "") {
             $places_q->where('name', 'like', '%' . $name . '%');

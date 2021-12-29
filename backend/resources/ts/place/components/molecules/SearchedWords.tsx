@@ -1,25 +1,17 @@
 import {
-    Menu,
-    MenuItem,
-    MenuList,
-    ListItem,
-    makeStyles,
-    Button,
-    Typography,
-    Box,
+    Box, Button, makeStyles
 } from '@material-ui/core'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff'
-import SearchIcon from '@material-ui/icons/Search'
 import ListAltIcon from '@material-ui/icons/ListAlt'
+import SearchIcon from '@material-ui/icons/Search'
 import React, { FC } from 'react'
 import { Inputs } from '../../types/Inputs'
 import { Places } from '../../types/Places'
-import { ActionType } from '../../types/ActionType'
 
 type Props = {
     InputsData?: Inputs
     places?: Places
-    removeKey: (type: any, index?: number | undefined) => Promise<void>
+    removeKey: (type: any, index?: number | undefined) => void
 }
 const useStyles = makeStyles(() => ({
     SearchKeysArea: {
@@ -88,7 +80,7 @@ const SearchedWords: FC<Props> = ({ InputsData, places, removeKey }) => {
                     </Button>}
 
                 {InputsData?.tag?.map((tag: string, index: number) => (
-                    !(tag == "") &&
+                    !(tag === "") &&
                     <Button
                         key={index.toString()}
                         startIcon={<HighlightOffIcon />}
