@@ -35,11 +35,15 @@ const useStyle = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        margin: 'auto',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginBottom: '50%',
         marginTop: theme.spacing(10),
-        marginBottom: theme.spacing(10),
         maxWidth: theme.spacing(80),
         minWidth: theme.spacing(65),
+    },
+    card: {
+        marginBottom: theme.spacing(10),
     },
     noSearched: {
         margin: theme.spacing(8),
@@ -69,7 +73,7 @@ const PlaceSearched: FC<Props> = ({
     const theme = useTheme()
     const classes = useStyle()
     return (
-        <section className={classes.root}>
+        <Box className={classes.root}>
             <Card>
                 <SearchedWords places={places} InputsData={InputsData} removeKey={removeKey} />
             </Card>
@@ -87,7 +91,7 @@ const PlaceSearched: FC<Props> = ({
                     </Card>
                 }
                 {places?.data?.map((place: Place, index) => (
-                    <Card key={index.toString()}>
+                    <Card className={classes.card} key={index.toString()}>
                         <PlaceCardHeader place={place} />
                         <PlaceCardContent place={place} />
                         {place.tags.length > 0 &&
@@ -107,7 +111,7 @@ const PlaceSearched: FC<Props> = ({
             <Backdrop style={{ zIndex: theme.zIndex.drawer + 1 }} open={isLoading}>
                 <CircularProgress color="inherit" />
             </Backdrop>
-        </section>
+        </Box>
     )
 }
 
