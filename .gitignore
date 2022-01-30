@@ -63,4 +63,5 @@ fabric.properties
 #.history
 .history
 node_modules
-L
+.DS_Store
+*.log

@@ -16,7 +16,7 @@ const PlaceGoogleMap: React.FC<Props> = ({
         <Button
             onClick={() => goMap()}
             startIcon={<MapIcon />}
-        >map</Button>
+        >Map</Button>
     )
 }
 export default PlaceGoogleMap

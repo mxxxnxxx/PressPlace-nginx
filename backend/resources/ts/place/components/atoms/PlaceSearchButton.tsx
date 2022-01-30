@@ -14,7 +14,7 @@ const PlaceSearchButton: React.FC = () => {
             to="/places/search"
             style={{ marginRight: theme.spacing(2) }}
         >
-            search
+            SEARCH
         </Button>
     )
 }

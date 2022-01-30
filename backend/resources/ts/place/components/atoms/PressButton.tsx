@@ -12,7 +12,7 @@ const PressButton: React.FC = () => {
             to="/press"
             variant="outlined"
         >
-            press
+            PRESS
         </Button>
     )
 }

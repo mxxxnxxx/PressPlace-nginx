@@ -69,26 +69,12 @@ const EnhancedPlaceSearched: FC = () => {
         if (
             // 検索ページで更新をかけるとundefinedになるのでフォームへ移動
             Object.values(InputsData).every((v) => v == undefined)
-            ||
-            // InputsDataの検索条件がすべて削除されて''になったときにフォームへ移動
-            Object.values(InputsData).every((v) => {
-                // InputsDataのtag以外はstring
-                if (typeof v == 'string') {
-                    return v == ''
-                }
-                // tagは配列なのでobject
-                if (typeof v == 'object') {
-                    return v.every((tag) => {
-                        tag == ''
-                    })
-                }
-            })
         ) {
             history.push('/places/search')
         }
         window.scrollTo(0, 0)
 
-    }, [page, queryClient])
+    }, [page, queryClient, InputsData])
 
     return (
         <PlaceSearched

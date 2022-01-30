@@ -1,3 +1,4 @@
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { makeStyles } from '@material-ui/styles'
 import React, { FC, useCallback } from "react"
@@ -12,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import Footer from './layout/components/organisms/Footer'
 import Loding from './layout/components/pages/Loding'
 import Header from './layout/containers/organisms/Header'
+import Creator from './layout/containers/pages/Creator'
 import { useMutationErrorQuery } from './layout/hooks/util'
 import EditPlaceForm from "./place/containers/molecules/EditPlaceForm"
 import NewPlaceForm from "./place/containers/molecules/NewPlaceForm"
@@ -28,8 +30,7 @@ import UserPage from "./user/containers/pages/UserPage"
 import UserResetPassword from './user/containers/pages/UserResetPassword'
 import UserSetting from "./user/containers/pages/UserSetting"
 import { useCurrentUser, useGetUserQuery } from './user/hooks'
-
-require('./bootstrap')
+import GlobalStyle from './grobalStyles'
 
 declare global {
     interface Window {
@@ -48,6 +49,15 @@ const useStyle = makeStyles(() => ({
         paddingBottom: '0'
     }
 }))
+const theme = createMuiTheme({
+    typography: {
+        "fontFamily": "\"Zen Kaku Gothic New\", \"sans-serif\"",
+        button: {
+            textTransform: "none"
+        },
+
+    }
+})
 // UnAuthRouteとAuthRouteのpropsの型
 type Props = {
     exact?: boolean
@@ -127,6 +137,7 @@ const App: FC = () => {
 
     return (
         <div className={classes.wrapper} >
+            <GlobalStyle />
             <Header />
 
             <Switch>
@@ -149,6 +160,10 @@ const App: FC = () => {
 
                 <Route exact path="/account/count/:userName/:followView">
                     <UserFollowCount />
+                </Route>
+
+                <Route exact path="/creator">
+                    <Creator />
                 </Route>
 
                 <UnAuthRoute exact path="/login">
@@ -201,7 +216,9 @@ if (document.getElementById('app')) {
         <Router>
             <QueryClientProvider client={client}>
                 <CssBaseline />
-                <App />
+                <MuiThemeProvider theme={theme}>
+                    <App />
+                </MuiThemeProvider>
                 {process.env.NODE_ENV === 'development' && (
                     <ReactQueryDevtools initialIsOpen={false} />
                 )}

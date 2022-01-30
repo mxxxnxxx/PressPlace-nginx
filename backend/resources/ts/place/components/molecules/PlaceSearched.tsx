@@ -9,7 +9,7 @@ import { Places } from '../../types/Places'
 import PlaceCardContent from './PlaceCardContent'
 import SearchedWords from './SearchedWords'
 import PageNextBack from './PageNextBack'
-import EnhancedPlaceCardAction from '../../containers/molecules/PlaceCardAction'
+import PlaceCardAction from '../../containers/molecules/PlaceCardAction'
 import Map from '/work/backend/public/background_image/map.png'
 import PlaceSearchButton from '../atoms/PlaceSearchButton'
 
@@ -30,6 +30,16 @@ const useStyle = makeStyles((theme) => ({
         backgroundImage: `url(${Map})`,
         backgroundAttachment: 'fixed',
         backgroundSize: 'cover'
+    },
+    SearchedPlaces: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        margin: 'auto',
+        marginTop: theme.spacing(10),
+        marginBottom: theme.spacing(10),
+        maxWidth: theme.spacing(80),
+        minWidth: theme.spacing(65),
     },
     noSearched: {
         margin: theme.spacing(8),
@@ -63,35 +73,37 @@ const PlaceSearched: FC<Props> = ({
             <Card>
                 <SearchedWords places={places} InputsData={InputsData} removeKey={removeKey} />
             </Card>
-            {places?.total == 0 &&
-                <Card
-                    className={classes.noSearched}
-                >
-                    <Box className={classes.noSearchedText}>
-                        <Typography color="initial">
-                            検索結果が見つかりませんでした
-                        </Typography>
-                        <PlaceSearchButton />
-                    </Box>
-                </Card>
-            }
-            {places?.data?.map((place: Place, index) => (
-                <Card className='m-3' key={index.toString()}>
-                    <PlaceCardHeader place={place} />
-                    <PlaceCardContent place={place} />
-                    {place.tags.length > 0 &&
-                        <EnhancedPlaceCardAction
-                            place={place}
-                        />
-                    }
-                </Card>
-            ))}
-            {places && places.total > 0 && <PageNextBack
-                page={page}
-                setPage={setPage}
-                isPreviousData={isPreviousData}
-                places={places}
-            />}
+            <Box className={classes.SearchedPlaces}>
+                {places?.total == 0 &&
+                    <Card
+                        className={classes.noSearched}
+                    >
+                        <Box className={classes.noSearchedText}>
+                            <Typography className={classes.noSearchedText} color="initial">
+                                検索結果が見つかりませんでした
+                            </Typography>
+                            <PlaceSearchButton />
+                        </Box>
+                    </Card>
+                }
+                {places?.data?.map((place: Place, index) => (
+                    <Card key={index.toString()}>
+                        <PlaceCardHeader place={place} />
+                        <PlaceCardContent place={place} />
+                        {place.tags.length > 0 &&
+                            <PlaceCardAction
+                                place={place}
+                            />
+                        }
+                    </Card>
+                ))}
+                {places && places.total > 0 && <PageNextBack
+                    page={page}
+                    setPage={setPage}
+                    isPreviousData={isPreviousData}
+                    places={places}
+                />}
+            </Box>
             <Backdrop style={{ zIndex: theme.zIndex.drawer + 1 }} open={isLoading}>
                 <CircularProgress color="inherit" />
             </Backdrop>

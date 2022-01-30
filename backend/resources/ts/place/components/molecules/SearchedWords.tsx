@@ -87,6 +87,7 @@ const SearchedWords: FC<Props> = ({ InputsData, places, removeKey }) => {
                         className={classes.SearchKeys}
                         onClick={() => {
                             removeKey("tag", index)
+                            console.log(InputsData.tag);
                         }}
                     >
                         {tag}

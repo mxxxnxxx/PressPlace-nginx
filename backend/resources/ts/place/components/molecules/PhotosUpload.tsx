@@ -1,4 +1,4 @@
-import { Box, Button, createStyles, Grid, makeStyles } from "@material-ui/core"
+import { Box, Button, createStyles, Grid, makeStyles, Typography } from "@material-ui/core"
 import CameraAltIcon from '@material-ui/icons/CameraAlt'
 import { Alert } from '@material-ui/lab'
 import { display } from "@material-ui/system"
@@ -164,8 +164,8 @@ const PhotosUpload: React.FC<Props> = ({
 
 
 
-            <Box>
-                <p>※最大3枚まで</p>
+            <Box >
+                <Typography align="right">※最大3枚まで</Typography>
             </Box>
         </Box>
     )
