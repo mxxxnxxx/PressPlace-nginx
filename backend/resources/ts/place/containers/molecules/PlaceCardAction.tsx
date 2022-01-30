@@ -23,11 +23,12 @@ const EnhancedPlaceCardAction: React.FC<Props> = ({ place }) => {
             comment: '',
             address: '',
         }
+        console.log(InputData.tag)
         // 前回の検索履歴の削除
         queryClient.removeQueries('PlaceSearched', { exact: false })
         // 検索ワードをキャッシュし移動 移動先のコンポーネントで検索
         queryClient.setQueryData('SearchedKey', InputData)
-        history.push(from)
+        history.push('/places/searched')
     }
     return (
         <PlaceCardAction

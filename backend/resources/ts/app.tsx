@@ -218,10 +218,11 @@ if (document.getElementById('app')) {
                 <CssBaseline />
                 <MuiThemeProvider theme={theme}>
                     <App />
+
+                    {process.env.NODE_ENV === 'development' && (
+                        <ReactQueryDevtools initialIsOpen={false} />
+                    )}
                 </MuiThemeProvider>
-                {process.env.NODE_ENV === 'development' && (
-                    <ReactQueryDevtools initialIsOpen={false} />
-                )}
             </QueryClientProvider>
         </Router>,
         document.getElementById('app')

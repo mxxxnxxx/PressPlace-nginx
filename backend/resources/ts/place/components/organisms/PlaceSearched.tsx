@@ -1,4 +1,4 @@
-import { Backdrop, Box, Card, CircularProgress, makeStyles, Typography } from '@material-ui/core'
+import { AppBar, Backdrop, Box, Card, CircularProgress, makeStyles, Paper, Typography } from '@material-ui/core'
 import { useTheme } from '@material-ui/core/styles'
 import { AxiosError } from 'axios'
 import React, { FC } from 'react'
@@ -9,8 +9,8 @@ import { Places } from '../../types/Places'
 import PlaceCardContent from '../molecules/PlaceCardContent'
 import SearchedWords from '../molecules/SearchedWords'
 import PageNextBack from '../molecules/PageNextBack'
-import EnhancedPlaceCardAction from '../../containers/molecules/PlaceCardAction'
-import searchedMap from '/work/backend/public/background_image/searchedMap.png'
+import PlaceCardAction from '../../containers/molecules/PlaceCardAction'
+import Map from '/work/backend/public/background_image/map.png'
 import PlaceSearchButton from '../atoms/PlaceSearchButton'
 
 type Props = {
@@ -22,39 +22,46 @@ type Props = {
     data?: Places
     isPreviousData: boolean
     InputsData?: Inputs
-    removeKey: (type: any, index?: number) => Promise<void>
+    removeKey: (type: any, index?: number | undefined) => void
 }
 
 const useStyle = makeStyles((theme) => ({
     root: {
-        backgroundImage: `url(${searchedMap})`,
+        backgroundImage: `url(${Map})`,
         backgroundAttachment: 'fixed',
         backgroundSize: 'cover'
     },
-    card: {
+    appBar: {
+        color: theme.palette.text.primary,
+        backgroundColor: theme.palette.common.white,
+        boxShadow: 'none'
+    },
+
+    SearchedPlaces: {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        margin: 'auto',
-        marginBottom: theme.spacing(10),
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginBottom: '50%',
+        marginTop: theme.spacing(10),
         maxWidth: theme.spacing(80),
         minWidth: theme.spacing(65),
     },
-    noSearchedText: {
-
+    card: {
+        marginBottom: theme.spacing(10),
+    },
+    noSearched: {
+        margin: theme.spacing(8),
         textAlign: 'center',
         color: 'red',
-        fontSize: '22px',
-        margin: theme.spacing(5)
     },
-    placeSearchButton: {
-        alignSelf: 'center',
-        marginBottom: theme.spacing(5)
+    noSearchedText: {
+        margin: theme.spacing(3)
     },
     nextBack: {
         textAlign: 'center',
     },
-
 }))
 
 const PlaceSearched: FC<Props> = ({
@@ -72,41 +79,49 @@ const PlaceSearched: FC<Props> = ({
     const theme = useTheme()
     const classes = useStyle()
     return (
-        <section className={classes.root}>
-            <SearchedWords places={places} InputsData={InputsData} removeKey={removeKey} />
-            {places?.total == 0 &&
-                <Card
-                    className={classes.card}
-                >
-                    <Typography className={classes.noSearchedText} >
-                        検索結果が見つかりませんでした
-                    </Typography>
-                    <Box className={classes.placeSearchButton}>
-                        <PlaceSearchButton />
-                    </Box>
-                </Card>
-            }
-            {places?.data?.map((place: Place, index) => (
-                <Card className={classes.card} key={index.toString()}>
-                    <PlaceCardHeader place={place} />
-                    <PlaceCardContent place={place} />
-                    {place.tags.length > 0 &&
-                        <EnhancedPlaceCardAction
-                            place={place}
-                        />
-                    }
-                </Card>
-            ))}
-            {places && places.total > 0 && <PageNextBack
-                page={page}
-                setPage={setPage}
-                isPreviousData={isPreviousData}
-                places={places}
-            />}
+        <Box className={classes.root}>
+            <AppBar
+                position="sticky"
+                className={classes.appBar}
+            >
+                <SearchedWords places={places} InputsData={InputsData} removeKey={removeKey} />
+            </AppBar>
+            <Box className={classes.SearchedPlaces}>
+                {places?.total == 0 &&
+                    <Card
+                        className={classes.noSearched}
+                    >
+                        <Box className={classes.noSearchedText}>
+                            <Typography className={classes.noSearchedText} color="initial">
+                                検索結果が見つかりませんでした
+                            </Typography>
+                            <PlaceSearchButton />
+                        </Box>
+                    </Card>
+                }
+                {places?.data?.map((place: Place, index) => (
+                    <Card className={classes.card} key={index.toString()}>
+                        <PlaceCardHeader place={place} />
+                        <PlaceCardContent place={place} />
+                        {place.tags.length > 0 &&
+                            <PlaceCardAction
+                                place={place}
+                            />
+                        }
+                    </Card>
+                ))}
+                {places && places.total > 0 && <PageNextBack
+                    page={page}
+                    setPage={setPage}
+                    isPreviousData={isPreviousData}
+                    places={places}
+                />}
+
+            </Box>
             <Backdrop style={{ zIndex: theme.zIndex.drawer + 1 }} open={isLoading}>
                 <CircularProgress color="inherit" />
             </Backdrop>
-        </section>
+        </Box >
     )
 }
 

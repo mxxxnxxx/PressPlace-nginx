@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useReducer, useState } from 'react'
 import { useQueryClient } from 'react-query'
 import { useHistory, useLocation } from 'react-router-dom'
-import PlaceSearched from '../../components/molecules/PlaceSearched'
+import PlaceSearched from '../../components/organisms/PlaceSearched'
 import useGetPlaceSearch from '../../hooks/useGetPlaceSearchQuery'
 import { Inputs } from '../../types/Inputs'
 import { ActionType } from '../../types/ActionType'
@@ -73,8 +73,10 @@ const EnhancedPlaceSearched: FC = () => {
             history.push('/places/search')
         }
         window.scrollTo(0, 0)
+        getPlaceSearch
+        console.log('反応');
 
-    }, [page, queryClient, InputsData])
+    }, [page, queryClient, InputsData, Inputs])
 
     return (
         <PlaceSearched
