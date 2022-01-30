@@ -45,6 +45,7 @@ const Header: FC<Props> = ({ user, handleLogout }) => {
                 style={{
                     color: theme.palette.text.primary,
                     backgroundColor: theme.palette.common.white,
+                    boxShadow: 'none',
                 }}
             >
                 <Toolbar>
