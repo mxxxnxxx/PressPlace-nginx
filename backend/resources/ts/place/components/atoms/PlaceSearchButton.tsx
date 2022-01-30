@@ -18,5 +18,4 @@ const PlaceSearchButton: React.FC = () => {
         </Button>
     )
 }
-
 export default PlaceSearchButton
