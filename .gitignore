@@ -65,4 +65,5 @@ fabric.properties
 node_modules
 .DS_Store
 *.log
+backend/public/css/*
 backend/public/js/app.js
