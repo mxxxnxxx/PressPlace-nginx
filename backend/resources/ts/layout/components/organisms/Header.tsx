@@ -10,6 +10,7 @@ import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew'
 import SearchIcon from '@material-ui/icons/Search'
 import { User } from '../../../user/types/User'
 import PressButton from '../../../place/components/atoms/PressButton'
+import PlaceSearchButton from '../../../place/components/atoms/PlaceSearchButton'
 
 type Props = {
     user: User | undefined | null
@@ -60,15 +61,7 @@ const Header: FC<Props> = ({ user, handleLogout }) => {
                         </Link>
                     </Typography>
 
-                    <Button
-                        startIcon={<SearchIcon />}
-                        component={Link}
-                        variant="outlined"
-                        to="/places/search"
-                        style={{ marginRight: theme.spacing(2) }}
-                    >
-                        search
-                    </Button>
+                    <PlaceSearchButton />
 
                     {user &&
                         <PressButton />

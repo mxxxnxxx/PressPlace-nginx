@@ -24,9 +24,6 @@ const PageNextBack: FC<Props> = ({
         <Box
             className={classes.nextBack}
         >
-            <Box>
-                Page: {page}
-            </Box>
 
             <Button
                 onClick={() => setPage((old: number) => Math.max(old - 1, 0))}

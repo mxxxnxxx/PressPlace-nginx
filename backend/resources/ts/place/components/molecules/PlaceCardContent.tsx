@@ -29,10 +29,6 @@ const useStyle = makeStyles((theme) => ({
             maxWidth: '100%'
         },
     },
-    overlapImage: {
-
-
-    },
 
     item2: {
         flex: '5 5 50%',
@@ -67,8 +63,6 @@ const useStyle = makeStyles((theme) => ({
         '-webkit-box-orient': 'vertical',
         '-webkit-line-clamp': '3',
     },
-
-
     item3: {
         display: 'flex',
         flexDirection: 'column',
@@ -97,7 +91,6 @@ const useStyle = makeStyles((theme) => ({
 }))
 const PlaceCardContent: React.FC<Props> = ({ place }) => {
     // ui部分なのでここに記述
-
     const classes = useStyle()
     const [open, setOpen] = useState(false)
     const [scroll, setScroll] = React.useState<DialogProps['scroll']>('paper')
@@ -136,7 +129,6 @@ const PlaceCardContent: React.FC<Props> = ({ place }) => {
                     open={open}
                     onClose={handleClose}
                     scroll={scroll}
-
                 >
                     <DialogTitle id="scroll-dialog-title">{place.name}</DialogTitle>
 
@@ -174,9 +166,9 @@ const PlaceCardContent: React.FC<Props> = ({ place }) => {
                     >
                         -コメント-
                     </Typography>
-                    <p className={classes.placeComment}>
+                    <Typography className={classes.placeComment}>
                         {place.comment}
-                    </p>
+                    </Typography>
                 </Box>
             </Box>
             <Box className={classes.item3}>

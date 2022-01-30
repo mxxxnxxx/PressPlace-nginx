@@ -71,7 +71,7 @@ const PlaceCard: FC<Props> = ({
                 <React.Fragment key={page.currentPage.toString()}>
                     {page.data.map((place: Place, index) => (
                         <Box className={classes.card} key={index.toString()} >
-                            <Card >
+                            <Card>
                                 <PlaceCardHeader place={place} />
                                 <PlaceCardContent place={place} />
                                 {place.tags.length > 0 &&
