@@ -12,7 +12,6 @@ const PlaceSearchButton: React.FC = () => {
             component={Link}
             variant="outlined"
             to="/places/search"
-            style={{ marginRight: theme.spacing(2) }}
         >
             SEARCH
         </Button>

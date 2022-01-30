@@ -1,6 +1,6 @@
 import React, { FC, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
-import { AppBar, Typography, Toolbar, Button } from '@material-ui/core'
+import { AppBar, Typography, Toolbar, Button, Box } from '@material-ui/core'
 import useTheme from '@material-ui/core/styles/useTheme'
 import AccountButton from '../../../user/components/atoms/AccountButton'
 import AccountMenu from '../../../user/components/molecules/AccountMenu'
@@ -11,6 +11,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import { User } from '../../../user/types/User'
 import PressButton from '../../../place/components/atoms/PressButton'
 import PlaceSearchButton from '../../../place/components/atoms/PlaceSearchButton'
+import classNames from 'classnames'
 
 type Props = {
     user: User | undefined | null
@@ -61,9 +62,11 @@ const Header: FC<Props> = ({ user, handleLogout }) => {
                             PressPlace
                         </Link>
                     </Typography>
-
-                    <PlaceSearchButton />
-
+                    <Box style={{
+                        margin: theme.spacing(3)
+                    }}>
+                        <PlaceSearchButton />
+                    </Box>
                     {user &&
                         <PressButton />
                     }

@@ -1,4 +1,4 @@
-import { Backdrop, Box, Card, CircularProgress, makeStyles, Typography } from '@material-ui/core'
+import { AppBar, Backdrop, Box, Card, CircularProgress, makeStyles, Paper, Typography } from '@material-ui/core'
 import { useTheme } from '@material-ui/core/styles'
 import { AxiosError } from 'axios'
 import React, { FC } from 'react'
@@ -31,6 +31,12 @@ const useStyle = makeStyles((theme) => ({
         backgroundAttachment: 'fixed',
         backgroundSize: 'cover'
     },
+    appBar: {
+        color: theme.palette.text.primary,
+        backgroundColor: theme.palette.common.white,
+        boxShadow: 'none'
+    },
+
     SearchedPlaces: {
         display: 'flex',
         flexDirection: 'column',
@@ -55,7 +61,7 @@ const useStyle = makeStyles((theme) => ({
     },
     nextBack: {
         textAlign: 'center',
-    }
+    },
 }))
 
 const PlaceSearched: FC<Props> = ({
@@ -74,9 +80,12 @@ const PlaceSearched: FC<Props> = ({
     const classes = useStyle()
     return (
         <Box className={classes.root}>
-            <Card>
+            <AppBar
+                position="sticky"
+                className={classes.appBar}
+            >
                 <SearchedWords places={places} InputsData={InputsData} removeKey={removeKey} />
-            </Card>
+            </AppBar>
             <Box className={classes.SearchedPlaces}>
                 {places?.total == 0 &&
                     <Card
@@ -107,11 +116,12 @@ const PlaceSearched: FC<Props> = ({
                     isPreviousData={isPreviousData}
                     places={places}
                 />}
+
             </Box>
             <Backdrop style={{ zIndex: theme.zIndex.drawer + 1 }} open={isLoading}>
                 <CircularProgress color="inherit" />
             </Backdrop>
-        </Box>
+        </Box >
     )
 }
 
