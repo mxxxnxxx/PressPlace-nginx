@@ -14,7 +14,6 @@ type Params = {
     }
 }
 const getPlaceSearch = async (page: number, InputsData?: Inputs): Promise<Places> => {
-
     const params = {
         page: page,
         InputsData: {

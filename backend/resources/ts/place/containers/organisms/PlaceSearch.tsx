@@ -1,21 +1,19 @@
 import React, { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useQueryClient } from 'react-query'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
+import { useSearchKeyContext } from '../../../context/SearchKeyContext'
 import PlaceSearch from '../../components/molecules/PlaceSearch'
 import { Inputs } from '../../types/Inputs'
 
 const EnhancedPlaceSearch: React.FC = () => {
     const history = useHistory()
-    const location = useLocation()
-    const { from } = (location.state as { from: string }) || {
-        from: { pathname: '/places/searched' }
-    }
+    const { dispatch } = useSearchKeyContext()
     const queryClient = useQueryClient()
     // shouldUnregisterは初期値を入れるためにfalseにしている
     const methods = useForm<Inputs>({ shouldUnregister: false, })
-    const onSubmit = async (InputsData: Inputs): Promise<void> => {
-        const { tag, name, comment, address } = InputsData
+    const onSubmit = async (formData: Inputs): Promise<void> => {
+        const { tag, name, comment, address } = formData
         if (
             name === "" &&
             comment === "" &&
@@ -27,9 +25,10 @@ const EnhancedPlaceSearch: React.FC = () => {
         }
         // 前回の検索履歴の削除
         queryClient.removeQueries('PlaceSearched', { exact: false })
-        // 検索ワードをキャッシュし移動 移動先のコンポーネントで検索
-        queryClient.setQueryData('SearchedKey', InputsData)
-        history.push(from)
+        // 検索ワードをuseReducer+useContextで管理し移動
+        // 検索の処理は移動先の EnhancedPlaceSearched で行う検索
+        dispatch({ type: 'set', formData: formData })
+        history.push('/places/searched')
     }
 
     useEffect(() => {

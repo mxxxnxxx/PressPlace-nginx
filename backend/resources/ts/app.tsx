@@ -31,6 +31,7 @@ import UserResetPassword from './user/containers/pages/UserResetPassword'
 import UserSetting from "./user/containers/pages/UserSetting"
 import { useCurrentUser, useGetUserQuery } from './user/hooks'
 import GlobalStyle from './grobalStyles'
+import { SearchKeyProvider } from './context/SearchKeyContext'
 
 declare global {
     interface Window {
@@ -215,14 +216,15 @@ if (document.getElementById('app')) {
     ReactDOM.render(
         <Router>
             <QueryClientProvider client={client}>
-                <CssBaseline />
-                <MuiThemeProvider theme={theme}>
-                    <App />
-
-                    {process.env.NODE_ENV === 'development' && (
-                        <ReactQueryDevtools initialIsOpen={false} />
-                    )}
-                </MuiThemeProvider>
+                <SearchKeyProvider>
+                    <CssBaseline />
+                    <MuiThemeProvider theme={theme}>
+                        <App />
+                        {process.env.NODE_ENV === 'development' && (
+                            <ReactQueryDevtools initialIsOpen={false} />
+                        )}
+                    </MuiThemeProvider>
+                </SearchKeyProvider>
             </QueryClientProvider>
         </Router>,
         document.getElementById('app')

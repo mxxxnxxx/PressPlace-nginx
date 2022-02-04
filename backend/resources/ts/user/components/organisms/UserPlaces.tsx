@@ -19,10 +19,21 @@ type Props = {
     setPage: (number: number) => void
 }
 const useStyle = makeStyles((theme) => ({
+
     noSearched: {
         textAlign: 'center',
         color: 'red',
         padding: theme.spacing(4)
+    },
+    card: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        margin: 'auto',
+        marginTop: theme.spacing(10),
+        marginBottom: theme.spacing(10),
+        maxWidth: theme.spacing(80),
+        minWidth: theme.spacing(65),
     },
     nextBack: {
         textAlign: 'center',
@@ -49,13 +60,15 @@ const UserPlaces: FC<Props> = ({
             <section>
                 {places?.data && places?.data?.length > 0 ?
                     places?.data && places?.data?.map((place: Place, index) => (
-                        <Card className='m-3' key={index.toString()}>
-                            <PlaceCardHeader place={place} />
-                            <PlaceCardContent place={place} />
-                            {place.tags.length > 0 &&
-                                <PlaceCardAction place={place} />
-                            }
-                        </Card>
+                        <Box className={classes.card} key={index.toString()} >
+                            <Card className='m-3' key={index.toString()}>
+                                <PlaceCardHeader place={place} />
+                                <PlaceCardContent place={place} />
+                                {place.tags.length > 0 &&
+                                    <PlaceCardAction place={place} />
+                                }
+                            </Card>
+                        </Box>
                     ))
                     :
                     <Box className={classes.noSearched}>

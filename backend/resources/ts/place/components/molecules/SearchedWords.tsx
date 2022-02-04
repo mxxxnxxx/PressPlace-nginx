@@ -10,7 +10,7 @@ import { Places } from '../../types/Places'
 import PlaceSearchButton from '../atoms/PlaceSearchButton'
 
 type Props = {
-    InputsData?: Inputs
+    searchKey?: Inputs
     places?: Places
     removeKey: (type: any, index?: number | undefined) => void
 }
@@ -29,7 +29,7 @@ const useStyles = makeStyles(() => ({
     }
 }))
 
-const SearchedWords: FC<Props> = ({ InputsData, places, removeKey }) => {
+const SearchedWords: FC<Props> = ({ searchKey, places, removeKey }) => {
     const classes = useStyles()
     return (
         <section className={classes.SearchKeysArea}>
@@ -52,7 +52,7 @@ const SearchedWords: FC<Props> = ({ InputsData, places, removeKey }) => {
                     検索ワード
                 </Button>
 
-                {InputsData?.name &&
+                {searchKey?.name &&
                     <Button
                         startIcon={<HighlightOffIcon />}
                         className={classes.SearchKeys}
@@ -61,9 +61,9 @@ const SearchedWords: FC<Props> = ({ InputsData, places, removeKey }) => {
                         }}
 
                     >
-                        {InputsData?.name}
+                        {searchKey?.name}
                     </Button>}
-                {InputsData?.address &&
+                {searchKey?.address &&
                     <Button
                         startIcon={<HighlightOffIcon />}
                         className={classes.SearchKeys}
@@ -71,9 +71,9 @@ const SearchedWords: FC<Props> = ({ InputsData, places, removeKey }) => {
                             removeKey("address")
                         }}
                     >
-                        {InputsData?.address}
+                        {searchKey?.address}
                     </Button>}
-                {InputsData?.comment &&
+                {searchKey?.comment &&
                     <Button
                         startIcon={<HighlightOffIcon />}
                         className={classes.SearchKeys}
@@ -81,10 +81,10 @@ const SearchedWords: FC<Props> = ({ InputsData, places, removeKey }) => {
                             removeKey("comment")
                         }}
                     >
-                        {InputsData?.comment}
+                        {searchKey?.comment}
                     </Button>}
 
-                {InputsData?.tag?.map((tag: string, index: number) => (
+                {searchKey?.tag?.map((tag: string, index: number) => (
                     !(tag === "") &&
                     <Button
                         key={index.toString()}
@@ -92,7 +92,6 @@ const SearchedWords: FC<Props> = ({ InputsData, places, removeKey }) => {
                         className={classes.SearchKeys}
                         onClick={() => {
                             removeKey("tag", index)
-                            console.log(InputsData.tag);
                         }}
                     >
                         {tag}

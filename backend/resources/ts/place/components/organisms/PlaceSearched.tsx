@@ -21,7 +21,7 @@ type Props = {
     error: AxiosError<any> | null
     data?: Places
     isPreviousData: boolean
-    InputsData?: Inputs
+    searchKey?: Inputs
     removeKey: (type: any, index?: number | undefined) => void
 }
 
@@ -72,9 +72,8 @@ const PlaceSearched: FC<Props> = ({
     error,
     data,
     isPreviousData,
-    InputsData,
+    searchKey,
     removeKey,
-
 }) => {
     const theme = useTheme()
     const classes = useStyle()
@@ -84,7 +83,7 @@ const PlaceSearched: FC<Props> = ({
                 position="sticky"
                 className={classes.appBar}
             >
-                <SearchedWords places={places} InputsData={InputsData} removeKey={removeKey} />
+                <SearchedWords places={places} searchKey={searchKey} removeKey={removeKey} />
             </AppBar>
             <Box className={classes.SearchedPlaces}>
                 {places?.total == 0 &&
