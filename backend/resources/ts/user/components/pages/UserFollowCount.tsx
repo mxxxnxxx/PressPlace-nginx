@@ -1,9 +1,11 @@
-import { Box, Tab, Tabs, Typography } from '@material-ui/core'
+import { Box, Card, Paper, Tab, Tabs, Typography } from '@material-ui/core'
 import AppBar from '@material-ui/core/AppBar'
 import { makeStyles } from '@material-ui/core/styles'
 import React from 'react'
 import FollowerList from '../../containers/organisms/FollowerList'
 import FollowingList from '../../containers/organisms/FollowingList'
+import UserProfile from '../../containers/organisms/UserProfile'
+import Vortex from '/work/backend/public/background_image/vortex.png'
 
 type Props = {
     value: string
@@ -45,16 +47,27 @@ function a11yProps(index: any) {
         'aria-controls': `wrapped-tabpanel-${index}`,
     }
 }
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     root: {
-        width: '90%',
+        backgroundImage: `url(${Vortex})`,
+        backgroundSize: 'cover'
+    },
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
         marginTop: '30px',
         marginLeft: 'auto',
-        marginRight: 'auto'
+        marginRight: 'auto',
     },
+
     userName: {
         marginBottom: '30px',
         textAlign: 'center'
+    },
+    followCountBar: {
+        marginTop: theme.spacing(4),
+        width: '80%'
     },
     tabs: {
         width: '70%',
@@ -83,41 +96,41 @@ const UserFollowCount: React.FC<Props> = ({
 
     return (
         <Box className={classes.root}>
-            <Typography
-                className={classes.userName}
-            >
-                {userName}
-            </Typography>
-            <AppBar position="static" color="default" className={classes.tabs}>
-                <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    TabIndicatorProps={{
-                        style: {
-                            backgroundColor: '#101010',
-                        }
-                    }}
-                    variant="fullWidth"
-                    centered
-                >
-                    <Tab className={classes.tab} value="following" label="フォロー" {...a11yProps('following')} />
-                    <Tab value="follower" label="フォロワー" {...a11yProps('follower')} />
-                </Tabs>
-            </AppBar>
+            <Box className={classes.container}>
+                <UserProfile userName={userName} />
+                <Box className={classes.followCountBar}>
+                    <AppBar position="static" color="default" className={classes.tabs}>
+                        <Tabs
+                            value={value}
+                            onChange={handleChange}
+                            TabIndicatorProps={{
+                                style: {
+                                    backgroundColor: '#101010',
+                                }
+                            }}
+                            variant="fullWidth"
+                            centered
+                        >
+                            <Tab className={classes.tab} value="following" label="フォロー" {...a11yProps('following')} />
+                            <Tab value="follower" label="フォロワー" {...a11yProps('follower')} />
+                        </Tabs>
+                    </AppBar>
 
-            <TabPanel value={value} index="following">
-                <FollowingList
-                    userName={userName}
-                    goToOtherUser={goToOtherUser}
-                />
-            </TabPanel>
+                    <TabPanel value={value} index="following">
+                        <FollowingList
+                            userName={userName}
+                            goToOtherUser={goToOtherUser}
+                        />
+                    </TabPanel>
 
-            <TabPanel value={value} index="follower">
-                <FollowerList
-                    userName={userName}
-                    goToOtherUser={goToOtherUser}
-                />
-            </TabPanel>
+                    <TabPanel value={value} index="follower">
+                        <FollowerList
+                            userName={userName}
+                            goToOtherUser={goToOtherUser}
+                        />
+                    </TabPanel>
+                </Box>
+            </Box>
         </Box>
     )
 }
