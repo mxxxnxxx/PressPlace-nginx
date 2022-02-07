@@ -56,29 +56,21 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        marginTop: '30px',
+        marginTop: theme.spacing(3),
         marginLeft: 'auto',
         marginRight: 'auto',
     },
-
     userName: {
-        marginBottom: '30px',
+        marginBottom: theme.spacing(3),
         textAlign: 'center'
     },
-    followCountBar: {
-        marginTop: theme.spacing(4),
-        width: '80%'
-    },
     tabs: {
-        width: '70%',
-        boxShadow: 'none',
+        width: '90%',
         backgroundColor: 'white',
         marginBottom: '20px',
         padding: '30px',
-        borderBottom: 'dashed thin',
         marginLeft: 'auto',
         marginRight: 'auto'
-
     },
     tab: {
         marginLeft: 'auto',
@@ -98,38 +90,36 @@ const UserFollowCount: React.FC<Props> = ({
         <Box className={classes.root}>
             <Box className={classes.container}>
                 <UserProfile userName={userName} />
-                <Box className={classes.followCountBar}>
-                    <AppBar position="static" color="default" className={classes.tabs}>
-                        <Tabs
-                            value={value}
-                            onChange={handleChange}
-                            TabIndicatorProps={{
-                                style: {
-                                    backgroundColor: '#101010',
-                                }
-                            }}
-                            variant="fullWidth"
-                            centered
-                        >
-                            <Tab className={classes.tab} value="following" label="フォロー" {...a11yProps('following')} />
-                            <Tab value="follower" label="フォロワー" {...a11yProps('follower')} />
-                        </Tabs>
-                    </AppBar>
+                <AppBar position="static" color="default" className={classes.tabs}>
+                    <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        TabIndicatorProps={{
+                            style: {
+                                backgroundColor: '#101010',
+                            }
+                        }}
+                        variant="fullWidth"
+                        centered
+                    >
+                        <Tab className={classes.tab} value="following" label="フォロー" {...a11yProps('following')} />
+                        <Tab value="follower" label="フォロワー" {...a11yProps('follower')} />
+                    </Tabs>
+                </AppBar>
 
-                    <TabPanel value={value} index="following">
-                        <FollowingList
-                            userName={userName}
-                            goToOtherUser={goToOtherUser}
-                        />
-                    </TabPanel>
+                <TabPanel value={value} index="following">
+                    <FollowingList
+                        userName={userName}
+                        goToOtherUser={goToOtherUser}
+                    />
+                </TabPanel>
 
-                    <TabPanel value={value} index="follower">
-                        <FollowerList
-                            userName={userName}
-                            goToOtherUser={goToOtherUser}
-                        />
-                    </TabPanel>
-                </Box>
+                <TabPanel value={value} index="follower">
+                    <FollowerList
+                        userName={userName}
+                        goToOtherUser={goToOtherUser}
+                    />
+                </TabPanel>
             </Box>
         </Box>
     )

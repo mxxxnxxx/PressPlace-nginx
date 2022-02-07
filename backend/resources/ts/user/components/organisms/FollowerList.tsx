@@ -9,7 +9,6 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             width: '100%',
-            maxWidth: '500px',
             marginRight: 'auto',
             marginLeft: 'auto',
             padding: '30px'

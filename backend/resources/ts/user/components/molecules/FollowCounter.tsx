@@ -10,14 +10,21 @@ const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
         justifyContent: 'center',
-        width: theme.spacing(50),
-        minWidth: theme.spacing(50)
     },
-    followCounterLabel: {
+    followCounter: {
         fontSize: 'smaller',
         textAlign: 'center',
         margin: theme.spacing(3)
-    }
+    },
+    followCount: {
+        fontSize: '1.5rem',
+        textAlign: 'center',
+    },
+    followCounterLabel: {
+        fontSize: '0.7rem',
+        textAlign: 'center',
+    },
+
 }))
 const FollowCounter: React.FC<Props> = ({
     userProfile,
@@ -29,32 +36,32 @@ const FollowCounter: React.FC<Props> = ({
         <>
             <Box className={classes.root}>
                 {/* フォロー数 */}
-                <Box className={classes.followCounterLabel} >
+                <Box className={classes.followCounter} >
                     <Button
                         onClick={() => goUserFollowingCount()}
                     >
-                        <Typography variant="h4" color="initial">
+                        <Typography className={classes.followCount} color="initial">
                             {userProfile?.countFollowings}
                         </Typography>
-                        <Typography color="initial">
-                            フォロー数
-                        </Typography>
                     </Button>
-                </Box >
+                    <Typography className={classes.followCounterLabel} color="initial">
+                        フォロー
+                    </Typography>
+                </Box>
 
                 {/* フォロワー数 */}
-                <Box className={classes.followCounterLabel} >
+                <Box className={classes.followCounter}>
                     <Button
                         onClick={() => goUserFollowerCount()}
                     >
-                        <Typography variant="h4" color="initial">
+                        <Typography className={classes.followCount} color="initial">
                             {userProfile?.countFollowers}
                         </Typography>
-                        <Typography color="initial">
-                            フォロワー数
-                        </Typography>
                     </Button>
-                </Box >
+                    <Typography className={classes.followCounterLabel} color="initial">
+                        フォロワー
+                    </Typography>
+                </Box>
             </Box>
         </>
     )

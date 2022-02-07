@@ -47,7 +47,8 @@ const useStyle = makeStyles(() => ({
         display: 'flex',
         flexDirection: 'column',
         minHeight: '100vh',
-        paddingBottom: '0'
+        paddingBottom: '0',
+        minWidth: '320px'
     }
 }))
 const theme = createMuiTheme({
