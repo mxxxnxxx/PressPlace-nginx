@@ -1,20 +1,44 @@
-import { Button, makeStyles } from '@material-ui/core'
+import { Box, Button, makeStyles, IconButton } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
-import useTheme from '@material-ui/core/styles/useTheme'
 import React from 'react'
-import { Link } from 'react-router-dom'
-
+import { Link, useHistory } from 'react-router-dom'
+const useStyle = makeStyles((theme) => ({
+    SearchButtonXs: {
+        display: 'flex',
+        [theme.breakpoints.up('sm')]: {
+            display: 'none'
+        }
+    },
+    SearchButtonSm: {
+        display: 'none',
+        [theme.breakpoints.up('sm')]: {
+            display: 'flex'
+        }
+    }
+}))
 const PlaceSearchButton: React.FC = () => {
-    const theme = useTheme()
+    const classes = useStyle()
+    const history = useHistory()
     return (
-        <Button
-            startIcon={<SearchIcon />}
-            component={Link}
-            variant="outlined"
-            to="/places/search"
-        >
-            SEARCH
-        </Button>
+        <>
+            <Box className={classes.SearchButtonXs}>
+                <IconButton
+                    onClick={() => history.push("/places/search")}
+                >
+                    <SearchIcon />
+                </IconButton>
+            </Box>
+            <Box className={classes.SearchButtonSm}>
+                <Button
+                    startIcon={<SearchIcon />}
+                    component={Link}
+                    variant="outlined"
+                    to="/places/search"
+                >
+                    SEARCH
+                </Button>
+            </Box>
+        </>
     )
 }
 export default PlaceSearchButton

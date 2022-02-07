@@ -1,26 +1,35 @@
-import React, { FC, useState, useCallback } from 'react'
-import { Link } from 'react-router-dom'
-import { AppBar, Typography, Toolbar, Button, Box } from '@material-ui/core'
+import { AppBar, Box, Button, makeStyles, Toolbar, Typography } from '@material-ui/core'
 import useTheme from '@material-ui/core/styles/useTheme'
+import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew'
+import VpnKeyIcon from '@material-ui/icons/VpnKey'
+import React, { FC, useCallback, useState } from 'react'
+import { Link } from 'react-router-dom'
+import PlaceSearchButton from '../../../place/components/atoms/PlaceSearchButton'
+import PressButton from '../../../place/components/atoms/PressButton'
 import AccountButton from '../../../user/components/atoms/AccountButton'
 import AccountMenu from '../../../user/components/molecules/AccountMenu'
-import CreateIcon from '@material-ui/icons/Create'
-import VpnKeyIcon from '@material-ui/icons/VpnKey'
-import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew'
-import SearchIcon from '@material-ui/icons/Search'
 import { User } from '../../../user/types/User'
-import PressButton from '../../../place/components/atoms/PressButton'
-import PlaceSearchButton from '../../../place/components/atoms/PlaceSearchButton'
-import classNames from 'classnames'
 
 type Props = {
     user: User | undefined | null
     handleLogout: VoidFunction
 
 }
+const useStyle = makeStyles((theme) => ({
+    root: {
+        width: '100%'
+    },
+    AppBar: {
+        color: theme.palette.text.primary,
+        backgroundColor: theme.palette.common.white,
+        boxShadow: 'none',
+    },
 
+}))
 
 const Header: FC<Props> = ({ user, handleLogout }) => {
+
+    const classes = useStyle()
     const theme = useTheme()
     const menuId = 'account-menu'
 
@@ -40,14 +49,10 @@ const Header: FC<Props> = ({ user, handleLogout }) => {
         setMenuAnchorEl(null)
     }, [])
     return (
-        <>
+        <Box className={classes.root}>
             <AppBar
                 position="sticky"
-                style={{
-                    color: theme.palette.text.primary,
-                    backgroundColor: theme.palette.common.white,
-                    boxShadow: 'none',
-                }}
+                className={classes.AppBar}
             >
                 <Toolbar>
                     <Typography
@@ -62,11 +67,10 @@ const Header: FC<Props> = ({ user, handleLogout }) => {
                             PressPlace
                         </Link>
                     </Typography>
-                    <Box style={{
-                        margin: theme.spacing(3)
-                    }}>
-                        <PlaceSearchButton />
+                    <Box>
+
                     </Box>
+                    <PlaceSearchButton />
                     {user &&
                         <PressButton />
                     }
@@ -115,7 +119,7 @@ const Header: FC<Props> = ({ user, handleLogout }) => {
 
                 </Toolbar>
             </AppBar>
-        </>
+        </Box>
     )
 }
 

@@ -1,19 +1,44 @@
-import { Button, useTheme } from '@material-ui/core'
+import { Box, Button, IconButton, makeStyles, useTheme } from '@material-ui/core'
 import CreateIcon from '@material-ui/icons/Create'
 import React from 'react'
-import { Link } from 'react-router-dom'
-
+import { Link, useHistory } from 'react-router-dom'
+const useStyle = makeStyles((theme) => ({
+    PressButtonXs: {
+        display: 'flex',
+        [theme.breakpoints.up('sm')]: {
+            display: 'none'
+        }
+    },
+    PressButtonSm: {
+        display: 'none',
+        [theme.breakpoints.up('sm')]: {
+            display: 'flex'
+        }
+    },
+}))
 const PressButton: React.FC = () => {
-    const theme = useTheme()
+    const classes = useStyle()
+    const history = useHistory()
     return (
-        <Button
-            startIcon={<CreateIcon />}
-            component={Link}
-            to="/press"
-            variant="outlined"
-        >
-            PRESS
-        </Button>
+        <>
+            <Box className={classes.PressButtonXs}>
+                <IconButton
+                    onClick={() => history.push("/press")}
+                >
+                    <CreateIcon />
+                </IconButton>
+            </Box>
+            <Box className={classes.PressButtonSm}>
+                <Button
+                    startIcon={<CreateIcon />}
+                    component={Link}
+                    to="/press"
+                    variant="outlined"
+                >
+                    PRESS
+                </Button>
+            </Box>
+        </>
     )
 }
 export default PressButton
