@@ -11,7 +11,6 @@ const useStyles = makeStyles((theme: Theme) =>
             width: '100%',
             marginRight: 'auto',
             marginLeft: 'auto',
-            padding: '30px'
         },
         container: {
             borderBottom: 'thin solid',
@@ -27,6 +26,10 @@ const useStyles = makeStyles((theme: Theme) =>
         userName: {
         },
         item2: {
+
+        },
+        primary: {
+            fontSize: '0.7rem'
         },
         introduction: {
         },
@@ -56,7 +59,6 @@ const FollowingList: React.FC<Props> = ({
     goToOtherUser
 }) => {
     const classes = useStyles();
-    const theme = useTheme()
     if (isLoading) {
         return <Loding isLoading={isLoading} />
     }
@@ -91,6 +93,9 @@ const FollowingList: React.FC<Props> = ({
                                 <ListItemText
                                     className={classes.item2}
                                     primary={`${userProfile.user.name}`}
+                                    classes={{
+                                        primary: classes.primary
+                                    }}
                                 />
                                 <ListItemSecondaryAction
                                     className={classes.item3}

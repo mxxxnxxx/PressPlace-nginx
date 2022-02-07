@@ -11,7 +11,6 @@ const useStyles = makeStyles((theme: Theme) =>
             width: '100%',
             marginRight: 'auto',
             marginLeft: 'auto',
-            padding: '30px'
         },
         container: {
             borderBottom: 'solid 1px',
@@ -27,6 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
         userName: {
         },
         item2: {
+            fontSize: '0.8rem'
         },
         introduction: {
         },
@@ -84,6 +84,7 @@ const FollowerList: React.FC<Props> = ({
                                     className={classes.item1}
                                 >
                                     <Avatar
+                                        variant="rounded"
                                         src={`https://pressplace.s3.ap-northeast-1.amazonaws.com/${userProfile.user.userImage}`}
                                     />
                                 </ListItemAvatar>

@@ -34,7 +34,7 @@ function TabPanel(props: TabPanelProps) {
             {...other}
         >
             {value === index && (
-                <Box p={3}>
+                <Box>
                     {children}
                 </Box>
             )}
@@ -67,12 +67,15 @@ const useStyles = makeStyles((theme) => ({
     tabs: {
         width: '90%',
         backgroundColor: 'white',
-        marginBottom: '20px',
+        marginTop: theme.spacing(3),
+        marginBottom: theme.spacing(3),
         padding: '30px',
         marginLeft: 'auto',
         marginRight: 'auto'
     },
     tab: {
+        width: '90%',
+        marginBottom: theme.spacing(3),
         marginLeft: 'auto',
         marginRight: 'auto'
     }
@@ -102,24 +105,25 @@ const UserFollowCount: React.FC<Props> = ({
                         variant="fullWidth"
                         centered
                     >
-                        <Tab className={classes.tab} value="following" label="フォロー" {...a11yProps('following')} />
+                        <Tab value="following" label="フォロー" {...a11yProps('following')} />
                         <Tab value="follower" label="フォロワー" {...a11yProps('follower')} />
                     </Tabs>
                 </AppBar>
+                <Box className={classes.tab}>
+                    <TabPanel value={value} index="following">
+                        <FollowingList
+                            userName={userName}
+                            goToOtherUser={goToOtherUser}
+                        />
+                    </TabPanel>
 
-                <TabPanel value={value} index="following">
-                    <FollowingList
-                        userName={userName}
-                        goToOtherUser={goToOtherUser}
-                    />
-                </TabPanel>
-
-                <TabPanel value={value} index="follower">
-                    <FollowerList
-                        userName={userName}
-                        goToOtherUser={goToOtherUser}
-                    />
-                </TabPanel>
+                    <TabPanel value={value} index="follower">
+                        <FollowerList
+                            userName={userName}
+                            goToOtherUser={goToOtherUser}
+                        />
+                    </TabPanel>
+                </Box>
             </Box>
         </Box>
     )

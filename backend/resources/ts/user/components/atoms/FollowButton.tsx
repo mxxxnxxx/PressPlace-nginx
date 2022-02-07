@@ -44,7 +44,7 @@ const FollowButton: React.FC<Props> = ({
                     size='small'
                     startIcon={<RemoveIcon />}
                 >
-                    フォロー解除
+                    解除
                 </Button>
             }
         </>
