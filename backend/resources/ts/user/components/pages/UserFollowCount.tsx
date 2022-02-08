@@ -60,10 +60,6 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: 'auto',
         marginRight: 'auto',
     },
-    userName: {
-        marginBottom: theme.spacing(3),
-        textAlign: 'center'
-    },
     tabs: {
         width: '90%',
         backgroundColor: 'white',

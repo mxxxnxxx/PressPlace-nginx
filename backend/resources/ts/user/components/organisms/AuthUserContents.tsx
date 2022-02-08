@@ -30,7 +30,7 @@ function TabPanel(props: TabPanelProps) {
             {...other}
         >
             {value === index && (
-                <Box p={3}>
+                <Box>
                     {children}
                 </Box>
             )}
@@ -45,26 +45,27 @@ function a11yProps(index: any) {
 }
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: '90%',
-        marginTop: '30px',
+        marginTop: theme.spacing(3),
         marginLeft: 'auto',
         marginRight: 'auto'
     },
-    userName: {
-        marginBottom: '30px',
-        textAlign: 'center'
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        marginTop: theme.spacing(3),
+        marginLeft: 'auto',
+        marginRight: 'auto',
     },
     tabs: {
-        width: '70%',
+        width: '90%',
         backgroundColor: 'white',
-        padding: theme.spacing(3),
+        marginTop: theme.spacing(3),
+        marginBottom: theme.spacing(3),
+        padding: '30px',
         marginLeft: 'auto',
         marginRight: 'auto'
     },
-    tab: {
-        marginLeft: 'auto',
-        marginRight: 'auto'
-    }
 }))
 const UserContents: React.FC<Props> = ({
     userName,
@@ -74,36 +75,37 @@ const UserContents: React.FC<Props> = ({
     const classes = useStyles()
 
     return (
-
         <Box className={classes.root}>
-            <AppBar position="static" color="default" className={classes.tabs}>
-                <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    TabIndicatorProps={{
-                        style: {
-                            backgroundColor: '#101010',
-                        }
-                    }}
-                    variant="fullWidth"
-                    centered
-                >
-                    <Tab className={classes.tab} value="myPlace" label="投稿した場所" {...a11yProps('following')} />
-                    <Tab className={classes.tab} value="favoritePlace" label="お気に入りの場所" {...a11yProps('follower')} />
-                </Tabs>
-            </AppBar>
+            <Box className={classes.container}>
+                <AppBar position="static" color="default" className={classes.tabs}>
+                    <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        TabIndicatorProps={{
+                            style: {
+                                backgroundColor: '#101010',
+                            }
+                        }}
+                        variant="fullWidth"
+                        centered
+                    >
+                        <Tab value="myPlace" label="投稿" {...a11yProps('following')} />
+                        <Tab value="favoritePlace" label="お気に入り" {...a11yProps('follower')} />
+                    </Tabs>
+                </AppBar>
 
-            <TabPanel value={value} index="myPlace">
-                <UserPlaces
-                    userName={userName}
-                />
-            </TabPanel>
+                <TabPanel value={value} index="myPlace">
+                    <UserPlaces
+                        userName={userName}
+                    />
+                </TabPanel>
 
-            <TabPanel value={value} index="favoritePlace">
-                <FavoritePlaces
-                    userName={userName}
-                />
-            </TabPanel>
+                <TabPanel value={value} index="favoritePlace">
+                    <FavoritePlaces
+                        userName={userName}
+                    />
+                </TabPanel>
+            </Box>
         </Box>
     )
 }

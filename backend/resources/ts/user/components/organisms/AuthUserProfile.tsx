@@ -17,9 +17,8 @@ type Props = {
 }
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: theme.spacing(60),
-        minWidth: theme.spacing(60),
-        marginTop: theme.spacing(5),
+        width: '85%',
+        marginTop: theme.spacing(3),
         padding: theme.spacing(4),
         display: 'flex',
         flexDirection: 'column',
@@ -43,8 +42,6 @@ const useStyles = makeStyles((theme) => ({
     },
 
     introduction: {
-        width: theme.spacing(40),
-        minWidth: theme.spacing(40),
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(2),
         paddingBottom: theme.spacing(3),

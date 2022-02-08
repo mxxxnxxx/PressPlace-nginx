@@ -24,13 +24,34 @@ const useStyle = makeStyles((theme) => ({
         backgroundColor: theme.palette.common.white,
         boxShadow: 'none',
     },
-
+    PlaceSearchButton: {
+        [theme.breakpoints.up('sm')]: {
+            marginRight: theme.spacing(2)
+        }
+    },
+    PressButton: {
+        [theme.breakpoints.up('sm')]: {
+            marginRight: theme.spacing(2)
+        }
+    },
+    LoginButton: {
+        display: 'none',
+        [theme.breakpoints.up('sm')]: {
+            display: 'flex',
+            marginRight: theme.spacing(2)
+        }
+    },
+    RegisterButton: {
+        display: 'none',
+        [theme.breakpoints.up('sm')]: {
+            display: 'flex'
+        }
+    },
 }))
 
 const Header: FC<Props> = ({ user, handleLogout }) => {
 
     const classes = useStyle()
-    const theme = useTheme()
     const menuId = 'account-menu'
 
     const [menuAnchorEl, setMenuAnchorEl] = useState<Element | null>(null)
@@ -67,13 +88,12 @@ const Header: FC<Props> = ({ user, handleLogout }) => {
                             PressPlace
                         </Link>
                     </Typography>
-                    <Box>
-
+                    <Box className={classes.PlaceSearchButton}>
+                        <PlaceSearchButton />
                     </Box>
-                    <PlaceSearchButton />
-                    {user &&
+                    <Box className={classes.PressButton}>
                         <PressButton />
-                    }
+                    </Box>
 
 
                     {/* ログインボタン */}
@@ -82,7 +102,7 @@ const Header: FC<Props> = ({ user, handleLogout }) => {
                             startIcon={<VpnKeyIcon />}
                             component={Link}
                             to="/login"
-                            style={{ marginRight: theme.spacing(2) }}
+                            className={classes.LoginButton}
                         >
 
                             ログイン
@@ -94,6 +114,7 @@ const Header: FC<Props> = ({ user, handleLogout }) => {
                             startIcon={<AccessibilityNewIcon />}
                             component={Link}
                             to="/register"
+                            className={classes.RegisterButton}
                         >
                             新規登録
                         </Button>

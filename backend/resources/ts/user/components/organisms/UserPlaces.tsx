@@ -40,7 +40,12 @@ const useStyle = makeStyles((theme) => ({
     },
     noPlace: {
         marginBottom: theme.spacing(2)
-    }
+    },
+    PressButton: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+    },
 }))
 const UserPlaces: FC<Props> = ({
     places,
@@ -75,7 +80,9 @@ const UserPlaces: FC<Props> = ({
                         <Typography className={classes.noPlace}>
                             まだPlaceを投稿していません
                         </Typography>
-                        <PressButton />
+                        <Box className={classes.PressButton}>
+                            <PressButton />
+                        </Box>
                     </Box>
                 }
                 <PageNextBack

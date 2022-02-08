@@ -4,7 +4,6 @@ import React from 'react'
 import { Link, useHistory } from 'react-router-dom'
 const useStyle = makeStyles((theme) => ({
     PressButtonXs: {
-        display: 'flex',
         [theme.breakpoints.up('sm')]: {
             display: 'none'
         }
