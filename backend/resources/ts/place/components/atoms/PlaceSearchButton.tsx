@@ -4,7 +4,6 @@ import React from 'react'
 import { Link, useHistory } from 'react-router-dom'
 const useStyle = makeStyles((theme) => ({
     SearchButtonXs: {
-        display: 'flex',
         [theme.breakpoints.up('sm')]: {
             display: 'none'
         }
@@ -12,7 +11,7 @@ const useStyle = makeStyles((theme) => ({
     SearchButtonSm: {
         display: 'none',
         [theme.breakpoints.up('sm')]: {
-            display: 'flex'
+            display: 'block'
         }
     }
 }))

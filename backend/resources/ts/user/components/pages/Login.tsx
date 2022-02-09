@@ -12,11 +12,12 @@ import { AxiosError } from 'axios'
 import React, { FC } from 'react'
 import UserChangePassword from '../../containers/organisms/UserResetPasswordSendForm'
 import { Provider } from '../../types/OAuth'
+import RegisterButton from '../atoms/RegisterButton'
 import LegalLink from '../molecules/LegalLink'
 import LoginAlert from '../molecules/LoginAlert'
 import Tunnel from '/work/backend/public/background_image/tunnel.png'
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         backgroundImage: `url(${Tunnel})`,
         backgroundAttachment: 'fixed',
@@ -26,6 +27,12 @@ const useStyles = makeStyles(() => ({
         borderImage: 'linear-gradient(0.25turn, transparent, #888, transparent)',
         borderImageSlice: 1,
     },
+    RegisterButton: {
+        marginTop: theme.spacing(3),
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center'
+    }
 }))
 
 type Props = {
@@ -63,7 +70,7 @@ const Login: FC<Props> = ({
             <main style={{ flex: 1 }}>
                 <Container maxWidth="xs">
                     <Card style={{ margin: `${theme.spacing(6)}px 0` }}>
-                        <CardHeader title="login" style={{ textAlign: 'center', marginTop: 30 }} />
+                        <CardHeader title="ログイン" style={{ textAlign: 'center', marginTop: 30 }} />
                         <CardContent>
                             <Box p={2} borderBottom={1} className={classes.decorationLine}>
                             </Box>
@@ -109,6 +116,9 @@ const Login: FC<Props> = ({
                             </form>
                             {/* パスワードリセット */}
                             <UserChangePassword />
+                            <Box className={classes.RegisterButton}>
+                                <RegisterButton />
+                            </Box>
                         </CardContent>
                     </Card>
                 </Container>

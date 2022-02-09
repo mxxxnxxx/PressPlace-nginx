@@ -11,7 +11,7 @@ const useStyle = makeStyles((theme) => ({
     PressButtonSm: {
         display: 'none',
         [theme.breakpoints.up('sm')]: {
-            display: 'flex'
+            display: 'block'
         }
     },
 }))

@@ -1,4 +1,4 @@
-import { Box, Card, makeStyles, Typography } from "@material-ui/core"
+import { Box, Card, makeStyles, Paper, Typography } from "@material-ui/core"
 import { AxiosError } from "axios"
 import React, { FC } from 'react'
 import Loding from "../../../layout/components/pages/Loding"
@@ -66,7 +66,7 @@ const UserPlaces: FC<Props> = ({
                 {places?.data && places?.data?.length > 0 ?
                     places?.data && places?.data?.map((place: Place, index) => (
                         <Box className={classes.card} key={index.toString()} >
-                            <Card className='m-3' key={index.toString()}>
+                            <Card key={index.toString()}>
                                 <PlaceCardHeader place={place} />
                                 <PlaceCardContent place={place} />
                                 {place.tags.length > 0 &&
@@ -76,14 +76,14 @@ const UserPlaces: FC<Props> = ({
                         </Box>
                     ))
                     :
-                    <Box className={classes.noSearched}>
+                    <Paper className={classes.noSearched}>
                         <Typography className={classes.noPlace}>
                             まだPlaceを投稿していません
                         </Typography>
                         <Box className={classes.PressButton}>
                             <PressButton />
                         </Box>
-                    </Box>
+                    </Paper>
                 }
                 <PageNextBack
                     page={page}

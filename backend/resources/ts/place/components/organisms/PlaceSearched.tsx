@@ -52,11 +52,15 @@ const useStyle = makeStyles((theme) => ({
         marginBottom: theme.spacing(10),
     },
     noSearched: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        padding: theme.spacing(4),
         margin: theme.spacing(8),
-        textAlign: 'center',
         color: 'red',
     },
     noSearchedText: {
+        textAlign: 'center',
         margin: theme.spacing(3)
     },
     nextBack: {
@@ -90,12 +94,10 @@ const PlaceSearched: FC<Props> = ({
                     <Card
                         className={classes.noSearched}
                     >
-                        <Box className={classes.noSearchedText}>
-                            <Typography className={classes.noSearchedText} color="initial">
-                                検索結果が見つかりませんでした
-                            </Typography>
-                            <PlaceSearchButton />
-                        </Box>
+                        <Typography className={classes.noSearchedText} color="initial">
+                            検索結果が見つかりませんでした
+                        </Typography>
+                        <PlaceSearchButton />
                     </Card>
                 }
                 {places?.data?.map((place: Place, index) => (

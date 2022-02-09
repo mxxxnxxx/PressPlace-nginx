@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import PlaceSearchButton from '../../../place/components/atoms/PlaceSearchButton'
 import PressButton from '../../../place/components/atoms/PressButton'
 import AccountButton from '../../../user/components/atoms/AccountButton'
+import RegisterButton from '../../../user/components/atoms/RegisterButton'
 import AccountMenu from '../../../user/components/molecules/AccountMenu'
 import { User } from '../../../user/types/User'
 
@@ -69,6 +70,7 @@ const Header: FC<Props> = ({ user, handleLogout }) => {
     const handleAccountMenuClose = useCallback(() => {
         setMenuAnchorEl(null)
     }, [])
+
     return (
         <Box className={classes.root}>
             <AppBar
@@ -110,14 +112,9 @@ const Header: FC<Props> = ({ user, handleLogout }) => {
                     )}
 
                     {!user && (
-                        <Button
-                            startIcon={<AccessibilityNewIcon />}
-                            component={Link}
-                            to="/register"
-                            className={classes.RegisterButton}
-                        >
-                            新規登録
-                        </Button>
+                        <Box className={classes.RegisterButton}>
+                            <RegisterButton />
+                        </Box>
                     )}
                     {/* ユーザーメニュー */}
                     {user && (

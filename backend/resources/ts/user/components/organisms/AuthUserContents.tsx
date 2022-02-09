@@ -45,6 +45,7 @@ function a11yProps(index: any) {
 }
 const useStyles = makeStyles((theme) => ({
     root: {
+        width: '90%',
         marginTop: theme.spacing(3),
         marginLeft: 'auto',
         marginRight: 'auto'
@@ -63,8 +64,6 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(3),
         marginBottom: theme.spacing(3),
         padding: '30px',
-        marginLeft: 'auto',
-        marginRight: 'auto'
     },
 }))
 const UserContents: React.FC<Props> = ({
@@ -93,19 +92,19 @@ const UserContents: React.FC<Props> = ({
                         <Tab value="favoritePlace" label="お気に入り" {...a11yProps('follower')} />
                     </Tabs>
                 </AppBar>
-
-                <TabPanel value={value} index="myPlace">
-                    <UserPlaces
-                        userName={userName}
-                    />
-                </TabPanel>
-
-                <TabPanel value={value} index="favoritePlace">
-                    <FavoritePlaces
-                        userName={userName}
-                    />
-                </TabPanel>
             </Box>
+            <TabPanel value={value} index="myPlace">
+                <UserPlaces
+                    userName={userName}
+                />
+            </TabPanel>
+
+            <TabPanel value={value} index="favoritePlace">
+                <FavoritePlaces
+                    userName={userName}
+                />
+            </TabPanel>
+
         </Box>
     )
 }

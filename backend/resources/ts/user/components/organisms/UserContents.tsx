@@ -45,6 +45,7 @@ function a11yProps(index: any) {
 }
 const useStyles = makeStyles((theme) => ({
     root: {
+        width: '90%',
         marginTop: theme.spacing(3),
         marginLeft: 'auto',
         marginRight: 'auto'

@@ -57,7 +57,7 @@ const Register: FC<Props> = (
             <main style={{ flex: 1 }}>
                 <Container maxWidth="xs">
                     <Card style={{ margin: `${theme.spacing(6)}px 0` }}>
-                        <CardHeader title="Register" style={{ textAlign: 'center', marginTop: 30 }} />
+                        <CardHeader title="新規登録" style={{ textAlign: 'center', marginTop: 30 }} />
                         <CardContent>
                             {/* ここからフォーム */}
                             <form onSubmit={handleSubmit(onSubmit)}>
