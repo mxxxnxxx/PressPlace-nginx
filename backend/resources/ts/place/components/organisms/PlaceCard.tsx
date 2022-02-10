@@ -20,15 +20,17 @@ type Props = {
     isFetchingNextPage?: boolean
 }
 const useStyle = makeStyles((theme) => ({
-    card: {
+    root: {
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
-        margin: 'auto',
+        alignItems: 'center'
+    },
+    card: {
+
+        width: '95%',
         marginTop: theme.spacing(10),
         marginBottom: theme.spacing(10),
         maxWidth: theme.spacing(80),
-        minWidth: theme.spacing(65),
     }
 }))
 const PlaceCard: FC<Props> = ({
@@ -66,29 +68,27 @@ const PlaceCard: FC<Props> = ({
     }
     const classes = useStyle()
     return (
-        <section>
+        <>
             {paginatePlaces?.map((page) => (
-                <React.Fragment key={page.currentPage.toString()}>
+                <Box className={classes.root} key={page.currentPage.toString()}>
                     {page.data.map((place: Place, index) => (
-                        <Box className={classes.card} key={index.toString()} >
-                            <Card>
-                                <PlaceCardHeader place={place} />
-                                <PlaceCardContent place={place} />
-                                {place.tags.length > 0 &&
-                                    <PlaceCardAction
-                                        place={place}
-                                    />
-                                }
-                            </Card>
-                        </Box>
+                        <Card className={classes.card} key={index.toString()}>
+                            <PlaceCardHeader place={place} />
+                            <PlaceCardContent place={place} />
+                            {place.tags.length > 0 &&
+                                <PlaceCardAction
+                                    place={place}
+                                />
+                            }
+                        </Card>
                     ))}
-                </React.Fragment>
+                </Box>
             ))
             }
             <Box {...{ ref: loadMoreRef }} textAlign="center">
                 {loadMoreMessage}
             </Box>
-        </section >
+        </>
     )
 }
 

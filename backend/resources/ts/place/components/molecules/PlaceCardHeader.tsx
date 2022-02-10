@@ -29,9 +29,16 @@ const useStyle = makeStyles(() => ({
         alignSelf: 'center',
         margin: '0'
     },
-
-
-
+    name: {
+        padding: '0px',
+    },
+    nameText: {
+        display: 'block',
+        width: '60%',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis'
+    }
 }))
 
 const PlaceCardHeader: React.FC<Props> = ({
@@ -44,8 +51,9 @@ const PlaceCardHeader: React.FC<Props> = ({
         <CardHeader
             className={classes.root}
             classes={{
+
                 action: classes.action,
-                avatar: classes.avatar
+                avatar: classes.avatar,
             }}
             avatar={
                 <>
@@ -73,6 +81,12 @@ const PlaceCardHeader: React.FC<Props> = ({
             title={
                 <Button
                     onClick={() => goToUserPage(place.user.name)}
+                    className={classes.name}
+                    variant="text"
+                    classes={{
+                        root: classes.name,
+                        label: classes.nameText
+                    }}
                 >
                     {place.user.name}
                 </Button>

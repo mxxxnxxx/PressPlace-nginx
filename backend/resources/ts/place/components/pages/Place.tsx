@@ -6,22 +6,17 @@ import PlaceCard from '../../containers/organisms/PlaceCard'
 import Map from '/work/backend/public/background_image/map.png'
 
 const useStyle = makeStyles(() => ({
-    root: {
+    PlaceRoot: {
         backgroundImage: `url(${Map})`,
         backgroundAttachment: 'fixed',
         backgroundSize: 'cover'
-
-    }
+    },
 }))
 const Place: FC = () => {
     const classes = useStyle()
     return (
-        <Box className={classes.root}>
-            <main>
-                <Container>
-                    <PlaceCard />
-                </Container>
-            </main>
+        <Box className={classes.PlaceRoot}>
+            <PlaceCard />
         </Box>
     )
 }

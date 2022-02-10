@@ -33,7 +33,6 @@ const useStyle = makeStyles((theme) => ({
         marginTop: theme.spacing(10),
         marginBottom: theme.spacing(10),
         maxWidth: theme.spacing(80),
-        minWidth: theme.spacing(65),
     },
     nextBack: {
         textAlign: 'center',
@@ -65,15 +64,13 @@ const UserPlaces: FC<Props> = ({
             <section>
                 {places?.data && places?.data?.length > 0 ?
                     places?.data && places?.data?.map((place: Place, index) => (
-                        <Box className={classes.card} key={index.toString()} >
-                            <Card key={index.toString()}>
-                                <PlaceCardHeader place={place} />
-                                <PlaceCardContent place={place} />
-                                {place.tags.length > 0 &&
-                                    <PlaceCardAction place={place} />
-                                }
-                            </Card>
-                        </Box>
+                        <Card className={classes.card} key={index.toString()}>
+                            <PlaceCardHeader place={place} />
+                            <PlaceCardContent place={place} />
+                            {place.tags.length > 0 &&
+                                <PlaceCardAction place={place} />
+                            }
+                        </Card>
                     ))
                     :
                     <Paper className={classes.noSearched}>

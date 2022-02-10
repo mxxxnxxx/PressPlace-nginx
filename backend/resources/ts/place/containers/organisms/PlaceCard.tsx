@@ -1,12 +1,9 @@
 import React, { FC } from 'react'
-import { useQueryClient } from 'react-query'
 import { useIntersectionObserver } from '../../../layout/hooks/util'
 import PlaceCard from '../../components/organisms/PlaceCard'
 import { useGetPlaceCardQuery } from '../../hooks'
-import { Inputs } from '../../types/Inputs'
 
 const EnhancedPlaceCard: FC = () => {
-    const queryClient = useQueryClient()
     const {
         isLoading,
         error,

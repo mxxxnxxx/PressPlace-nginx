@@ -66,6 +66,8 @@ node_modules
 .DS_Store
 *.log
 
+.devcontainer
+.vscode
 # backend
 backend/node_modules
 backend/public/storage

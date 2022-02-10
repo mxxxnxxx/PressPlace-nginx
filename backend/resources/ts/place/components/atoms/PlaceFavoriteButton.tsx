@@ -1,8 +1,9 @@
-import React from 'react'
 import { Button, makeStyles } from '@material-ui/core'
-import { Place } from '../../types/Place'
+import AddIcon from '@material-ui/icons/Add'
+import ClearIcon from '@material-ui/icons/Clear'
 import FlagIcon from '@material-ui/icons/Flag'
-import BackspaceIcon from '@material-ui/icons/Backspace'
+import React from 'react'
+import { Place } from '../../types/Place'
 
 type Props = {
     place: Place
@@ -11,11 +12,33 @@ type Props = {
     unFavorite: (placeId: number) => void
 
 }
-const useStyle = makeStyles(() => ({
+const useStyle = makeStyles((theme) => ({
     myPlaceButton: {
         textTransform: 'none',
-        boxShadow: 'none'
-    }
+        boxShadow: 'none',
+        padding: '4px 4px',
+        [theme.breakpoints.up('sm')]: {
+            padding: '4px 10px'
+        }
+    },
+    favoriteText: {
+        display: 'none',
+        [theme.breakpoints.up('sm')]: {
+            display: 'block',
+        }
+    },
+    startIcon: {
+        marginRight: '0px',
+        [theme.breakpoints.up('sm')]: {
+            marginRight: '8px',
+        }
+    },
+    endIcon: {
+        marginLeft: '0px',
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: '8px',
+        }
+    },
 }))
 const PlaceFavoriteButton: React.FC<Props> = ({
     place,
@@ -34,22 +57,32 @@ const PlaceFavoriteButton: React.FC<Props> = ({
             {buttonState == false &&
                 <Button
                     className={classes.myPlaceButton}
+                    classes={{
+                        startIcon: classes.startIcon,
+                        endIcon: classes.endIcon
+                    }}
                     startIcon={<FlagIcon />}
+                    endIcon={<AddIcon />}
                     size='small'
                     variant="contained"
                     onClick={() => addFavorite(place.id)}
                 >
-                    お気に入りに追加
+                    <span className={classes.favoriteText}>お気に入り</span>
                 </Button>}
             {buttonState == true &&
                 <Button
                     className={classes.myPlaceButton}
-                    startIcon={<BackspaceIcon />}
+                    classes={{
+                        startIcon: classes.startIcon,
+                        endIcon: classes.endIcon
+                    }}
+                    startIcon={<FlagIcon />}
+                    endIcon={<ClearIcon />}
                     size='small'
                     variant="contained"
                     onClick={() => unFavorite(place.id)}
                 >
-                    お気に入りから削除
+                    <span className={classes.favoriteText}>お気に入り</span>
                 </Button>}
         </>
     )
