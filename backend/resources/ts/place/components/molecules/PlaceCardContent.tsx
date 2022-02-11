@@ -13,81 +13,24 @@ type Props = {
 }
 const useStyle = makeStyles((theme) => ({
     container: {
-        display: 'flex',
-        padding: '0px',
-    },
-
-    item1: {
-        display: 'flex',
-        flexDirection: 'column',
-        flex: '2 2 30%',
-        justifyContent: 'center',
-        margin: theme.spacing(1)
+        padding: theme.spacing(2),
     },
     placeImageButton: {
         "& img": {
             maxWidth: '100%'
         },
     },
-
-    item2: {
-        flex: '5 5 50%',
-        borderRight: 'dashed thin',
-    },
     'placeNameContainer': {
         borderBottom: 'solid thin',
-        margin: '20px'
     },
     placeNameLabel: {
         fontStyle: 'italic',
         color: 'Silver',
-        fontSize: '12px',
-        marginBottom: theme.spacing(1)
+        fontSize: '0.8rem',
     },
     placeName: {
-        marginRight: theme.spacing(2),
+        marginLeft: '12px'
     },
-    placeCommentContainer: {
-        margin: '20px',
-    },
-    placeCommentLabel: {
-        fontStyle: 'italic',
-        color: 'Silver',
-        fontSize: '12px',
-        marginBottom: theme.spacing(1)
-    },
-    placeComment: {
-        overflow: 'hidden',
-        whiteSpace: 'pre-line',
-        display: '-webkit-box',
-        '-webkit-box-orient': 'vertical',
-        '-webkit-line-clamp': '3',
-    },
-    item3: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        flex: '2 2 20%',
-    },
-    placeAddressContainer: {
-        margin: theme.spacing(1),
-    },
-    placeAddressLabel: {
-        fontStyle: 'italic',
-        color: 'Silver',
-        fontSize: '12px',
-        marginBottom: theme.spacing(1)
-    },
-    placeAddress: {
-        textDecoration: 'underline',
-        fontSize: '12px'
-    },
-    placeGoogleMap: {
-        alignSelf: 'center'
-    },
-    myPlaceButton: {
-        textTransform: 'none',
-    }
 }))
 const PlaceCardContent: React.FC<Props> = ({ place }) => {
     // ui部分なのでここに記述
@@ -107,87 +50,56 @@ const PlaceCardContent: React.FC<Props> = ({ place }) => {
 
     return (
         <CardContent className={classes.container}>
-            <Box
-                className={classes.item1}
-            >
-                <IconButton
-                    className={classes.placeImageButton}
-                    aria-label=""
-                    onClick={() => handleOpen('paper')}
+            <Box className={classes.placeNameContainer}>
+                <Typography
+                    align='left'
+                    variant='subtitle2'
+                    className={classes.placeNameLabel}
                 >
-                    {place.placeImages.length > 0 &&
-                        <img
-                            src={`https://pressplace.s3.ap-northeast-1.amazonaws.com/${place.placeImages[0]?.imagePath}`}
-                            alt="placeImage"
-                        />
-                    }
-                    {place.placeImages.length === 0 &&
-                        <ClearAllIcon />
-                    }
-                </IconButton>
-                <Dialog
-                    open={open}
-                    onClose={handleClose}
-                    scroll={scroll}
+                    -場所の名前-
+                </Typography>
+                <Typography
+                    align='left'
+                    className={classes.placeName}
                 >
-                    <DialogTitle id="scroll-dialog-title">{place.name}</DialogTitle>
+                    {place.name}
+                </Typography>
+            </Box>
 
-                    <DialogContent dividers={scroll === 'paper'}>
-                        <ShowPlaceModal
-                            place={place}
-                        />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleClose} color="primary">
-                            Close
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-            </Box>
-            <Box className={classes.item2}>
-                <Box className={classes.placeNameContainer}>
-                    <Typography
-                        align='left'
-                        variant='subtitle2'
-                        className={classes.placeNameLabel}
-                    >
-                        -場所の名前-
-                    </Typography>
-                    <Typography
-                        align='left'
-                        className={classes.placeName}
-                    >
-                        {place.name}
-                    </Typography>
-                </Box>
-                <Box className={classes.placeCommentContainer}>
-                    <Typography
-                        className={classes.placeCommentLabel}
-                    >
-                        -コメント-
-                    </Typography>
-                    <Typography className={classes.placeComment}>
-                        {place.comment}
-                    </Typography>
-                </Box>
-            </Box>
-            <Box className={classes.item3}>
-                <Box className={classes.placeAddressContainer}>
-                    <Typography
-                        className={classes.placeAddressLabel}
-                    >
-                        -場所-
-                    </Typography>
-                    <Typography className={classes.placeAddress}>
-                        {place.address}
-                    </Typography>
-                </Box>
-                <Box className={classes.placeGoogleMap}>
-                    <PlaceGoogleMap
+            <IconButton
+                className={classes.placeImageButton}
+                aria-label=""
+                onClick={() => handleOpen('paper')}
+            >
+                {place.placeImages.length > 0 &&
+                    <img
+                        src={`https://pressplace.s3.ap-northeast-1.amazonaws.com/${place.placeImages[0]?.imagePath}`}
+                        alt="placeImage"
+                    />
+                }
+                {place.placeImages.length === 0 &&
+                    <ClearAllIcon />
+                }
+            </IconButton>
+
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                scroll={scroll}
+            >
+                <DialogTitle id="scroll-dialog-title">{place.name}</DialogTitle>
+
+                <DialogContent dividers={scroll === 'paper'}>
+                    <ShowPlaceModal
                         place={place}
                     />
-                </Box>
-            </Box>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                        Close
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </CardContent >
     )
 }

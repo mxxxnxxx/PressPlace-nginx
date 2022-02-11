@@ -7,7 +7,6 @@ import SearchIcon from '@material-ui/icons/Search'
 import React, { FC } from 'react'
 import { Inputs } from '../../types/Inputs'
 import { Places } from '../../types/Places'
-import PlaceSearchButton from '../atoms/PlaceSearchButton'
 
 type Props = {
     searchKey?: Inputs
@@ -97,9 +96,6 @@ const SearchedWords: FC<Props> = ({ searchKey, places, removeKey }) => {
                         {tag}
                     </Button>
                 ))}
-                <Box className={classes.PlaceSearchButton}>
-                    <PlaceSearchButton />
-                </Box>
             </Box>
         </section>
     )

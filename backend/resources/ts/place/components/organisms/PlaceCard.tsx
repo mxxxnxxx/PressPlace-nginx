@@ -9,6 +9,8 @@ import PlaceCardContent from '../../containers/molecules/PlaceCardContent'
 import PlaceCardHeader from '../../containers/molecules/PlaceCardHeader'
 import { Place } from '../../types/Place'
 import { Places } from '../../types/Places'
+import Masonry from 'react-masonry-css'
+
 
 
 type Props = {
@@ -21,16 +23,29 @@ type Props = {
 }
 const useStyle = makeStyles((theme) => ({
     root: {
+        width: '95%',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center'
+        justifyContent: 'center',
+        margin: 'auto'
+    },
+    myMasonryGrid: {
+        display: 'flex',
+        marginLeft: '-30px',
+        width: 'auto',
+    },
+    myMasonryGridColumn: {
+        paddingLeft: '30px',
+        backgroundClip: 'padding-box'
     },
     card: {
-
-        width: '95%',
         marginTop: theme.spacing(10),
         marginBottom: theme.spacing(10),
-        maxWidth: theme.spacing(80),
+        margin: 'auto',
+        maxWidth: '500px',
+    },
+    loadMessage: {
+        margin: theme.spacing(2)
     }
 }))
 const PlaceCard: FC<Props> = ({
@@ -41,6 +56,11 @@ const PlaceCard: FC<Props> = ({
     hasNextPage,
     isFetchingNextPage,
 }) => {
+    const breakpointColumnsObj = {
+        default: 3,
+        1200: 2,
+        800: 1,
+    }
     if (isLoading) {
         return <Loding isLoading={isLoading} />
     }
@@ -68,27 +88,35 @@ const PlaceCard: FC<Props> = ({
     }
     const classes = useStyle()
     return (
-        <>
+        <Box className={classes.root}>
             {paginatePlaces?.map((page) => (
-                <Box className={classes.root} key={page.currentPage.toString()}>
-                    {page.data.map((place: Place, index) => (
-                        <Card className={classes.card} key={index.toString()}>
-                            <PlaceCardHeader place={place} />
-                            <PlaceCardContent place={place} />
-                            {place.tags.length > 0 &&
-                                <PlaceCardAction
-                                    place={place}
-                                />
-                            }
-                        </Card>
-                    ))}
+                <Box key={page.currentPage.toString()}>
+                    <Masonry
+                        breakpointCols={breakpointColumnsObj}
+                        className={classes.myMasonryGrid}
+                        columnClassName={classes.myMasonryGridColumn}
+                    >
+                        {page.data.map((place: Place, index) => (
+                            <Card className={classes.card} key={index.toString()}>
+                                <PlaceCardHeader place={place} />
+                                <PlaceCardContent place={place} />
+                                {place.tags.length > 0 &&
+                                    <PlaceCardAction
+                                        place={place}
+                                    />
+                                }
+                            </Card>
+                        ))}
+                    </Masonry>
                 </Box>
+
             ))
             }
-            <Box {...{ ref: loadMoreRef }} textAlign="center">
+
+            <Box {...{ ref: loadMoreRef }} textAlign="center" className={classes.loadMessage}>
                 {loadMoreMessage}
             </Box>
-        </>
+        </Box>
     )
 }
 

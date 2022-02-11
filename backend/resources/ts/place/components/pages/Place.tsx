@@ -5,8 +5,9 @@ import React, { FC } from 'react'
 import PlaceCard from '../../containers/organisms/PlaceCard'
 import Map from '/work/backend/public/background_image/map.png'
 
+
 const useStyle = makeStyles(() => ({
-    PlaceRoot: {
+    root: {
         backgroundImage: `url(${Map})`,
         backgroundAttachment: 'fixed',
         backgroundSize: 'cover'
@@ -15,7 +16,7 @@ const useStyle = makeStyles(() => ({
 const Place: FC = () => {
     const classes = useStyle()
     return (
-        <Box className={classes.PlaceRoot}>
+        <Box className={classes.root}>
             <PlaceCard />
         </Box>
     )

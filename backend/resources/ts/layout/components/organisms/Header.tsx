@@ -17,9 +17,6 @@ type Props = {
 
 }
 const useStyle = makeStyles((theme) => ({
-    root: {
-        width: '100%'
-    },
     AppBar: {
         color: theme.palette.text.primary,
         backgroundColor: theme.palette.common.white,
@@ -72,72 +69,70 @@ const Header: FC<Props> = ({ user, handleLogout }) => {
     }, [])
 
     return (
-        <Box className={classes.root}>
-            <AppBar
-                position="sticky"
-                className={classes.AppBar}
-            >
-                <Toolbar>
-                    <Typography
-                        component="h1"
-                        variant="h6"
-                        style={{
-                            flexGrow: 1,
-                        }}
-                        align="left"
+        <AppBar
+            position="sticky"
+            className={classes.AppBar}
+        >
+            <Toolbar>
+                <Typography
+                    component="h1"
+                    variant="h6"
+                    style={{
+                        flexGrow: 1,
+                    }}
+                    align="left"
+                >
+                    <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+                        PressPlace
+                    </Link>
+                </Typography>
+                <Box className={classes.PlaceSearchButton}>
+                    <PlaceSearchButton />
+                </Box>
+                <Box className={classes.PressButton}>
+                    <PressButton />
+                </Box>
+
+
+                {/* ログインボタン */}
+                {!user && (
+                    <Button
+                        startIcon={<VpnKeyIcon />}
+                        component={Link}
+                        to="/login"
+                        className={classes.LoginButton}
                     >
-                        <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-                            PressPlace
-                        </Link>
-                    </Typography>
-                    <Box className={classes.PlaceSearchButton}>
-                        <PlaceSearchButton />
+
+                        ログイン
+                    </Button>
+                )}
+
+                {!user && (
+                    <Box className={classes.RegisterButton}>
+                        <RegisterButton />
                     </Box>
-                    <Box className={classes.PressButton}>
-                        <PressButton />
-                    </Box>
+                )}
+                {/* ユーザーメニュー */}
+                {user && (
+                    <>
+                        <AccountButton
+                            user={user}
+                            menuId={menuId}
+                            handleAccountMenuOpen={handleAccountMenuOpen}
+                        />
+                        <AccountMenu
+                            menuId={menuId}
+                            user={user}
+                            anchorEl={menuAnchorEl}
+                            open={isAccouuntMenuOpen}
+                            handleAccountMenuClose={handleAccountMenuClose}
+                            handleLogout={handleLogout}
+                        />
+                    </>
+                )}
 
-
-                    {/* ログインボタン */}
-                    {!user && (
-                        <Button
-                            startIcon={<VpnKeyIcon />}
-                            component={Link}
-                            to="/login"
-                            className={classes.LoginButton}
-                        >
-
-                            ログイン
-                        </Button>
-                    )}
-
-                    {!user && (
-                        <Box className={classes.RegisterButton}>
-                            <RegisterButton />
-                        </Box>
-                    )}
-                    {/* ユーザーメニュー */}
-                    {user && (
-                        <>
-                            <AccountButton
-                                user={user}
-                                menuId={menuId}
-                                handleAccountMenuOpen={handleAccountMenuOpen}
-                            />
-                            <AccountMenu
-                                menuId={menuId}
-                                user={user}
-                                anchorEl={menuAnchorEl}
-                                open={isAccouuntMenuOpen}
-                                handleAccountMenuClose={handleAccountMenuClose}
-                                handleLogout={handleLogout}
-                            />
-                        </>
-                    )}
-
-                </Toolbar>
-            </AppBar>
-        </Box>
+            </Toolbar>
+        </AppBar>
     )
 }
 

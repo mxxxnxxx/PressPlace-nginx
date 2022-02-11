@@ -8,27 +8,23 @@ type Props = {
 }
 const useStyle = makeStyles((theme) => ({
     root: {
-        opacity: '0.4',
+        display: 'flex',
+        flexWrap: 'wrap',
         justifyContent: 'right',
+        // ホバー時のエフェクト
+        opacity: '0.4',
         borderTop: 'dashed thin',
         transitionDuration: '1s',
         "&:hover": {
             opacity: '1',
         }
     },
-    placeTagsContainer: {
-        display: 'flex',
-
-    },
     placeTagsLabel: {
-        alignSelf: 'center',
         marginRight: theme.spacing(2)
     },
-    placeTag: {
-        marginRight: theme.spacing(1)
-    },
     tagButton: {
-        textTransform: 'none'
+        marginTop: theme.spacing(1),
+        minWidth: 'min-content',
     }
 }))
 const PlaceCardAction: React.FC<Props> = ({
@@ -41,31 +37,24 @@ const PlaceCardAction: React.FC<Props> = ({
             className={classes.root}
         >
             <Box
-                className={classes.placeTagsContainer}
+                className={classes.placeTagsLabel}
             >
-                <Box
-                    className={classes.placeTagsLabel}
-                >
-                    <Typography>
-                        Tag:
-                    </Typography>
-                </Box>
-                {place.tags.map((tag, index) => (
-                    <Box
-                        key={index.toString()}
-                        className={classes.placeTag}
-                    >
-                        <Button
-                            variant="outlined"
-                            size='small'
-                            onClick={() => tagSearch(tag.name)}
-                            className={classes.tagButton}
-                        >
-                            {tag.name}
-                        </Button>
-                    </Box>
-                ))}
+                <Typography>
+                    Tag:
+                </Typography>
             </Box>
+            {place.tags.map((tag, index) => (
+                <Button
+                    key={index.toString()}
+                    variant="outlined"
+                    size='small'
+                    onClick={() => tagSearch(tag.name)}
+                    className={classes.tagButton}
+                    classes={{ root: classes.tagButton }}
+                >
+                    {tag.name}
+                </Button>
+            ))}
         </CardActions >
     )
 }

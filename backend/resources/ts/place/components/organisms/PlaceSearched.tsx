@@ -97,7 +97,6 @@ const PlaceSearched: FC<Props> = ({
                         <Typography className={classes.noSearchedText} color="initial">
                             検索結果が見つかりませんでした
                         </Typography>
-                        <PlaceSearchButton />
                     </Card>
                 }
                 {places?.data?.map((place: Place, index) => (
