@@ -6,30 +6,53 @@ import 'swiper/css/swiper.css'
 import PlaceGoogleMap from '../../containers/molecules/PlaceGoogleMap'
 import ShowPlaceModal from '../../containers/organisms/ShowPlaceModal'
 import { Place } from '../../types/Place'
-import OverlapImage from '/work/backend/public/images/overlapImage.png'
+import BlurOffIcon from '@material-ui/icons/BlurOff'
 
 type Props = {
     place: Place
 }
 const useStyle = makeStyles((theme) => ({
     container: {
-        padding: theme.spacing(2),
+        padding: theme.spacing(3),
     },
-    placeImageButton: {
-        "& img": {
-            maxWidth: '100%'
-        },
+    placeData: {
+        display: 'flex',
+        justifyContent: 'flex-end',
     },
-    'placeNameContainer': {
+    placeInfoContainer: {
         borderBottom: 'solid thin',
+        marginBottom: theme.spacing(2),
     },
-    placeNameLabel: {
+    placeInfoLabel: {
         fontStyle: 'italic',
         color: 'Silver',
         fontSize: '0.8rem',
+
     },
-    placeName: {
-        marginLeft: '12px'
+    placeGoogleMap: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        margin: theme.spacing(3)
+    },
+    placeInfo: {
+        marginLeft: theme.spacing(1),
+        whiteSpace: 'pre-wrap',
+        display: '-webkit-box',
+        overflow: 'hidden',
+        '-webkit-line-clamp': '5',
+        '-webkit-box-orient': 'vertical',
+    },
+    placeImageContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+    },
+    placeImageButton: {
+        padding: '0px',
+        "& img": {
+            maxWidth: '100%'
+        },
     },
 }))
 const PlaceCardContent: React.FC<Props> = ({ place }) => {
@@ -50,38 +73,76 @@ const PlaceCardContent: React.FC<Props> = ({ place }) => {
 
     return (
         <CardContent className={classes.container}>
-            <Box className={classes.placeNameContainer}>
+            <Box className={classes.placeData}>
+                <Typography variant='subtitle2'>
+                    更新日時:{place.updatedAt}
+                </Typography>
+            </Box>
+            <Box className={classes.placeInfoContainer}>
                 <Typography
                     align='left'
                     variant='subtitle2'
-                    className={classes.placeNameLabel}
+                    className={classes.placeInfoLabel}
                 >
                     -場所の名前-
                 </Typography>
                 <Typography
                     align='left'
-                    className={classes.placeName}
+                    className={classes.placeInfo}
                 >
                     {place.name}
                 </Typography>
             </Box>
-
-            <IconButton
-                className={classes.placeImageButton}
-                aria-label=""
-                onClick={() => handleOpen('paper')}
-            >
-                {place.placeImages.length > 0 &&
-                    <img
-                        src={`https://pressplace.s3.ap-northeast-1.amazonaws.com/${place.placeImages[0]?.imagePath}`}
-                        alt="placeImage"
-                    />
-                }
-                {place.placeImages.length === 0 &&
-                    <ClearAllIcon />
-                }
-            </IconButton>
-
+            <Box className={classes.placeInfoContainer}>
+                <Typography
+                    align='left'
+                    variant='subtitle2'
+                    className={classes.placeInfoLabel}
+                >
+                    -コメント-
+                </Typography>
+                <Typography
+                    align='left'
+                    className={classes.placeInfo}
+                >
+                    {place.comment}
+                </Typography>
+            </Box>
+            <Box className={classes.placeInfoContainer}>
+                <Typography
+                    align='left'
+                    variant='subtitle2'
+                    className={classes.placeInfoLabel}
+                >
+                    -場所-
+                </Typography>
+                <Typography
+                    align='left'
+                    className={classes.placeInfo}
+                >
+                    {place.address}
+                </Typography>
+            </Box>
+            <Box className={classes.placeGoogleMap}>
+                <PlaceGoogleMap place={place} />
+            </Box>
+            <Box className={classes.placeImageContainer}>
+                <IconButton
+                    className={classes.placeImageButton}
+                    aria-label=""
+                    onClick={() => handleOpen('paper')}
+                >
+                    {place.placeImages.length > 0 &&
+                        <img
+                            src={`https://pressplace.s3.ap-northeast-1.amazonaws.com/${place.placeImages[0]?.imagePath}`}
+                            alt="placeImage"
+                        />
+                    }
+                    {place.placeImages.length === 0 &&
+                        <BlurOffIcon />
+                    }
+                </IconButton>
+            </Box>
             <Dialog
                 open={open}
                 onClose={handleClose}

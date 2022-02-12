@@ -214,6 +214,7 @@ class PlaceController extends Controller
         }
         if (!$address == "") {
             $places_q->where('address', 'like', '%' . $address . '%');
+            \Debugbar::info($places_q->all());
         }
         if (!$comment == "") {
             $places_q->where('comment', 'like', '%' . $comment . '%');

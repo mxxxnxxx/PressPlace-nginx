@@ -1,6 +1,7 @@
 import { Box, Card, makeStyles, Paper, Typography } from "@material-ui/core"
 import { AxiosError } from "axios"
 import React, { FC } from 'react'
+import Masonry from "react-masonry-css"
 import Loding from "../../../layout/components/pages/Loding"
 import PressButton from "../../../place/components/atoms/PressButton"
 import PageNextBack from "../../../place/components/molecules/PageNextBack"
@@ -32,7 +33,16 @@ const useStyle = makeStyles((theme) => ({
         margin: 'auto',
         marginTop: theme.spacing(10),
         marginBottom: theme.spacing(10),
-        maxWidth: theme.spacing(80),
+        maxWidth: '500px',
+    },
+    myMasonryGrid: {
+        display: 'flex',
+        marginLeft: '-30px',
+        width: 'auto',
+    },
+    myMasonryGridColumn: {
+        paddingLeft: '30px',
+        backgroundClip: 'padding-box'
     },
     nextBack: {
         textAlign: 'center',
@@ -55,6 +65,11 @@ const UserPlaces: FC<Props> = ({
 }) => {
 
     const classes = useStyle()
+    const breakpointColumnsObj = {
+        default: 3,
+        1200: 2,
+        800: 1,
+    }
     if (isLoading) {
         return <Loding isLoading={isLoading} />
     }
@@ -62,26 +77,34 @@ const UserPlaces: FC<Props> = ({
         <Box>
             {/* placeカード */}
             <section>
-                {places?.data && places?.data?.length > 0 ?
-                    places?.data && places?.data?.map((place: Place, index) => (
-                        <Card className={classes.card} key={index.toString()}>
-                            <PlaceCardHeader place={place} />
-                            <PlaceCardContent place={place} />
-                            {place.tags.length > 0 &&
-                                <PlaceCardAction place={place} />
-                            }
-                        </Card>
-                    ))
-                    :
-                    <Paper className={classes.noSearched}>
-                        <Typography className={classes.noPlace}>
-                            まだPlaceを投稿していません
-                        </Typography>
-                        <Box className={classes.PressButton}>
-                            <PressButton />
-                        </Box>
-                    </Paper>
-                }
+                <Masonry
+                    breakpointCols={breakpointColumnsObj}
+                    className={classes.myMasonryGrid}
+                    columnClassName={classes.myMasonryGridColumn}
+                >
+                    {places?.data && places?.data?.length > 0 ?
+
+                        places?.data && places?.data?.map((place: Place, index) => (
+                            <Card className={classes.card} key={index.toString()}>
+                                <PlaceCardHeader place={place} />
+                                <PlaceCardContent place={place} />
+                                {place.tags.length > 0 &&
+                                    <PlaceCardAction place={place} />
+                                }
+                            </Card>
+                        ))
+
+                        :
+                        <Paper className={classes.noSearched}>
+                            <Typography className={classes.noPlace}>
+                                まだPlaceを投稿していません
+                            </Typography>
+                            <Box className={classes.PressButton}>
+                                <PressButton />
+                            </Box>
+                        </Paper>
+                    }
+                </Masonry>
                 <PageNextBack
                     page={page}
                     setPage={setPage}

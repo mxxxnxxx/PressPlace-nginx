@@ -75,12 +75,7 @@ const NewPlaceForm: React.FC<Props> = ({
     const methods = useFormContext()
     const theme = useTheme()
     return (
-        <Box
-            display="flex"
-            flexDirection="column"
-            minHeight="100vh"
-            className={classes.root}
-        >
+        <>
             <Container maxWidth="xs" >
                 <Card style={{ margin: `${theme.spacing(6)}px 0` }}>
                     <CardHeader title="Let's Press." style={{ textAlign: 'center', marginTop: 30 }} />
@@ -146,7 +141,7 @@ const NewPlaceForm: React.FC<Props> = ({
             <Backdrop style={{ zIndex: theme.zIndex.drawer + 1 }} open={isLoading}>
                 <CircularProgress color="inherit" />
             </Backdrop>
-        </Box>
+        </>
     )
 }
 export default NewPlaceForm

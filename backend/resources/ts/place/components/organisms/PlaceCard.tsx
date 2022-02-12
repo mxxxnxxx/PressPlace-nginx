@@ -27,7 +27,8 @@ const useStyle = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        margin: 'auto'
+        margin: 'auto',
+        marginTop: theme.spacing(10),
     },
     myMasonryGrid: {
         display: 'flex',
@@ -39,7 +40,6 @@ const useStyle = makeStyles((theme) => ({
         backgroundClip: 'padding-box'
     },
     card: {
-        marginTop: theme.spacing(10),
         marginBottom: theme.spacing(10),
         margin: 'auto',
         maxWidth: '500px',

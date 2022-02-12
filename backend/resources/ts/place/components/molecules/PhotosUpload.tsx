@@ -20,31 +20,32 @@ type Props = {
     photoCount: number
 }
 // styleのテーマ
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme) =>
     createStyles({
         root: {
             alignSelf: 'center',
             display: 'flex',
             flexDirection: 'column'
         },
-        "topContainer": {
-
+        imageContainer: {
+            display: 'grid',
+            gap: '5%',
+            'grid-template-columns': 'repeat(3, 1fr)',
         },
-        "imageContainer": {
-
-        },
-        "image": {
-            width: 70,
-            margin: 2,
+        image: {
+            width: '100%'
         },
         photoIcon: {
             alignSelf: 'center'
         },
-        "plus": {
+        plus: {
             textAlign: 'left'
         },
-        "input": {
+        input: {
             display: 'none',
+        },
+        maxImageText: {
+            margin: theme.spacing(2)
         }
     }))
 
@@ -67,56 +68,34 @@ const PhotosUpload: React.FC<Props> = ({
     const classes = useStyles()
 
     return (
-        <Box className={classes.root}>
-            <Box className={classes.topContainer}>
-                {/* スプレットで投入される画像を展開 */}
-                {/* [...Array(3)]で3つまでのからの配列を作成 */}
-                {/* mapメソットでそれぞれの画像に */}
-                {/* if文の省略形 なければサンプルが出る */}
-                <Grid container spacing={1}>
-                    {[...Array(3)].map((_: number, index: number) =>
-                        oldPhotos && index < oldPhotos.length && (
-
-                            <Grid key={index.toString()} item>
-                                <button
-                                    type="button"
-                                    className={classes.imageContainer}
-                                    key={index.toString()}
-                                    onClick={() => handleCancelOld(index)}
-                                >
-                                    <img
-                                        className={classes.image}
-                                        key={index.toString()}
-                                        src={`https://pressplace.s3.ap-northeast-1.amazonaws.com/${oldPhotos[index].imagePath}`}
-                                        alt={`あなたの写真 ${index + 1}`}
-                                    />
-                                </button>
-                            </Grid>
-                        )
-                    )}
-                </Grid>
-                <Grid container spacing={1}>
-                    {[...Array(3)].map((_: number, index: number) =>
-                        index < photos.length && (
-
-                            <Grid key={index.toString()} item>
-                                <button
-                                    type="button"
-                                    className={classes.imageContainer}
-                                    key={index.toString()}
-                                    onClick={() => handleCancelNew(index)}
-                                >
-                                    <img
-                                        className={classes.image}
-                                        key={index.toString()}
-                                        src={URL.createObjectURL(photos[index])}
-                                        alt={`あなたの写真 ${index + 1}`}
-                                    />
-                                </button>
-                            </Grid>
-                        )
-                    )}
-                </Grid>
+        <>
+            {/* スプレットで投入される画像を展開 */}
+            {/* [...Array(3)]で3つまでのからの配列を作成 */}
+            {/* mapメソットでそれぞれの画像に */}
+            {/* if文の省略形 なければサンプルが出る */}
+            <Box className={classes.imageContainer}>
+                {[...Array(3)].map((_: number, index: number) =>
+                    oldPhotos && index < oldPhotos.length && (
+                        <img
+                            className={classes.image}
+                            src={`https://pressplace.s3.ap-northeast-1.amazonaws.com/${oldPhotos[index].imagePath}`}
+                            alt={`あなたの写真 ${index + 1}`}
+                            key={index.toString()}
+                            onClick={() => handleCancelOld(index)}
+                        />
+                    )
+                )}
+                {[...Array(3)].map((_: number, index: number) =>
+                    index < photos.length && (
+                        <img
+                            className={classes.image}
+                            key={index.toString()}
+                            src={URL.createObjectURL(photos[index])}
+                            alt={`あなたの写真 ${index + 1}`}
+                            onClick={() => handleCancelNew(index)}
+                        />
+                    )
+                )}
             </Box>
 
 
@@ -136,38 +115,32 @@ const PhotosUpload: React.FC<Props> = ({
                 </Alert>
             )}
 
-            <Box className={classes.photoIcon}>
-                {photoCount < 3 && (
-                    <label htmlFor={name} style={{ marginTop: 20 }}>
-                        <Button
-                            variant="outlined"
-                            aria-label="upload picture" component="span"
+            {photoCount < 3 && (
+                <label htmlFor={name} style={{ marginTop: 20 }}>
+                    <Button
+                        variant="outlined"
+                        aria-label="upload picture" component="span"
 
-                            startIcon={<CameraAltIcon fontSize="large" />}
-                        >
-                            写真
-                        </Button>
-                        <input
-                            className={classes.input}
-                            type="file"
-                            name={name}
-                            id={name}
-                            ref={componentRef}
-                            accept="image/*"
-                            onChange={handleFile}
-                            multiple
-                        />
-                    </label>
-
-                )}
-            </Box>
-
-
-
-            <Box >
+                        startIcon={<CameraAltIcon fontSize="large" />}
+                    >
+                        写真
+                    </Button>
+                    <input
+                        className={classes.input}
+                        type="file"
+                        name={name}
+                        id={name}
+                        ref={componentRef}
+                        accept="image/*"
+                        onChange={handleFile}
+                        multiple
+                    />
+                </label>
+            )}
+            <Box className={classes.maxImageText}>
                 <Typography align="right">※最大3枚まで</Typography>
             </Box>
-        </Box>
+        </>
     )
 }
 export default PhotosUpload

@@ -12,6 +12,7 @@ import PageNextBack from '../molecules/PageNextBack'
 import PlaceCardAction from '../../containers/molecules/PlaceCardAction'
 import Map from '/work/backend/public/background_image/map.png'
 import PlaceSearchButton from '../atoms/PlaceSearchButton'
+import Masonry from 'react-masonry-css'
 
 type Props = {
     places?: Places
@@ -38,17 +39,16 @@ const useStyle = makeStyles((theme) => ({
     },
 
     SearchedPlaces: {
+        width: '95%',
+        margin: 'auto',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        marginBottom: '50%',
         marginTop: theme.spacing(10),
-        maxWidth: theme.spacing(80),
-        minWidth: theme.spacing(65),
     },
     card: {
+        margin: 'auto',
+        maxWidth: '500px',
         marginBottom: theme.spacing(10),
     },
     noSearched: {
@@ -62,6 +62,15 @@ const useStyle = makeStyles((theme) => ({
     noSearchedText: {
         textAlign: 'center',
         margin: theme.spacing(3)
+    },
+    myMasonryGrid: {
+        display: 'flex',
+        marginLeft: '-30px',
+        width: 'auto',
+    },
+    myMasonryGridColumn: {
+        paddingLeft: '30px',
+        backgroundClip: 'padding-box'
     },
     nextBack: {
         textAlign: 'center',
@@ -81,6 +90,11 @@ const PlaceSearched: FC<Props> = ({
 }) => {
     const theme = useTheme()
     const classes = useStyle()
+    const breakpointColumnsObj = {
+        default: 3,
+        1200: 2,
+        800: 1,
+    }
     return (
         <Box className={classes.root}>
             <AppBar
@@ -99,17 +113,24 @@ const PlaceSearched: FC<Props> = ({
                         </Typography>
                     </Card>
                 }
-                {places?.data?.map((place: Place, index) => (
-                    <Card className={classes.card} key={index.toString()}>
-                        <PlaceCardHeader place={place} />
-                        <PlaceCardContent place={place} />
-                        {place.tags.length > 0 &&
-                            <PlaceCardAction
-                                place={place}
-                            />
-                        }
-                    </Card>
-                ))}
+                <Masonry
+                    breakpointCols={breakpointColumnsObj}
+                    className={classes.myMasonryGrid}
+                    columnClassName={classes.myMasonryGridColumn}
+                >
+                    {!(places?.total == 0) &&
+                        places?.data?.map((place: Place, index) => (
+                            <Card className={classes.card} key={index.toString()}>
+                                <PlaceCardHeader place={place} />
+                                <PlaceCardContent place={place} />
+                                {place.tags.length > 0 &&
+                                    <PlaceCardAction
+                                        place={place}
+                                    />
+                                }
+                            </Card>
+                        ))}
+                </Masonry>
                 {places && places.total > 0 && <PageNextBack
                     page={page}
                     setPage={setPage}

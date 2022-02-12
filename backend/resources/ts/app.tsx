@@ -10,13 +10,15 @@ import {
 } from "react-router-dom"
 import { ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
+import { SearchKeyProvider } from './context/SearchKeyContext'
+import GlobalStyle from './grobalStyles'
 import Footer from './layout/components/organisms/Footer'
 import Loding from './layout/components/pages/Loding'
 import Header from './layout/containers/organisms/Header'
 import Creator from './layout/containers/pages/Creator'
 import { useMutationErrorQuery } from './layout/hooks/util'
+import NewPlace from './place/components/pages/NewPlace'
 import EditPlaceForm from "./place/containers/molecules/EditPlaceForm"
-import NewPlaceForm from "./place/containers/molecules/NewPlaceForm"
 import PlaceSearch from './place/containers/organisms/PlaceSearch'
 import PlaceSearched from "./place/containers/organisms/PlaceSearched"
 import Place from './place/containers/pages/Place'
@@ -30,8 +32,6 @@ import UserPage from "./user/containers/pages/UserPage"
 import UserResetPassword from './user/containers/pages/UserResetPassword'
 import UserSetting from "./user/containers/pages/UserSetting"
 import { useCurrentUser, useGetUserQuery } from './user/hooks'
-import GlobalStyle from './grobalStyles'
-import { SearchKeyProvider } from './context/SearchKeyContext'
 
 declare global {
     interface Window {
@@ -181,7 +181,7 @@ const App: FC = () => {
                 </UnAuthRoute>
 
                 <AuthRoute exact path="/press">
-                    <NewPlaceForm />
+                    <NewPlace />
                 </AuthRoute>
 
                 <AuthRoute exact path="/mypage/:contentsView">

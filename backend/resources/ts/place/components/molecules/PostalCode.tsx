@@ -1,19 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { Box, FormLabel, makeStyles, TextField } from '@material-ui/core'
 import axios from 'axios'
+import React, { useEffect, useRef, useState } from 'react'
 import { useFormContext } from "react-hook-form"
-import {
-    Box,
-    TextField,
-    FormLabel,
-    Typography,
-    makeStyles,
-} from '@material-ui/core'
 interface PostalCodeProps {
     name: string
 }
-const useStyle = makeStyles(() => ({
+const useStyle = makeStyles((theme) => ({
     postalCode: {
-        alignSelf: 'flex-start'
+        alignSelf: 'flex-start',
+        marginBottom: theme.spacing(1)
+    },
+    addressForm: {
+        marginTop: theme.spacing(1)
     }
 }))
 const PostalCode: React.FC<PostalCodeProps> = ({
@@ -60,9 +58,7 @@ const PostalCode: React.FC<PostalCodeProps> = ({
             // setAddress(addressValue)
             // return elm.value = address
             return elm.value = addressValue
-
         }
-
     }
 
     const methods = useFormContext()
@@ -70,7 +66,7 @@ const PostalCode: React.FC<PostalCodeProps> = ({
     return (
         <>
             <Box className={classes.postalCode}>
-                <div>
+                <div className={classes.addressForm}>
                     <FormLabel htmlFor="first_code">住所</FormLabel>
                 </div>
                 <FormLabel htmlFor="first_code">〒</FormLabel>
@@ -110,10 +106,11 @@ const PostalCode: React.FC<PostalCodeProps> = ({
                 variant="outlined"
                 fullWidth
                 error={Boolean(methods.errors.address)}
-                helperText={methods.errors.address && methods.errors.address.message}
                 inputRef={methods.register({
+                    required: "必須項目です",
                     maxLength: { value: 50, message: '50文字以内で入力してください' },
                 })}
+                helperText={methods.errors.address && methods.errors.address.message}
             />
         </>
     )
