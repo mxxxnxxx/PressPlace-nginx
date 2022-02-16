@@ -1,5 +1,5 @@
 
-import { Accordion, AccordionSummary, Backdrop, Box, Button, CircularProgress, makeStyles, Typography, useMediaQuery, useTheme } from "@material-ui/core"
+import { Accordion, AccordionSummary, Backdrop, Box, Button, CircularProgress, makeStyles, Typography, useTheme } from "@material-ui/core"
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { AxiosError } from "axios"
 import React, { useCallback, useState } from "react"
@@ -32,7 +32,6 @@ const UserDelete: React.FC<Props> = ({
 }) => {
     const classes = useStyle()
     const theme = useTheme()
-    const matches = useMediaQuery(theme.breakpoints.up('sm'))
     const paddingY = 2
     const dialogId = 'delete-user-confirm'
 

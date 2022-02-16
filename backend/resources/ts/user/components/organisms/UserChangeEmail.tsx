@@ -53,7 +53,7 @@ const UserChangeEmail: React.FC<Props> = ({
                 </AccordionSummary>
                 <Box className={classes.AccordionContents}>
                     <Typography
-                        color="initial"
+                        color="secondary"
                     >
                         現在のメールアドレス
                     </Typography>

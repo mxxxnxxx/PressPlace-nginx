@@ -19,11 +19,12 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(4)
     },
     userChangeEmail: {
-        marginLeft: theme.spacing(4),
-        marginBottom: theme.spacing(4)
+        margin: 'auto',
+        paddingBottom: theme.spacing(4)
     },
     userDelete: {
-        marginLeft: theme.spacing(4)
+        margin: 'auto',
+        paddingBottom: theme.spacing(4)
     }
 }))
 const UserSetting: FC<Props> = ({
