@@ -120,7 +120,6 @@ const PhotosUpload: React.FC<Props> = ({
                     <Button
                         variant="outlined"
                         aria-label="upload picture" component="span"
-
                         startIcon={<CameraAltIcon fontSize="large" />}
                     >
                         写真

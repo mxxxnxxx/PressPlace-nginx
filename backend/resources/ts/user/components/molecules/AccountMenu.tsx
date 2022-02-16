@@ -7,14 +7,15 @@ import {
     MenuItem,
     MenuList,
     makeStyles,
-    Typography
+    Typography,
+    ListItemText
 } from '@material-ui/core'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline'
 import SettingsIcon from '@material-ui/icons/Settings'
 import React, { FC } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { User } from '../../types/User'
 
 const useStyles = makeStyles(() => ({
@@ -41,6 +42,7 @@ const AccountMenu: FC<Props> = ({
     handleAccountMenuClose,
     handleLogout,
 }) => {
+    const history = useHistory()
     const classes = useStyles()
     return (
         <Menu
@@ -73,39 +75,44 @@ const AccountMenu: FC<Props> = ({
 
             <MenuList>
 
-                <MenuItem onClick={handleAccountMenuClose}>
+                <MenuItem onClick={() => {
+                    history.push('/mypage/myPlace')
+                    handleAccountMenuClose()
+                }}>
                     <ListItemIcon>
                         <AccountCircleIcon />
                     </ListItemIcon>
-                    <Link to={`/mypage/myPlace`} className={classes.sidebarMenuItem}>
+                    <ListItemText>
                         マイページ
-                    </Link>
+                    </ListItemText>
                 </MenuItem>
 
-                <MenuItem onClick={handleAccountMenuClose}>
+                <MenuItem onClick={() => {
+                    history.push('/user/setting')
+                    handleAccountMenuClose()
+                }}>
                     <ListItemIcon>
                         <SettingsIcon />
                     </ListItemIcon>
-                    <Link to="/user/setting" className={classes.sidebarMenuItem}>
-                        設定
-                    </Link>
+                    <ListItemText>設定</ListItemText>
                 </MenuItem>
 
-                <MenuItem onClick={handleAccountMenuClose}>
+                <MenuItem onClick={() => {
+                    history.push('/terms')
+                    handleAccountMenuClose()
+                }}>
                     <ListItemIcon>
                         <HelpOutlineIcon />
                     </ListItemIcon>
                     {/* 一時的にtermsに 後にaboutにする */}
-                    <Link to="/terms" className={classes.sidebarMenuItem}>
-                        ヘルプ
-                    </Link>
+                    <ListItemText>ヘルプ</ListItemText>
                 </MenuItem>
 
                 <MenuItem onClick={handleLogout}>
                     <ListItemIcon>
                         <ExitToAppIcon />
                     </ListItemIcon>
-                    <Typography>ログアウト</Typography>
+                    <ListItemText>ログアウト</ListItemText>
                 </MenuItem>
 
             </MenuList>

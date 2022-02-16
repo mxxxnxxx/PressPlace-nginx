@@ -65,14 +65,6 @@ const PlaceCardHeader: React.FC<Props> = ({
                     </Button>
                 </>
             }
-            action={
-                <>
-                    <PlaceFavoriteButton
-                        place={place}
-                    />
-                    <MenuButton place={place} goToUserPage={goToUserPage} />
-                </>
-            }
             title={
                 <div className={classes.name}>
                     <a
@@ -81,6 +73,14 @@ const PlaceCardHeader: React.FC<Props> = ({
                         {place.user.name}
                     </a>
                 </div>
+            }
+            action={
+                <>
+                    <PlaceFavoriteButton
+                        place={place}
+                    />
+                    <MenuButton place={place} goToUserPage={goToUserPage} />
+                </>
             }
         />
     )

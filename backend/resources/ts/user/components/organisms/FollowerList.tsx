@@ -15,24 +15,9 @@ const useStyles = makeStyles((theme: Theme) =>
         container: {
             borderBottom: 'solid 1px',
             marginBottom: '10px'
-
-        },
-        item1: {
-
-        },
-        userImage: {
-
-        },
-        userName: {
         },
         item2: {
             fontSize: '0.8rem'
-        },
-        introduction: {
-        },
-        item3: {
-        },
-        followButton: {
         },
     }),
 );
@@ -78,11 +63,8 @@ const FollowerList: React.FC<Props> = ({
                                 key={index.toString()}
                                 button={true}
                                 onClick={() => goToOtherUser(userProfile.user.name)}
-
                             >
-                                <ListItemAvatar
-                                    className={classes.item1}
-                                >
+                                <ListItemAvatar>
                                     <Avatar
                                         variant="rounded"
                                         src={`https://pressplace.s3.ap-northeast-1.amazonaws.com/${userProfile.user.userImage}`}
@@ -93,9 +75,7 @@ const FollowerList: React.FC<Props> = ({
                                     className={classes.item2}
                                     primary={`${userProfile.user.name}`}
                                 />
-                                <ListItemSecondaryAction
-                                    className={classes.item3}
-                                >
+                                <ListItemSecondaryAction>
                                     <FollowButton
                                         followState={userProfile?.followState}
                                         targetUser={userProfile?.user.id}
@@ -111,7 +91,7 @@ const FollowerList: React.FC<Props> = ({
             </Box>
             {
                 paginateUsers?.[0].total == 0 &&
-                <Box>
+                <Box style={{ paddingBottom: '16px' }}>
                     <Typography variant="h6" color="error" align="center">
                         ※フォローされているユーザーがいません
                     </Typography>

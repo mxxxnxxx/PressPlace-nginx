@@ -17,7 +17,6 @@ type Props = {
 
 const useStyles = makeStyles(() => ({
     root: {
-        display: 'flex',
         backgroundImage: `url(${Vortex})`,
         backgroundAttachment: 'fixed',
         backgroundSize: 'cover'

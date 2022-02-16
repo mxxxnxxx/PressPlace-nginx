@@ -140,9 +140,9 @@ const PlaceSearched: FC<Props> = ({
 
             </Box>
             <Backdrop style={{ zIndex: theme.zIndex.drawer + 1 }} open={isLoading}>
-                <CircularProgress color="inherit" />
+                <CircularProgress />
             </Backdrop>
-        </Box >
+        </Box>
     )
 }
 

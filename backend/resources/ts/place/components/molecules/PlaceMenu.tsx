@@ -1,12 +1,12 @@
 import {
-    Button, makeStyles, Menu,
+    Button, ListItemIcon, ListItemText, makeStyles, Menu,
     MenuItem,
     MenuList
 } from '@material-ui/core'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import EditIcon from '@material-ui/icons/Edit'
 import React, { FC } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { useCurrentUser } from '../../../user/hooks'
 import PlaceDelete from '../../containers/molecules/PlaceDelete'
 import { Place } from '../../types/Place'
@@ -39,6 +39,7 @@ const PlaceMenu: FC<Props> = ({
 }) => {
     const user = useCurrentUser()
     const classes = useStyles()
+    const history = useHistory()
     return (
         <Menu
             id={menuId}
@@ -58,15 +59,11 @@ const PlaceMenu: FC<Props> = ({
         >
             <MenuList>
                 {user && user.id === place.user.id && (
-                    <MenuItem>
-                        <Button
-                            startIcon={<EditIcon />}
-                            component={Link}
-                            to={`/place/edit/${place.id}`}
-                            className={classes.sidebarMenuItem}
-                        >
-                            編集
-                        </Button>
+                    <MenuItem onClick={() => history.push(`/place/edit/${place.id}`)}>
+                        <ListItemIcon>
+                            <EditIcon />
+                        </ListItemIcon>
+                        <ListItemText>編集</ListItemText>
                     </MenuItem>
                 )}
 
@@ -75,25 +72,18 @@ const PlaceMenu: FC<Props> = ({
                 )}
 
                 {user && user.id === place.user.id ? (
-                    <MenuItem>
-                        <Button
-                            startIcon={<AccountCircleIcon />}
-                            component={Link}
-                            to={`/mypage/myPlace`}
-                            className={classes.sidebarMenuItem}
-                        >
-                            マイページ
-                        </Button>
+                    <MenuItem onClick={() => history.push('/mypage/myPlace')}>
+                        <ListItemIcon>
+                            <AccountCircleIcon />
+                        </ListItemIcon>
+                        <ListItemText>マイページ</ListItemText>
                     </MenuItem>
                 ) :
-                    <MenuItem>
-                        <Button
-                            startIcon={<AccountCircleIcon />}
-                            className={classes.sidebarMenuItem}
-                            onClick={() => { goToUserPage(place.user.name, user?.name) }}
-                        >
-                            ユーザーページ
-                        </Button>
+                    <MenuItem onClick={() => { goToUserPage(place.user.name, user?.name) }}>
+                        <ListItemIcon>
+                            <AccountCircleIcon />
+                        </ListItemIcon>
+                        <ListItemText>ユーザーページ</ListItemText>
                     </MenuItem>
                 }
             </MenuList>

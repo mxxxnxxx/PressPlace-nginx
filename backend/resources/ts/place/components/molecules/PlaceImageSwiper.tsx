@@ -12,23 +12,6 @@ type Props = {
 }
 
 const useStyle = makeStyles((theme) => ({
-    // "swiper-container": {
-    //     width: '100%',
-    //     height: "20rem",
-    //     margin: '0 auto',
-    //     position: 'relative',
-    //     overflow: 'hidden',
-    //     listStyle: 'none',
-    //     padding: '0',
-    // },
-    // "swiper-slide": {
-    //     flexShrink: 0,
-    //     textAlign: 'center',
-    //     lineHeight: '1',
-    //     height: '20rem',
-    //     transitionProperty: 'transform',
-    // },
-
     swiperMedia: {
         // 正方形のラッパー
         backgroundColor: 'white',
@@ -82,8 +65,6 @@ const PlaceImageSwiper = React.forwardRef<HTMLDivElement, Props>(
                     <Swiper
                         {...params}
                         ref={swiperRef}
-                    // containerClass={classes["swiper-container"]}
-                    // slideClass={classes["swiper-slide"]}
                     >
                         {place.placeImages.map((placeImage: PlaceImage, index) => (
                             <div

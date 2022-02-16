@@ -1,5 +1,7 @@
 import {
     Button,
+    ListItemIcon,
+    ListItemText,
     MenuItem, Modal
 } from '@material-ui/core'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
@@ -21,13 +23,11 @@ const PlaceDelete: React.FC<Props> = ({
 
     return (
         <>
-            <MenuItem>
-                <Button
-                    onClick={() => setDeleteModalOn(true)}
-                    startIcon={<DeleteForeverIcon />}
-                >
-                    削除
-                </Button>
+            <MenuItem onClick={() => setDeleteModalOn(true)}>
+                <ListItemIcon>
+                    <DeleteForeverIcon />
+                </ListItemIcon>
+                <ListItemText>削除</ListItemText>
             </MenuItem>
 
             {/* 以下からモーダル */}

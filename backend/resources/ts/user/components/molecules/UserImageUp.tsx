@@ -39,7 +39,7 @@ const UserImageUp: React.FC<Props> = ({
                 margin: '20px'
             },
             image: {
-                width: 70,
+                width: '10rem',
                 margin: 2,
             },
             plus: {
@@ -60,42 +60,19 @@ const UserImageUp: React.FC<Props> = ({
         <>
             <Box>
                 {oldUserImage &&
-                    <Grid
-                        container
-                        spacing={1}
-                        className={classes.container}
-                    >
-                        <Grid item>
-                            <button
-                                type="button"
-                                onClick={() => handleCancelOld()}
-                            >
-                                <img
-                                    className={classes.image}
-                                    src={`https://pressplace.s3.ap-northeast-1.amazonaws.com/${oldUserImage}`}
-                                />
-                            </button>
-                        </Grid>
-                    </Grid>}
+                    <img
+                        className={classes.image}
+                        src={`https://pressplace.s3.ap-northeast-1.amazonaws.com/${oldUserImage}`}
+                        onClick={() => handleCancelOld()}
+                    />
+                }
                 {userImage && userImage.length >= 1 && !(oldUserImage) &&
-                    <Grid
-                        container
-                        spacing={1}
-                        className={classes.container}
-                    >
-                        <Grid item>
-                            <button
-                                type="button"
-                                onClick={() => handleCancelNew()}
-                            >
-
-                                <img
-                                    className={classes.image}
-                                    src={URL.createObjectURL(userImage[0])}
-                                />
-                            </button>
-                        </Grid>
-                    </Grid>}
+                    <img
+                        className={classes.image}
+                        src={URL.createObjectURL(userImage[0])}
+                        onClick={() => handleCancelNew()}
+                    />
+                }
 
                 {userImage && !(userImage.length > 0) && oldUserImage == "" &&
                     <Typography
@@ -111,26 +88,25 @@ const UserImageUp: React.FC<Props> = ({
                 </Alert>
             )}
 
-            {!(userImage && userImage.length > 0) && (
-                <label htmlFor={name} style={{ marginTop: 20 }}>
-                    <Button
-                        variant="outlined"
-                        aria-label="upload picture" component="span"
-                        startIcon={<CameraAltIcon fontSize="large" />}
-                    >
-                        プロフィール画像を変更
-                    </Button>
-                    <input
-                        className={classes.input}
-                        type="file"
-                        name={name}
-                        id={name}
-                        ref={componentRef}
-                        accept="image/*"
-                        onChange={handleFile}
-                        multiple
-                    />
-                </label>)}
+            <label htmlFor={name} style={{ marginTop: 20 }}>
+                <Button
+                    variant="outlined"
+                    aria-label="upload picture" component="span"
+                    startIcon={<CameraAltIcon fontSize="large" />}
+                >
+                    プロフィール画像を変更
+                </Button>
+                <input
+                    className={classes.input}
+                    type="file"
+                    name={name}
+                    id={name}
+                    ref={componentRef}
+                    accept="image/*"
+                    onChange={handleFile}
+                    multiple
+                />
+            </label>
         </>
     )
 }

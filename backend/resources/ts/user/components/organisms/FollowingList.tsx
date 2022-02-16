@@ -115,7 +115,7 @@ const FollowingList: React.FC<Props> = ({
             </Box>
             {
                 paginateUsers?.[0].total == 0 &&
-                <Box>
+                <Box style={{ paddingBottom: '16px' }}>
                     <Typography variant="h6" color="error" align="center">
                         ※フォローしているユーザーがいません
                     </Typography>
