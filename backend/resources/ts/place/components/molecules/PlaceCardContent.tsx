@@ -18,7 +18,7 @@ const useStyle = makeStyles((theme) => ({
     },
     placeInfoContainer: {
         borderBottom: 'solid thin',
-        marginBottom: theme.spacing(2),
+        marginBottom: theme.spacing(4),
     },
     placeInfoLabel: {
         fontStyle: 'italic',
@@ -33,6 +33,7 @@ const useStyle = makeStyles((theme) => ({
         margin: theme.spacing(3)
     },
     placeInfo: {
+        lineHeight: '2em',
         marginLeft: theme.spacing(1),
         whiteSpace: 'pre-wrap',
         display: '-webkit-box',
@@ -62,6 +63,7 @@ const PlaceCardContent: React.FC<Props> = ({ place }) => {
                 </Typography>
                 <Typography
                     align='left'
+                    variant='h4'
                     className={classes.placeInfo}
                 >
                     {place.name}
