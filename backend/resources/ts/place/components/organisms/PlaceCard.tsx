@@ -1,6 +1,6 @@
 import { Box, Card, makeStyles } from '@material-ui/core'
-import { minWidth } from '@material-ui/system'
 import React, { FC } from 'react'
+import Masonry from 'react-masonry-css'
 import { INTERNAL_SERVER_ERROR } from '../../../constants/statusCode'
 import GeneralAlert from '../../../layout/components/atoms/GeneralAlert'
 import Loding from '../../../layout/components/pages/Loding'
@@ -9,7 +9,6 @@ import PlaceCardContent from '../../containers/molecules/PlaceCardContent'
 import PlaceCardHeader from '../../containers/molecules/PlaceCardHeader'
 import { Place } from '../../types/Place'
 import { Places } from '../../types/Places'
-import Masonry from 'react-masonry-css'
 
 
 

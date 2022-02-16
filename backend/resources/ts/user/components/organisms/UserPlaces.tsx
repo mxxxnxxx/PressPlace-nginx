@@ -77,14 +77,13 @@ const UserPlaces: FC<Props> = ({
         <Box>
             {/* placeカード */}
             <section>
-                <Masonry
-                    breakpointCols={breakpointColumnsObj}
-                    className={classes.myMasonryGrid}
-                    columnClassName={classes.myMasonryGridColumn}
-                >
-                    {places?.data && places?.data?.length > 0 ?
-
-                        places?.data && places?.data?.map((place: Place, index) => (
+                {places?.data && places?.data?.length > 0 ?
+                    <Masonry
+                        breakpointCols={breakpointColumnsObj}
+                        className={classes.myMasonryGrid}
+                        columnClassName={classes.myMasonryGridColumn}
+                    >
+                        {places.data.map((place: Place, index) => (
                             <Card className={classes.card} key={index.toString()}>
                                 <PlaceCardHeader place={place} />
                                 <PlaceCardContent place={place} />
@@ -92,19 +91,19 @@ const UserPlaces: FC<Props> = ({
                                     <PlaceCardAction place={place} />
                                 }
                             </Card>
-                        ))
+                        ))}
+                    </Masonry>
+                    :
+                    <Paper className={classes.noSearched}>
+                        <Typography className={classes.noPlace}>
+                            まだPlaceを投稿していません
+                        </Typography>
+                        <Box className={classes.PressButton}>
+                            <PressButton />
+                        </Box>
+                    </Paper>
+                }
 
-                        :
-                        <Paper className={classes.noSearched}>
-                            <Typography className={classes.noPlace}>
-                                まだPlaceを投稿していません
-                            </Typography>
-                            <Box className={classes.PressButton}>
-                                <PressButton />
-                            </Box>
-                        </Paper>
-                    }
-                </Masonry>
                 <PageNextBack
                     page={page}
                     setPage={setPage}

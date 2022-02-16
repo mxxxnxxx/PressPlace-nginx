@@ -74,40 +74,39 @@ const FavoritePlaces: React.FC<Props> = ({
     return (
         <Box>
             {/* placeカード */}
-            <section>
+            {places?.data && places?.data?.length > 0 ?
                 <Masonry
                     breakpointCols={breakpointColumnsObj}
                     className={classes.myMasonryGrid}
                     columnClassName={classes.myMasonryGridColumn}
                 >
-                    {places?.data && places?.data?.length > 0 ?
-                        places?.data && places?.data?.map((place: Place, index) => (
-                            <Card className={classes.card} key={index.toString()}>
-                                <PlaceCardHeader place={place} />
-                                <PlaceCardContent place={place} />
-                                {place.tags.length > 0 &&
-                                    <PlaceCardAction place={place} />
-                                }
-                            </Card>
-                        ))
-                        :
-                        <Paper className={classes.noSearched}>
-                            <Typography className={classes.noPlace} >
-                                お気に入りの場所は登録されていません
-                            </Typography>
-                            <Box className={classes.PressSearchButton}>
-                                <PlaceSearchButton />
-                            </Box>
-                        </Paper>
-                    }
+                    {places.data.map((place: Place, index) => (
+                        <Card className={classes.card} key={index.toString()}>
+                            <PlaceCardHeader place={place} />
+                            <PlaceCardContent place={place} />
+                            {place.tags.length > 0 &&
+                                <PlaceCardAction place={place} />
+                            }
+                        </Card>
+                    ))}
                 </Masonry>
-                <PageNextBack
-                    page={page}
-                    setPage={setPage}
-                    isPreviousData={isPreviousData}
-                    places={places}
-                />
-            </section>
+                :
+                <Paper className={classes.noSearched}>
+                    <Typography className={classes.noPlace} >
+                        お気に入りの場所は登録されていません
+                    </Typography>
+                    <Box className={classes.PressSearchButton}>
+                        <PlaceSearchButton />
+                    </Box>
+                </Paper>
+            }
+
+            <PageNextBack
+                page={page}
+                setPage={setPage}
+                isPreviousData={isPreviousData}
+                places={places}
+            />
         </Box>
 
     )

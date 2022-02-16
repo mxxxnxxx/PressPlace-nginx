@@ -12,6 +12,10 @@ type Props = {
 }
 
 const useStyle = makeStyles((theme) => ({
+    root: {
+        width: '15rem',
+        margin: 'auto'
+    },
     swiperMedia: {
         // 正方形のラッパー
         backgroundColor: 'white',
@@ -54,12 +58,9 @@ const PlaceImageSwiper = React.forwardRef<HTMLDivElement, Props>(
                 hide: false
             },
             speed: 400,
-
-            containerClass: "swiper-container",
-            slideClass: "swiper-slide"
         })
         return (
-            <div ref={ref}>
+            <div ref={ref} className={classes.root}>
                 {place.placeImages.length >= 1 &&
 
                     <Swiper
