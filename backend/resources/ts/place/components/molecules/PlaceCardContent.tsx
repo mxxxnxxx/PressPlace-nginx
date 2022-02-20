@@ -1,5 +1,6 @@
-import { Box, CardContent, makeStyles, Typography } from '@material-ui/core'
+import { Box, Button, CardContent, makeStyles, Typography } from '@material-ui/core'
 import React from "react"
+import { useLocation } from 'react-router-dom'
 import PlaceGoogleMap from '../../containers/molecules/PlaceGoogleMap'
 import { Place } from '../../types/Place'
 import PlaceImageSwiper from './PlaceImageSwiper'
@@ -15,6 +16,7 @@ const useStyle = makeStyles((theme) => ({
     placeData: {
         display: 'flex',
         justifyContent: 'flex-end',
+        marginBottom: theme.spacing(2)
     },
     placeInfoContainer: {
         borderBottom: 'solid thin',
@@ -41,13 +43,18 @@ const useStyle = makeStyles((theme) => ({
         '-webkit-line-clamp': '5',
         '-webkit-box-orient': 'vertical',
     },
+    placeCommentFull: {
+        lineHeight: '2em',
+        marginLeft: theme.spacing(1),
+        whiteSpace: 'pre-wrap',
+    }
 }))
 const PlaceCardContent: React.FC<Props> = ({ place }) => {
     // ui部分なのでここに記述
     const classes = useStyle()
-
+    const location = useLocation()
     return (
-        <CardContent className={classes.container} >
+        <CardContent className={classes.container}>
             <Box className={classes.placeData}>
                 <Typography variant='subtitle2'>
                     更新日時:{place.updatedAt}
@@ -77,12 +84,25 @@ const PlaceCardContent: React.FC<Props> = ({ place }) => {
                 >
                     -コメント-
                 </Typography>
-                <Typography
-                    align='left'
-                    className={classes.placeInfo}
-                >
-                    {place.comment}
-                </Typography>
+
+                {/* 詳細ページのみコメントを省略しない */}
+                {/* pathnameで判断 */}
+                {location.pathname.indexOf('/place') === 0 ?
+                    <Typography
+                        align='left'
+                        className={classes.placeCommentFull}
+                    >
+                        {place.comment}
+                    </Typography>
+                    :
+                    <Typography
+                        align='left'
+                        className={classes.placeInfo}
+                    >
+                        {place.comment}
+                    </Typography>
+                }
+
             </Box>
             <Box className={classes.placeInfoContainer}>
                 <Typography

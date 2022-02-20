@@ -12,7 +12,6 @@ type Props = {
     setUserImage: (files: File[]) => void
     oldUserImage?: string
     setOldUserImage: (string?: string) => void
-    isLoading: boolean
 }
 
 const useStyles = makeStyles(() => ({
@@ -36,14 +35,10 @@ const UserEdit: React.FC<Props> = ({
     setUserImage,
     oldUserImage,
     setOldUserImage,
-    isLoading
 }) => {
     const methods = useFormContext()
     const classes = useStyles()
     const theme = useTheme()
-    if (isLoading) {
-        return <Loding isLoading={isLoading} />
-    }
     return (
         <Box className={classes.root}>
             <main style={{ flex: 1 }}>

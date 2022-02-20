@@ -1,6 +1,7 @@
 import React from 'react'
 import { useQueryClient } from 'react-query'
 import { useParams } from 'react-router'
+import Loding from '../../../layout/components/pages/Loding'
 import UserChangedEmail from '../../components/pages/UserChangedEmail'
 import { useGetUserQuery } from '../../hooks'
 import useChangedEmail from '../../hooks/auth/useChangedEmail'
@@ -16,7 +17,9 @@ const EnhancedUserChangedEmail: React.FC = () => {
         },
     })
     isSuccess && refetch
-
+    if (isLoading) {
+        return <Loding isLoading={isLoading} />
+    }
     return (
         <UserChangedEmail
             data={data}

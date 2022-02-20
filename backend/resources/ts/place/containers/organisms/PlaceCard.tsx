@@ -1,35 +1,24 @@
-import React, { FC } from 'react'
-import { useIntersectionObserver } from '../../../layout/hooks/util'
+import React from 'react'
+import { useParams } from 'react-router-dom'
+import Loding from '../../../layout/components/pages/Loding'
 import PlaceCard from '../../components/organisms/PlaceCard'
-import { useGetPlaceCardQuery } from '../../hooks'
+import { useGetPlaceQuery } from '../../hooks'
 
-const EnhancedPlaceCard: FC = () => {
-    const {
-        isLoading,
-        error,
-        data: paginatePlaces,
-        hasNextPage,
-        isFetchingNextPage,
-        fetchNextPage,
-    } = useGetPlaceCardQuery()
-    const statusCode = error?.response?.status
-
-    // 無限スクロール処理
-    const { loadMoreRef } = useIntersectionObserver({
-        onIntersect: fetchNextPage,
-        enabled: hasNextPage,
-    })
-
+const EnhancedPlaceCard: React.FC = () => {
+    const params = useParams<{ placeId: string }>()
+    const { data: place, isLoading, isFetching } = useGetPlaceQuery(params.placeId, { refetchOnWindowFocus: false })
+    if (isLoading || isFetching) {
+        return <Loding isLoading={isLoading} isFetching={isFetching} />
+    }
     return (
-        <PlaceCard
-            paginatePlaces={paginatePlaces?.pages}
-            isLoading={isLoading}
-            statusCode={statusCode}
-            loadMoreRef={loadMoreRef}
-            hasNextPage={hasNextPage}
-            isFetchingNextPage={isFetchingNextPage}
-        />
+        <>
+            {place &&
+                <PlaceCard
+                    place={place}
+                />
+            }
+
+        </>
     )
 }
-
 export default EnhancedPlaceCard

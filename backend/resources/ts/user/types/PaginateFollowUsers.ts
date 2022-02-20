@@ -1,6 +1,9 @@
 import { UserProfile } from "./userProfile"
+// PaginationUsers.tsとの違いは
+// data の 型 UserProfileの配列
+// フォロー関係あり
 
-export type FollowUsers = {
+export type PaginateFollowUsers = {
     total: number
     perPage: number
     currentPage: number

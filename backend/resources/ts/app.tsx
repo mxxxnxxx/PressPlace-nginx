@@ -22,6 +22,7 @@ import EditPlaceForm from "./place/containers/molecules/EditPlaceForm"
 import PlaceSearch from './place/containers/organisms/PlaceSearch'
 import PlaceSearched from "./place/containers/organisms/PlaceSearched"
 import Place from './place/containers/pages/Place'
+import Places from './place/containers/pages/Places'
 import AuthUserPage from './user/containers/pages/AuthUserPage'
 import Login from './user/containers/pages/Login'
 import Register from './user/containers/pages/Register'
@@ -145,9 +146,11 @@ const App: FC = () => {
             <Switch>
 
                 <Route exact path="/">
+                    <Places />
+                </Route>
+                <Route exact path="/place/:placeId">
                     <Place />
                 </Route>
-
                 <Route exact path="/places/search">
                     <PlaceSearch />
                 </Route>
@@ -156,6 +159,8 @@ const App: FC = () => {
                     <PlaceSearched />
                 </Route>
 
+                {/* :userName で検索 */}
+                {/* :contentsView favoritePlace or myPlace タブの初期ページ */}
                 <Route exact path="/account/:userName/:contentsView">
                     <UserPage />
                 </Route>

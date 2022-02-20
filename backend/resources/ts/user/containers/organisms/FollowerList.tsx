@@ -16,7 +16,7 @@ const EnhancedFollowerList: React.FC<Props> = ({
         isFetching,
         isLoading,
         error,
-        data: paginateUsers,
+        data: paginateFollowUsers,
         hasNextPage,
         isFetchingNextPage,
         fetchNextPage,
@@ -30,7 +30,7 @@ const EnhancedFollowerList: React.FC<Props> = ({
 
     return (
         <FollowerList
-            paginateUsers={paginateUsers?.pages}
+            paginateFollowUsers={paginateFollowUsers?.pages}
             isLoading={isLoading}
             loadMoreRef={loadMoreRef}
             hasNextPage={hasNextPage}

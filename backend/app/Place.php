@@ -16,7 +16,7 @@ class Place extends Model{
         'user_id',
         'tag',
     ];
-    // place_tagのリレーション
+    // place_tagの多対多
     public function tags(){
         return $this->belongsToMany('App\Tag');
     }
@@ -29,7 +29,7 @@ class Place extends Model{
         return $this->hasMany('App\Place_image');
     }
 
-    // Usersに対してのお気に入り機能
+    // Usersに対しての多対多
     public function favoriteUsers()
     {
         return $this->belongsToMany('App\User',)->withTimestamps();

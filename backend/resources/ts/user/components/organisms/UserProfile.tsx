@@ -1,19 +1,16 @@
-import { Avatar, Box, Button, Container, makeStyles, Paper, Typography } from "@material-ui/core"
+import { Avatar, Box, Button, makeStyles, Paper, Typography } from "@material-ui/core"
 import EditAttributesIcon from '@material-ui/icons/EditAttributes'
 import { AxiosError } from "axios"
 import React, { FC } from 'react'
 import { QueryObserverResult, RefetchOptions } from "react-query"
 import { Link } from 'react-router-dom'
-import Loding from "../../../layout/components/pages/Loding"
 import FollowButton from "../../containers/atoms/FollowButton"
 import FollowCounter from "../../containers/molecules/FollowCounter"
 import { UserProfile } from "../../types/userProfile"
 
 type Props = {
     userProfile?: UserProfile
-    isLoading: boolean
     loginUserId?: boolean
-    reGetUserProfile: (options?: RefetchOptions | undefined) => Promise<QueryObserverResult<UserProfile, AxiosError<any>>>
 }
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -62,14 +59,9 @@ const useStyles = makeStyles((theme) => ({
 }))
 const UserProfile: FC<Props> = ({
     userProfile,
-    isLoading,
     loginUserId,
-    reGetUserProfile
 }) => {
     const classes = useStyles()
-    if (isLoading) {
-        return <Loding isLoading={isLoading} />
-    }
     return (
         <Paper className={classes.root} >
             {loginUserId &&

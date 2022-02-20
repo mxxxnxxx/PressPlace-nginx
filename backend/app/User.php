@@ -78,7 +78,7 @@ class User extends Authenticatable implements MustVerifyEmailContract
         return $this->followings()->where('follow_id', $userId)->exists();
     }
 
-    // "コントローラーでfindしたユーザー"の'フォローワー'のなかに"ログインしているユーザー"がいるかどうか
+    // "コントローラーでfindしたユーザー"の'フォロワー'のなかに"ログインしているユーザー"がいるかどうか
     // つまりログインユーザーが開いたotherUserをフォローしているかどうか
     // Authコントローラーを汚さないためこちらに記述
     public function in_is_following($auth_id)
@@ -111,6 +111,7 @@ class User extends Authenticatable implements MustVerifyEmailContract
         $this->followings()->detach($userId);
     }
     }
+
     public function sendPasswordResetNotification($token)
     {
     $this->notify(new PasswordResetNotification($token));

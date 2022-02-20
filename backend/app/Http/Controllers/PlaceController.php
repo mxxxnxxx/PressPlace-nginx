@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PlaceRequest;
 use App\Place;
+use App\User;
 use App\Place_image;
 use App\Tag;
 use Illuminate\Http\Request;
@@ -170,10 +171,28 @@ class PlaceController extends Controller
         return $places;
     }
     // 詳細ページ
-    public function show($id)
+    public function show($placeId)
     {
-        $place = Place::with('place_images', 'user', 'tags')->find($id);
+        $place = Place::with('place_images', 'user', 'tags', 'favoriteUsers')->find($placeId);
         return $place;
+    }
+
+    public function placeFavoriteUsers($placeId)
+    {
+        $place = Place::find($placeId);
+        $favoriteUsers = $place->favoriteUsers()
+            ->orderBy('created_at', 'desc')
+            ->paginate(15)
+            ->toArray();
+        $data=[];
+        // Userコントローラーからshowメソッドを呼び出し
+        // フォロー状況を読み込み
+        $UserController = app()->make('App\Http\Controllers\UserController');
+        foreach($favoriteUsers['data'] as $favoriteUser ){
+            array_push( $data, $UserController->show($favoriteUser['name']));
+        }
+        $favoriteUsers['data'] = $data;
+        return response()->json($favoriteUsers);
     }
 
     // ソフトデリート

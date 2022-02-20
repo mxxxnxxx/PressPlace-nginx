@@ -13,7 +13,7 @@ type Props = {
 
 const useStyle = makeStyles((theme) => ({
     root: {
-        width: '15rem',
+        width: '13rem',
         margin: 'auto'
     },
     swiperMedia: {
@@ -31,7 +31,6 @@ const useStyle = makeStyles((theme) => ({
     BlurOffIcon: {
         display: 'flex',
         justifyContent: 'center',
-        margin: 'auto'
     }
 }))
 const PlaceImageSwiper = React.forwardRef<HTMLDivElement, Props>(
@@ -91,9 +90,9 @@ const PlaceImageSwiper = React.forwardRef<HTMLDivElement, Props>(
                     </Box>
                 }
                 {place.placeImages.length === 0 &&
-                    <div className={classes.BlurOffIcon}>
+                    <Box className={classes.BlurOffIcon}>
                         <BlurOffIcon />
-                    </div>
+                    </Box>
                 }
             </div>
         )

@@ -17,9 +17,6 @@ const PlaceDeleteModal: React.FC<Props> = ({
 }) => {
 
     const theme = useTheme()
-    if (isLoading) {
-        return <Loding isLoading={isLoading} />
-    }
     return (
         <div ref={forwardRef}>
             <Container maxWidth="xs" >

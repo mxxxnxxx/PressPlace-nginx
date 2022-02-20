@@ -1,27 +1,20 @@
-import React, { useState } from 'react'
+import React, { FC } from 'react'
 import Loding from '../../../layout/components/pages/Loding'
 import { useIntersectionObserver } from '../../../layout/hooks/util'
-import FollowingList from '../../components/organisms/FollowingList'
-import useGetFollowingList from '../../hooks/useGetFollowingList'
+import PlaceCards from '../../components/organisms/PlaceCards'
+import { useGetPlaceCardQuery } from '../../hooks'
 
-type Props = {
-    userName: string
-    goToOtherUser: (userName: string) => void
-}
-
-const EnhancedFollowingList: React.FC<Props> = ({
-    userName,
-    goToOtherUser
-}) => {
+const EnhancedPlaceCards: FC = () => {
     const {
-        isFetching,
         isLoading,
         error,
-        data: paginateFollowUsers,
+        data: paginatePlaces,
         hasNextPage,
+        isFetching,
         isFetchingNextPage,
         fetchNextPage,
-    } = useGetFollowingList(userName)
+    } = useGetPlaceCardQuery()
+    const statusCode = error?.response?.status
 
     // 無限スクロール処理
     const { loadMoreRef } = useIntersectionObserver({
@@ -32,14 +25,15 @@ const EnhancedFollowingList: React.FC<Props> = ({
         return <Loding isLoading={isLoading} isFetching={isFetching} />
     }
     return (
-        <FollowingList
-            paginateFollowUsers={paginateFollowUsers?.pages}
+        <PlaceCards
+            paginatePlaces={paginatePlaces?.pages}
             isLoading={isLoading}
+            statusCode={statusCode}
             loadMoreRef={loadMoreRef}
             hasNextPage={hasNextPage}
             isFetchingNextPage={isFetchingNextPage}
-            goToOtherUser={goToOtherUser}
         />
     )
 }
-export default EnhancedFollowingList
+
+export default EnhancedPlaceCards

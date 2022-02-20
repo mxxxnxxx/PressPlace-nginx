@@ -73,9 +73,7 @@ const AuthUserProfile: FC<Props> = ({
     reGetUserProfile
 }) => {
     const classes = useStyles()
-    if (isLoading) {
-        return <Loding isLoading={isLoading} />
-    }
+
     return (
         <Paper className={classes.root} >
             <Box className={classes.userEditButton}>

@@ -1,6 +1,5 @@
-import { UseMutationResult, useQueryClient, useMutation } from 'react-query';
-import axios, { AxiosError } from 'axios';
-import Place from '../components/pages/Place';
+import axios from 'axios';
+import { useMutation, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
 
 
