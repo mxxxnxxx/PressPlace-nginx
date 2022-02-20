@@ -1,4 +1,4 @@
-import { Box, Typography, AppBar, Tabs, Tab } from '@material-ui/core'
+import { AppBar, Box, Tab, Tabs } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import React from 'react'
 import FavoritePlaces from '../../../place/containers/organisms/FavoritePlaces'

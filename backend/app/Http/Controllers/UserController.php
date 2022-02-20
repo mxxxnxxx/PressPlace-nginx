@@ -75,7 +75,7 @@ class UserController extends Controller{
         return response()->json($authUser);
     }
 
-    // フォローしている人を出す処理
+    // フォローしている人を取得する処理
     public function followings($userName){
         $user = User::where('name',$userName)->first();
         // ネスト先も配列に変えたいのので all() ではなく toArray() を利用
@@ -86,10 +86,10 @@ class UserController extends Controller{
             array_push( $data, $this->show($following['name']));
         }
         $followings['data'] = $data;
-        return $followings;
+        return response()->json($followings);
     }
 
-    // フォローされている人を出す処理
+    // フォローされている人を取得する処理
     public function followers($userName){
 
         $user = User::where('name',$userName)->first();
@@ -100,7 +100,7 @@ class UserController extends Controller{
         array_push( $data, $this->show($follower['name']));
         }
         $followers['data'] = $data;
-        return $followers;
+        return response()->json($followers);
     }
 
 
@@ -135,7 +135,7 @@ class UserController extends Controller{
 
         $user->fill($form)->save();
 
-        return $user;
+        return response()->json($user);
 
     }
 

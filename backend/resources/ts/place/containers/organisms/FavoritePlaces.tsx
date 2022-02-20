@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useQueryClient } from 'react-query'
+import Loding from '../../../layout/components/pages/Loding'
 import FavoritePlaces from '../../components/organisms/FavoritePlaces'
 import useGetFavoritePlaces from '../../hooks/useGetFavoritePlacesQuery'
 
@@ -15,6 +16,7 @@ const EnhancedFavoritePlaces: React.FC<Props> = ({
         data: places,
         error,
         isLoading,
+        isFetching,
         isPreviousData,
         refetch: getUserPlaces
     } = useGetFavoritePlaces(page, userName)
@@ -27,7 +29,9 @@ const EnhancedFavoritePlaces: React.FC<Props> = ({
             )
         }
     }, [page, queryClient])
-
+    if (isLoading || isFetching) {
+        return <Loding isLoading={isLoading} isFetching={isFetching} />
+    }
     return (
         <FavoritePlaces
             places={places}

@@ -1,15 +1,12 @@
-import { Box, Card, makeStyles, Paper, Typography } from '@material-ui/core'
+import { Box, makeStyles, Paper, Typography } from '@material-ui/core'
 import { AxiosError } from 'axios'
 import React from 'react'
 import Masonry from 'react-masonry-css'
-import Loding from '../../../layout/components/pages/Loding'
-import PlaceCardAction from '../../containers/molecules/PlaceCardAction'
-import PlaceCardContent from '../../containers/molecules/PlaceCardContent'
-import PlaceCardHeader from '../../containers/molecules/PlaceCardHeader'
 import { Place } from '../../types/Place'
 import { Places } from '../../types/Places'
 import PlaceSearchButton from '../atoms/PlaceSearchButton'
 import PageNextBack from '../molecules/PageNextBack'
+import PlaceCard from './PlaceCard'
 
 type Props = {
     places?: Places
@@ -26,12 +23,8 @@ const useStyle = makeStyles((theme) => ({
         padding: theme.spacing(4)
     },
     card: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
         margin: 'auto',
-        marginTop: theme.spacing(10),
-        marginBottom: theme.spacing(10),
+        marginBottom: theme.spacing(5),
         maxWidth: '500px',
     },
     myMasonryGrid: {
@@ -68,9 +61,7 @@ const FavoritePlaces: React.FC<Props> = ({
         1200: 2,
         800: 1,
     }
-    if (isLoading) {
-        return <Loding isLoading={isLoading} />
-    }
+
     return (
         <Box>
             {/* placeカード */}
@@ -81,13 +72,9 @@ const FavoritePlaces: React.FC<Props> = ({
                     columnClassName={classes.myMasonryGridColumn}
                 >
                     {places.data.map((place: Place, index) => (
-                        <Card className={classes.card} key={index.toString()}>
-                            <PlaceCardHeader place={place} />
-                            <PlaceCardContent place={place} />
-                            {place.tags.length > 0 &&
-                                <PlaceCardAction place={place} />
-                            }
-                        </Card>
+                        <div key={index.toString()} className={classes.card}>
+                            <PlaceCard place={place} />
+                        </div>
                     ))}
                 </Masonry>
                 :

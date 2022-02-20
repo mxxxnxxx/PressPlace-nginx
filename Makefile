@@ -122,6 +122,8 @@ yarn-hot:
 	docker-compose exec web yarn hot
 db:
 	docker-compose exec db bash
+db-test:
+	docker-compose exec db-testing bash
 sql:
 	docker-compose exec db bash -c 'mysql -u $$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE'
 redis:

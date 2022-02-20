@@ -1,5 +1,6 @@
 import React, { useRef } from "react"
 import { useHistory, useLocation } from "react-router"
+import Loding from "../../../layout/components/pages/Loding"
 import PlaceDeleteModal from "../../components/organisms/PlaceDeleteModal"
 import useDeletePlaceQuery from '../../hooks/useDeletePlaceMutation'
 
@@ -17,6 +18,9 @@ const EnhancedPlaceDeleteModal = React.forwardRef<HTMLDivElement, Props>(
                 }
             }
             );
+        }
+        if (isLoading) {
+            return <Loding isLoading={isLoading} />
         }
         return (
             <PlaceDeleteModal

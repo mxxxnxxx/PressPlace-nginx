@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useQueryClient } from 'react-query'
 import { useHistory, useLocation } from "react-router-dom"
+import Loding from '../../../layout/components/pages/Loding'
 import UserEdit from "../../components/pages/UserEdit"
-import { useCurrentUser, useGetUserQuery } from '../../hooks'
+import { useCurrentUser } from '../../hooks'
 import useEditUserProfile from '../../hooks/useEditUserProfileMutation'
 import { UserEditData } from "../../types/UserEditData"
 
@@ -68,6 +69,9 @@ const EnhancedUserEdit: React.FC = () => {
             )
         }
     }
+    if (isLoading) {
+        return <Loding isLoading={isLoading} />
+    }
     return (
         <FormProvider {...methods}>
             <UserEdit
@@ -76,7 +80,6 @@ const EnhancedUserEdit: React.FC = () => {
                 setUserImage={setUserImage}
                 oldUserImage={oldUserImage}
                 setOldUserImage={setOldUserImage}
-                isLoading={isLoading}
             />
         </FormProvider>
     )

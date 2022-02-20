@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from "react"
 import { useQueryClient } from "react-query"
+import Loding from "../../../layout/components/pages/Loding"
 import UserPlaces from "../../../user/components/organisms/UserPlaces"
 import useGetUserPlaces from "../../../user/hooks/useGetUserPlacesQuery"
 
@@ -13,6 +14,7 @@ const EnhancedUserPlaces: FC<Props> = ({ userName }) => {
         data: places,
         error,
         isLoading,
+        isFetching,
         isPreviousData,
         refetch: getUserPlaces
     } = useGetUserPlaces(page, userName)
@@ -26,6 +28,9 @@ const EnhancedUserPlaces: FC<Props> = ({ userName }) => {
         }
     }, [page, queryClient])
 
+    if (isLoading || isFetching) {
+        return <Loding isLoading={isLoading} isFetching={isFetching} />
+    }
     return (
         <UserPlaces
             places={places}

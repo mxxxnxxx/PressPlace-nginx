@@ -4,7 +4,7 @@ import camelcaseKeys from 'camelcase-keys'
 import { Place } from '../types/Place'
 
 const getPlace = async (placeId: string): Promise<Place> => {
-    const { data } = await axios.get(`/api/places/${placeId}`)
+    const { data } = await axios.get(`/api/place/${placeId}`)
     return camelcaseKeys(data, { deep: true })
 }
 

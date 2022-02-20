@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import SettingsIcon from '@material-ui/icons/Settings'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Loding from '../../../layout/components/pages/Loding'
 type Props = {
     data?: string
     isLoading?: boolean
@@ -24,9 +23,6 @@ const UserChangedEmail: React.FC<Props> = ({
     isLoading
 }) => {
     const classes = useStyle()
-    if (isLoading) {
-        return <Loding isLoading={isLoading} />
-    }
     return (
         <Box>
             {/* ユーザー設定に戻れるようにuiを作る */}

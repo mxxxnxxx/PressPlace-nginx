@@ -5,17 +5,17 @@ import {
     UseInfiniteQueryOptions,
     UseInfiniteQueryResult
 } from "react-query"
-import { FollowUsers } from "../types/FollowUsers"
+import { PaginateFollowUsers } from "../types/PaginateFollowUsers"
 
 
-const getFollowingList = async (userName: string, pageParam: number): Promise<FollowUsers> => {
+const getFollowingList = async (userName: string, pageParam: number): Promise<PaginateFollowUsers> => {
     const { data } = await axios.get(`/api/user/followings/${userName}?page=${pageParam}`)
     return camelcaseKeys(data, { deep: true })
 }
 
-const useGetFollowingList = <TData = FollowUsers>(
+const useGetFollowingList = <TData = PaginateFollowUsers>(
     userName: string,
-    options?: UseInfiniteQueryOptions<FollowUsers, AxiosError, TData>
+    options?: UseInfiniteQueryOptions<PaginateFollowUsers, AxiosError, TData>
 ): UseInfiniteQueryResult<TData, AxiosError> =>
     useInfiniteQuery('FollowingList', ({ pageParam = 1 }) => getFollowingList(userName, pageParam), {
         ...options,

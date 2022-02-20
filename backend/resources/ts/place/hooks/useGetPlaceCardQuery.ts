@@ -25,6 +25,7 @@ const useGetPlaceCardQuery = <TData = Places>(
             firstPage.prevPageUrl ? firstPage.currentPage - 1 : false,
         getNextPageParam: (lastPage) =>
             lastPage.nextPageUrl ? lastPage.currentPage + 1 : false,
+        refetchOnWindowFocus: false,
     })
 
 export default useGetPlaceCardQuery

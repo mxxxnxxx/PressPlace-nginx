@@ -2,7 +2,7 @@ import { Avatar, Box, createStyles, List, ListItem, ListItemAvatar, ListItemSeco
 import React from 'react'
 import Loding from '../../../layout/components/pages/Loding'
 import FollowButton from '../../containers/atoms/FollowButton'
-import { FollowUsers } from '../../types/FollowUsers'
+import { PaginateFollowUsers } from '../../types/PaginateFollowUsers'
 import { UserProfile } from '../../types/userProfile'
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type Props = {
-    paginateUsers?: FollowUsers[]
+    paginateFollowUsers?: PaginateFollowUsers[]
     isLoading?: boolean
     loadMoreRef?: (node: Element) => void
     hasNextPage?: boolean
@@ -51,7 +51,7 @@ type Props = {
 }
 
 const FollowingList: React.FC<Props> = ({
-    paginateUsers,
+    paginateFollowUsers,
     isLoading,
     loadMoreRef,
     hasNextPage,
@@ -59,9 +59,6 @@ const FollowingList: React.FC<Props> = ({
     goToOtherUser
 }) => {
     const classes = useStyles();
-    if (isLoading) {
-        return <Loding isLoading={isLoading} />
-    }
 
     let loadMoreMessage
     if (isFetchingNextPage) {
@@ -72,7 +69,7 @@ const FollowingList: React.FC<Props> = ({
     return (
         <Paper className={classes.root} >
             <List component="nav" >
-                {paginateUsers?.map((page) => (
+                {paginateFollowUsers?.map((page) => (
                     <React.Fragment key={page.currentPage.toString()}>
                         {page.data.map((userProfile: UserProfile, index) => (
                             <ListItem
@@ -114,7 +111,7 @@ const FollowingList: React.FC<Props> = ({
                 {loadMoreMessage}
             </Box>
             {
-                paginateUsers?.[0].total == 0 &&
+                paginateFollowUsers?.[0].total == 0 &&
                 <Box style={{ paddingBottom: '16px' }}>
                     <Typography variant="h6" color="error" align="center">
                         ※フォローしているユーザーがいません

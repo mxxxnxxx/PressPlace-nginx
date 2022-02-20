@@ -4,18 +4,18 @@ import { UseInfiniteQueryOptions, UseInfiniteQueryResult, useInfiniteQuery } fro
 import { PaginateFollowUsers } from "../types/PaginateFollowUsers"
 
 
-const getFollowerList = async (userName: string, pageParam: number): Promise<PaginateFollowUsers> => {
-    const { data } = await axios.get(`/api/user/followers/${userName}?page=${pageParam}`, {
+const getPlaceFavoriteUsers = async (placeId: string, { pageParam = 1 }): Promise<PaginateFollowUsers> => {
+    const { data } = await axios.get(`/api/place/favorite/users/${placeId}?page=${pageParam}`, {
     })
     return camelcaseKeys(data, { deep: true })
 }
 
-const useGetFollowerList = <TData = PaginateFollowUsers>(
-    userName: string,
+const useGetPlaceFavoriteUsers = <TData = PaginateFollowUsers>(
+    placeId: string,
     options?: UseInfiniteQueryOptions<PaginateFollowUsers, AxiosError, TData>
 
 ): UseInfiniteQueryResult<TData, AxiosError> =>
-    useInfiniteQuery('FollowerList', ({ pageParam = 1 }) => getFollowerList(userName, pageParam), {
+    useInfiniteQuery('PlaceFavoriteUsers', ({ pageParam = 1 }) => getPlaceFavoriteUsers(placeId, pageParam), {
         ...options,
         getPreviousPageParam: (firstPage) =>
             firstPage.prevPageUrl ? firstPage.currentPage - 1 : false,
@@ -23,4 +23,4 @@ const useGetFollowerList = <TData = PaginateFollowUsers>(
             lastPage.nextPageUrl ? lastPage.currentPage + 1 : false,
     })
 
-export default useGetFollowerList
+export default useGetPlaceFavoriteUsers

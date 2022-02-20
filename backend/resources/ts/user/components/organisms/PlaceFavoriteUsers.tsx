@@ -1,50 +1,41 @@
-import { Avatar, Box, createStyles, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, makeStyles, Paper, Theme, Typography, useTheme } from '@material-ui/core'
+import { Avatar, Box, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, ListSubheader, makeStyles, Paper, Typography } from '@material-ui/core'
 import React from 'react'
+import { InfiniteData } from 'react-query'
 import Loding from '../../../layout/components/pages/Loding'
+import { Place } from '../../../place/types/Place'
 import FollowButton from '../../containers/atoms/FollowButton'
 import { PaginateFollowUsers } from '../../types/PaginateFollowUsers'
-import { UserProfile } from '../../types/userProfile'
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            width: '100%',
-            marginRight: 'auto',
-            marginLeft: 'auto',
-        },
-        container: {
-            borderBottom: 'solid 1px',
-            marginBottom: '10px'
-        },
-        item2: {
-            fontSize: '0.8rem'
-        },
-    }),
-);
 
 type Props = {
-    paginateFollowUsers?: PaginateFollowUsers[]
+    paginateUsers?: PaginateFollowUsers[]
     isLoading?: boolean
     loadMoreRef?: (node: Element) => void
     hasNextPage?: boolean
     isFetchingNextPage?: boolean
-    goToOtherUser: (userName: string) => void
-}
+    goToUserPage: (userName: string) => void
 
-const FollowerList: React.FC<Props> = ({
-    paginateFollowUsers,
+}
+const useStyle = makeStyles((theme) => ({
+    container: {
+        borderBottom: 'solid 1px',
+        marginBottom: '10px'
+    },
+    item2: {
+        fontSize: '0.8rem'
+    },
+    noFavoriteUsers: {
+        fontSize: '0.8rem'
+    }
+}))
+const PlaceFavoriteUsers: React.FC<Props> = ({
+    paginateUsers,
     isLoading,
+    goToUserPage,
     loadMoreRef,
     hasNextPage,
     isFetchingNextPage,
-    goToOtherUser
 }) => {
-    const classes = useStyles();
-
-    if (isLoading) {
-        return <Loding isLoading={isLoading} />
-    }
-
+    const classes = useStyle()
     let loadMoreMessage
     if (isFetchingNextPage) {
         loadMoreMessage = '読み込み中...'
@@ -52,16 +43,23 @@ const FollowerList: React.FC<Props> = ({
         loadMoreMessage = hasNextPage ? '続きを読み込む' : ' '
     }
     return (
-        <Paper className={classes.root} >
-            <List component="nav" >
-                {paginateFollowUsers?.map((page) => (
+        <Paper>
+            <List
+                component="nav"
+                subheader={
+                    <ListSubheader component="div" id="nested-list-subheader">
+                        お気に入りにしているユーザー
+                    </ListSubheader>
+                }
+            >
+                {paginateUsers?.map((page) => (
                     <React.Fragment key={page.currentPage.toString()}>
-                        {page.data.map((userProfile: UserProfile, index) => (
+                        {page.data.map((userProfile, index) => (
                             <ListItem
                                 className={classes.container}
                                 key={index.toString()}
                                 button={true}
-                                onClick={() => goToOtherUser(userProfile.user.name)}
+                                onClick={() => goToUserPage(userProfile.user.name)}
                             >
                                 <ListItemAvatar>
                                     <Avatar
@@ -69,15 +67,14 @@ const FollowerList: React.FC<Props> = ({
                                         src={`https://pressplace.s3.ap-northeast-1.amazonaws.com/${userProfile.user.userImage}`}
                                     />
                                 </ListItemAvatar>
-
                                 <ListItemText
                                     className={classes.item2}
                                     primary={`${userProfile.user.name}`}
                                 />
                                 <ListItemSecondaryAction>
                                     <FollowButton
-                                        followState={userProfile?.followState}
-                                        targetUser={userProfile?.user.id}
+                                        followState={userProfile.followState}
+                                        targetUser={userProfile.user.id}
                                     />
                                 </ListItemSecondaryAction>
                             </ListItem>
@@ -89,14 +86,14 @@ const FollowerList: React.FC<Props> = ({
                 {loadMoreMessage}
             </Box>
             {
-                paginateFollowUsers?.[0].total == 0 &&
-                <Box style={{ paddingBottom: '16px' }}>
-                    <Typography variant="h6" color="error" align="center">
-                        ※フォローされているユーザーがいません
+                paginateUsers?.[0].total == 0 &&
+                <Box style={{ padding: '16px' }}>
+                    <Typography color="error" className={classes.noFavoriteUsers}>
+                        お気に入りにしているユーザーはいません
                     </Typography>
                 </Box>
             }
-        </Paper>
+        </Paper >
     )
 }
-export default FollowerList
+export default PlaceFavoriteUsers
