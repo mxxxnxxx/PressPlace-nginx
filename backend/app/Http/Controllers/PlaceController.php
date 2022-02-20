@@ -173,7 +173,7 @@ class PlaceController extends Controller
     // 詳細ページ
     public function show($placeId)
     {
-        $place = Place::with('place_images', 'user', 'tags', 'favoriteUsers')->find($placeId);
+        $place = Place::with('place_images', 'user', 'tags')->find($placeId);
         return $place;
     }
 

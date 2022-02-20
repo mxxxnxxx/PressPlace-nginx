@@ -1,7 +1,5 @@
 import React, { createContext, useContext, useReducer } from 'react'
-import { useQueryClient } from "react-query"
 import { ActionType } from "../place/types/ActionType"
-import { Inputs } from '../place/types/Inputs'
 import { searchKey } from '../place/types/searchKey'
 
 const SearchKeyContext = createContext({} as {

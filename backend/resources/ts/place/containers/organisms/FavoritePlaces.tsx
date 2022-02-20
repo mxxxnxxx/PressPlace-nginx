@@ -19,7 +19,12 @@ const EnhancedFavoritePlaces: React.FC<Props> = ({
         isFetching,
         isPreviousData,
         refetch: getUserPlaces
-    } = useGetFavoritePlaces(page, userName)
+    } = useGetFavoritePlaces(page, userName, {
+        // オプション
+        keepPreviousData: true,
+        staleTime: 5000,
+        refetchOnWindowFocus: false,
+    })
 
     useEffect(() => {
         // 2ページ目以降があれば

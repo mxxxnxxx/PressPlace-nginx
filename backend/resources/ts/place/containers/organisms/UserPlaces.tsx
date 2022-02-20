@@ -17,7 +17,12 @@ const EnhancedUserPlaces: FC<Props> = ({ userName }) => {
         isFetching,
         isPreviousData,
         refetch: getUserPlaces
-    } = useGetUserPlaces(page, userName)
+    } = useGetUserPlaces(page, userName, {
+        // オプション
+        keepPreviousData: true,
+        staleTime: 5000,
+        refetchOnWindowFocus: false,
+    })
 
     useEffect(() => {
         // 2ページ目以降があれば

@@ -21,11 +21,7 @@ const useGetFavoritePlaces = <TData = Places>(
     return useQuery(
         ['favoritePlaces', page],
         () => getFavoritePlaces(page, userName),
-        {
-            // オプション
-            keepPreviousData: true,
-            staleTime: 5000
-        }
+        options
     )
 }
 

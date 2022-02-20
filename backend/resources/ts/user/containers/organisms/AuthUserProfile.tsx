@@ -11,8 +11,7 @@ const EnhancedAuthUserProfile: React.FC = () => {
         data: userProfile,
         isLoading,
         isFetching,
-        refetch: reGetUserProfile
-    } = useGetUserProfileQuery(userName)
+    } = useGetUserProfileQuery(userName, { refetchOnWindowFocus: false, })
 
     if (isLoading || isFetching) {
         return <Loding isLoading={isLoading} isFetching={isFetching} />
@@ -20,8 +19,6 @@ const EnhancedAuthUserProfile: React.FC = () => {
     return (
         <AuthUserProfile
             userProfile={userProfile}
-            isLoading={isLoading}
-            reGetUserProfile={reGetUserProfile}
         />
     )
 }

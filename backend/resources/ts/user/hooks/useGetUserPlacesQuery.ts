@@ -20,11 +20,7 @@ const useGetUserPlaces = <TData = Places>(
     return useQuery(
         ['userPlaces', page],
         () => getUserPlaces(page, userName),
-        {
-            // オプション
-            keepPreviousData: true,
-            staleTime: 5000
-        }
+        options
     )
 }
 
