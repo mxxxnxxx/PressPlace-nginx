@@ -2,28 +2,18 @@ import {
     Box,
     Divider,
     ListItem,
-    ListItemIcon,
-    Menu,
+    ListItemIcon, ListItemText, Menu,
     MenuItem,
-    MenuList,
-    makeStyles,
-    Typography,
-    ListItemText
+    MenuList
 } from '@material-ui/core'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline'
 import SettingsIcon from '@material-ui/icons/Settings'
 import React, { FC } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { User } from '../../types/User'
 
-const useStyles = makeStyles(() => ({
-    sidebarMenuItem: {
-        textDecoration: 'none',
-        color: 'inherit',
-    },
-}))
 
 type Props = {
     menuId: string
@@ -43,7 +33,6 @@ const AccountMenu: FC<Props> = ({
     handleLogout,
 }) => {
     const history = useHistory()
-    const classes = useStyles()
     return (
         <Menu
             id={menuId}
@@ -98,14 +87,14 @@ const AccountMenu: FC<Props> = ({
                 </MenuItem>
 
                 <MenuItem onClick={() => {
-                    history.push('/terms')
+                    history.push('/about')
                     handleAccountMenuClose()
                 }}>
                     <ListItemIcon>
                         <HelpOutlineIcon />
                     </ListItemIcon>
                     {/* 一時的にtermsに 後にaboutにする */}
-                    <ListItemText>ヘルプ</ListItemText>
+                    <ListItemText>PressPlaceとは</ListItemText>
                 </MenuItem>
 
                 <MenuItem onClick={handleLogout}>

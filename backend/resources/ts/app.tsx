@@ -13,9 +13,9 @@ import 'react-toastify/dist/ReactToastify.css'
 import { SearchKeyProvider } from './context/SearchKeyContext'
 import GlobalStyle from './grobalStyles'
 import Footer from './layout/components/organisms/Footer'
+import HelpPage from './layout/components/pages/HelpPage'
 import Loding from './layout/components/pages/Loding'
 import Header from './layout/containers/organisms/Header'
-import Creator from './layout/containers/pages/Creator'
 import { useMutationErrorQuery } from './layout/hooks/util'
 import NewPlace from './place/components/pages/NewPlace'
 import EditPlaceForm from "./place/containers/molecules/EditPlaceForm"
@@ -148,9 +148,11 @@ const App: FC = () => {
                 <Route exact path="/">
                     <Places />
                 </Route>
+
                 <Route exact path="/place/:placeId">
                     <Place />
                 </Route>
+
                 <Route exact path="/places/search">
                     <PlaceSearch />
                 </Route>
@@ -159,6 +161,9 @@ const App: FC = () => {
                     <PlaceSearched />
                 </Route>
 
+                <Route exact path="/about">
+                    <HelpPage />
+                </Route>
                 {/* :userName で検索 */}
                 {/* :contentsView favoritePlace or myPlace タブの初期ページ */}
                 <Route exact path="/account/:userName/:contentsView">
@@ -167,10 +172,6 @@ const App: FC = () => {
 
                 <Route exact path="/account/count/:userName/:followView">
                     <UserFollowCount />
-                </Route>
-
-                <Route exact path="/creator">
-                    <Creator />
                 </Route>
 
                 <UnAuthRoute exact path="/login">
