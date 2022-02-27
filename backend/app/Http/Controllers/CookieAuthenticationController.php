@@ -1,62 +1,34 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers;
 
+use App\Http\Controllers\Auth\LoginController;
+use Exception;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserCreateRequest;
 use App\Providers\RouteServiceProvider;
 use App\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class RegisterController extends Controller
+final class CookieAuthenticationController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
-
-    use RegistersUsers;
-
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = RouteServiceProvider::HOME;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function register(Request $request)
     {
-        $this->middleware('guest');
-    }
-
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data){
-
         $rulus = [
             'name' => ['required', 'string', 'max:20', 'unique:users'],
             'age' => ['required', 'integer'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
         ];
-
         $message = [
             'name.required' => '名前を入力してください',
             'name.string' => '名前が正しい入力ではありません',
@@ -73,38 +45,52 @@ class RegisterController extends Controller
             'password.string' => 'パスワードが正しい入力ではありません',
             'password.min' => 'パスワードは8文字以上で入力する必要があります',
         ];
-
-        $validator = Validator::make($data, $rulus, $message);
+        /** @var Illuminate\Validation\Validator $validator */
+        $validator = Validator::make($request->all(), $rulus, $message);
 
         if($validator->fails()){
             $response['errors'] = $validator->errors()->toArray();
             throw new HttpResponseException( response()->json( $response, 422 ));
         }
 
-        return $validator;
-        // ここを使わず新しく作り分かる方法でメッセージを作成する
-        // return Validator::make($data, [
-        //     'name' => ['required', 'string', 'max:20', 'unique:users'],
-        //     'age' => ['required', 'integer'],
-        //     'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-        //     'password' => ['required', 'string', 'min:8', 'confirmed'],
-        // ]);
-    }
+        $user = User::create([
+            'name' => $request->name,
+            'age' => $request->age,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+        Auth::guard()->login($user);
 
+        return response()->json($user['name'], Response::HTTP_OK);
+    }
 
     /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\User
+     * @param Request $request
+     * @return JsonResponse
+     * @throws Exception
      */
-    protected function create(array $data)
+    public function login(Request $request): JsonResponse
     {
-        return User::create([
-            'name' => $data['name'],
-            'age' => $data['age'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        $credentials = $request->only('email', 'password');
+        if (Auth::guard('web')->attempt($credentials)) {
+            $request->session()->regenerate();
+            return new JsonResponse(Auth::user()['name']);
+        }
+
+        throw new Exception('ログインに失敗しました。再度お試しください');
     }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function logout(Request $request): JsonResponse
+    {
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return new JsonResponse(['message' => 'ログアウトしました']);
+    }
+
 }

@@ -34,7 +34,6 @@ const EnhancedRegister: FC = () => {
             { name, age, email, password },
             {
                 onSuccess: () => {
-
                     history.replace(from)
                 }
             }

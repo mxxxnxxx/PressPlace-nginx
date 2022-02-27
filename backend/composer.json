@@ -15,6 +15,7 @@
         "fruitcake/laravel-cors": "^3.0",
         "intervention/image": "^2.5",
         "laravel/framework": "^6.18.35",
+        "laravel/sanctum": "^2.14",
         "laravel/tinker": "^2.0",
         "laravelcollective/html": "^6.2",
         "league/flysystem-aws-s3-v3": "^1.0",

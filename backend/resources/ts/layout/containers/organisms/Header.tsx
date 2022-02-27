@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 import Header from '../../components/organisms/Header'
 import { useLogout } from '../../../user/hooks/auth'
 import { useCurrentUser } from '../../../user/hooks'
+import { toast } from 'react-toastify'
 
 
 const EnhancedHeader: FC = () => {
@@ -15,6 +16,7 @@ const EnhancedHeader: FC = () => {
         mutate(undefined, {
             onSuccess: () => {
                 history.push('/login')
+                toast.info('ログアウトしました｡またお待ちしております｡')
             },
         })
     }, [history, mutate])

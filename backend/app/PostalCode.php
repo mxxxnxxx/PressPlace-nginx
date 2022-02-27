@@ -11,7 +11,6 @@ class PostalCode extends Model
     // 郵便番号からデータベースの住所を検索する
     public function scopeWhereSearch($query, $first_code, $last_code)
     {
-        \Debugbar::info("te");
         $query->where('first_code', intval($first_code))
             ->where('last_code', $last_code);
     }

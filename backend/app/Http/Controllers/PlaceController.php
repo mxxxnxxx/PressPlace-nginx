@@ -81,14 +81,6 @@ class PlaceController extends Controller
         : response()->json([], 500);
     }
 
-    public function edit($id)
-    {
-        $place = Place::find($id);
-        // $tags = $place->tags->name;
-        return view('place.edit', ['place' => $place
-        // , 'tags' => $tags
-        ]);
-    }
 
     public function update(PlaceRequest $request)
     {
@@ -167,7 +159,6 @@ class PlaceController extends Controller
         ->with('user')
         ->with('tags')
         ->paginate(15);
-
         return $places;
     }
     // 詳細ページ
@@ -233,7 +224,6 @@ class PlaceController extends Controller
         }
         if (!$address == "") {
             $places_q->where('address', 'like', '%' . $address . '%');
-            \Debugbar::info($places_q->all());
         }
         if (!$comment == "") {
             $places_q->where('comment', 'like', '%' . $comment . '%');

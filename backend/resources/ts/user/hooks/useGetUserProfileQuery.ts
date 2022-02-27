@@ -1,10 +1,10 @@
-import { UseQueryResult, useQuery, UseQueryOptions } from 'react-query'
 import axios, { AxiosError } from 'axios'
 import camelcaseKeys from 'camelcase-keys'
+import { useQuery, UseQueryOptions, UseQueryResult } from 'react-query'
 import { UserProfile } from '../types/userProfile'
 // ここでuserProfileの方を定義したほうがよさそう
 const getUserProfile = async (userName?: string): Promise<UserProfile> => {
-    const { data } = await axios.get(`/api/user/${userName}`)
+    const { data } = await axios.get(`/api/user/info/${userName}`)
     return camelcaseKeys(data, { deep: true })
 }
 

@@ -1,7 +1,8 @@
-import { useQueryClient, UseMutationResult, useMutation } from 'react-query'
 import axios, { AxiosError } from 'axios'
-import { User } from '../../types/User'
+import camelcaseKeys from 'camelcase-keys'
+import { useMutation, UseMutationResult, useQueryClient } from 'react-query'
 import { toast } from 'react-toastify'
+import { User } from '../../types/User'
 type FormData = {
     email: string
     password: string
@@ -10,8 +11,11 @@ type FormData = {
 }
 
 const registration = async ({ email, password, name, age }: FormData): Promise<User> => {
-    const { data } = await axios.post('/api/register', { email, password, name, age })
-    return data
+    const { data } = await axios.get('/sanctum/csrf-cookie').then(
+        () => axios.post('/api/register', { email, password, name, age })
+    )
+    console.log(data);
+    return camelcaseKeys(data, { deep: true })
 }
 
 const useRegister = (): UseMutationResult<
@@ -21,11 +25,10 @@ const useRegister = (): UseMutationResult<
     undefined
 > => {
     const queryClient = useQueryClient()
-
     return useMutation(registration, {
         onSuccess: (data) => {
             queryClient.setQueryData('user', data)
-            toast.info(`${data.name}さんご登録ありがとうございます!!`)
+            toast.info(`${data}さんご登録ありがとうございます!!`)
         },
     })
 

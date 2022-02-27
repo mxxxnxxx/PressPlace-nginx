@@ -10,7 +10,11 @@ type FormData = {
 }
 
 const login = async (formData: FormData): Promise<User> => {
-    const { data } = await axios.post('/api/login', formData)
+
+    const { data } = await axios.get('/sanctum/csrf-cookie').then(
+        () => axios.post('/api/login', formData)
+    )
+
     return camelcaseKeys(data, { deep: true })
 }
 
@@ -23,8 +27,11 @@ const useLogin = (): UseMutationResult<
 
     return useMutation(login, {
         onSuccess: (data) => {
-            toast.info(`${data.name}さんがログインしました!!`)
+            toast.info(`${data}さんがログインしました!!`)
         },
+        onError: (data) => {
+            toast.info(data)
+        }
     })
 }
 

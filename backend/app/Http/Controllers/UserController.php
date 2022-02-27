@@ -9,7 +9,10 @@ use App\Place;
 use App\User;
 use App\Place_image;
 use Illuminate\Http\Request;
-
+use Exception;
+use Illuminate\Contracts\Auth\Factory as FactoryAuth;
+use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Http\JsonResponse;
 
 use App\Http\Requests\UserRequest;
 
@@ -21,9 +24,8 @@ class UserController extends Controller{
         $login_user_id = null;
         $followState = null;
         // ログインしているユーザーの情報を取得し編集ボタンの表示有無を変更
-        if (Auth::user()) {
+        if (Auth::check()) {
             $auth = Auth::user();
-
             if ($auth->name == $userName) {
                 $login_user_id = true;
             } else {
@@ -154,5 +156,4 @@ class UserController extends Controller{
         $user->delete();
         return redirect()->to('/');
     }
-
 }

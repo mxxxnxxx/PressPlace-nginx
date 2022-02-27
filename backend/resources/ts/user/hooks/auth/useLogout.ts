@@ -1,6 +1,5 @@
-import { useQueryClient, UseMutationResult, useMutation } from 'react-query'
 import axios, { AxiosError } from 'axios'
-import { MutationError } from '../../../layout/types/MutationError'
+import { useMutation, UseMutationResult, useQueryClient } from 'react-query'
 import { toast } from 'react-toastify'
 
 const logout = async (): Promise<void> => {
@@ -17,12 +16,8 @@ const useLogout = (): UseMutationResult<void, AxiosError, void, undefined> => {
             })
             queryClient.resetQueries('user')
         },
-        onError: (error) => {
-            const mutationError: MutationError = {
-                statusCode: error.response?.status,
-                errorMessage: 'ログアウトに失敗しました。',
-            }
-            queryClient.setQueryData('error', mutationError)
+        onError: () => {
+            toast.info('ログアウトに失敗しました｡')
         },
     })
 }
