@@ -9,7 +9,7 @@ $factory->define(Place::class, function (Faker $faker) {
     return [
         'name' => $faker->word,
         'address' => $faker->address,
-        'comment' => $faker->realText(20),
+        'comment' => 'demoのため住所は異なります',
         'user_id' => $faker->numberBetween(1, 50)
     ];
 });

@@ -1,52 +1,115 @@
-# docker-laravel-apache 🐳
+# PressPlace
 
-![License](https://img.shields.io/github/license/ucan-lab/docker-laravel-apache?color=f05340)
-![Stars](https://img.shields.io/github/stars/ucan-lab/docker-laravel-apache?color=f05340)
-![Issues](https://img.shields.io/github/issues/ucan-lab/docker-laravel-apache?color=f05340)
-![Forks](https://img.shields.io/github/forks/ucan-lab/docker-laravel-apache?color=f05340)
+## 概要
 
-## Introduction
+- 気になるあの人のお気に入りの場所がわかる SNS アプリ
+- 自分用のメモとして投稿したり他の User の投稿を保存でき､気になった User をフォローすることも可能
+- **_同じ空間を共有できる仲間探しを目的としています_**
+- docker､SPA､レスポンシブデザイン､TypeScript 対応済み
 
-Build a simple laravel development environment with docker-compose.
-Apache version of [docker-laravel](https://github.com/ucan-lab/docker-laravel).
+  - Link  
+    現在メンテナンス中
+    <!-- - テスト用アカウント
+      メールアドレス：
+      パスワード : -->
 
-## Usage
+---
 
-```bash
-$ git clone git@github.com:ucan-lab/docker-laravel-apache.git
-$ cd docker-laravel-apache
-$ make create-project # Install the latest Laravel project
-$ make install-recommend-packages # Not required
-```
+## 目指した課題解決
 
-http://localhost
+~~バンドマンであればライブハウス､アーティストであれば画廊などそれぞれの**場所**があります｡
+ただその業界やバックカルチャーによって実は細分化されていて､ 訪れた場所にいる人々や空間から様々なことを感じ取りその場所が望んだ場所なのか判断をします｡
+つまり **誰が集まる場所なのか** いってみないとわからないということです｡~~
 
-Read this [Makefile](https://github.com/ucan-lab/docker-laravel-apache/blob/master/Makefile).
+- **いかにクリティカルに目的の場所にたどり着けるかが課題だとかんがえました｡**
 
-## Container structure
+---
 
-```bash
-├── web
-└── db
-```
+## 機能一覧
+
+- 投稿系
+
+  - 投稿
+  - 編集
+  - 郵便番号自動入力
+  - 画像投稿
+  - 削除
+  - タグ
+
+- 検索系
+  - 複数ワード検索
+  - 検索キーワード保持
+  - 保持ワード削除時の再検索
+- 一覧系
+  - 無限スクロール
+  - pagination
+  - タイル表示(React Masonry)
+- 認証系
+  - SPA 認証(sanctum)
+  - ログイン
+  - 新規登録
+  - パスワード変更
+  - アカウント削除
+- User->投稿 お気に入り機能
+- User<->User フォロー機能
+
+- レスポンシブデザイン
+
+---
+
+## 使用技術
+
+- React
+  - React Hook,
+  - React Hook Form,
+  - React Query,
+  - Material UI
+- Type Script
+- Laravel
+  - Laravel Mix
+  - Laravel Debugbar
+- Mysql
+- Nginx
+- docker
+  - docker-compose
+- AWS
+  - EC2
+  - VPC
+  - S3
+
+---
+
+## インフラ構成
+
+画像挿入
+
+### app container
+
+- Base image
+  - php:7.4.8-fpm
+  - composer:2.1
 
 ### web container
 
 - Base image
-  - [php](https://hub.docker.com/_/php):7.4-apache-buster
-  - [composer](https://hub.docker.com/_/composer):2.0
-  - [node](https://hub.docker.com/_/node):node:14-buster
+  - nginx:1.18-alpine
 
 ### db container
 
 - Base image
-  - [mysql](https://hub.docker.com/_/mysql):8.0
+  - mysql:8.0
 
-#### Persistent MySQL Storage
+## インフラ構図
 
-By default, the [named volume](https://docs.docker.com/compose/compose-file/#volumes) is mounted, so MySQL data remains even if the container is destroyed.
-If you want to delete MySQL data intentionally, execute the following command.
+![インフラ構図]('https://github.com/mxxxnxxx/ImageWarehouse/blob/main/PressPlaceNginx/PressPlaceNginxInfrastructure.jpg?raw=true')
 
-```bash
-$ docker-compose down -v && docker-compose up
-```
+## ER 図
+
+![ER図]('https://github.com/mxxxnxxx/ImageWarehouse/blob/main/PressPlaceNginx/PressPlaceNginxDBNR.png?raw=true')
+
+## 今後の展望
+
+- テストコードの充実化
+- CircleCI 対応
+- リスト機能の追加
+- RDS に対応
