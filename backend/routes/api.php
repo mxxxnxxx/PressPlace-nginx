@@ -72,7 +72,7 @@ Route::get('/user/followers/{userName}','UserController@followers')->name('user.
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/user/me', 'UserController@current')->name('user');
     // テスト版のため停止中
-    Route::get('/user/delete', 'UserController@softdelete')->name('user.softdelete');
+    // Route::get('/user/delete', 'UserController@softdelete')->name('user.softdelete');
 
     // メールアドレス認証済みユーザーのみアクセス可能
     Route::middleware(['verified'])->group(function(){
