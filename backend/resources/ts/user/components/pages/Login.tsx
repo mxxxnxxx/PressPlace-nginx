@@ -90,6 +90,8 @@ const Login: FC<Props> = ({
                                         margin="normal"
                                         required
                                         autoComplete="email"
+                                        name="email"
+                                        defaultValue={{ email: 'test@test.mail.com' }}
                                         autoFocus
                                         onChange={handleChangeEmail}
                                     />
@@ -100,6 +102,8 @@ const Login: FC<Props> = ({
                                         fullWidth
                                         value={password}
                                         margin="normal"
+                                        name="password"
+                                        defaultValue={{ password: 'testPlay' }}
                                         required
                                         autoComplete="current-password"
                                         onChange={handleChangePassword}

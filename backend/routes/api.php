@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 // DEMO用のルーティング
 // 公開時にはメール認証周りを設定
+// User新規作成機能停止
 
 
 // place検索機能
@@ -33,7 +34,7 @@ Route::get('/place/{placeId} ', 'PlaceController@show')->name('place.show');
 Route::get('/place/favorite/users/{placeId} ', 'PlaceController@placeFavoriteUsers')->name('place.favoriteUsers');
 
 // User新規登録
-Route::post('/register', 'CookieAuthenticationController@register');
+// Route::post('/register', 'CookieAuthenticationController@register');
 
 // メールアドレス認証
 // Route::get('/email/verify/{id}/{hash}', 'VerifyEmailController@verify')
@@ -70,6 +71,7 @@ Route::get('/user/followers/{userName}','UserController@followers')->name('user.
 // Laravel-sanctumでログイン認証時にしか行えないようにしたルート
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/user/me', 'UserController@current')->name('user');
+    // テスト版のため停止中
     Route::get('/user/delete', 'UserController@softdelete')->name('user.softdelete');
 
     // メールアドレス認証済みユーザーのみアクセス可能

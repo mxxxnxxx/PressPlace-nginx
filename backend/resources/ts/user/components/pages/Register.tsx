@@ -2,14 +2,16 @@ import {
     Backdrop,
     Box,
     Button, Card, CardContent, CardHeader, CircularProgress,
-    Container, TextField
+    Container, Paper, TextField, Typography
 } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { AxiosError } from 'axios'
 import React, { FC } from 'react'
 import { useForm } from "react-hook-form"
 import RegisterAlert from '../molecules/RegisterAlert'
+import TestUserInfo from '../organisms/TestUserInfo'
 import Window from '/work/backend/public/background_image/window.jpg'
+
 
 type Inputs = {
     name: string
@@ -57,7 +59,11 @@ const Register: FC<Props> = (
             <main style={{ flex: 1 }}>
                 <Container maxWidth="xs">
                     <Card style={{ margin: `${theme.spacing(6)}px 0` }}>
-                        <CardHeader title="新規登録" style={{ textAlign: 'center', marginTop: 30 }} />
+                        <CardHeader
+                            title="新規登録"
+                            style={{ textAlign: 'center', marginTop: 30 }}
+                        />
+                        <TestUserInfo />
                         <CardContent>
                             {/* ここからフォーム */}
                             <form onSubmit={handleSubmit(onSubmit)}>
