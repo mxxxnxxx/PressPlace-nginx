@@ -61,20 +61,21 @@
 
 ## 使用技術
 
-- React
+- ## React
   - React Hook,
   - React Hook Form,
   - React Query,
   - Material UI
-- Type Script
-- Laravel
+- ## Type Script
+- ## PHP 7.4.8
+- ## Laravel 6.18.35
   - Laravel Mix
   - Laravel Debugbar
-- Mysql
-- Nginx
-- docker
+- ## Mysql 8.0
+- ## Nginx
+- ## docker 20.10.12
   - docker-compose
-- AWS
+- ## AWS
   - EC2
   - VPC
   - S3
