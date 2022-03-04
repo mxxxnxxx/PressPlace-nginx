@@ -62,10 +62,10 @@
 ## 使用技術
 
 - ## React v16.2.0
-  - React Hook,
-  - React Hook Form,
-  - React Query,
-  - Material UI
+  - React Hook
+  - React Hook Form v6.14.2
+  - React Query v3.16.0
+  - Material UI v4.11.4
 - ## Type Script v4.1.3
 - ## PHP v7.4.8
 - ## Laravel v6.18.35
