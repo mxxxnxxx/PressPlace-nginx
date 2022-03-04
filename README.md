@@ -66,13 +66,13 @@
   - React Hook Form,
   - React Query,
   - Material UI
-- ## Type Script
+- ## Type Script 4.1.3
 - ## PHP 7.4.8
 - ## Laravel 6.18.35
   - Laravel Mix
   - Laravel Debugbar
 - ## Mysql 8.0
-- ## Nginx
+- ## Nginx 1.18
 - ## docker 20.10.12
   - docker-compose
 - ## AWS
