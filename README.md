@@ -74,7 +74,7 @@
 - ## Mysql v8.0
 - ## Nginx v1.18
 - ## docker v20.10.12
-  - docker-compose
+  - docker-compose v2.2.3
 - ## AWS
   - EC2
   - VPC
