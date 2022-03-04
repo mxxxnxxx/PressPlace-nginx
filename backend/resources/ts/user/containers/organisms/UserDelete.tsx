@@ -8,12 +8,13 @@ const EnhancedUserDelete: React.FC = () => {
     const { error, isLoading, mutate: deleteUser } = useDeleteUserMutation()
     const statusCode = error?.response?.status
     const handleDeleteUser = useCallback(() => {
-        deleteUser(undefined, {
-            onSuccess: () => {
-                history.replace('/login')
-            },
-        })
-        window.scrollTo(0, 0)
+        // テスト運用なので停止
+        // deleteUser(undefined, {
+        //     onSuccess: () => {
+        //         history.replace('/login')
+        //     },
+        // })
+        // window.scrollTo(0, 0)
     }, [history, deleteUser])
     return (
         <UserDelete

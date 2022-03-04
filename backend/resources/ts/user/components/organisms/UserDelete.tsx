@@ -51,6 +51,7 @@ const UserDelete: React.FC<Props> = ({
             pt={paddingY * 2}
             pb={paddingY}
         >
+            <Typography align="center" color="error" style={{ marginBottom: 8 }}>･現在テスト版のためアカウント削除は停止中です</Typography>
             <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
