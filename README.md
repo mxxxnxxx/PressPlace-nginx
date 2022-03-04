@@ -1,6 +1,6 @@
 # PressPlace
 
-![topImage](https://github.com/mxxxnxxx/ImageWarehouse/blob/main/PressPlaceNginx/searchedMap.jpg)
+![topImage](https://github.com/mxxxnxxx/ImageWarehouse/blob/main/PressPlaceNginx/sphere.png)
 
 ## 概要
 
