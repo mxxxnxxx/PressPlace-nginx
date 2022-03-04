@@ -101,11 +101,11 @@
 
 ## インフラ構図
 
-![インフラ構図]('https://github.com/mxxxnxxx/ImageWarehouse/blob/main/PressPlaceNginx/PressPlaceNginxInfrastructure.jpg?raw=true')
+![インフラ構図](https://github.com/mxxxnxxx/ImageWarehouse/blob/main/PressPlaceNginx/PressPlaceNginxInfrastructure.jpg)
 
 ## ER 図
 
-![ER図]('https://github.com/mxxxnxxx/ImageWarehouse/blob/main/PressPlaceNginx/PressPlaceNginxDBNR.png?raw=true')
+![ER図](https://github.com/mxxxnxxx/ImageWarehouse/blob/main/PressPlaceNginx/PressPlaceNginxDBNR.png)
 
 ## 今後の展望
 
