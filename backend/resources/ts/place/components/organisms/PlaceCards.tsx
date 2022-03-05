@@ -3,14 +3,12 @@ import React, { FC } from 'react'
 import Masonry from 'react-masonry-css'
 import { INTERNAL_SERVER_ERROR } from '../../../constants/statusCode'
 import GeneralAlert from '../../../layout/components/atoms/GeneralAlert'
-import Loding from '../../../layout/components/pages/Loding'
 import { Place } from '../../types/Place'
 import { Places } from '../../types/Places'
 import PlaceCard from './PlaceCard'
 
 type Props = {
     paginatePlaces?: Places[]
-    isLoading?: boolean
     statusCode?: number
     loadMoreRef?: (node: Element) => void
     hasNextPage?: boolean
@@ -45,7 +43,6 @@ const useStyle = makeStyles((theme) => ({
 }))
 const PlaceCards: FC<Props> = ({
     paginatePlaces,
-    isLoading,
     statusCode,
     loadMoreRef,
     hasNextPage,

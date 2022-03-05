@@ -27,7 +27,6 @@ const EnhancedPlaceCards: FC = () => {
     return (
         <PlaceCards
             paginatePlaces={paginatePlaces?.pages}
-            isLoading={isLoading}
             statusCode={statusCode}
             loadMoreRef={loadMoreRef}
             hasNextPage={hasNextPage}

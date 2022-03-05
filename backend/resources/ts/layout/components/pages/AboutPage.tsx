@@ -19,7 +19,7 @@ const useStyle = makeStyles((theme) => ({
         fontSize: '1rem'
     }
 }))
-const HelpPage: React.FC = () => {
+const AboutPage: React.FC = () => {
     const classes = useStyle()
     return (
         <Box>
@@ -28,7 +28,7 @@ const HelpPage: React.FC = () => {
                     className={classes.title}
                     align='center'
                 >
-                    PressPlaceとは
+                    PressPlaceの出来ること
                 </Typography>
                 <Typography className={classes.subTitle} align='center'>About this Service</Typography>
             </Box>
@@ -40,4 +40,4 @@ const HelpPage: React.FC = () => {
         </Box>
     )
 }
-export default HelpPage
+export default AboutPage

@@ -13,7 +13,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { SearchKeyProvider } from './context/SearchKeyContext'
 import GlobalStyle from './grobalStyles'
 import Footer from './layout/components/organisms/Footer'
-import HelpPage from './layout/components/pages/HelpPage'
+import AboutPage from './layout/components/pages/AboutPage'
 import Loding from './layout/components/pages/Loding'
 import Header from './layout/containers/organisms/Header'
 import { useMutationErrorQuery } from './layout/hooks/util'
@@ -144,9 +144,12 @@ const App: FC = () => {
             <Header />
 
             <Switch>
-
                 <Route exact path="/">
                     <Places />
+                </Route>
+
+                <Route exact path="/about">
+                    <AboutPage />
                 </Route>
 
                 <Route exact path="/place/:placeId">
@@ -161,9 +164,6 @@ const App: FC = () => {
                     <PlaceSearched />
                 </Route>
 
-                <Route exact path="/about">
-                    <HelpPage />
-                </Route>
                 {/* :userName で検索 */}
                 {/* :contentsView favoritePlace or myPlace タブの初期ページ */}
                 <Route exact path="/account/:userName/:contentsView">
