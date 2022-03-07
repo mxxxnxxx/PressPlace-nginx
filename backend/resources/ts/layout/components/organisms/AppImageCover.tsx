@@ -4,8 +4,9 @@ import InfoIcon from '@material-ui/icons/Info'
 import SearchIcon from '@material-ui/icons/Search'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
+import { Link } from "react-scroll"
 import Heading from '/work/backend/public/background_image/Heading.jpg'
-import { Link, animateScroll } from "react-scroll";
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward'
 
 
 const useStyle = makeStyles((theme) => ({
@@ -19,7 +20,7 @@ const useStyle = makeStyles((theme) => ({
     },
     textBox: {
         position: 'absolute',
-        top: '45%',
+        top: '35%',
         left: '50%',
         width: '100%',
         '-webkit-transform': 'translate(-50%, -50%)',
@@ -45,14 +46,14 @@ const useStyle = makeStyles((theme) => ({
     },
     pressButton: {
         position: 'absolute',
-        top: '70%',
+        top: '60%',
         left: '50%',
         '-webkit-transform': 'translate(-50%, -50%)',
         '-moz-transform': ' translate(-50%, -50%)',
         transform: 'translate(-50%, -50%)',
         [theme.breakpoints.up('sm')]: {
             position: 'absolute',
-            top: '70%',
+            top: '60%',
             left: '33%',
             '-webkit-transform': 'translate(-50%, -50%)',
             '-moz-transform': ' translate(-50%, -50%)',
@@ -62,14 +63,14 @@ const useStyle = makeStyles((theme) => ({
     },
     searchButton: {
         position: 'absolute',
-        top: '80%',
+        top: '70%',
         left: '50%',
         '-webkit-transform': 'translate(-50%, -50%)',
         '-moz-transform': ' translate(-50%, -50%)',
         transform: 'translate(-50%, -50%)',
         [theme.breakpoints.up('sm')]: {
             position: 'absolute',
-            top: '70%',
+            top: '60%',
             left: '66%',
             '-webkit-transform': 'translate(-50%, -50%)',
             '-moz-transform': ' translate(-50%, -50%)',
@@ -79,12 +80,14 @@ const useStyle = makeStyles((theme) => ({
     },
     adventureButton: {
         position: 'absolute',
-        top: '90%',
+        top: '80%',
         left: '50%',
         '-webkit-transform': 'translate(-50%, -50%)',
         '-moz-transform': ' translate(-50%, -50%)',
         transform: 'translate(-50%, -50%)',
+        animation: `$flash 1s linear infinite`,
         [theme.breakpoints.up('sm')]: {
+            animation: `$flash 1s linear infinite`,
             position: 'absolute',
             top: '80%',
             left: '50%',
@@ -94,6 +97,16 @@ const useStyle = makeStyles((theme) => ({
             'z-index': 100,
         }
     },
+    // アニメーションの記述
+    '@keyframes flash': {
+        '0%, 100%': {
+            opacity: 1
+        },
+
+        '50%': {
+            opacity: 0
+        }
+    }
 }))
 const AppImageCover: React.FC = () => {
     const history = useHistory()
@@ -114,7 +127,7 @@ const AppImageCover: React.FC = () => {
             </div>
             <div className={classes.pressButton}>
                 <Button
-                    variant='outlined'
+                    variant='contained'
                     onClick={() => history.push('/press')}
                     startIcon={<CreateIcon />}
                     size='large'
@@ -122,7 +135,7 @@ const AppImageCover: React.FC = () => {
             </div>
             <div className={classes.searchButton}>
                 <Button
-                    variant='outlined'
+                    variant='contained'
                     onClick={() => history.push('/search')}
                     startIcon={<SearchIcon />}
                     size='large'
@@ -136,7 +149,9 @@ const AppImageCover: React.FC = () => {
                     smooth={true}
                     offset={-70}
                     duration={500}
-                >↓</Link>
+                >
+                    <ArrowDownwardIcon className={classes.adventureButton} />
+                </Link>
             </div>
         </div>
     )
