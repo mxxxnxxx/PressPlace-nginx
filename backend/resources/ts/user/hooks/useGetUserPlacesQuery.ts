@@ -15,12 +15,16 @@ const getUserPlaces = async (page: number, userName?: string): Promise<Places> =
 const useGetUserPlaces = <TData = Places>(
     page: number,
     userName?: string,
-    options?: UseQueryOptions<Places, AxiosError, TData>
 ): UseQueryResult<TData, AxiosError> => {
     return useQuery(
         ['userPlaces', page],
         () => getUserPlaces(page, userName),
-        options
+        {
+            // オプション
+            keepPreviousData: true,
+            staleTime: 5000,
+            refetchOnWindowFocus: false,
+        }
     )
 }
 

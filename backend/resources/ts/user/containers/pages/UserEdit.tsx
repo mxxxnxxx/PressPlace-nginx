@@ -5,7 +5,7 @@ import { useQueryClient } from 'react-query'
 import { useHistory, useLocation } from "react-router-dom"
 import Loding from '../../../layout/components/pages/Loding'
 import UserEdit from "../../components/pages/UserEdit"
-import { useCurrentUser } from '../../hooks'
+import useCurrentUser from '../../hooks/useCurrentUser'
 import useEditUserProfile from '../../hooks/useEditUserProfileMutation'
 import { UserEditData } from "../../types/UserEditData"
 

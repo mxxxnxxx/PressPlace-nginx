@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import FollowButton from '../../components/atoms/FollowButton'
-import { useCurrentUser } from '../../hooks'
+import useCurrentUser from '../../hooks/useCurrentUser'
 import Follow from '../../hooks/useFollowUser'
 import UnFollow from '../../hooks/useUnFollowUser'
 

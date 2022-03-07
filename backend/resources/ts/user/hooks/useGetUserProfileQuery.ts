@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios'
 import camelcaseKeys from 'camelcase-keys'
-import { useQuery, UseQueryOptions, UseQueryResult } from 'react-query'
+import { useQuery, UseQueryResult } from 'react-query'
 import { UserProfile } from '../types/userProfile'
 // ここでuserProfileの方を定義したほうがよさそう
 const getUserProfile = async (userName?: string): Promise<UserProfile> => {
@@ -10,7 +10,10 @@ const getUserProfile = async (userName?: string): Promise<UserProfile> => {
 
 const useGetUserProfileQuery = <TData = UserProfile>(
     userName?: string,
-    options?: UseQueryOptions<UserProfile, AxiosError, TData>
-): UseQueryResult<TData, AxiosError> => useQuery('userProfile', () => getUserProfile(userName), options)
+): UseQueryResult<TData, AxiosError> => useQuery(
+    'userProfile',
+    () => getUserProfile(userName),
+    { refetchOnWindowFocus: false, }
+)
 
 export default useGetUserProfileQuery

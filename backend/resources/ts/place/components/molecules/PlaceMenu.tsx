@@ -7,7 +7,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import EditIcon from '@material-ui/icons/Edit'
 import React, { FC } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import { useCurrentUser } from '../../../user/hooks'
+import useCurrentUser from '../../../user/hooks/useCurrentUser'
 import PlaceDelete from '../../containers/molecules/PlaceDelete'
 import { Place } from '../../types/Place'
 

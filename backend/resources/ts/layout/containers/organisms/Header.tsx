@@ -1,9 +1,9 @@
 import React, { FC, useCallback } from 'react'
 import { useHistory } from 'react-router-dom'
 import Header from '../../components/organisms/Header'
-import { useLogout } from '../../../user/hooks/auth'
-import { useCurrentUser } from '../../../user/hooks'
 import { toast } from 'react-toastify'
+import useLogout from '../../../user/hooks/auth/useLogout'
+import useCurrentUser from '../../../user/hooks/useCurrentUser'
 
 
 const EnhancedHeader: FC = () => {

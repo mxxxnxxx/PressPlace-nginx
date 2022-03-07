@@ -2,7 +2,7 @@
 import React, { FC, useEffect } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import Register from '../../components/pages/Register'
-import { useRegister } from '../../hooks/auth'
+import useRegister from '../../hooks/auth/useRegister'
 
 type Inputs = {
     name: string

@@ -3,13 +3,13 @@ import camelcaseKeys from 'camelcase-keys'
 import { useForm, FormProvider } from 'react-hook-form'
 import { useHistory, useLocation, useParams } from 'react-router-dom'
 import EditPlaceForm from '../../components/organisms/EditPlaceForm'
-import { useCurrentUser } from '../../../user/hooks'
 import imageCompression from "browser-image-compression"
 import useEditPostPlaceQuery from '../../hooks/useEditPostPlaceMutation'
 import { Place } from '../../types/Place'
 import { PlaceImage } from '../../types/PlaceImage'
 import axios from 'axios'
 import Loding from '../../../layout/components/pages/Loding'
+import useCurrentUser from '../../../user/hooks/useCurrentUser'
 
 type Inputs = {
     name: string

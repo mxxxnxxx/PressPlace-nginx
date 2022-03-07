@@ -12,11 +12,9 @@ const getFollowerList = async (userName: string, pageParam: number): Promise<Pag
 
 const useGetFollowerList = <TData = PaginateFollowUsers>(
     userName: string,
-    options?: UseInfiniteQueryOptions<PaginateFollowUsers, AxiosError, TData>
 
 ): UseInfiniteQueryResult<TData, AxiosError> =>
     useInfiniteQuery('FollowerList', ({ pageParam = 1 }) => getFollowerList(userName, pageParam), {
-        ...options,
         getPreviousPageParam: (firstPage) =>
             firstPage.prevPageUrl ? firstPage.currentPage - 1 : false,
         getNextPageParam: (lastPage) =>

@@ -32,7 +32,8 @@ import UserFollowCount from './user/containers/pages/UserFollowCount'
 import UserPage from "./user/containers/pages/UserPage"
 import UserResetPassword from './user/containers/pages/UserResetPassword'
 import UserSetting from "./user/containers/pages/UserSetting"
-import { useCurrentUser, useGetUserQuery } from './user/hooks'
+import useCurrentUser from './user/hooks/useCurrentUser'
+import useGetUserQuery from './user/hooks/useGetUserQuery'
 
 declare global {
     interface Window {
@@ -113,13 +114,7 @@ const client = new QueryClient({
 const App: FC = () => {
     const queryClient = useQueryClient()
     const classes = useStyle()
-    const { isLoading, refetch: getUserQuery } = useGetUserQuery({
-        retry: 0,
-        initialData: undefined,
-        onError: () => {
-            queryClient.setQueryData('user', null)
-        },
-    })
+    const { isLoading, refetch: getUserQuery } = useGetUserQuery()
 
     const { data: error } = useMutationErrorQuery()
 

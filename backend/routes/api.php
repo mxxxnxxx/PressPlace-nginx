@@ -66,8 +66,6 @@ Route::get('/user/favorite/places','UserController@favoritePlaces')->name('user.
 Route::get('/user/followings/{userName}','UserController@followings')->name('user.followings');
 Route::get('/user/followers/{userName}','UserController@followers')->name('user.followers');
 
-
-
 // Laravel-sanctumでログイン認証時にしか行えないようにしたルート
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/user/me', 'UserController@current')->name('user');

@@ -2,8 +2,8 @@ import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useHistory, useLocation } from 'react-router'
 import UserChangeEmail from '../../components/organisms/UserChangeEmail'
-import { useCurrentUser } from '../../hooks'
 import useChangeEmail from '../../hooks/auth/useChangeEmail'
+import useCurrentUser from '../../hooks/useCurrentUser'
 import { ChangeEmailType } from '../../types/ChangeEmailType'
 
 const EnhancedUserChangeEmail: React.FC = () => {

@@ -1,4 +1,4 @@
-import { UseQueryResult, useQuery, UseQueryOptions } from 'react-query'
+import { UseQueryResult, useQuery, UseQueryOptions, useQueryClient } from 'react-query'
 import axios, { AxiosError } from 'axios'
 import camelcaseKeys from 'camelcase-keys'
 import { User } from '../types/User'
@@ -9,7 +9,16 @@ const getLoginUser = async (): Promise<User> => {
 }
 
 const useGetUserQuery = <TData = User>(
-    options?: UseQueryOptions<User, AxiosError, TData>
-): UseQueryResult<TData, AxiosError> => useQuery('user', getLoginUser, options)
+): UseQueryResult<TData, AxiosError> => {
+    const queryClient = useQueryClient()
+    return useQuery('user', getLoginUser, {
+        retry: 0,
+        initialData: undefined,
+        onError: () => {
+            queryClient.setQueryData('user', null)
+        },
+    }
+    )
+}
 
 export default useGetUserQuery

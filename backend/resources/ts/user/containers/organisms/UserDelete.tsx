@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { useHistory } from 'react-router'
 import UserDelete from '../../components/organisms/UserDelete'
-import { useDeleteUserMutation } from '../../hooks'
+import useDeleteUserMutation from '../../hooks/useDeleteUserMutation'
 
 const EnhancedUserDelete: React.FC = () => {
     const history = useHistory()

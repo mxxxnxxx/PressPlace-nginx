@@ -6,7 +6,7 @@ import { useGetPlaceQuery } from '../../hooks'
 
 const EnhancedPlaceCard: React.FC = () => {
     const params = useParams<{ placeId: string }>()
-    const { data: place, isLoading, isFetching } = useGetPlaceQuery(params.placeId, { refetchOnWindowFocus: false })
+    const { data: place, isLoading, isFetching } = useGetPlaceQuery(params.placeId)
     if (isLoading || isFetching) {
         return <Loding isLoading={isLoading} isFetching={isFetching} />
     }

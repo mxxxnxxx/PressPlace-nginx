@@ -1,7 +1,7 @@
 import React from 'react'
 import Loding from '../../../layout/components/pages/Loding'
 import AuthUserProfile from "../../components/organisms/AuthUserProfile"
-import { useCurrentUser } from '../../hooks'
+import useCurrentUser from '../../hooks/useCurrentUser'
 import useGetUserProfileQuery from '../../hooks/useGetUserProfileQuery'
 
 const EnhancedAuthUserProfile: React.FC = () => {
@@ -11,7 +11,7 @@ const EnhancedAuthUserProfile: React.FC = () => {
         data: userProfile,
         isLoading,
         isFetching,
-    } = useGetUserProfileQuery(userName, { refetchOnWindowFocus: false, })
+    } = useGetUserProfileQuery(userName)
 
     if (isLoading || isFetching) {
         return <Loding isLoading={isLoading} isFetching={isFetching} />

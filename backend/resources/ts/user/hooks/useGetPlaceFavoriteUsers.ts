@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios"
 import camelcaseKeys from "camelcase-keys"
-import { UseInfiniteQueryOptions, UseInfiniteQueryResult, useInfiniteQuery } from "react-query"
+import { useInfiniteQuery, UseInfiniteQueryResult } from "react-query"
 import { PaginateFollowUsers } from "../types/PaginateFollowUsers"
 
 
@@ -12,11 +12,9 @@ const getPlaceFavoriteUsers = async (placeId: string, { pageParam = 1 }): Promis
 
 const useGetPlaceFavoriteUsers = <TData = PaginateFollowUsers>(
     placeId: string,
-    options?: UseInfiniteQueryOptions<PaginateFollowUsers, AxiosError, TData>
 
 ): UseInfiniteQueryResult<TData, AxiosError> =>
     useInfiniteQuery('PlaceFavoriteUsers', ({ pageParam = 1 }) => getPlaceFavoriteUsers(placeId, pageParam), {
-        ...options,
         getPreviousPageParam: (firstPage) =>
             firstPage.prevPageUrl ? firstPage.currentPage - 1 : false,
         getNextPageParam: (lastPage) =>

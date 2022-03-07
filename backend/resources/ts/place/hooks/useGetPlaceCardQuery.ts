@@ -17,15 +17,20 @@ const getPlaceCard = async ({ pageParam = 1 }): Promise<Places> => {
 
 
 const useGetPlaceCardQuery = <TData = Places>(
-    options?: UseInfiniteQueryOptions<Places, AxiosError, TData>
-): UseInfiniteQueryResult<TData, AxiosError> =>
-    useInfiniteQuery('places', getPlaceCard, {
-        ...options,
-        getPreviousPageParam: (firstPage) =>
-            firstPage.prevPageUrl ? firstPage.currentPage - 1 : false,
+    // options?: UseInfiniteQueryOptions<Places, AxiosError, TData>
+): UseInfiniteQueryResult<TData, AxiosError> => {
+    // const options: UseInfiniteQueryOptions<Places, AxiosError, TData> = {
+
+    // }
+    return useInfiniteQuery('places', getPlaceCard, {
+        // ...options,
         getNextPageParam: (lastPage) =>
             lastPage.nextPageUrl ? lastPage.currentPage + 1 : false,
+        getPreviousPageParam: (firstPage) =>
+            firstPage.prevPageUrl ? firstPage.currentPage - 1 : false,
+
         refetchOnWindowFocus: false,
     })
+}
 
 export default useGetPlaceCardQuery

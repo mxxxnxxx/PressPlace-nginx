@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios"
 import camelcaseKeys from "camelcase-keys"
-import { useQuery, UseQueryOptions, UseQueryResult } from "react-query"
+import { useQuery, UseQueryResult } from "react-query"
 import { Places } from '../types/Places'
 
 const getFavoritePlaces = async (page: number, userName?: string): Promise<Places> => {
@@ -16,12 +16,17 @@ const getFavoritePlaces = async (page: number, userName?: string): Promise<Place
 const useGetFavoritePlaces = <TData = Places>(
     page: number,
     userName?: string,
-    options?: UseQueryOptions<Places, AxiosError, TData>
 ): UseQueryResult<TData, AxiosError> => {
     return useQuery(
         ['favoritePlaces', page],
         () => getFavoritePlaces(page, userName),
-        options
+        {
+            // オプション
+            keepPreviousData: true,
+            staleTime: 5000,
+            refetchOnWindowFocus: false,
+        }
+
     )
 }
 

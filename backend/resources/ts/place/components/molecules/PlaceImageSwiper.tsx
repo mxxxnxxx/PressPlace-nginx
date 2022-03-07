@@ -4,7 +4,7 @@ import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 import React, { useRef, useState } from 'react'
 import Swiper, { SwiperRefNode } from "react-id-swiper"
-import 'swiper/css/swiper.css'
+// import 'swiper/css/swiper.css'
 import { Place } from '../../types/Place'
 import { PlaceImage } from '../../types/PlaceImage'
 type Props = {

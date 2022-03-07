@@ -1,8 +1,8 @@
-import { useQueryClient, UseMutationResult, useMutation } from 'react-query'
 import axios, { AxiosError } from 'axios'
-import { User } from '../../types/User'
 import camelcaseKeys from 'camelcase-keys'
+import { useMutation, UseMutationResult } from 'react-query'
 import { toast } from 'react-toastify'
+import { User } from '../../types/User'
 
 type FormData = {
     email: string

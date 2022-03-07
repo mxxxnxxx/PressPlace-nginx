@@ -1,21 +1,13 @@
 import React from 'react'
-import { useQueryClient } from 'react-query'
 import { useParams } from 'react-router'
 import Loding from '../../../layout/components/pages/Loding'
 import UserChangedEmail from '../../components/pages/UserChangedEmail'
-import { useGetUserQuery } from '../../hooks'
 import useChangedEmail from '../../hooks/auth/useChangedEmail'
+import useGetUserQuery from '../../hooks/useGetUserQuery'
 const EnhancedUserChangedEmail: React.FC = () => {
-    const queryClient = useQueryClient()
     const { token } = useParams<{ token: string }>()
     const { data, isSuccess, isLoading } = useChangedEmail(token)
-    const { refetch } = useGetUserQuery({
-        retry: 0,
-        initialData: undefined,
-        onError: () => {
-            queryClient.setQueryData('user', null)
-        },
-    })
+    const { refetch } = useGetUserQuery()
     isSuccess && refetch
     if (isLoading) {
         return <Loding isLoading={isLoading} />

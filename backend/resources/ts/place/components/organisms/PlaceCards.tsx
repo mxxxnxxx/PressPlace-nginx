@@ -77,7 +77,7 @@ const PlaceCards: FC<Props> = ({
     }
     const classes = useStyle()
     return (
-        <Box className={classes.root}>
+        <div className={classes.root}>
             {paginatePlaces?.map((page) => (
                 <Box key={page.currentPage.toString()}>
                     <Masonry
@@ -99,7 +99,7 @@ const PlaceCards: FC<Props> = ({
             <Box {...{ ref: loadMoreRef }} textAlign="center" className={classes.loadMessage}>
                 {loadMoreMessage}
             </Box>
-        </Box>
+        </div>
     )
 }
 

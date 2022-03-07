@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { useCurrentUser } from '../../../user/hooks'
+import useCurrentUser from '../../../user/hooks/useCurrentUser'
 import useDeleteUnfavoritePlace from '../../../user/hooks/useDeleteUnfavoritePlace'
 import usePostFavoritePlace from '../../../user/hooks/usePostAddFavoritePlace'
 import PlaceFavoriteButton from '../../components/atoms/PlaceFavoriteButton'
