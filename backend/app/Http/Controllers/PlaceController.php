@@ -1,22 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PlaceRequest;
 use App\Place;
-use App\User;
-use App\Place_image;
 use App\Tag;
+use function count;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use \Image;
-use \Storage;
-use \Debugbar;
-use Illuminate\Http\File;
+use Storage;
 
 class PlaceController extends Controller
 {
-
     // 郵便番号検索
     public function postal_search(Request $request)
     {
@@ -29,20 +26,21 @@ class PlaceController extends Controller
     {
         $place = Place::create([
             'user_id' => Auth::id(),
-            'name'    => $request->name,
+            'name' => $request->name,
             'comment' => $request->comment,
-            'address' => $request->address
+            'address' => $request->address,
         ]);
         // 画像の処理
         // 一枚目の写真がなければ処理をしない
         if ($request->place_image_0) {
             $count = count($request->file());
+
             for ($i = 0; $i < $count; $i++) {
                 $place_image = "place_image_{$i}";
                 $img = $request->file($place_image);
                 $path = Storage::disk('s3')->putFile('place_images', $img, 'public');
                 $place->place_images()->create(['image_path' => $path]);
-            };
+            }
         }
         // tagの処理
         // preg_match_allを使用してからの'スペース'の要素を除外し$matchを作成
@@ -56,7 +54,7 @@ class PlaceController extends Controller
             // 作ったあとの情報を$recodeで変数として取得している
             $record = Tag::firstOrCreate(['name' => $tag]);
             // 作成された$recodeを受け皿に入れる
-            array_push($tags, $record);
+            $tags[] = $record;
         }
 
         // 多対多の中間テーブル用の記述
@@ -65,11 +63,8 @@ class PlaceController extends Controller
         //    $tagにはテーブルに入る時の情報もすでにもっているので$tag->idがつかえる
         foreach ($tags as $tag) {
             // Tag::firstOrCreate(['name' => $tag])でつくられたtagのidを取得してplace_tagテーブル用の$tags_idに入れる
-            array_push($tags_id, $tag->id);
+            $tags_id[] = $tag->id;
         }
-
-
-
 
         // タグはpostがsaveされた後にattachするように。
         // $place（今作った投稿）に紐づけるとするために->tags()でしてい
@@ -80,7 +75,6 @@ class PlaceController extends Controller
         ? response()->json($place, 201)
         : response()->json([], 500);
     }
-
 
     public function update(PlaceRequest $request)
     {
@@ -98,6 +92,7 @@ class PlaceController extends Controller
         }, $old_s3_path_nest);
 
         $old_place_images = [];
+
         if ($request->old_place_images) {
             $old_place_images += $request->old_place_images;
         }
@@ -107,18 +102,19 @@ class PlaceController extends Controller
         $delete_s3_path_merge = array_merge($delete_s3_path);
 
         for ($i = 0; $i < count($delete_s3_path_merge); $i++) {
-            \Storage::disk('s3')->delete($delete_s3_path_merge[$i]);
+            Storage::disk('s3')->delete($delete_s3_path_merge[$i]);
             $place->place_images()->where('image_path', $delete_s3_path_merge[$i])->delete();
         }
 
         // 新しく追加される写真の処理
         $new_count = count($request->file());
+
         for ($i = 0; $i < $new_count; $i++) {
-            $place_image="place_image_{$i}" ;
-            $img=$request->file($place_image);
+            $place_image = "place_image_{$i}";
+            $img = $request->file($place_image);
             $path = Storage::disk('s3')->putFile('place_images', $img, 'public');
             $place->place_images()->create(['image_path' => $path]);
-        };
+        }
 
         // tagの処理
         // preg_match_allを使用して#タグのついた文字列を取得している多次元配列
@@ -130,7 +126,7 @@ class PlaceController extends Controller
             // firstOrCreateで重複を防ぎながらタグを作成している。
             $record = Tag::firstOrCreate(['name' => $tag]);
             // 受け皿に入れる
-            array_push($after, $record);
+            $after[] = $record;
         }
 
         // 多対多の中間テーブル用の記述
@@ -139,28 +135,27 @@ class PlaceController extends Controller
         // 更新前のtagsを新しいidにする処理
         foreach ($after as $tag) {
             // 前のidを $tags_idにいれる
-            array_push($tags_id, $tag->id);
+            $tags_id[] = $tag->id;
         }
         // syncで同期して 紐付けの追加,中間テーブルの値更,新紐付けの解除を同時におこなっている
         $place->tags()->sync($tags_id);
-
 
         return $place
         ? response()->json($place, 201)
         : response()->json([], 500);
     }
 
-
     // 一覧
     public function index()
     {
         $places = Place::orderBy(Place::UPDATED_AT, 'desc')
-        ->with('place_images')
-        ->with('user')
-        ->with('tags')
-        ->paginate(15);
+            ->with('place_images')
+            ->with('user')
+            ->with('tags')
+            ->paginate(15);
         return $places;
     }
+
     // 詳細ページ
     public function show($placeId)
     {
@@ -175,12 +170,13 @@ class PlaceController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(15)
             ->toArray();
-        $data=[];
+        $data = [];
         // Userコントローラーからshowメソッドを呼び出し
         // フォロー状況を読み込み
         $UserController = app()->make('App\Http\Controllers\UserController');
-        foreach($favoriteUsers['data'] as $favoriteUser ){
-            array_push( $data, $UserController->show($favoriteUser['name']));
+
+        foreach ($favoriteUsers['data'] as $favoriteUser) {
+            $data[] = $UserController->show($favoriteUser['name']);
         }
         $favoriteUsers['data'] = $data;
         return response()->json($favoriteUsers);
@@ -194,46 +190,46 @@ class PlaceController extends Controller
         return $this->index();
     }
 
-
     public function search(Request $request)
     {
         // データベースから検索
         $places_q = Place::query();
         $InputsData = $request->input('InputsData');
         // React側から届いたInputsDataを分割代入
-        [   'name' => $name,
+        list(   'name' => $name,
             'address' => $address,
             'comment' => $comment,
             'tags' => $tags
-        ] = $InputsData;
+        ) = $InputsData;
         // タグは後で削除された場合react側では' 'でそうしんされて$tagsのだんかいではnullになる
 
-        $places_q->whereHas('tags', function ($places_q) use ($tags) {
-        // whereHasで配列がからで検索をかけると該当がなくなるのでifで回避
+        $places_q->whereHas('tags', function ($places_q) use ($tags): void {
+            // whereHasで配列がからで検索をかけると該当がなくなるのでifで回避
             foreach ($tags as $tag) {
                 // $tagがnullでなければ検索をかける
-                if(isset($tag)){
+                if (isset($tag)) {
                     $places_q->where('name', 'like', '%' . $tag . '%');
                 }
             }
         });
 
-
-        if (!$name == "") {
+        if (!$name === '') {
             $places_q->where('name', 'like', '%' . $name . '%');
         }
-        if (!$address == "") {
+
+        if (!$address === '') {
             $places_q->where('address', 'like', '%' . $address . '%');
         }
-        if (!$comment == "") {
+
+        if (!$comment === '') {
             $places_q->where('comment', 'like', '%' . $comment . '%');
         }
         $placeSearched = $places_q
-        ->orderBy('created_at', 'desc')
-        ->with('place_images')
-        ->with('user')
-        ->with('tags')
-        ->paginate(15);
+            ->orderBy('created_at', 'desc')
+            ->with('place_images')
+            ->with('user')
+            ->with('tags')
+            ->paginate(15);
 
         return $placeSearched;
     }

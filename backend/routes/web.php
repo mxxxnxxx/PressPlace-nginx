@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,10 +13,6 @@
 |
 */
 
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use vendor\laravel\framework\src\Illuminate\Routing;
-use Whoops\Run;
 
-
-Route::get('/{any?}', fn() => view('app'))->where('any', '(?!api).+');
+Route::get('/{any?}', fn () => view('app'))->where('any', '(?!api).+');

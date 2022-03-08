@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use SplFileObject;
 
 class ImportPostalCodeCommand extends Command
 {
@@ -22,8 +25,6 @@ class ImportPostalCodeCommand extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -53,23 +54,19 @@ class ImportPostalCodeCommand extends Command
         );
 
         // CSVから郵便データを取得してDBへ保存
-        $file = new \SplFileObject($converted_csv_path);
-        $file->setFlags(\SplFileObject::READ_CSV);
+        $file = new SplFileObject($converted_csv_path);
+        $file->setFlags(SplFileObject::READ_CSV);
 
         foreach ($file as $row) {
-
-            if (!is_null($row[0])) {
-
+            if ($row[0] !== null) {
                 \App\PostalCode::create([
-                    'first_code' => intval(substr($row[2], 0, 3)),
-                    'last_code' => intval(substr($row[2], 3, 4)),
+                    'first_code' => (int) (substr($row[2], 0, 3)),
+                    'last_code' => (int) (substr($row[2], 3, 4)),
                     'prefecture' => $row[6],
                     'city' => $row[7],
-                    'address' => (str_contains($row[8], '（')) ? current(explode('（', $row[8])) : $row[8]
+                    'address' => (str_contains($row[8], '（')) ? current(explode('（', $row[8])) : $row[8],
                 ]);
             }
         }
-
     }
-
 }

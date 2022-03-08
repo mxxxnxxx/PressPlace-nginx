@@ -12,6 +12,7 @@
         "aws/aws-sdk-php": "^3.91",
         "doctrine/dbal": "^2.11",
         "fideloper/proxy": "^4.0",
+        "friendsofphp/php-cs-fixer": "^2.19.3",
         "fruitcake/laravel-cors": "^3.0",
         "intervention/image": "^2.5",
         "laravel/framework": "^6.18.35",

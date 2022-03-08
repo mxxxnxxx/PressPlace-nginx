@@ -1,23 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Auth\LoginController;
+use App\User;
 use Exception;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\UserCreateRequest;
-use App\Providers\RouteServiceProvider;
-use App\User;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use \Symfony\Component\HttpFoundation\Response;
-use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\HttpFoundation\Response;
 
 final class CookieAuthenticationController extends Controller
 {
@@ -36,11 +31,11 @@ final class CookieAuthenticationController extends Controller
             'name.unique' => '他のお客様が既にこの名前を登録しています｡他のお名前をご検討ください',
             'age.required' => '年齢を入力してください',
             'age.numeric' => '整数で入力してください',
-            'email.required'=> 'メールアドレスを入力してください',
-            'email.string'=> 'メールアドレスが正しい入力ではありません',
-            'email.email'=> 'メールアドレスが正しい入力ではありません',
-            'email.max'=> 'メールアドレスを255文字以内で入力してください',
-            'email.unique'=> '他のお客様が既にこのメールアドレスを登録しています｡他のメールアドレスをご検討ください',
+            'email.required' => 'メールアドレスを入力してください',
+            'email.string' => 'メールアドレスが正しい入力ではありません',
+            'email.email' => 'メールアドレスが正しい入力ではありません',
+            'email.max' => 'メールアドレスを255文字以内で入力してください',
+            'email.unique' => '他のお客様が既にこのメールアドレスを登録しています｡他のメールアドレスをご検討ください',
             'password.required' => 'パスワードを入力してください',
             'password.string' => 'パスワードが正しい入力ではありません',
             'password.min' => 'パスワードは8文字以上で入力する必要があります',
@@ -48,9 +43,9 @@ final class CookieAuthenticationController extends Controller
         /** @var Illuminate\Validation\Validator $validator */
         $validator = Validator::make($request->all(), $rulus, $message);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             $response['errors'] = $validator->errors()->toArray();
-            throw new HttpResponseException( response()->json( $response, 422 ));
+            throw new HttpResponseException(response()->json($response, 422));
         }
 
         $user = User::create([
@@ -66,12 +61,13 @@ final class CookieAuthenticationController extends Controller
 
     /**
      * @param Request $request
-     * @return JsonResponse
      * @throws Exception
+     * @return JsonResponse
      */
     public function login(Request $request): JsonResponse
     {
         $credentials = $request->only('email', 'password');
+
         if (Auth::guard('web')->attempt($credentials)) {
             $request->session()->regenerate();
             return new JsonResponse(Auth::user()['name']);
@@ -92,5 +88,4 @@ final class CookieAuthenticationController extends Controller
 
         return new JsonResponse(['message' => 'ログアウトしました']);
     }
-
 }

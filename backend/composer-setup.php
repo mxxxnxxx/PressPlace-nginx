@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of Composer.
  *
@@ -11,14 +13,14 @@
  */
 
 setupEnvironment();
-process(is_array($argv) ? $argv : array());
+process(is_array($argv) ? $argv : []);
 
 /**
- * Initializes various values
+ * Initializes various values.
  *
  * @throws RuntimeException If uopz extension prevents exit calls
  */
-function setupEnvironment()
+function setupEnvironment(): void
 {
     ini_set('display_errors', 1);
 
@@ -43,9 +45,10 @@ function setupEnvironment()
 }
 
 /**
- * Processes the installer
+ * Processes the installer.
+ * @param mixed $argv
  */
-function process($argv)
+function process($argv): void
 {
     // Determine ANSI output from --ansi and --no-ansi flags
     setUseAnsi($argv);
@@ -55,11 +58,12 @@ function process($argv)
         exit(0);
     }
 
-    $check      = in_array('--check', $argv);
-    $help       = in_array('--help', $argv);
-    $force      = in_array('--force', $argv);
-    $quiet      = in_array('--quiet', $argv);
-    $channel    = 'stable';
+    $check = in_array('--check', $argv);
+    $help = in_array('--help', $argv);
+    $force = in_array('--force', $argv);
+    $quiet = in_array('--quiet', $argv);
+    $channel = 'stable';
+
     if (in_array('--snapshot', $argv)) {
         $channel = 'snapshot';
     } elseif (in_array('--preview', $argv)) {
@@ -71,9 +75,9 @@ function process($argv)
     }
     $disableTls = in_array('--disable-tls', $argv);
     $installDir = getOptValue('--install-dir', $argv, false);
-    $version    = getOptValue('--version', $argv, false);
-    $filename   = getOptValue('--filename', $argv, 'composer.phar');
-    $cafile     = getOptValue('--cafile', $argv, false);
+    $version = getOptValue('--version', $argv, false);
+    $filename = getOptValue('--filename', $argv, 'composer.phar');
+    $cafile = getOptValue('--cafile', $argv, false);
 
     if (!checkParams($installDir, $version, $cafile)) {
         exit(1);
@@ -92,6 +96,7 @@ function process($argv)
 
     if ($ok || $force) {
         $installer = new Installer($quiet, $disableTls, $cafile);
+
         if ($installer->run($version, $installDir, $filename, $channel)) {
             showWarnings($warnings);
             showSecurityWarning($disableTls);
@@ -103,11 +108,11 @@ function process($argv)
 }
 
 /**
- * Displays the help
+ * Displays the help.
  */
-function displayHelp()
+function displayHelp(): void
 {
-    echo <<<EOF
+    echo <<<'EOF'
 Composer Installer
 ------------------
 Options
@@ -131,11 +136,11 @@ EOF;
 }
 
 /**
- * Sets the USE_ANSI define for colorizing output
+ * Sets the USE_ANSI define for colorizing output.
  *
  * @param array $argv Command-line arguments
  */
-function setUseAnsi($argv)
+function setUseAnsi($argv): void
 {
     // --no-ansi wins over --ansi
     if (in_array('--no-ansi', $argv)) {
@@ -148,18 +153,18 @@ function setUseAnsi($argv)
         define(
             'USE_ANSI',
             (DIRECTORY_SEPARATOR == '\\')
-                ? (false !== getenv('ANSICON') || 'ON' === getenv('ConEmuANSI'))
+                ? (getenv('ANSICON') !== false || getenv('ConEmuANSI') === 'ON')
                 : (function_exists('posix_isatty') && posix_isatty(1))
         );
     }
 }
 
 /**
- * Returns the value of a command-line option
+ * Returns the value of a command-line option.
  *
- * @param string $opt The command-line option to check
- * @param array $argv Command-line arguments
- * @param mixed $default Default value to be returned
+ * @param string $opt     The command-line option to check
+ * @param array  $argv    Command-line arguments
+ * @param mixed  $default Default value to be returned
  *
  * @return mixed The command-line value or the default
  */
@@ -169,12 +174,12 @@ function getOptValue($opt, $argv, $default)
 
     foreach ($argv as $key => $value) {
         $next = $key + 1;
-        if (0 === strpos($value, $opt)) {
+
+        if (strpos($value, $opt) === 0) {
             if ($optLength === strlen($value) && isset($argv[$next])) {
                 return trim($argv[$next]);
-            } else {
-                return trim(substr($value, $optLength + 1));
             }
+            return trim(substr($value, $optLength + 1));
         }
     }
 
@@ -182,11 +187,11 @@ function getOptValue($opt, $argv, $default)
 }
 
 /**
- * Checks that user-supplied params are valid
+ * Checks that user-supplied params are valid.
  *
  * @param mixed $installDir The required istallation directory
- * @param mixed $version The required composer version to install
- * @param mixed $cafile Certificate Authority file
+ * @param mixed $version    The required composer version to install
+ * @param mixed $cafile     Certificate Authority file
  *
  * @return bool True if the supplied params are okay
  */
@@ -194,17 +199,17 @@ function checkParams($installDir, $version, $cafile)
 {
     $result = true;
 
-    if (false !== $installDir && !is_dir($installDir)) {
+    if ($installDir !== false && !is_dir($installDir)) {
         out("The defined install dir ({$installDir}) does not exist.", 'info');
         $result = false;
     }
 
-    if (false !== $version && 1 !== preg_match('/^\d+\.\d+\.\d+(\-(alpha|beta|RC)\d*)*$/', $version)) {
+    if ($version !== false && preg_match('/^\d+\.\d+\.\d+(\-(alpha|beta|RC)\d*)*$/', $version) !== 1) {
         out("The defined install version ({$version}) does not match release pattern.", 'info');
         $result = false;
     }
 
-    if (false !== $cafile && (!file_exists($cafile) || !is_readable($cafile))) {
+    if ($cafile !== false && (!file_exists($cafile) || !is_readable($cafile))) {
         out("The defined Certificate Authority (CA) cert file ({$cafile}) does not exist or is not readable.", 'info');
         $result = false;
     }
@@ -212,14 +217,14 @@ function checkParams($installDir, $version, $cafile)
 }
 
 /**
- * Checks the platform for possible issues running Composer
+ * Checks the platform for possible issues running Composer.
  *
  * Errors are written to the output, warnings are saved for later display.
  *
- * @param array $warnings Populated by method, to be shown later
- * @param bool $quiet Quiet mode
- * @param bool $disableTls Bypass tls
- * @param bool $install If we are installing, rather than diagnosing
+ * @param array $warnings   Populated by method, to be shown later
+ * @param bool  $quiet      Quiet mode
+ * @param bool  $disableTls Bypass tls
+ * @param bool  $install    If we are installing, rather than diagnosing
  *
  * @return bool True if there are no errors
  */
@@ -248,120 +253,121 @@ function checkPlatform(&$warnings, $quiet, $disableTls, $install)
 }
 
 /**
- * Checks platform configuration for common incompatibility issues
+ * Checks platform configuration for common incompatibility issues.
  *
- * @param array $errors Populated by method
+ * @param array $errors   Populated by method
  * @param array $warnings Populated by method
- * @param bool $install If we are installing, rather than diagnosing
+ * @param bool  $install  If we are installing, rather than diagnosing
  *
  * @return bool If any errors or warnings have been found
  */
 function getPlatformIssues(&$errors, &$warnings, $install)
 {
-    $errors = array();
-    $warnings = array();
+    $errors = [];
+    $warnings = [];
 
     if ($iniPath = php_ini_loaded_file()) {
-        $iniMessage = PHP_EOL.'The php.ini used by your command-line PHP is: ' . $iniPath;
+        $iniMessage = PHP_EOL . 'The php.ini used by your command-line PHP is: ' . $iniPath;
     } else {
-        $iniMessage = PHP_EOL.'A php.ini file does not exist. You will have to create one.';
+        $iniMessage = PHP_EOL . 'A php.ini file does not exist. You will have to create one.';
     }
-    $iniMessage .= PHP_EOL.'If you can not modify the ini file, you can also run `php -d option=value` to modify ini values on the fly. You can use -d multiple times.';
+    $iniMessage .= PHP_EOL . 'If you can not modify the ini file, you can also run `php -d option=value` to modify ini values on the fly. You can use -d multiple times.';
 
     if (ini_get('detect_unicode')) {
-        $errors['unicode'] = array(
+        $errors['unicode'] = [
             'The detect_unicode setting must be disabled.',
             'Add the following to the end of your `php.ini`:',
             '    detect_unicode = Off',
-            $iniMessage
-        );
+            $iniMessage,
+        ];
     }
 
     if (extension_loaded('suhosin')) {
         $suhosin = ini_get('suhosin.executor.include.whitelist');
         $suhosinBlacklist = ini_get('suhosin.executor.include.blacklist');
-        if (false === stripos($suhosin, 'phar') && (!$suhosinBlacklist || false !== stripos($suhosinBlacklist, 'phar'))) {
-            $errors['suhosin'] = array(
+
+        if (stripos($suhosin, 'phar') === false && (!$suhosinBlacklist || stripos($suhosinBlacklist, 'phar') !== false)) {
+            $errors['suhosin'] = [
                 'The suhosin.executor.include.whitelist setting is incorrect.',
                 'Add the following to the end of your `php.ini` or suhosin.ini (Example path [for Debian]: /etc/php5/cli/conf.d/suhosin.ini):',
-                '    suhosin.executor.include.whitelist = phar '.$suhosin,
-                $iniMessage
-            );
+                '    suhosin.executor.include.whitelist = phar ' . $suhosin,
+                $iniMessage,
+            ];
         }
     }
 
     if (!function_exists('json_decode')) {
-        $errors['json'] = array(
+        $errors['json'] = [
             'The json extension is missing.',
-            'Install it or recompile php without --disable-json'
-        );
+            'Install it or recompile php without --disable-json',
+        ];
     }
 
     if (!extension_loaded('Phar')) {
-        $errors['phar'] = array(
+        $errors['phar'] = [
             'The phar extension is missing.',
-            'Install it or recompile php without --disable-phar'
-        );
+            'Install it or recompile php without --disable-phar',
+        ];
     }
 
     if (!extension_loaded('filter')) {
-        $errors['filter'] = array(
+        $errors['filter'] = [
             'The filter extension is missing.',
-            'Install it or recompile php without --disable-filter'
-        );
+            'Install it or recompile php without --disable-filter',
+        ];
     }
 
     if (!extension_loaded('hash')) {
-        $errors['hash'] = array(
+        $errors['hash'] = [
             'The hash extension is missing.',
-            'Install it or recompile php without --disable-hash'
-        );
+            'Install it or recompile php without --disable-hash',
+        ];
     }
 
     if (!extension_loaded('iconv') && !extension_loaded('mbstring')) {
-        $errors['iconv_mbstring'] = array(
+        $errors['iconv_mbstring'] = [
             'The iconv OR mbstring extension is required and both are missing.',
-            'Install either of them or recompile php without --disable-iconv'
-        );
+            'Install either of them or recompile php without --disable-iconv',
+        ];
     }
 
     if (!ini_get('allow_url_fopen')) {
-        $errors['allow_url_fopen'] = array(
+        $errors['allow_url_fopen'] = [
             'The allow_url_fopen setting is incorrect.',
             'Add the following to the end of your `php.ini`:',
             '    allow_url_fopen = On',
-            $iniMessage
-        );
+            $iniMessage,
+        ];
     }
 
     if (extension_loaded('ionCube Loader') && ioncube_loader_iversion() < 40009) {
         $ioncube = ioncube_loader_version();
-        $errors['ioncube'] = array(
-            'Your ionCube Loader extension ('.$ioncube.') is incompatible with Phar files.',
+        $errors['ioncube'] = [
+            'Your ionCube Loader extension (' . $ioncube . ') is incompatible with Phar files.',
             'Upgrade to ionCube 4.0.9 or higher or remove this line (path may be different) from your `php.ini` to disable it:',
             '    zend_extension = /usr/lib/php5/20090626+lfs/ioncube_loader_lin_5.3.so',
-            $iniMessage
-        );
+            $iniMessage,
+        ];
     }
 
     if (version_compare(PHP_VERSION, '5.3.2', '<')) {
-        $errors['php'] = array(
-            'Your PHP ('.PHP_VERSION.') is too old, you must upgrade to PHP 5.3.2 or higher.'
-        );
+        $errors['php'] = [
+            'Your PHP (' . PHP_VERSION . ') is too old, you must upgrade to PHP 5.3.2 or higher.',
+        ];
     }
 
     if (version_compare(PHP_VERSION, '5.3.4', '<')) {
-        $warnings['php'] = array(
-            'Your PHP ('.PHP_VERSION.') is quite old, upgrading to PHP 5.3.4 or higher is recommended.',
-            'Composer works with 5.3.2+ for most people, but there might be edge case issues.'
-        );
+        $warnings['php'] = [
+            'Your PHP (' . PHP_VERSION . ') is quite old, upgrading to PHP 5.3.4 or higher is recommended.',
+            'Composer works with 5.3.2+ for most people, but there might be edge case issues.',
+        ];
     }
 
     if (!extension_loaded('openssl')) {
-        $warnings['openssl'] = array(
+        $warnings['openssl'] = [
             'The openssl extension is missing, which means that secure HTTPS transfers are impossible.',
-            'If possible you should enable it or recompile php with --with-openssl'
-        );
+            'If possible you should enable it or recompile php with --with-openssl',
+        ];
     }
 
     if (extension_loaded('openssl') && OPENSSL_VERSION_NUMBER < 0x1000100f) {
@@ -370,103 +376,103 @@ function getPlatformIssues(&$errors, &$warnings, $install)
         $opensslVersion = substr($opensslVersion, 0, strpos($opensslVersion, ' '));
         $opensslVersion = $opensslVersion ? $opensslVersion : OPENSSL_VERSION_TEXT;
 
-        $warnings['openssl_version'] = array(
-            'The OpenSSL library ('.$opensslVersion.') used by PHP does not support TLSv1.2 or TLSv1.1.',
-            'If possible you should upgrade OpenSSL to version 1.0.1 or above.'
-        );
+        $warnings['openssl_version'] = [
+            'The OpenSSL library (' . $opensslVersion . ') used by PHP does not support TLSv1.2 or TLSv1.1.',
+            'If possible you should upgrade OpenSSL to version 1.0.1 or above.',
+        ];
     }
 
     if (!defined('HHVM_VERSION') && !extension_loaded('apcu') && ini_get('apc.enable_cli')) {
-        $warnings['apc_cli'] = array(
+        $warnings['apc_cli'] = [
             'The apc.enable_cli setting is incorrect.',
             'Add the following to the end of your `php.ini`:',
             '    apc.enable_cli = Off',
-            $iniMessage
-        );
+            $iniMessage,
+        ];
     }
 
     if (!$install && extension_loaded('xdebug')) {
-        $warnings['xdebug_loaded'] = array(
+        $warnings['xdebug_loaded'] = [
             'The xdebug extension is loaded, this can slow down Composer a little.',
-            'Disabling it when using Composer is recommended.'
-        );
+            'Disabling it when using Composer is recommended.',
+        ];
 
         if (ini_get('xdebug.profiler_enabled')) {
-            $warnings['xdebug_profile'] = array(
+            $warnings['xdebug_profile'] = [
                 'The xdebug.profiler_enabled setting is enabled, this can slow down Composer a lot.',
                 'Add the following to the end of your `php.ini` to disable it:',
                 '    xdebug.profiler_enabled = 0',
-                $iniMessage
-            );
+                $iniMessage,
+            ];
         }
     }
 
     if (!extension_loaded('zlib')) {
-        $warnings['zlib'] = array(
+        $warnings['zlib'] = [
             'The zlib extension is not loaded, this can slow down Composer a lot.',
             'If possible, install it or recompile php with --with-zlib',
-            $iniMessage
-        );
+            $iniMessage,
+        ];
     }
 
     if (defined('PHP_WINDOWS_VERSION_BUILD')
         && (version_compare(PHP_VERSION, '7.2.23', '<')
         || (version_compare(PHP_VERSION, '7.3.0', '>=')
         && version_compare(PHP_VERSION, '7.3.10', '<')))) {
-        $warnings['onedrive'] = array(
+        $warnings['onedrive'] = [
             'The Windows OneDrive folder is not supported on PHP versions below 7.2.23 and 7.3.10.',
-            'Upgrade your PHP ('.PHP_VERSION.') to use this location with Composer.'
-        );
+            'Upgrade your PHP (' . PHP_VERSION . ') to use this location with Composer.',
+        ];
     }
 
     if (extension_loaded('uopz') && !(ini_get('uopz.disable') || ini_get('uopz.exit'))) {
-        $warnings['uopz'] = array(
+        $warnings['uopz'] = [
             'The uopz extension ignores exit calls and may not work with all Composer commands.',
-            'Disabling it when using Composer is recommended.'
-        );
+            'Disabling it when using Composer is recommended.',
+        ];
     }
 
     ob_start();
     phpinfo(INFO_GENERAL);
     $phpinfo = ob_get_clean();
+
     if (preg_match('{Configure Command(?: *</td><td class="v">| *=> *)(.*?)(?:</td>|$)}m', $phpinfo, $match)) {
         $configure = $match[1];
 
-        if (false !== strpos($configure, '--enable-sigchild')) {
-            $warnings['sigchild'] = array(
+        if (strpos($configure, '--enable-sigchild') !== false) {
+            $warnings['sigchild'] = [
                 'PHP was compiled with --enable-sigchild which can cause issues on some platforms.',
                 'Recompile it without this flag if possible, see also:',
-                '    https://bugs.php.net/bug.php?id=22999'
-            );
+                '    https://bugs.php.net/bug.php?id=22999',
+            ];
         }
 
-        if (false !== strpos($configure, '--with-curlwrappers')) {
-            $warnings['curlwrappers'] = array(
+        if (strpos($configure, '--with-curlwrappers') !== false) {
+            $warnings['curlwrappers'] = [
                 'PHP was compiled with --with-curlwrappers which will cause issues with HTTP authentication and GitHub.',
-                'Recompile it without this flag if possible'
-            );
+                'Recompile it without this flag if possible',
+            ];
         }
     }
 
     // Stringify the message arrays
     foreach ($errors as $key => $value) {
-        $errors[$key] = PHP_EOL.implode(PHP_EOL, $value);
+        $errors[$key] = PHP_EOL . implode(PHP_EOL, $value);
     }
 
     foreach ($warnings as $key => $value) {
-        $warnings[$key] = PHP_EOL.implode(PHP_EOL, $value);
+        $warnings[$key] = PHP_EOL . implode(PHP_EOL, $value);
     }
 
     return !empty($errors) || !empty($warnings);
 }
 
-
 /**
- * Outputs an array of issues
+ * Outputs an array of issues.
  *
  * @param array $issues
  */
-function outputIssues($issues)
+function outputIssues($issues): void
 {
     foreach ($issues as $issue) {
         out($issue, 'info');
@@ -475,11 +481,11 @@ function outputIssues($issues)
 }
 
 /**
- * Outputs any warnings found
+ * Outputs any warnings found.
  *
  * @param array $warnings
  */
-function showWarnings($warnings)
+function showWarnings($warnings): void
 {
     if (!empty($warnings)) {
         out('Some settings on your machine may cause stability issues with Composer.', 'error');
@@ -489,11 +495,11 @@ function showWarnings($warnings)
 }
 
 /**
- * Outputs an end of process warning if tls has been bypassed
+ * Outputs an end of process warning if tls has been bypassed.
  *
  * @param bool $disableTls Bypass tls
  */
-function showSecurityWarning($disableTls)
+function showSecurityWarning($disableTls): void
 {
     if ($disableTls) {
         out('You have instructed the Installer not to enforce SSL/TLS security on remote HTTPS requests.', 'info');
@@ -502,15 +508,18 @@ function showSecurityWarning($disableTls)
 }
 
 /**
- * colorize output
+ * colorize output.
+ * @param mixed      $text
+ * @param null|mixed $color
+ * @param mixed      $newLine
  */
-function out($text, $color = null, $newLine = true)
+function out($text, $color = null, $newLine = true): void
 {
-    $styles = array(
+    $styles = [
         'success' => "\033[0;32m%s\033[0m",
         'error' => "\033[31;31m%s\033[0m",
-        'info' => "\033[33;33m%s\033[0m"
-    );
+        'info' => "\033[33;33m%s\033[0m",
+    ];
 
     $format = '%s';
 
@@ -526,13 +535,14 @@ function out($text, $color = null, $newLine = true)
 }
 
 /**
- * Returns the system-dependent Composer home location, which may not exist
+ * Returns the system-dependent Composer home location, which may not exist.
  *
  * @return string
  */
 function getHomeDir()
 {
     $home = getenv('COMPOSER_HOME');
+
     if ($home) {
         return $home;
     }
@@ -540,14 +550,15 @@ function getHomeDir()
     $userDir = getUserDir();
 
     if (defined('PHP_WINDOWS_VERSION_MAJOR')) {
-        return $userDir.'/Composer';
+        return $userDir . '/Composer';
     }
 
-    $dirs = array();
+    $dirs = [];
 
     if (useXdg()) {
         // XDG Base Directory Specifications
         $xdgConfig = getenv('XDG_CONFIG_HOME');
+
         if (!$xdgConfig) {
             $xdgConfig = $userDir . '/.config';
         }
@@ -569,7 +580,7 @@ function getHomeDir()
 }
 
 /**
- * Returns the location of the user directory from the environment
+ * Returns the location of the user directory from the environment.
  * @throws RuntimeException If the environment value does not exists
  *
  * @return string
@@ -580,7 +591,7 @@ function getUserDir()
     $userDir = getenv($userEnv);
 
     if (!$userDir) {
-        throw new RuntimeException('The '.$userEnv.' or COMPOSER_HOME environment variable must be set for composer to run correctly');
+        throw new RuntimeException('The ' . $userEnv . ' or COMPOSER_HOME environment variable must be set for composer to run correctly');
     }
 
     return rtrim(strtr($userDir, '\\', '/'), '/');
@@ -622,25 +633,38 @@ function validateCaFile($contents)
 class Installer
 {
     private $quiet;
+
     private $disableTls;
+
     private $cafile;
+
     private $displayPath;
+
     private $target;
+
     private $tmpFile;
+
     private $tmpCafile;
+
     private $baseUrl;
+
     private $algo;
+
     private $errHandler;
+
     private $httpClient;
-    private $pubKeys = array();
-    private $installs = array();
+
+    private $pubKeys = [];
+
+    private $installs = [];
 
     /**
-     * Constructor - must not do anything that throws an exception
+     * Constructor - must not do anything that throws an exception.
      *
-     * @param bool $quiet Quiet mode
-     * @param bool $disableTls Bypass tls
-     * @param mixed $cafile Path to CA bundle, or false
+     * @param bool  $quiet      Quiet mode
+     * @param bool  $disableTls Bypass tls
+     * @param mixed $cafile     Path to CA bundle, or false
+     * @param mixed $caFile
      */
     public function __construct($quiet, $disableTls, $caFile)
     {
@@ -653,12 +677,12 @@ class Installer
     }
 
     /**
-     * Runs the installer
+     * Runs the installer.
      *
-     * @param mixed $version Specific version to install, or false
-     * @param mixed $installDir Specific installation directory, or false
-     * @param string $filename Specific filename to save to, or composer.phar
-     * @param string $channel Specific version channel to use
+     * @param mixed  $version    Specific version to install, or false
+     * @param mixed  $installDir Specific installation directory, or false
+     * @param string $filename   Specific filename to save to, or composer.phar
+     * @param string $channel    Specific version channel to use
      * @throws Exception If anything other than a RuntimeException is caught
      *
      * @return bool If the installation succeeded
@@ -678,7 +702,7 @@ class Installer
 
             if ($result && $channel !== 'stable' && !$version && defined('PHP_BINARY')) {
                 $null = (defined('PHP_WINDOWS_VERSION_MAJOR') ? 'NUL' : '/dev/null');
-                @exec(escapeshellarg(PHP_BINARY) .' '.escapeshellarg($this->target).' self-update --'.$channel.' --set-channel-only -q > '.$null.' 2> '.$null, $output);
+                @exec(escapeshellarg(PHP_BINARY) . ' ' . escapeshellarg($this->target) . ' self-update --' . $channel . ' --set-channel-only -q > ' . $null . ' 2> ' . $null, $output);
             }
         } catch (Exception $e) {
             $result = false;
@@ -697,34 +721,74 @@ class Installer
         return $result;
     }
 
-    /**
-     * Initialization methods to set the required filenames and composer url
-     *
-     * @param mixed $installDir Specific installation directory, or false
-     * @param string $filename Specific filename to save to, or composer.phar
-     * @throws RuntimeException If the installation directory is not writable
-     */
-    protected function initTargets($installDir, $filename)
+    public static function getPKDev()
     {
-        $this->displayPath = ($installDir ? rtrim($installDir, '/').'/' : '').$filename;
-        $installDir = $installDir ? realpath($installDir) : getcwd();
+        return <<<'PKDEV'
+-----BEGIN PUBLIC KEY-----
+MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAnBDHjZS6e0ZMoK3xTD7f
+FNCzlXjX/Aie2dit8QXA03pSrOTbaMnxON3hUL47Lz3g1SC6YJEMVHr0zYq4elWi
+i3ecFEgzLcj+pZM5X6qWu2Ozz4vWx3JYo1/a/HYdOuW9e3lwS8VtS0AVJA+U8X0A
+hZnBmGpltHhO8hPKHgkJtkTUxCheTcbqn4wGHl8Z2SediDcPTLwqezWKUfrYzu1f
+o/j3WFwFs6GtK4wdYtiXr+yspBZHO3y1udf8eFFGcb2V3EaLOrtfur6XQVizjOuk
+8lw5zzse1Qp/klHqbDRsjSzJ6iL6F4aynBc6Euqt/8ccNAIz0rLjLhOraeyj4eNn
+8iokwMKiXpcrQLTKH+RH1JCuOVxQ436bJwbSsp1VwiqftPQieN+tzqy+EiHJJmGf
+TBAbWcncicCk9q2md+AmhNbvHO4PWbbz9TzC7HJb460jyWeuMEvw3gNIpEo2jYa9
+pMV6cVqnSa+wOc0D7pC9a6bne0bvLcm3S+w6I5iDB3lZsb3A9UtRiSP7aGSo7D72
+8tC8+cIgZcI7k9vjvOqH+d7sdOU2yPCnRY6wFh62/g8bDnUpr56nZN1G89GwM4d4
+r/TU7BQQIzsZgAiqOGXvVklIgAMiV0iucgf3rNBLjjeNEwNSTTG9F0CtQ+7JLwaE
+wSEuAuRm+pRqi8BRnQ/GKUcCAwEAAQ==
+-----END PUBLIC KEY-----
+PKDEV;
+    }
 
-        if (!is_writeable($installDir)) {
-            throw new RuntimeException('The installation directory "'.$installDir.'" is not writable');
-        }
-
-        $this->target = $installDir.DIRECTORY_SEPARATOR.$filename;
-        $this->tmpFile = $installDir.DIRECTORY_SEPARATOR.basename($this->target, '.phar').'-temp.phar';
-
-        $uriScheme = $this->disableTls ? 'http' : 'https';
-        $this->baseUrl = $uriScheme.'://getcomposer.org';
+    public static function getPKTags()
+    {
+        return <<<'PKTAGS'
+-----BEGIN PUBLIC KEY-----
+MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA0Vi/2K6apCVj76nCnCl2
+MQUPdK+A9eqkYBacXo2wQBYmyVlXm2/n/ZsX6pCLYPQTHyr5jXbkQzBw8SKqPdlh
+vA7NpbMeNCz7wP/AobvUXM8xQuXKbMDTY2uZ4O7sM+PfGbptKPBGLe8Z8d2sUnTO
+bXtX6Lrj13wkRto7st/w/Yp33RHe9SlqkiiS4MsH1jBkcIkEHsRaveZzedUaxY0M
+mba0uPhGUInpPzEHwrYqBBEtWvP97t2vtfx8I5qv28kh0Y6t+jnjL1Urid2iuQZf
+noCMFIOu4vksK5HxJxxrN0GOmGmwVQjOOtxkwikNiotZGPR4KsVj8NnBrLX7oGuM
+nQvGciiu+KoC2r3HDBrpDeBVdOWxDzT5R4iI0KoLzFh2pKqwbY+obNPS2bj+2dgJ
+rV3V5Jjry42QOCBN3c88wU1PKftOLj2ECpewY6vnE478IipiEu7EAdK8Zwj2LmTr
+RKQUSa9k7ggBkYZWAeO/2Ag0ey3g2bg7eqk+sHEq5ynIXd5lhv6tC5PBdHlWipDK
+tl2IxiEnejnOmAzGVivE1YGduYBjN+mjxDVy8KGBrjnz1JPgAvgdwJ2dYw4Rsc/e
+TzCFWGk/HM6a4f0IzBWbJ5ot0PIi4amk07IotBXDWwqDiQTwyuGCym5EqWQ2BD95
+RGv89BPD+2DLnJysngsvVaUCAwEAAQ==
+-----END PUBLIC KEY-----
+PKTAGS;
     }
 
     /**
-     * A wrapper around methods to check tls and write public keys
+     * Initialization methods to set the required filenames and composer url.
+     *
+     * @param mixed  $installDir Specific installation directory, or false
+     * @param string $filename   Specific filename to save to, or composer.phar
+     * @throws RuntimeException If the installation directory is not writable
+     */
+    protected function initTargets($installDir, $filename): void
+    {
+        $this->displayPath = ($installDir ? rtrim($installDir, '/') . '/' : '') . $filename;
+        $installDir = $installDir ? realpath($installDir) : getcwd();
+
+        if (!is_writable($installDir)) {
+            throw new RuntimeException('The installation directory "' . $installDir . '" is not writable');
+        }
+
+        $this->target = $installDir . DIRECTORY_SEPARATOR . $filename;
+        $this->tmpFile = $installDir . DIRECTORY_SEPARATOR . basename($this->target, '.phar') . '-temp.phar';
+
+        $uriScheme = $this->disableTls ? 'http' : 'https';
+        $this->baseUrl = $uriScheme . '://getcomposer.org';
+    }
+
+    /**
+     * A wrapper around methods to check tls and write public keys.
      * @throws RuntimeException If SHA384 is not supported
      */
-    protected function initTls()
+    protected function initTls(): void
     {
         if ($this->disableTls) {
             return;
@@ -737,10 +801,10 @@ class Installer
         $this->algo = defined('OPENSSL_ALGO_SHA384') ? OPENSSL_ALGO_SHA384 : 'SHA384';
         $home = $this->getComposerHome();
 
-        $this->pubKeys = array(
+        $this->pubKeys = [
             'dev' => $this->installKey(self::getPKDev(), $home, 'keys.dev.pub'),
-            'tags' => $this->installKey(self::getPKTags(), $home, 'keys.tags.pub')
-        );
+            'tags' => $this->installKey(self::getPKTags(), $home, 'keys.tags.pub'),
+        ];
 
         if (empty($this->cafile) && !HttpClient::getSystemCaRootBundlePath()) {
             $this->cafile = $this->tmpCafile = $this->installKey(HttpClient::getPackagedCaFile(), $home, 'cacert-temp.pem');
@@ -748,7 +812,7 @@ class Installer
     }
 
     /**
-     * Returns the Composer home directory, creating it if required
+     * Returns the Composer home directory, creating it if required.
      * @throws RuntimeException If the directory cannot be created
      *
      * @return string
@@ -774,10 +838,10 @@ class Installer
     }
 
     /**
-     * Writes public key data to disc
+     * Writes public key data to disc.
      *
-     * @param string $data The public key(s) in pem format
-     * @param string $path The directory to write to
+     * @param string $data     The public key(s) in pem format
+     * @param string $path     The directory to write to
      * @param string $filename The name of the file
      * @throws RuntimeException If the file cannot be written
      *
@@ -787,7 +851,7 @@ class Installer
     {
         $this->errHandler->start();
 
-        $target = $path.DIRECTORY_SEPARATOR.$filename;
+        $target = $path . DIRECTORY_SEPARATOR . $filename;
         $installed = file_exists($target);
         $write = file_put_contents($target, $data, LOCK_EX);
         @chmod($target, 0644);
@@ -806,9 +870,9 @@ class Installer
     }
 
     /**
-     * The main install function
+     * The main install function.
      *
-     * @param mixed $version Specific version to install, or false
+     * @param mixed  $version Specific version to install, or false
      * @param string $channel Version channel to use
      *
      * @return bool If the installation succeeded
@@ -848,7 +912,7 @@ class Installer
 
         if (!$this->quiet) {
             if ($result) {
-                out(PHP_EOL."Composer (version {$version}) successfully installed to: {$this->target}", 'success');
+                out(PHP_EOL . "Composer (version {$version}) successfully installed to: {$this->target}", 'success');
                 out("Use it: php {$this->displayPath}", 'info');
                 out('');
             } else {
@@ -859,12 +923,12 @@ class Installer
     }
 
     /**
-     * Sets the version url, downloading version data if required
+     * Sets the version url, downloading version data if required.
      *
-     * @param string $channel Version channel to use
+     * @param string       $channel Version channel to use
      * @param false|string $version Version to install, or set by method
-     * @param null|string $url The versioned url, set by method
-     * @param null|string $error Set by method on failure
+     * @param null|string  $url     The versioned url, set by method
+     * @param null|string  $error   Set by method on failure
      *
      * @return bool If the operation succeeded
      */
@@ -874,7 +938,7 @@ class Installer
 
         if ($version) {
             if (empty($url)) {
-                $url = $this->baseUrl."/download/{$version}/composer.phar";
+                $url = $this->baseUrl . "/download/{$version}/composer.phar";
             }
             return true;
         }
@@ -890,16 +954,16 @@ class Installer
     }
 
     /**
-     * Downloads and json-decodes version data
+     * Downloads and json-decodes version data.
      *
-     * @param null|array $data Downloaded version data, set by method
+     * @param null|array  $data  Downloaded version data, set by method
      * @param null|string $error Set by method on failure
      *
      * @return bool If the operation succeeded
      */
     protected function downloadVersionData(&$data, &$error)
     {
-        $url = $this->baseUrl.'/versions';
+        $url = $this->baseUrl . '/versions';
         $errFmt = 'The "%s" file could not be %s: %s';
 
         if (!$json = $this->httpClient->get($url)) {
@@ -915,11 +979,11 @@ class Installer
     }
 
     /**
-     * A wrapper around the methods needed to download and save the phar
+     * A wrapper around the methods needed to download and save the phar.
      *
-     * @param string $url The versioned download url
+     * @param string      $url       The versioned download url
      * @param null|string $signature Set by method on successful download
-     * @param null|string $error Set by method on failure
+     * @param null|string $error     Set by method on failure
      *
      * @return bool If the operation succeeded
      */
@@ -927,15 +991,13 @@ class Installer
     {
         $error = '';
         $errFmt = 'The "%s" file could not be downloaded: %s';
-        $sigUrl = $url.'.sig';
+        $sigUrl = $url . '.sig';
         $this->errHandler->start();
 
         if (!$fh = fopen($this->tmpFile, 'w')) {
             $error = sprintf('Could not create file "%s": %s', $this->tmpFile, $this->errHandler->message);
-
         } elseif (!$this->getSignature($sigUrl, $signature)) {
             $error = sprintf($errFmt, $sigUrl, $this->errHandler->message);
-
         } elseif (!fwrite($fh, $this->httpClient->get($url))) {
             $error = sprintf($errFmt, $url, $this->errHandler->message);
         }
@@ -948,11 +1010,11 @@ class Installer
     }
 
     /**
-     * Verifies the downloaded file and saves it to the target location
+     * Verifies the downloaded file and saves it to the target location.
      *
-     * @param string $version The composer version downloaded
-     * @param string $signature The digital signature to check
-     * @param null|string $error Set by method on failure
+     * @param string      $version   The composer version downloaded
+     * @param string      $signature The digital signature to check
+     * @param null|string $error     Set by method on failure
      *
      * @return bool If the operation succeeded
      */
@@ -961,11 +1023,9 @@ class Installer
         $error = '';
 
         if (!$this->validatePhar($this->tmpFile, $pharError)) {
-            $error = 'The download is corrupt: '.$pharError;
-
+            $error = 'The download is corrupt: ' . $pharError;
         } elseif (!$this->verifySignature($version, $signature, $this->tmpFile)) {
             $error = 'Signature mismatch, could not verify the phar file integrity';
-
         } else {
             $this->errHandler->start();
 
@@ -980,19 +1040,19 @@ class Installer
     }
 
     /**
-     * Parses an array of version data to match the required channel
+     * Parses an array of version data to match the required channel.
      *
-     * @param array $data Downloaded version data
-     * @param mixed $channel Version channel to use
+     * @param array        $data    Downloaded version data
+     * @param mixed        $channel Version channel to use
      * @param false|string $version Set by method
-     * @param mixed $url The versioned url, set by method
+     * @param mixed        $url     The versioned url, set by method
      */
-    protected function parseVersionData(array $data, $channel, &$version, &$url)
+    protected function parseVersionData(array $data, $channel, &$version, &$url): void
     {
         foreach ($data[$channel] as $candidate) {
             if ($candidate['min-php'] <= PHP_VERSION_ID) {
                 $version = $candidate['version'];
-                $url = $this->baseUrl.$candidate['path'];
+                $url = $this->baseUrl . $candidate['path'];
                 break;
             }
         }
@@ -1010,9 +1070,9 @@ class Installer
     }
 
     /**
-     * Downloads the digital signature of required phar file
+     * Downloads the digital signature of required phar file.
      *
-     * @param string $url The signature url
+     * @param string      $url       The signature url
      * @param null|string $signature Set by method on success
      *
      * @return bool If the download succeeded
@@ -1033,11 +1093,11 @@ class Installer
     }
 
     /**
-     * Verifies the signature of the downloaded phar
+     * Verifies the signature of the downloaded phar.
      *
-     * @param string $version The composer versione
+     * @param string $version   The composer versione
      * @param string $signature The downloaded digital signature
-     * @param string $file The temp phar file
+     * @param string $file      The temp phar file
      *
      * @return bool If the operation succeeded
      */
@@ -1045,14 +1105,14 @@ class Installer
     {
         if (!$result = $this->disableTls) {
             $path = preg_match('{^[0-9a-f]{40}$}', $version) ? $this->pubKeys['dev'] : $this->pubKeys['tags'];
-            $pubkeyid = openssl_pkey_get_public('file://'.$path);
+            $pubkeyid = openssl_pkey_get_public('file://' . $path);
 
-            $result = 1 === openssl_verify(
+            $result = openssl_verify(
                 file_get_contents($file),
                 $signature,
                 $pubkeyid,
                 $this->algo
-            );
+            ) === 1;
 
             // PHP 8 automatically frees the key instance and deprecates the function
             if (PHP_VERSION_ID < 80000) {
@@ -1064,10 +1124,10 @@ class Installer
     }
 
     /**
-     * Validates the downloaded phar file
+     * Validates the downloaded phar file.
      *
-     * @param string $pharFile The temp phar file
-     * @param null|string $error Set by method on failure
+     * @param string      $pharFile The temp phar file
+     * @param null|string $error    Set by method on failure
      *
      * @return bool If the operation succeeded
      */
@@ -1083,7 +1143,6 @@ class Installer
             // Free the variable to unlock the file
             unset($phar);
             $result = true;
-
         } catch (Exception $e) {
             if (!$e instanceof UnexpectedValueException && !$e instanceof PharException) {
                 throw $e;
@@ -1095,7 +1154,7 @@ class Installer
     }
 
     /**
-     * Returns a string representation of the last json error
+     * Returns a string representation of the last json error.
      *
      * @return string The error string or code
      */
@@ -1103,17 +1162,16 @@ class Installer
     {
         if (function_exists('json_last_error_msg')) {
             return json_last_error_msg();
-        } else {
-            return 'json_last_error = '.json_last_error();
         }
+        return 'json_last_error = ' . json_last_error();
     }
 
     /**
-     * Cleans up resources at the end of the installation
+     * Cleans up resources at the end of the installation.
      *
      * @param bool $result If the installation succeeded
      */
-    protected function cleanUp($result)
+    protected function cleanUp($result): void
     {
         if (!$result) {
             // Output buffered errors
@@ -1128,13 +1186,12 @@ class Installer
     }
 
     /**
-     * Outputs unique errors when in quiet mode
-     *
+     * Outputs unique errors when in quiet mode.
      */
-    protected function outputErrors()
+    protected function outputErrors(): void
     {
         $errors = explode(PHP_EOL, ob_get_clean());
-        $shown = array();
+        $shown = [];
 
         foreach ($errors as $error) {
             if ($error && !in_array($error, $shown)) {
@@ -1145,10 +1202,9 @@ class Installer
     }
 
     /**
-     * Uninstalls newly-created files and directories on failure
-     *
+     * Uninstalls newly-created files and directories on failure.
      */
-    protected function uninstall()
+    protected function uninstall(): void
     {
         foreach (array_reverse($this->installs) as $target) {
             if (is_file($target)) {
@@ -1162,60 +1218,21 @@ class Installer
             @unlink($this->tmpFile);
         }
     }
-
-    public static function getPKDev()
-    {
-        return <<<PKDEV
------BEGIN PUBLIC KEY-----
-MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAnBDHjZS6e0ZMoK3xTD7f
-FNCzlXjX/Aie2dit8QXA03pSrOTbaMnxON3hUL47Lz3g1SC6YJEMVHr0zYq4elWi
-i3ecFEgzLcj+pZM5X6qWu2Ozz4vWx3JYo1/a/HYdOuW9e3lwS8VtS0AVJA+U8X0A
-hZnBmGpltHhO8hPKHgkJtkTUxCheTcbqn4wGHl8Z2SediDcPTLwqezWKUfrYzu1f
-o/j3WFwFs6GtK4wdYtiXr+yspBZHO3y1udf8eFFGcb2V3EaLOrtfur6XQVizjOuk
-8lw5zzse1Qp/klHqbDRsjSzJ6iL6F4aynBc6Euqt/8ccNAIz0rLjLhOraeyj4eNn
-8iokwMKiXpcrQLTKH+RH1JCuOVxQ436bJwbSsp1VwiqftPQieN+tzqy+EiHJJmGf
-TBAbWcncicCk9q2md+AmhNbvHO4PWbbz9TzC7HJb460jyWeuMEvw3gNIpEo2jYa9
-pMV6cVqnSa+wOc0D7pC9a6bne0bvLcm3S+w6I5iDB3lZsb3A9UtRiSP7aGSo7D72
-8tC8+cIgZcI7k9vjvOqH+d7sdOU2yPCnRY6wFh62/g8bDnUpr56nZN1G89GwM4d4
-r/TU7BQQIzsZgAiqOGXvVklIgAMiV0iucgf3rNBLjjeNEwNSTTG9F0CtQ+7JLwaE
-wSEuAuRm+pRqi8BRnQ/GKUcCAwEAAQ==
------END PUBLIC KEY-----
-PKDEV;
-    }
-
-    public static function getPKTags()
-    {
-        return <<<PKTAGS
------BEGIN PUBLIC KEY-----
-MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA0Vi/2K6apCVj76nCnCl2
-MQUPdK+A9eqkYBacXo2wQBYmyVlXm2/n/ZsX6pCLYPQTHyr5jXbkQzBw8SKqPdlh
-vA7NpbMeNCz7wP/AobvUXM8xQuXKbMDTY2uZ4O7sM+PfGbptKPBGLe8Z8d2sUnTO
-bXtX6Lrj13wkRto7st/w/Yp33RHe9SlqkiiS4MsH1jBkcIkEHsRaveZzedUaxY0M
-mba0uPhGUInpPzEHwrYqBBEtWvP97t2vtfx8I5qv28kh0Y6t+jnjL1Urid2iuQZf
-noCMFIOu4vksK5HxJxxrN0GOmGmwVQjOOtxkwikNiotZGPR4KsVj8NnBrLX7oGuM
-nQvGciiu+KoC2r3HDBrpDeBVdOWxDzT5R4iI0KoLzFh2pKqwbY+obNPS2bj+2dgJ
-rV3V5Jjry42QOCBN3c88wU1PKftOLj2ECpewY6vnE478IipiEu7EAdK8Zwj2LmTr
-RKQUSa9k7ggBkYZWAeO/2Ag0ey3g2bg7eqk+sHEq5ynIXd5lhv6tC5PBdHlWipDK
-tl2IxiEnejnOmAzGVivE1YGduYBjN+mjxDVy8KGBrjnz1JPgAvgdwJ2dYw4Rsc/e
-TzCFWGk/HM6a4f0IzBWbJ5ot0PIi4amk07IotBXDWwqDiQTwyuGCym5EqWQ2BD95
-RGv89BPD+2DLnJysngsvVaUCAwEAAQ==
------END PUBLIC KEY-----
-PKTAGS;
-    }
 }
 
 class ErrorHandler
 {
     public $message;
+
     protected $active;
 
     /**
-     * Handle php errors
+     * Handle php errors.
      *
      * @param mixed $code The error code
-     * @param mixed $msg The error message
+     * @param mixed $msg  The error message
      */
-    public function handleError($code, $msg)
+    public function handleError($code, $msg): void
     {
         if ($this->message) {
             $this->message .= PHP_EOL;
@@ -1224,25 +1241,25 @@ class ErrorHandler
     }
 
     /**
-     * Starts error-handling if not already active
+     * Starts error-handling if not already active.
      *
      * Any message is cleared
      */
-    public function start()
+    public function start(): void
     {
         if (!$this->active) {
-            set_error_handler(array($this, 'handleError'));
+            set_error_handler([$this, 'handleError']);
             $this->active = true;
         }
         $this->message = '';
     }
 
     /**
-     * Stops error-handling if active
+     * Stops error-handling if active.
      *
      * Any message is preserved until the next call to start()
      */
-    public function stop()
+    public function stop(): void
     {
         if ($this->active) {
             restore_error_handler();
@@ -1254,7 +1271,8 @@ class ErrorHandler
 class NoProxyPattern
 {
     private $composerInNoProxy = false;
-    private $rulePorts = array();
+
+    private $rulePorts = [];
 
     public function __construct($pattern)
     {
@@ -1273,7 +1291,7 @@ class NoProxyPattern
     }
 
     /**
-     * Returns true if NO_PROXY contains getcomposer.org
+     * Returns true if NO_PROXY contains getcomposer.org.
      *
      * @param string $url http(s)://getcomposer.org
      *
@@ -1299,18 +1317,20 @@ class NoProxyPattern
     }
 }
 
-class HttpClient {
+class HttpClient
+{
+    private $options = ['http' => []];
 
-    private $options = array('http' => array());
     private $disableTls = false;
 
     public function __construct($disableTls = false, $cafile = false)
     {
         $this->disableTls = $disableTls;
+
         if ($this->disableTls === false) {
             if (!empty($cafile) && !is_dir($cafile)) {
                 if (!is_readable($cafile) || !validateCaFile(file_get_contents($cafile))) {
-                    throw new RuntimeException('The configured cafile (' .$cafile. ') was not valid or could not be read.');
+                    throw new RuntimeException('The configured cafile (' . $cafile . ') was not valid or could not be read.');
                 }
             }
             $options = $this->getTlsStreamContextDefaults($cafile);
@@ -1325,6 +1345,7 @@ class HttpClient {
 
         if ($result && extension_loaded('zlib')) {
             $decode = false;
+
             foreach ($http_response_header as $header) {
                 if (preg_match('{^content-encoding: *gzip *$}i', $header)) {
                     $decode = true;
@@ -1339,7 +1360,7 @@ class HttpClient {
                     $result = zlib_decode($result);
                 } else {
                     // work around issue with gzuncompress & co that do not work with all gzip checksums
-                    $result = file_get_contents('compress.zlib://data:application/octet-stream;base64,'.base64_encode($result));
+                    $result = file_get_contents('compress.zlib://data:application/octet-stream;base64,' . base64_encode($result));
                 }
 
                 if (!$result) {
@@ -1351,232 +1372,38 @@ class HttpClient {
         return $result;
     }
 
-    protected function getStreamContext($url)
-    {
-        if ($this->disableTls === false) {
-            if (PHP_VERSION_ID < 50600) {
-                $this->options['ssl']['SNI_server_name'] = parse_url($url, PHP_URL_HOST);
-            }
-        }
-        // Keeping the above mostly isolated from the code copied from Composer.
-        return $this->getMergedStreamContext($url);
-    }
-
-    protected function getTlsStreamContextDefaults($cafile)
-    {
-        $ciphers = implode(':', array(
-            'ECDHE-RSA-AES128-GCM-SHA256',
-            'ECDHE-ECDSA-AES128-GCM-SHA256',
-            'ECDHE-RSA-AES256-GCM-SHA384',
-            'ECDHE-ECDSA-AES256-GCM-SHA384',
-            'DHE-RSA-AES128-GCM-SHA256',
-            'DHE-DSS-AES128-GCM-SHA256',
-            'kEDH+AESGCM',
-            'ECDHE-RSA-AES128-SHA256',
-            'ECDHE-ECDSA-AES128-SHA256',
-            'ECDHE-RSA-AES128-SHA',
-            'ECDHE-ECDSA-AES128-SHA',
-            'ECDHE-RSA-AES256-SHA384',
-            'ECDHE-ECDSA-AES256-SHA384',
-            'ECDHE-RSA-AES256-SHA',
-            'ECDHE-ECDSA-AES256-SHA',
-            'DHE-RSA-AES128-SHA256',
-            'DHE-RSA-AES128-SHA',
-            'DHE-DSS-AES128-SHA256',
-            'DHE-RSA-AES256-SHA256',
-            'DHE-DSS-AES256-SHA',
-            'DHE-RSA-AES256-SHA',
-            'AES128-GCM-SHA256',
-            'AES256-GCM-SHA384',
-            'AES128-SHA256',
-            'AES256-SHA256',
-            'AES128-SHA',
-            'AES256-SHA',
-            'AES',
-            'CAMELLIA',
-            'DES-CBC3-SHA',
-            '!aNULL',
-            '!eNULL',
-            '!EXPORT',
-            '!DES',
-            '!RC4',
-            '!MD5',
-            '!PSK',
-            '!aECDH',
-            '!EDH-DSS-DES-CBC3-SHA',
-            '!EDH-RSA-DES-CBC3-SHA',
-            '!KRB5-DES-CBC3-SHA',
-        ));
-
-        /**
-         * CN_match and SNI_server_name are only known once a URL is passed.
-         * They will be set in the getOptionsForUrl() method which receives a URL.
-         *
-         * cafile or capath can be overridden by passing in those options to constructor.
-         */
-        $options = array(
-            'ssl' => array(
-                'ciphers' => $ciphers,
-                'verify_peer' => true,
-                'verify_depth' => 7,
-                'SNI_enabled' => true,
-            )
-        );
-
-        /**
-         * Attempt to find a local cafile or throw an exception.
-         * The user may go download one if this occurs.
-         */
-        if (!$cafile) {
-            $cafile = self::getSystemCaRootBundlePath();
-        }
-        if (is_dir($cafile)) {
-            $options['ssl']['capath'] = $cafile;
-        } elseif ($cafile) {
-            $options['ssl']['cafile'] = $cafile;
-        } else {
-            throw new RuntimeException('A valid cafile could not be located automatically.');
-        }
-
-        /**
-         * Disable TLS compression to prevent CRIME attacks where supported.
-         */
-        if (version_compare(PHP_VERSION, '5.4.13') >= 0) {
-            $options['ssl']['disable_compression'] = true;
-        }
-
-        return $options;
-    }
-
     /**
-     * function copied from Composer\Util\StreamContextFactory::initOptions
+     * This method was adapted from Sslurp.
+     * https://github.com/EvanDotPro/Sslurp.
      *
-     * Any changes should be applied there as well, or backported here.
+     * (c) Evan Coury <me@evancoury.com>
      *
-     * @param string $url URL the context is to be used for
-     * @return resource Default context
-     * @throws \RuntimeException if https proxy required and OpenSSL uninstalled
+     * For the full copyright and license information, please see below:
+     *
+     * Copyright (c) 2013, Evan Coury
+     * All rights reserved.
+     *
+     * Redistribution and use in source and binary forms, with or without modification,
+     * are permitted provided that the following conditions are met:
+     *
+     *     * Redistributions of source code must retain the above copyright notice,
+     *       this list of conditions and the following disclaimer.
+     *
+     *     * Redistributions in binary form must reproduce the above copyright notice,
+     *       this list of conditions and the following disclaimer in the documentation
+     *       and/or other materials provided with the distribution.
+     *
+     * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+     * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+     * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+     * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+     * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+     * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+     * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+     * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+     * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+     * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
-    protected function getMergedStreamContext($url)
-    {
-        $options = $this->options;
-
-        // Handle HTTP_PROXY/http_proxy on CLI only for security reasons
-        if ((PHP_SAPI === 'cli' || PHP_SAPI === 'phpdbg') && (!empty($_SERVER['HTTP_PROXY']) || !empty($_SERVER['http_proxy']))) {
-            $proxy = parse_url(!empty($_SERVER['http_proxy']) ? $_SERVER['http_proxy'] : $_SERVER['HTTP_PROXY']);
-        }
-
-        // Prefer CGI_HTTP_PROXY if available
-        if (!empty($_SERVER['CGI_HTTP_PROXY'])) {
-            $proxy = parse_url($_SERVER['CGI_HTTP_PROXY']);
-        }
-
-        // Override with HTTPS proxy if present and URL is https
-        if (preg_match('{^https://}i', $url) && (!empty($_SERVER['HTTPS_PROXY']) || !empty($_SERVER['https_proxy']))) {
-            $proxy = parse_url(!empty($_SERVER['https_proxy']) ? $_SERVER['https_proxy'] : $_SERVER['HTTPS_PROXY']);
-        }
-
-        // Remove proxy if URL matches no_proxy directive
-        if (!empty($_SERVER['NO_PROXY']) || !empty($_SERVER['no_proxy']) && parse_url($url, PHP_URL_HOST)) {
-            $pattern = new NoProxyPattern(!empty($_SERVER['no_proxy']) ? $_SERVER['no_proxy'] : $_SERVER['NO_PROXY']);
-            if ($pattern->test($url)) {
-                unset($proxy);
-            }
-        }
-
-        if (!empty($proxy)) {
-            $proxyURL = isset($proxy['scheme']) ? $proxy['scheme'] . '://' : '';
-            $proxyURL .= isset($proxy['host']) ? $proxy['host'] : '';
-
-            if (isset($proxy['port'])) {
-                $proxyURL .= ":" . $proxy['port'];
-            } elseif (strpos($proxyURL, 'http://') === 0) {
-                $proxyURL .= ":80";
-            } elseif (strpos($proxyURL, 'https://') === 0) {
-                $proxyURL .= ":443";
-            }
-
-            // check for a secure proxy
-            if (strpos($proxyURL, 'https://') === 0) {
-                if (!extension_loaded('openssl')) {
-                    throw new RuntimeException('You must enable the openssl extension to use a secure proxy.');
-                }
-                if (strpos($url, 'https://') === 0) {
-                    throw new RuntimeException('PHP does not support https requests through a secure proxy.');
-                }
-            }
-
-            // http(s):// is not supported in proxy
-            $proxyURL = str_replace(array('http://', 'https://'), array('tcp://', 'ssl://'), $proxyURL);
-
-            $options['http'] = array(
-                'proxy' => $proxyURL,
-            );
-
-            // add request_fulluri for http requests
-            if ('http' === parse_url($url, PHP_URL_SCHEME)) {
-                $options['http']['request_fulluri'] = true;
-            }
-
-            // handle proxy auth if present
-            if (isset($proxy['user'])) {
-                $auth = rawurldecode($proxy['user']);
-                if (isset($proxy['pass'])) {
-                    $auth .= ':' . rawurldecode($proxy['pass']);
-                }
-                $auth = base64_encode($auth);
-
-                $options['http']['header'] = "Proxy-Authorization: Basic {$auth}\r\n";
-            }
-        }
-
-        if (isset($options['http']['header'])) {
-            $options['http']['header'] .= "Connection: close\r\n";
-        } else {
-            $options['http']['header'] = "Connection: close\r\n";
-        }
-        if (extension_loaded('zlib')) {
-            $options['http']['header'] .= "Accept-Encoding: gzip\r\n";
-        }
-        $options['http']['header'] .= "User-Agent: ".COMPOSER_INSTALLER."\r\n";
-        $options['http']['protocol_version'] = 1.1;
-        $options['http']['timeout'] = 600;
-
-        return stream_context_create($options);
-    }
-
-    /**
-    * This method was adapted from Sslurp.
-    * https://github.com/EvanDotPro/Sslurp
-    *
-    * (c) Evan Coury <me@evancoury.com>
-    *
-    * For the full copyright and license information, please see below:
-    *
-    * Copyright (c) 2013, Evan Coury
-    * All rights reserved.
-    *
-    * Redistribution and use in source and binary forms, with or without modification,
-    * are permitted provided that the following conditions are met:
-    *
-    *     * Redistributions of source code must retain the above copyright notice,
-    *       this list of conditions and the following disclaimer.
-    *
-    *     * Redistributions in binary form must reproduce the above copyright notice,
-    *       this list of conditions and the following disclaimer in the documentation
-    *       and/or other materials provided with the distribution.
-    *
-    * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-    * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-    * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-    * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
-    * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-    * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-    * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-    * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-    * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-    * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-    */
     public static function getSystemCaRootBundlePath()
     {
         static $caPath = null;
@@ -1588,6 +1415,7 @@ class HttpClient {
         // If SSL_CERT_FILE env variable points to a valid certificate/bundle, use that.
         // This mimics how OpenSSL uses the SSL_CERT_FILE env variable.
         $envCertFile = getenv('SSL_CERT_FILE');
+
         if ($envCertFile && is_readable($envCertFile) && validateCaFile(file_get_contents($envCertFile))) {
             return $caPath = $envCertFile;
         }
@@ -1595,21 +1423,24 @@ class HttpClient {
         // If SSL_CERT_DIR env variable points to a valid certificate/bundle, use that.
         // This mimics how OpenSSL uses the SSL_CERT_FILE env variable.
         $envCertDir = getenv('SSL_CERT_DIR');
+
         if ($envCertDir && is_dir($envCertDir) && is_readable($envCertDir)) {
             return $caPath = $envCertDir;
         }
 
         $configured = ini_get('openssl.cafile');
+
         if ($configured && strlen($configured) > 0 && is_readable($configured) && validateCaFile(file_get_contents($configured))) {
             return $caPath = $configured;
         }
 
         $configured = ini_get('openssl.capath');
+
         if ($configured && is_dir($configured) && is_readable($configured)) {
             return $caPath = $configured;
         }
 
-        $caBundlePaths = array(
+        $caBundlePaths = [
             '/etc/pki/tls/certs/ca-bundle.crt', // Fedora, RHEL, CentOS (ca-certificates package)
             '/etc/ssl/certs/ca-certificates.crt', // Debian, Ubuntu, Gentoo, Arch Linux (ca-certificates package)
             '/etc/ssl/ca-bundle.pem', // SUSE, openSUSE (ca-certificates package)
@@ -1622,7 +1453,7 @@ class HttpClient {
             '/usr/local/etc/ssl/cert.pem', // FreeBSD 10.x
             '/usr/local/etc/openssl/cert.pem', // OS X homebrew, openssl package
             '/usr/local/etc/openssl@1.1/cert.pem', // OS X homebrew, openssl@1.1 package
-        );
+        ];
 
         foreach ($caBundlePaths as $caBundle) {
             if (@is_readable($caBundle) && validateCaFile(file_get_contents($caBundle))) {
@@ -1632,7 +1463,8 @@ class HttpClient {
 
         foreach ($caBundlePaths as $caBundle) {
             $caBundle = dirname($caBundle);
-            if (is_dir($caBundle) && glob($caBundle.'/*')) {
+
+            if (is_dir($caBundle) && glob($caBundle . '/*')) {
                 return $caPath = $caBundle;
             }
         }
@@ -1642,7 +1474,7 @@ class HttpClient {
 
     public static function getPackagedCaFile()
     {
-        return <<<CACERT
+        return <<<'CACERT'
 ##
 ## Bundle of CA Root Certificates for Let's Encrypt
 ##
@@ -1729,5 +1561,202 @@ JDGFoqgCWjBH4d1QB7wCCZAA62RjYJsWvIjJEubSfZGL+T0yjWW06XyxV3bqxbYo
 Ob8VZRzI9neWagqNdwvYkQsEjgfbKbYK7p2CNTUQ
 -----END CERTIFICATE-----
 CACERT;
+    }
+
+    protected function getStreamContext($url)
+    {
+        if ($this->disableTls === false) {
+            if (PHP_VERSION_ID < 50600) {
+                $this->options['ssl']['SNI_server_name'] = parse_url($url, PHP_URL_HOST);
+            }
+        }
+        // Keeping the above mostly isolated from the code copied from Composer.
+        return $this->getMergedStreamContext($url);
+    }
+
+    protected function getTlsStreamContextDefaults($cafile)
+    {
+        $ciphers = implode(':', [
+            'ECDHE-RSA-AES128-GCM-SHA256',
+            'ECDHE-ECDSA-AES128-GCM-SHA256',
+            'ECDHE-RSA-AES256-GCM-SHA384',
+            'ECDHE-ECDSA-AES256-GCM-SHA384',
+            'DHE-RSA-AES128-GCM-SHA256',
+            'DHE-DSS-AES128-GCM-SHA256',
+            'kEDH+AESGCM',
+            'ECDHE-RSA-AES128-SHA256',
+            'ECDHE-ECDSA-AES128-SHA256',
+            'ECDHE-RSA-AES128-SHA',
+            'ECDHE-ECDSA-AES128-SHA',
+            'ECDHE-RSA-AES256-SHA384',
+            'ECDHE-ECDSA-AES256-SHA384',
+            'ECDHE-RSA-AES256-SHA',
+            'ECDHE-ECDSA-AES256-SHA',
+            'DHE-RSA-AES128-SHA256',
+            'DHE-RSA-AES128-SHA',
+            'DHE-DSS-AES128-SHA256',
+            'DHE-RSA-AES256-SHA256',
+            'DHE-DSS-AES256-SHA',
+            'DHE-RSA-AES256-SHA',
+            'AES128-GCM-SHA256',
+            'AES256-GCM-SHA384',
+            'AES128-SHA256',
+            'AES256-SHA256',
+            'AES128-SHA',
+            'AES256-SHA',
+            'AES',
+            'CAMELLIA',
+            'DES-CBC3-SHA',
+            '!aNULL',
+            '!eNULL',
+            '!EXPORT',
+            '!DES',
+            '!RC4',
+            '!MD5',
+            '!PSK',
+            '!aECDH',
+            '!EDH-DSS-DES-CBC3-SHA',
+            '!EDH-RSA-DES-CBC3-SHA',
+            '!KRB5-DES-CBC3-SHA',
+        ]);
+
+        /**
+         * CN_match and SNI_server_name are only known once a URL is passed.
+         * They will be set in the getOptionsForUrl() method which receives a URL.
+         *
+         * cafile or capath can be overridden by passing in those options to constructor.
+         */
+        $options = [
+            'ssl' => [
+                'ciphers' => $ciphers,
+                'verify_peer' => true,
+                'verify_depth' => 7,
+                'SNI_enabled' => true,
+            ],
+        ];
+
+        /*
+         * Attempt to find a local cafile or throw an exception.
+         * The user may go download one if this occurs.
+         */
+        if (!$cafile) {
+            $cafile = self::getSystemCaRootBundlePath();
+        }
+
+        if (is_dir($cafile)) {
+            $options['ssl']['capath'] = $cafile;
+        } elseif ($cafile) {
+            $options['ssl']['cafile'] = $cafile;
+        } else {
+            throw new RuntimeException('A valid cafile could not be located automatically.');
+        }
+
+        // Disable TLS compression to prevent CRIME attacks where supported.
+        if (version_compare(PHP_VERSION, '5.4.13') >= 0) {
+            $options['ssl']['disable_compression'] = true;
+        }
+
+        return $options;
+    }
+
+    /**
+     * function copied from Composer\Util\StreamContextFactory::initOptions.
+     *
+     * Any changes should be applied there as well, or backported here.
+     *
+     * @param string $url URL the context is to be used for
+     * @throws \RuntimeException if https proxy required and OpenSSL uninstalled
+     * @return resource Default context
+     */
+    protected function getMergedStreamContext($url)
+    {
+        $options = $this->options;
+
+        // Handle HTTP_PROXY/http_proxy on CLI only for security reasons
+        if ((PHP_SAPI === 'cli' || PHP_SAPI === 'phpdbg') && (!empty($_SERVER['HTTP_PROXY']) || !empty($_SERVER['http_proxy']))) {
+            $proxy = parse_url(!empty($_SERVER['http_proxy']) ? $_SERVER['http_proxy'] : $_SERVER['HTTP_PROXY']);
+        }
+
+        // Prefer CGI_HTTP_PROXY if available
+        if (!empty($_SERVER['CGI_HTTP_PROXY'])) {
+            $proxy = parse_url($_SERVER['CGI_HTTP_PROXY']);
+        }
+
+        // Override with HTTPS proxy if present and URL is https
+        if (preg_match('{^https://}i', $url) && (!empty($_SERVER['HTTPS_PROXY']) || !empty($_SERVER['https_proxy']))) {
+            $proxy = parse_url(!empty($_SERVER['https_proxy']) ? $_SERVER['https_proxy'] : $_SERVER['HTTPS_PROXY']);
+        }
+
+        // Remove proxy if URL matches no_proxy directive
+        if (!empty($_SERVER['NO_PROXY']) || !empty($_SERVER['no_proxy']) && parse_url($url, PHP_URL_HOST)) {
+            $pattern = new NoProxyPattern(!empty($_SERVER['no_proxy']) ? $_SERVER['no_proxy'] : $_SERVER['NO_PROXY']);
+
+            if ($pattern->test($url)) {
+                unset($proxy);
+            }
+        }
+
+        if (!empty($proxy)) {
+            $proxyURL = isset($proxy['scheme']) ? $proxy['scheme'] . '://' : '';
+            $proxyURL .= $proxy['host'] ?? '';
+
+            if (isset($proxy['port'])) {
+                $proxyURL .= ':' . $proxy['port'];
+            } elseif (strpos($proxyURL, 'http://') === 0) {
+                $proxyURL .= ':80';
+            } elseif (strpos($proxyURL, 'https://') === 0) {
+                $proxyURL .= ':443';
+            }
+
+            // check for a secure proxy
+            if (strpos($proxyURL, 'https://') === 0) {
+                if (!extension_loaded('openssl')) {
+                    throw new RuntimeException('You must enable the openssl extension to use a secure proxy.');
+                }
+
+                if (strpos($url, 'https://') === 0) {
+                    throw new RuntimeException('PHP does not support https requests through a secure proxy.');
+                }
+            }
+
+            // http(s):// is not supported in proxy
+            $proxyURL = str_replace(['http://', 'https://'], ['tcp://', 'ssl://'], $proxyURL);
+
+            $options['http'] = [
+                'proxy' => $proxyURL,
+            ];
+
+            // add request_fulluri for http requests
+            if (parse_url($url, PHP_URL_SCHEME) === 'http') {
+                $options['http']['request_fulluri'] = true;
+            }
+
+            // handle proxy auth if present
+            if (isset($proxy['user'])) {
+                $auth = rawurldecode($proxy['user']);
+
+                if (isset($proxy['pass'])) {
+                    $auth .= ':' . rawurldecode($proxy['pass']);
+                }
+                $auth = base64_encode($auth);
+
+                $options['http']['header'] = "Proxy-Authorization: Basic {$auth}\r\n";
+            }
+        }
+
+        if (isset($options['http']['header'])) {
+            $options['http']['header'] .= "Connection: close\r\n";
+        } else {
+            $options['http']['header'] = "Connection: close\r\n";
+        }
+
+        if (extension_loaded('zlib')) {
+            $options['http']['header'] .= "Accept-Encoding: gzip\r\n";
+        }
+        $options['http']['header'] .= 'User-Agent: ' . COMPOSER_INSTALLER . "\r\n";
+        $options['http']['protocol_version'] = 1.1;
+        $options['http']['timeout'] = 600;
+
+        return stream_context_create($options);
     }
 }

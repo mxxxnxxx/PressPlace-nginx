@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Notifications;
 
+use function call_user_func;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Auth\Notifications\ResetPassword;
 
 class PasswordResetNotification extends ResetPassword
 {
@@ -13,12 +16,11 @@ class PasswordResetNotification extends ResetPassword
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
-
         if (static::$toMailCallback) {
             return call_user_func(static::$toMailCallback, $notifiable, $this->token);
         }
@@ -29,10 +31,11 @@ class PasswordResetNotification extends ResetPassword
             ->action(
                 'パスワードの変更',
                 url(
-                    '/user/password/reset',[
+                    '/user/password/reset',
+                    [
                     'token' => $this->token,
                     ]
-
-                ));
+                )
+            );
     }
 }

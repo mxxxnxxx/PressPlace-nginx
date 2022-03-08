@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -33,13 +35,13 @@ class PlaceRequest extends FormRequest
         ];
     }
 
-    public function messages(){
+    public function messages()
+    {
         return [
-            "string" =>"文字以外のものが入力されています。",
-            "image" => "指定されたファイルが画像ではありません。",
-            "mines" => "指定された拡張子（PNG/JPG）ではありません。",
-            "max" => "15Ｍを超えています。",
+            'string' => '文字以外のものが入力されています。',
+            'image' => '指定されたファイルが画像ではありません。',
+            'mines' => '指定された拡張子（PNG/JPG）ではありません。',
+            'max' => '15Ｍを超えています。',
         ];
     }
-
 }

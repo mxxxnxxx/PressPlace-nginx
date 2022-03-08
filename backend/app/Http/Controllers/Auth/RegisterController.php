@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
 class RegisterController extends Controller
 {
@@ -34,8 +36,6 @@ class RegisterController extends Controller
 
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -45,11 +45,11 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data){
-
+    protected function validator(array $data)
+    {
         $rulus = [
             'name' => ['required', 'string', 'max:20', 'unique:users'],
             'age' => ['required', 'integer'],
@@ -64,11 +64,11 @@ class RegisterController extends Controller
             'name.unique' => '他のお客様が既にこの名前を登録しています｡他のお名前をご検討ください',
             'age.required' => '年齢を入力してください',
             'age.numeric' => '整数で入力してください',
-            'email.required'=> 'メールアドレスを入力してください',
-            'email.string'=> 'メールアドレスが正しい入力ではありません',
-            'email.email'=> 'メールアドレスが正しい入力ではありません',
-            'email.max'=> 'メールアドレスを255文字以内で入力してください',
-            'email.unique'=> '他のお客様が既にこのメールアドレスを登録しています｡他のメールアドレスをご検討ください',
+            'email.required' => 'メールアドレスを入力してください',
+            'email.string' => 'メールアドレスが正しい入力ではありません',
+            'email.email' => 'メールアドレスが正しい入力ではありません',
+            'email.max' => 'メールアドレスを255文字以内で入力してください',
+            'email.unique' => '他のお客様が既にこのメールアドレスを登録しています｡他のメールアドレスをご検討ください',
             'password.required' => 'パスワードを入力してください',
             'password.string' => 'パスワードが正しい入力ではありません',
             'password.min' => 'パスワードは8文字以上で入力する必要があります',
@@ -76,9 +76,9 @@ class RegisterController extends Controller
 
         $validator = Validator::make($data, $rulus, $message);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             $response['errors'] = $validator->errors()->toArray();
-            throw new HttpResponseException( response()->json( $response, 422 ));
+            throw new HttpResponseException(response()->json($response, 422));
         }
 
         return $validator;
@@ -91,11 +91,10 @@ class RegisterController extends Controller
         // ]);
     }
 
-
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \App\User
      */
     protected function create(array $data)

@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Auth;
 
 class UserFollowController extends Controller
 {
-    public function store($id)
+    public function store($id): void
     {
-    \Auth::user()->follow($id);
+        Auth::user()->follow($id);
     }
 
-    public function destroy($id)
+    public function destroy($id): void
     {
-    \Auth::user()->unfollow($id);
+        Auth::user()->unfollow($id);
     }
 }
