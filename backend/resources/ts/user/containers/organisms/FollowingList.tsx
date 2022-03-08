@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Loding from '../../../layout/components/pages/Loding'
-import { useIntersectionObserver } from '../../../layout/hooks/util'
+import useIntersectionObserver from '../../../layout/hooks/util/useIntersectionObserver'
 import FollowingList from '../../components/organisms/FollowingList'
 import useGetFollowingList from '../../hooks/useGetFollowingList'
 

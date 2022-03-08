@@ -1,5 +1,5 @@
 import React from 'react'
-import { useIntersectionObserver } from '../../../layout/hooks/util'
+import useIntersectionObserver from '../../../layout/hooks/util/useIntersectionObserver'
 import FollowerList from '../../components/organisms/FollowerList'
 import useGetFollowerList from '../../hooks/useGetFollowerList'
 

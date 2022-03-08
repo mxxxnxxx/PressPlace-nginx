@@ -1,6 +1,6 @@
 import React from 'react'
 import { useHistory, useLocation, useParams } from 'react-router-dom'
-import { useIntersectionObserver } from '../../../layout/hooks/util'
+import useIntersectionObserver from '../../../layout/hooks/util/useIntersectionObserver'
 import PlaceFavoriteUsers from '../../components/organisms/PlaceFavoriteUsers'
 import useGetPlaceFavoriteUsers from '../../hooks/useGetPlaceFavoriteUsers'
 

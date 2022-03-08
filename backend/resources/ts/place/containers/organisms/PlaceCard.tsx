@@ -2,7 +2,7 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import Loding from '../../../layout/components/pages/Loding'
 import PlaceCard from '../../components/organisms/PlaceCard'
-import { useGetPlaceQuery } from '../../hooks'
+import useGetPlaceQuery from '../../hooks/useGetPlaceQuery'
 
 const EnhancedPlaceCard: React.FC = () => {
     const params = useParams<{ placeId: string }>()

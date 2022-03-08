@@ -16,7 +16,7 @@ import Footer from './layout/components/organisms/Footer'
 import AboutPage from './layout/components/pages/AboutPage'
 import Loding from './layout/components/pages/Loding'
 import Header from './layout/containers/organisms/Header'
-import { useMutationErrorQuery } from './layout/hooks/util'
+import useMutationErrorQuery from './layout/hooks/util/useMutationErrorQuery'
 import NewPlace from './place/components/pages/NewPlace'
 import EditPlaceForm from "./place/containers/molecules/EditPlaceForm"
 import PlaceSearch from './place/containers/organisms/PlaceSearch'

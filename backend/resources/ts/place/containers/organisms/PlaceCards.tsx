@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
-import { useIntersectionObserver } from '../../../layout/hooks/util'
+import useIntersectionObserver from '../../../layout/hooks/util/useIntersectionObserver'
 import PlaceCards from '../../components/organisms/PlaceCards'
-import { useGetPlaceCardQuery } from '../../hooks'
+import useGetPlaceCardQuery from '../../hooks/useGetPlaceCardQuery'
 
 
 const EnhancedPlaceCards: FC = () => {

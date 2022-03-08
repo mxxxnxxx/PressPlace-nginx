@@ -85,9 +85,7 @@ const useStyle = makeStyles((theme) => ({
         '-webkit-transform': 'translate(-50%, -50%)',
         '-moz-transform': ' translate(-50%, -50%)',
         transform: 'translate(-50%, -50%)',
-        animation: `$flash 1s linear infinite`,
         [theme.breakpoints.up('sm')]: {
-            animation: `$flash 1s linear infinite`,
             position: 'absolute',
             top: '80%',
             left: '50%',
@@ -106,6 +104,16 @@ const useStyle = makeStyles((theme) => ({
         '50%': {
             opacity: 0
         }
+    },
+    downward: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    arrow: {
+        marginTop: theme.spacing(2),
+        animation: `$flash 1s linear infinite`,
     }
 }))
 const AppImageCover: React.FC = () => {
@@ -142,16 +150,25 @@ const AppImageCover: React.FC = () => {
                 >場所を探す</Button>
             </div>
             <div className={classes.adventureButton}>
-                <Link
-                    activeClass="active"
-                    to="place-cards"
-                    spy={true}
-                    smooth={true}
-                    offset={-70}
-                    duration={500}
-                >
-                    <ArrowDownwardIcon className={classes.adventureButton} />
-                </Link>
+                <div className={classes.downward}>
+                    <div>
+                        <Typography variant="h6" color="initial">
+                            冒険する
+                        </Typography>
+                    </div>
+                    <div>
+                        <Link
+                            activeClass="active"
+                            to="place-cards"
+                            spy={true}
+                            smooth={true}
+                            offset={-70}
+                            duration={500}
+                        >
+                            <ArrowDownwardIcon className={classes.arrow} />
+                        </Link>
+                    </div>
+                </div>
             </div>
         </div>
     )
