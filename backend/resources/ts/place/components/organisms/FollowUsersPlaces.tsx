@@ -74,8 +74,9 @@ const FollowUsersPlaces: React.FC<Props> = ({
             </Paper>
         )
     }
-    console.log(paginatePlaces);
-    const paginatePlacesData = paginatePlaces?.some((place) => place.data)
+    const paginatePlacesData = paginatePlaces?.some((place) => {
+        return (place.data.length === 0)
+    })
     if (paginatePlacesData) {
         return (
             <Paper className={classes.noPlace}>
