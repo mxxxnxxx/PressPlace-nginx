@@ -1,22 +1,20 @@
 import axios, { AxiosError } from 'axios'
 import camelcaseKeys from 'camelcase-keys'
 import {
-    useInfiniteQuery,
-    UseInfiniteQueryOptions,
-    UseInfiniteQueryResult
+    useInfiniteQuery, UseInfiniteQueryResult
 } from 'react-query'
 import { Places } from '../types/Places'
 
 // 非同期でplacesを取得
 const getPlaceCard = async ({ pageParam = 1 }): Promise<Places> => {
-    const { data } = await axios.get(`/api/places?page=${pageParam}`)
+    const { data } = await axios.get(`/api/follow/users/places?page=${pageParam}`)
     // camelcaseKeysでスネークケースをキャメルケースに変換
     // deep opでネストされた深い部分まで変換
     return camelcaseKeys(data, { deep: true })
 }
 
 
-const useGetPlaceCardQuery = <TData = Places>(
+const useGetFollowUsersPlaces = <TData = Places>(
     // options?: UseInfiniteQueryOptions<Places, AxiosError, TData>
 ): UseInfiniteQueryResult<TData, AxiosError> => {
     // const options: UseInfiniteQueryOptions<Places, AxiosError, TData> = {
@@ -33,4 +31,4 @@ const useGetPlaceCardQuery = <TData = Places>(
     })
 }
 
-export default useGetPlaceCardQuery
+export default useGetFollowUsersPlaces

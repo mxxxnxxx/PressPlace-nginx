@@ -156,6 +156,27 @@ class PlaceController extends Controller
         return $places;
     }
 
+    public function followUsersPlaces()
+    {
+        try {
+            $followUsersIds = Auth::user()->followings()->get()->pluck('id');
+        } catch (\Throwable $th) {
+            dd($th);
+        }
+
+        if ($followUsersIds->count() >= 0) {
+
+            // placesテーブルのuser_idでログインユーザーのフォローしているUserIDと同一のものを取得する
+            $followUsersPlaces = Place::orderBy(Place::UPDATED_AT, 'desc')
+                ->whereIn('places.user_id', $followUsersIds)
+                ->with('place_images')
+                ->with('user')
+                ->with('tags')
+                ->paginate(15);
+            return response()->json($followUsersPlaces);
+        }
+    }
+
     // 詳細ページ
     public function show($placeId)
     {
@@ -196,7 +217,7 @@ class PlaceController extends Controller
         $places_q = Place::query();
         $InputsData = $request->input('InputsData');
         // React側から届いたInputsDataを分割代入
-        list(   'name' => $name,
+        list('name' => $name,
             'address' => $address,
             'comment' => $comment,
             'tags' => $tags

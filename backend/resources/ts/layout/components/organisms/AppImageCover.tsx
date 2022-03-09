@@ -144,7 +144,7 @@ const AppImageCover: React.FC = () => {
             <div className={classes.searchButton}>
                 <Button
                     variant='contained'
-                    onClick={() => history.push('/search')}
+                    onClick={() => history.push('/places/search')}
                     startIcon={<SearchIcon />}
                     size='large'
                 >場所を探す</Button>

@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import useIntersectionObserver from '../../../layout/hooks/util/useIntersectionObserver'
 import PlaceCards from '../../components/organisms/PlaceCards'
-import useGetPlaceCardQuery from '../../hooks/useGetPlaceCardQuery'
+import useGetPlaceCardsQuery from '../../hooks/useGetPlaceCardsQuery'
 
 
 const EnhancedPlaceCards: FC = () => {
@@ -12,7 +12,7 @@ const EnhancedPlaceCards: FC = () => {
             hasNextPage,
             isFetchingNextPage,
             fetchNextPage,
-        } = useGetPlaceCardQuery()
+        } = useGetPlaceCardsQuery()
         const statusCode = error?.response?.status
 
         // 無限スクロール処理

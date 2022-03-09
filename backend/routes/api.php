@@ -75,7 +75,7 @@ Route::group(['middleware' => 'auth:sanctum'], function (): void {
     Route::post('/user/email', 'ChangeEmailController@sendChangeEmailLink');
 
     Route::get('/user/email/reset/{token}', 'ChangeEmailController@reset');
-
+    // フォロー機能
     Route::group(['prefix' => '/user/{id}'], function (): void {
         Route::post('follow', 'UserFollowController@store')->name('follow');
         Route::delete('unfollow', 'UserFollowController@destroy')->name('unfollow');
@@ -91,4 +91,6 @@ Route::group(['middleware' => 'auth:sanctum'], function (): void {
     Route::get('/places/delete/{id} ', 'PlaceController@softdelete')->name('place.softdelete');
     // placeをお気に入りにUserのリスト取得
     Route::get('/place/favorite/users/{placeId} ', 'PlaceController@placeFavoriteUsers')->name('place.favoriteUsers');
+    // フォローしているUsersのplacesを取得
+    Route::get('/follow/users/places', 'PlaceController@followUsersPlaces');
 });
