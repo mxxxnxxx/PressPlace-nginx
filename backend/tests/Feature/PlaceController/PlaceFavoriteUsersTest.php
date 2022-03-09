@@ -18,7 +18,7 @@ class PlaceFavoriteUsersTest extends TestCase
         parent::setUp();
         // テストユーザ作成
         $this->user = factory(User::class)->create();
-        $this->place = factory(Place::class)->create(['user_id' => $this->another_user->id]);
+        $this->place = factory(Place::class)->create(['user_id' => $this->user->id]);
     }
 
     public function testPlaceFavoriteUsers(): void

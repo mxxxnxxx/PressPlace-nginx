@@ -1,11 +1,10 @@
 import { AxiosError } from 'axios'
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { RefetchOptions, QueryObserverResult } from 'react-query'
+import { QueryObserverResult, RefetchOptions } from 'react-query'
 import { useHistory, useLocation } from 'react-router-dom'
 import Login from '../../components/pages/Login'
 import useLogin from '../../hooks/auth/useLogin'
 import useOAuthUrl from '../../hooks/auth/useOAuthUrl'
-import { Provider } from '../../types/OAuth'
 import { User } from '../../types/User'
 type Props = {
     getUserQuery: (options?: RefetchOptions | undefined) => Promise<QueryObserverResult<User, AxiosError<any>>>
@@ -62,12 +61,6 @@ const EnhancedLogin: FC<Props> = ({ getUserQuery }) => {
         [email, password, history, from, login]
     )
 
-    const handleSocialLoginRequest = useCallback(
-        (provider: Provider) => {
-            redirectOAuth(provider)
-        },
-        [redirectOAuth]
-    )
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
@@ -80,7 +73,6 @@ const EnhancedLogin: FC<Props> = ({ getUserQuery }) => {
             statusCode={statusCode}
             isLoading={isLoading}
             handleLogin={handleLogin}
-            handleSocialLoginRequest={handleSocialLoginRequest}
             error={error}
         />
     )

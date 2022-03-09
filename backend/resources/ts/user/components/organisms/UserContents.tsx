@@ -1,14 +1,12 @@
 import { AppBar, Box, Tab, Tabs } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import React from 'react'
+import React, { useState } from 'react'
 import FavoritePlaces from '../../../place/containers/organisms/FavoritePlaces'
 import UserPlaces from '../../../place/containers/organisms/UserPlaces'
 
 type Props = {
     userName: string
-    value: string
-    handleChange: (event: React.ChangeEvent<{}>, newValue: string) => void
-    handleChangeIndex: (index: string) => void
+    contentsView: string
 }
 
 type TabPanelProps = {
@@ -68,11 +66,18 @@ const useStyles = makeStyles((theme) => ({
 }))
 const UserContents: React.FC<Props> = ({
     userName,
-    value,
-    handleChange,
+    contentsView
 }) => {
     const classes = useStyles()
 
+    // UI関係のためここに記述
+    const [value, setValue] = useState(contentsView)
+    const handleChange = (event: React.ChangeEvent<{}>, newValue: string) => {
+        setValue(newValue)
+    }
+    // const handleChangeIndex = (index: string) => {
+    //     setValue(index)
+    // }
     return (
 
         <Box className={classes.root}>
@@ -89,8 +94,8 @@ const UserContents: React.FC<Props> = ({
                         variant="fullWidth"
                         centered
                     >
-                        <Tab value="myPlace" label="投稿した場所" {...a11yProps('following')} />
-                        <Tab value="favoritePlace" label="お気に入りの場所" {...a11yProps('follower')} />
+                        <Tab value="myPlace" label="投稿した場所" {...a11yProps('myPlace')} />
+                        <Tab value="favoritePlace" label="お気に入りの場所" {...a11yProps('favoritePlace')} />
                     </Tabs>
                 </AppBar>
             </Box>

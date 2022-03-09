@@ -1,7 +1,8 @@
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core'
+import { MuiThemeProvider } from '@material-ui/core'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import { createTheme } from '@material-ui/core/styles'
 import { makeStyles } from '@material-ui/styles'
-import React, { FC, useCallback } from "react"
+import React, { FC } from "react"
 import ReactDOM from "react-dom"
 import { QueryClient, QueryClientProvider, useQueryClient } from "react-query"
 import { ReactQueryDevtools } from 'react-query/devtools'
@@ -16,7 +17,6 @@ import Footer from './layout/components/organisms/Footer'
 import AboutPage from './layout/components/pages/AboutPage'
 import Loding from './layout/components/pages/Loding'
 import Header from './layout/containers/organisms/Header'
-import useMutationErrorQuery from './layout/hooks/util/useMutationErrorQuery'
 import NewPlace from './place/components/pages/NewPlace'
 import EditPlaceForm from "./place/containers/molecules/EditPlaceForm"
 import PlaceSearch from './place/containers/organisms/PlaceSearch'
@@ -53,7 +53,7 @@ const useStyle = makeStyles(() => ({
         minWidth: '320px'
     }
 }))
-const theme = createMuiTheme({
+const theme = createTheme({
     typography: {
         "fontFamily": "\"Zen Kaku Gothic New\", \"sans-serif\"",
         button: {
@@ -112,22 +112,8 @@ const client = new QueryClient({
 })
 
 const App: FC = () => {
-    const queryClient = useQueryClient()
     const classes = useStyle()
     const { isLoading, refetch: getUserQuery } = useGetUserQuery()
-
-    const { data: error } = useMutationErrorQuery()
-
-    const handleErrorBarClose = useCallback(
-        (event?: React.SyntheticEvent, reason?: string) => {
-            if (reason === 'clickaway') {
-                return
-            }
-
-            queryClient.resetQueries('error')
-        },
-        [queryClient]
-    )
 
     if (isLoading) {
         return <Loding isLoading={isLoading} />

@@ -43,7 +43,6 @@ type Props = {
     statusCode?: number
     isLoading: boolean
     handleLogin: (ev: React.FormEvent<HTMLFormElement>) => void
-    handleSocialLoginRequest: (provider: Provider) => void
     error: AxiosError<any> | null
 }
 
@@ -55,7 +54,6 @@ const Login: FC<Props> = ({
     statusCode,
     isLoading,
     handleLogin,
-    handleSocialLoginRequest,
     error
 }) => {
     const theme = useTheme()
@@ -91,7 +89,7 @@ const Login: FC<Props> = ({
                                         required
                                         autoComplete="email"
                                         name="email"
-                                        defaultValue={{ email: 'test@test.mail.com' }}
+                                        defaultValue='test@test.mail.com'
                                         autoFocus
                                         onChange={handleChangeEmail}
                                     />
@@ -103,7 +101,7 @@ const Login: FC<Props> = ({
                                         value={password}
                                         margin="normal"
                                         name="password"
-                                        defaultValue={{ password: 'testPlay' }}
+                                        defaultValue='testPlay'
                                         required
                                         autoComplete="current-password"
                                         onChange={handleChangePassword}

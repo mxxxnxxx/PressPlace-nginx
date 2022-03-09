@@ -72,10 +72,14 @@ class UserController extends Controller
 
     public function current()
     {
-        $authUser = Auth::user()->toArray();
-        $favoritePlaces = Auth::user()->favoritePlaces()->get()->toArray();
-        $authUser['favoritePlaces'] = $favoritePlaces;
-        return response()->json($authUser);
+        try {
+            $authUser = Auth::user()->toArray();
+            $favoritePlaces = Auth::user()->favoritePlaces()->get()->toArray();
+            $authUser['favoritePlaces'] = $favoritePlaces;
+            return response()->json($authUser);
+        } catch (\Throwable $th) {
+            return response(500);
+        }
     }
 
     // フォローしている人を取得する処理

@@ -79,22 +79,19 @@ const PlaceCards: FC<Props> = ({
     return (
         <div className={classes.root}>
             {paginatePlaces?.map((page) => (
-                <Box key={page.currentPage.toString()}>
-                    <Masonry
-                        breakpointCols={breakpointColumnsObj}
-                        className={classes.myMasonryGrid}
-                        columnClassName={classes.myMasonryGridColumn}
-                    >
-                        {page.data.map((place: Place, index) => (
-                            <div className={classes.card} key={index.toString()}>
-                                <PlaceCard place={place} />
-                            </div>
-                        ))}
-                    </Masonry>
-                </Box>
-
-            ))
-            }
+                <Masonry
+                    breakpointCols={breakpointColumnsObj}
+                    className={classes.myMasonryGrid}
+                    columnClassName={classes.myMasonryGridColumn}
+                    key={page.currentPage.toString()}
+                >
+                    {page.data.map((place: Place, index) => (
+                        <div className={classes.card} key={index.toString()}>
+                            <PlaceCard place={place} />
+                        </div>
+                    ))}
+                </Masonry>
+            ))}
 
             <Box {...{ ref: loadMoreRef }} textAlign="center" className={classes.loadMessage}>
                 {loadMoreMessage}

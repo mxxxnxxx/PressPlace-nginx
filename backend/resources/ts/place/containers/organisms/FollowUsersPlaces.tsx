@@ -1,5 +1,6 @@
 import React from 'react'
 import useIntersectionObserver from '../../../layout/hooks/util/useIntersectionObserver'
+import useCurrentUser from '../../../user/hooks/useCurrentUser'
 import FollowUsersPlaces from '../../components/organisms/FollowUsersPlaces'
 import useGetFollowUsersPlaces from '../../hooks/useGetFollowUsersPlaces'
 
@@ -11,7 +12,7 @@ const EnhancedFollowUsersPlaces: React.FC = () => {
         isFetchingNextPage,
         fetchNextPage,
     } = useGetFollowUsersPlaces()
-    const statusCode = error?.response?.status
+    const user = useCurrentUser()
     const { loadMoreRef } = useIntersectionObserver({
         onIntersect: fetchNextPage,
         enabled: hasNextPage,
@@ -19,10 +20,10 @@ const EnhancedFollowUsersPlaces: React.FC = () => {
     return (
         <FollowUsersPlaces
             paginatePlaces={paginatePlaces?.pages}
-            statusCode={statusCode}
             loadMoreRef={loadMoreRef}
             hasNextPage={hasNextPage}
             isFetchingNextPage={isFetchingNextPage}
+            user={user}
         />
     )
 

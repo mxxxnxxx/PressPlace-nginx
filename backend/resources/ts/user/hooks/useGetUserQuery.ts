@@ -14,6 +14,7 @@ const useGetUserQuery = <TData = User>(
     return useQuery('user', getLoginUser, {
         retry: 0,
         initialData: undefined,
+        refetchOnWindowFocus: false,
         onError: () => {
             queryClient.setQueryData('user', null)
         },

@@ -1,7 +1,9 @@
 import axios, { AxiosError } from 'axios'
 import camelcaseKeys from 'camelcase-keys'
 import {
-    useInfiniteQuery, UseInfiniteQueryResult
+    useInfiniteQuery,
+    UseInfiniteQueryOptions,
+    UseInfiniteQueryResult
 } from 'react-query'
 import { Places } from '../types/Places'
 
