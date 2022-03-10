@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PlaceRequest;
 use App\Place;
+use App\PostalCode;
 use App\Tag;
 use function count;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class PlaceController extends Controller
     public function postal_search(Request $request)
     {
         // 順番でfirst_code,last_codeをそれぞれ$last_code , $first_codeとしてわたしている
-        return \App\PostalCode::whereSearch($request->first_code, $request->last_code)->first();
+        return PostalCode::whereSearch($request->first_code, $request->last_code)->first();
     }
 
     // データベースへ保存
