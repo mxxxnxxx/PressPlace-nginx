@@ -22,12 +22,14 @@ class PostalCode extends Model
     // Accessorで郵便番号に0をつけて使えるようにする
     public function getFirstCodeAttribute($value)
     {
+        // $valueをストリングに変更
         $valueStr = (string) $value;
         return str_pad($valueStr, 3, '0', STR_PAD_LEFT);
     }
 
     public function getLastCodeAttribute($value)
     {
+        // $valueをストリングに変更
         $valueStr = (string) $value;
         return str_pad($valueStr, 4, '0', STR_PAD_LEFT);
     }
