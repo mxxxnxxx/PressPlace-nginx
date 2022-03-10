@@ -81,7 +81,7 @@ const FollowUsersPlaces: React.FC<Props> = ({
         return (
             <Paper className={classes.noPlace}>
                 <Typography variant="h5" color="error" align='center'>
-                    placeがありません
+                    placeがまだ投稿されていません
                 </Typography>
             </Paper>
         )

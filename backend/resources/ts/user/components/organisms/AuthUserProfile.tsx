@@ -12,6 +12,7 @@ type Props = {
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '85%',
+        maxWidth: '36rem',
         marginTop: theme.spacing(3),
         padding: theme.spacing(4),
         display: 'flex',
