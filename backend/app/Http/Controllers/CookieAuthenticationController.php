@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 
 final class CookieAuthenticationController extends Controller
@@ -66,6 +67,10 @@ final class CookieAuthenticationController extends Controller
      */
     public function login(Request $request): JsonResponse
     {
+        $request->validate([
+        'email' => ['required'],
+        'password' => ['required'],
+        ]);
         $credentials = $request->only('email', 'password');
 
         if (Auth::guard('web')->attempt($credentials)) {
@@ -73,7 +78,9 @@ final class CookieAuthenticationController extends Controller
             return new JsonResponse(Auth::user()['name']);
         }
 
-        throw new Exception('ログインに失敗しました。再度お試しください');
+        throw ValidationException::withMessages([
+        'email' => ['ログインに失敗しました'],
+        ]);
     }
 
     /**
