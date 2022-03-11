@@ -145,6 +145,10 @@ const App: FC = () => {
                     <PlaceSearched />
                 </Route>
 
+                <Route exact path="/terms">
+                </Route>
+                <Route exact path="/policy">
+                </Route>
                 {/* :userName で検索 */}
                 {/* :contentsView favoritePlace or myPlace タブの初期ページ */}
                 <Route exact path="/account/:userName/:contentsView">
