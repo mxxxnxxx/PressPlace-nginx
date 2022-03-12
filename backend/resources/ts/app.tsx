@@ -17,6 +17,7 @@ import Footer from './layout/components/organisms/Footer'
 import AboutPage from './layout/components/pages/AboutPage'
 import Loding from './layout/components/pages/Loding'
 import Header from './layout/containers/organisms/Header'
+import Terms from './layout/containers/pages/Terms'
 import NewPlace from './place/components/pages/NewPlace'
 import EditPlaceForm from "./place/containers/molecules/EditPlaceForm"
 import PlaceSearch from './place/containers/organisms/PlaceSearch'
@@ -146,6 +147,7 @@ const App: FC = () => {
                 </Route>
 
                 <Route exact path="/terms">
+                    <Terms />
                 </Route>
                 <Route exact path="/policy">
                 </Route>
