@@ -17,6 +17,7 @@ import Footer from './layout/components/organisms/Footer'
 import AboutPage from './layout/components/pages/AboutPage'
 import Loding from './layout/components/pages/Loding'
 import Header from './layout/containers/organisms/Header'
+import Policy from './layout/containers/pages/Policy'
 import Terms from './layout/containers/pages/Terms'
 import NewPlace from './place/components/pages/NewPlace'
 import EditPlaceForm from "./place/containers/molecules/EditPlaceForm"
@@ -149,7 +150,9 @@ const App: FC = () => {
                 <Route exact path="/terms">
                     <Terms />
                 </Route>
+
                 <Route exact path="/policy">
+                    <Policy />
                 </Route>
                 {/* :userName で検索 */}
                 {/* :contentsView favoritePlace or myPlace タブの初期ページ */}
