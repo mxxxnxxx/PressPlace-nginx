@@ -25,11 +25,12 @@ const EnhancedUserChangeEmail: React.FC = () => {
         }
         const formData = new FormData()
         formData.append("address", address)
-        changeEmail(formData, {
-            onSuccess: () => {
-                history.replace(from)
-            }
-        })
+        // テスト版公開のため停止中
+        // changeEmail(formData, {
+        //     onSuccess: () => {
+        //         history.replace(from)
+        //     }
+        // })
 
     }
     return (

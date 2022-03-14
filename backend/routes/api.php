@@ -71,8 +71,8 @@ Route::group(['middleware' => 'auth:sanctum'], function (): void {
     Route::middleware(['verified'])->group(function (): void {
         // Route::post('/user/email', 'ChangeEmailController@sendChangeEmailLink');
     });
-
-    Route::post('/user/email', 'ChangeEmailController@sendChangeEmailLink');
+    //  テスト版のため停止中
+    // Route::post('/user/email', 'ChangeEmailController@sendChangeEmailLink');
 
     Route::get('/user/email/reset/{token}', 'ChangeEmailController@reset');
     // フォロー機能
