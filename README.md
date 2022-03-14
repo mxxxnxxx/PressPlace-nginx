@@ -84,8 +84,6 @@
 
 ## インフラ構成
 
-画像挿入
-
 ### app container
 
 - Base image
