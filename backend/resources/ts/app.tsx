@@ -59,9 +59,17 @@ const theme = createTheme({
     typography: {
         "fontFamily": "\"Zen Kaku Gothic New\", \"sans-serif\"",
         button: {
-            textTransform: "none"
+            textTransform: "none",
         },
-
+    },
+    overrides: {
+        MuiButton: {
+            contained: {
+                '&.Mui-disabled': {
+                    backgroundColor: 'rgba(250, 250, 250, 1)'
+                }
+            }
+        }
     }
 })
 // UnAuthRouteとAuthRouteのpropsの型
