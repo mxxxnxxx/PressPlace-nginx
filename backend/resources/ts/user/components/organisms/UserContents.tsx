@@ -44,7 +44,6 @@ function a11yProps(index: any) {
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '90%',
-        maxWidth: '33rem',
         marginTop: theme.spacing(3),
         marginLeft: 'auto',
         marginRight: 'auto'
@@ -76,9 +75,7 @@ const UserContents: React.FC<Props> = ({
     const handleChange = (event: React.ChangeEvent<{}>, newValue: string) => {
         setValue(newValue)
     }
-    // const handleChangeIndex = (index: string) => {
-    //     setValue(index)
-    // }
+
     return (
 
         <Box className={classes.root}>

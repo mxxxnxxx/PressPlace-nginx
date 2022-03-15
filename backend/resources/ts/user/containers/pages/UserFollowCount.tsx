@@ -11,9 +11,6 @@ const EnhancedUserFollowCount: React.FC = () => {
         setValue(newValue)
     }
 
-    const handleChangeIndex = (index: string) => {
-        setValue(index)
-    }
 
     const goToOtherUser = useCallback(
         (userName: string) => {
@@ -26,7 +23,6 @@ const EnhancedUserFollowCount: React.FC = () => {
         <UserFollowCount
             value={value}
             handleChange={handleChange}
-            handleChangeIndex={handleChangeIndex}
             userName={userName}
             goToOtherUser={goToOtherUser}
         />
