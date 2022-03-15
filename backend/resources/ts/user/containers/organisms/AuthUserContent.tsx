@@ -11,15 +11,11 @@ const EnhancedAuthUserContent: React.FC = () => {
         setValue(newValue)
     }
 
-    const handleChangeIndex = (index: string) => {
-        setValue(index)
-    }
     return (
         <AuthUserContents
             userName={currentUser?.name}
             value={value}
             handleChange={handleChange}
-            handleChangeIndex={handleChangeIndex}
         />
     )
 }
