@@ -11,7 +11,6 @@ type Props = {
     value: string
     userName: string
     handleChange: (event: React.ChangeEvent<{}>, newValue: string) => void
-    handleChangeIndex: (index: string) => void
     goToOtherUser: (userName: string) => void
 }
 
