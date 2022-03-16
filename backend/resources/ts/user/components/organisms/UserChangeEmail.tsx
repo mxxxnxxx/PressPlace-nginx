@@ -40,7 +40,7 @@ const UserChangeEmail: React.FC<Props> = ({
     const classes = useStyle()
     return (
         <Box className={classes.root}>
-            <Typography align="center" color="error" style={{ marginBottom: 8 }}>･現在テスト版のためアカウント削除は停止中です</Typography>
+            <Typography align="center" color="error" style={{ marginBottom: 8 }}>･現在テスト版のためメールアドレス変更機能は停止中です</Typography>
             <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
