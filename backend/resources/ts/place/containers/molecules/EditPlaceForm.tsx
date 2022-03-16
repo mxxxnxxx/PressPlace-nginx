@@ -57,7 +57,7 @@ const EnhancedEditPlaceForm: React.FC = () => {
         () => {
             // コールバックのasync,
             (async (): Promise<void> => {
-                const { data } = await axios.get(`/api/places/${params.placeId}`)
+                const { data } = await axios.get(`/api/place/${params.placeId}`)
                 const camelOldPlace: Place = await camelcaseKeys(data, { 'deep': true })
                 set(camelOldPlace)
                 setLoadOldPlace(false)
