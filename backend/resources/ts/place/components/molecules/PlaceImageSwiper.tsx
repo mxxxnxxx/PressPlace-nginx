@@ -1,12 +1,14 @@
-import { Box, IconButton, makeStyles } from '@material-ui/core'
+import { Box, makeStyles } from '@material-ui/core'
 import BlurOffIcon from '@material-ui/icons/BlurOff'
-import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
-import NavigateNextIcon from '@material-ui/icons/NavigateNext'
-import React, { useRef, useState } from 'react'
-import Swiper, { SwiperRefNode } from "react-id-swiper"
-// import 'swiper/css/swiper.css'
+import React from 'react'
+import { EffectCube, Pagination } from 'swiper'
+import 'swiper/css'
+import "swiper/css/effect-cube"
+import 'swiper/css/pagination'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import { Place } from '../../types/Place'
 import { PlaceImage } from '../../types/PlaceImage'
+
 type Props = {
     place: Place
 }
@@ -33,69 +35,45 @@ const useStyle = makeStyles((theme) => ({
         justifyContent: 'center',
     }
 }))
-const PlaceImageSwiper = React.forwardRef<HTMLDivElement, Props>(
-    ({ place }, ref) => {
-        const classes = useStyle()
-        const swiperRef = useRef<SwiperRefNode>(null);
+const PlaceImageSwiper: React.FC<Props> = ({ place }) => {
+    const classes = useStyle()
+    return (
+        <div className={classes.root}>
+            {place.placeImages.length >= 1 &&
 
-        const goNext = () => {
-            if (swiperRef?.current?.swiper) {
-                swiperRef.current.swiper.slideNext();
+                <Swiper
+                    effect={"cube"}
+                    grabCursor={true}
+                    cubeEffect={{
+                        shadow: false,
+                        slideShadows: true,
+                        shadowOffset: 20,
+                        shadowScale: 0.94,
+                    }}
+                    pagination={{ clickable: true }}
+                    modules={[EffectCube, Pagination]}
+                    className="mySwiper"
+                >
+                    {place.placeImages.map((placeImage: PlaceImage, index) => (
+                        <SwiperSlide
+                            key={index.toString()}
+                        >
+                            <img
+                                className={classes.swiperMedia}
+                                src={`https://pressplace.s3.ap-northeast-1.amazonaws.com/${placeImage.imagePath}`}
+                            />
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
             }
-        }
-
-        const goPrev = () => {
-            if (swiperRef?.current?.swiper) {
-                swiperRef.current.swiper.slidePrev();
+            {
+                place.placeImages.length === 0 &&
+                <Box className={classes.BlurOffIcon}>
+                    <BlurOffIcon />
+                </Box>
             }
-        }
+        </div >
+    )
+}
 
-        // スワイパーの設定パラメーター
-        const [params] = useState({
-            scrollbar: {
-                el: ".swiper-scrollbar",
-                hide: false
-            },
-            speed: 400,
-        })
-        return (
-            <div ref={ref} className={classes.root}>
-                {place.placeImages.length >= 1 &&
-
-                    <Swiper
-                        {...params}
-                        ref={swiperRef}
-                    >
-                        {place.placeImages.map((placeImage: PlaceImage, index) => (
-                            <div
-                                key={index.toString()}
-                            >
-                                <img
-                                    className={classes.swiperMedia}
-                                    src={`https://pressplace.s3.ap-northeast-1.amazonaws.com/${placeImage.imagePath}`}
-                                />
-                            </div>
-                        ))}
-                    </Swiper>
-
-                }
-                {place.placeImages.length > 1 &&
-                    <Box className={classes.swiperButton}>
-                        <IconButton onClick={goPrev} >
-                            <NavigateBeforeIcon />
-                        </IconButton>
-                        <IconButton onClick={goNext} >
-                            <NavigateNextIcon />
-                        </IconButton>
-                    </Box>
-                }
-                {place.placeImages.length === 0 &&
-                    <Box className={classes.BlurOffIcon}>
-                        <BlurOffIcon />
-                    </Box>
-                }
-            </div>
-        )
-    }
-)
 export default PlaceImageSwiper
