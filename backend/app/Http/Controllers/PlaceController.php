@@ -224,21 +224,21 @@ class PlaceController extends Controller
             // whereHasで配列がからで検索をかけると該当がなくなるのでifで回避
             foreach ($tags as $tag) {
                 // $tagがnullでなければ検索をかける
-                if (isset($tag)) {
+                if ($tag) {
                     $places_q->where('name', 'like', '%' . $tag . '%');
                 }
             }
         });
 
-        if (!$name === '') {
+        if ($name) {
             $places_q->where('name', 'like', '%' . $name . '%');
         }
 
-        if (!$address === '') {
+        if ($address) {
             $places_q->where('address', 'like', '%' . $address . '%');
         }
 
-        if (!$comment === '') {
+        if ($comment) {
             $places_q->where('comment', 'like', '%' . $comment . '%');
         }
         $placeSearched = $places_q
