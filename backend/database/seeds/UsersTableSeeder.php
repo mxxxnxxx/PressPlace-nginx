@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-use Illuminate\Database\Seeder;
 use App\User;
+use Illuminate\Database\Seeder;
+
 class UsersTableSeeder extends Seeder
 {
     /**
@@ -11,6 +12,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run(): void
     {
+        factory(User::class, 50)->create();
         User::create([
             'name' => '食べるの大介さん(demo)',
             'age' => 55,
@@ -60,6 +62,5 @@ class UsersTableSeeder extends Seeder
             'introduction' => 'テスト用の自己紹介ですご自由に編集してください',
             'remember_token' => Str::random(10),
         ]);
-        factory(User::class, 50)->create();
     }
 }
