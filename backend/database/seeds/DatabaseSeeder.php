@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PlaceUserSeeder::class);
         $this->call(UserFollowSeeder::class);
         $this->call(Place_imagesTableSeeder::class);
+        $this->call(PlaceTagSeeder::class);
     }
 }
