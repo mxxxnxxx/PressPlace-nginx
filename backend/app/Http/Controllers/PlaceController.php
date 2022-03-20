@@ -157,6 +157,7 @@ class PlaceController extends Controller
             ->with('user')
             ->with('tags')
             ->paginate(15);
+        \Debugbar::info($places->toArray());
         return $places;
     }
 
