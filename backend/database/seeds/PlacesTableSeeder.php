@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-use Illuminate\Database\Seeder;
 use App\Place;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
+
 class PlacesTableSeeder extends Seeder
 {
     /**
@@ -108,6 +109,7 @@ class PlacesTableSeeder extends Seeder
             ];
 
         $dt = new Carbon();
+
         foreach ($places as $place) {
             $date = $dt->addSecond();
             $place['updated_at'] = $date;
