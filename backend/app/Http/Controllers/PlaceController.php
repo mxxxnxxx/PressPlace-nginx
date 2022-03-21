@@ -239,7 +239,7 @@ class PlaceController extends Controller
         }
         $placeSearched = $places_q
             ->orderBy('created_at', 'desc')
-            ->with('place_images','user','tags','favoriteUsers')
+            ->with('place_images', 'user', 'tags', 'favoriteUsers')
             ->paginate(15);
 
         return $placeSearched;

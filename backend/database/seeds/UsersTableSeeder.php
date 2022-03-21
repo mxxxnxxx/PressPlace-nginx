@@ -18,6 +18,7 @@ class UsersTableSeeder extends Seeder
             'age' => 55,
             'email' => 'test1@test.mail.com',
             'password' => Hash::make('testPlay'), // この場合、「my_secure_password」でログインできる
+            'user_image' => 'user_images/user_51.jpg',
             'introduction' => '食べるの大好きです!ずっと食べていたいです!(demo)',
             'remember_token' => Str::random(10),
         ]);
@@ -26,6 +27,7 @@ class UsersTableSeeder extends Seeder
             'age' => 22,
             'email' => 'test2@test.mail.com',
             'password' => Hash::make('testPlay'), // この場合、「my_secure_password」でログインできる
+            'user_image' => 'user_images/user_52.jpg',
             'introduction' => '服好きと繋がりたいと考えはじめてつぶやいてたらバズったのは私です｡(仮説) 主に行ったことがある服屋さんをpressします!!(demo)',
             'remember_token' => Str::random(10),
         ]);
@@ -34,6 +36,7 @@ class UsersTableSeeder extends Seeder
             'age' => 55,
             'email' => 'test3@test.mail.com',
             'password' => Hash::make('testPlay'), // この場合、「my_secure_password」でログインできる
+            'user_image' => 'user_images/user_53.jpg',
             'introduction' => 'キャフェを営む50代の男性です｡自分の店は載せませんが｡｡尊敬しているお店をのせていきます｡(demo)',
             'remember_token' => Str::random(10),
         ]);
@@ -42,6 +45,7 @@ class UsersTableSeeder extends Seeder
             'age' => 44,
             'email' => 'test4@test.mail.com',
             'password' => Hash::make('testPlay'), // この場合、「my_secure_password」でログインできる
+            'user_image' => 'user_images/user_54.jpg',
             'introduction' => 'art好きです｡気難しくないので絡んでね｡',
             'remember_token' => Str::random(10),
         ]);
@@ -50,6 +54,7 @@ class UsersTableSeeder extends Seeder
             'age' => 55,
             'email' => 'test5@test.mail.com',
             'password' => Hash::make('testPlay'), // この場合、「my_secure_password」でログインできる
+            'user_image' => 'user_images/user_55.jpg',
             'introduction' => 'カスタネットで世界を救う人です｡演奏したことがあるライブハウスを載せます(demo)',
             'remember_token' => Str::random(10),
         ]);
