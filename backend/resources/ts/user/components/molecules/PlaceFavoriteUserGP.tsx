@@ -10,7 +10,6 @@ type Props = {
 const PlaceFavoriteUserGP: React.FC<Props> = ({ place }) => {
     return (
         <>
-
             {place.favoriteUsers?.length ?
                 <AvatarGroup max={4}>
                     {place.favoriteUsers.map((user, index) => (
