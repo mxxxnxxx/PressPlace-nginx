@@ -153,9 +153,7 @@ class PlaceController extends Controller
     public function index()
     {
         $places = Place::orderBy(Place::UPDATED_AT, 'desc')
-            ->with('place_images')
-            ->with('user')
-            ->with('tags')
+            ->with('place_images', 'tags', 'user', 'favoriteUsers')
             ->paginate(15);
         return $places;
     }
@@ -166,9 +164,7 @@ class PlaceController extends Controller
         // placesテーブルのuser_idでログインユーザーのフォローしているUserIDと同一のものを取得する
         $followUsersPlaces = Place::orderBy(Place::UPDATED_AT, 'desc')
             ->whereIn('places.user_id', $followUsersIds)
-            ->with('place_images')
-            ->with('user')
-            ->with('tags')
+            ->with('place_images', 'user', 'tags')
             ->paginate(15);
         return response()->json($followUsersPlaces);
     }
@@ -224,28 +220,26 @@ class PlaceController extends Controller
             // whereHasで配列がからで検索をかけると該当がなくなるのでifで回避
             foreach ($tags as $tag) {
                 // $tagがnullでなければ検索をかける
-                if (isset($tag)) {
+                if ($tag) {
                     $places_q->where('name', 'like', '%' . $tag . '%');
                 }
             }
         });
 
-        if (!$name === '') {
+        if ($name) {
             $places_q->where('name', 'like', '%' . $name . '%');
         }
 
-        if (!$address === '') {
+        if ($address) {
             $places_q->where('address', 'like', '%' . $address . '%');
         }
 
-        if (!$comment === '') {
+        if ($comment) {
             $places_q->where('comment', 'like', '%' . $comment . '%');
         }
         $placeSearched = $places_q
             ->orderBy('created_at', 'desc')
-            ->with('place_images')
-            ->with('user')
-            ->with('tags')
+            ->with('place_images','user','tags','favoriteUsers')
             ->paginate(15);
 
         return $placeSearched;

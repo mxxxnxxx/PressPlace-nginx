@@ -3,6 +3,7 @@ import MenuBookIcon from '@material-ui/icons/MenuBook'
 import { AxiosError } from 'axios'
 import React from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
+import PlaceFavoriteUserGP from '../../../user/components/molecules/PlaceFavoriteUserGP'
 import PlaceCardAction from '../../containers/molecules/PlaceCardAction'
 import PlaceCardContent from '../../containers/molecules/PlaceCardContent'
 import PlaceCardHeader from '../../containers/molecules/PlaceCardHeader'
@@ -41,19 +42,23 @@ const PlaceCard: React.FC<Props> = ({
             {/* placeの詳細ページの際は非表示 */}
             {/* indexOfで前方一致 */}
             {!(location.pathname.indexOf('place') > -1) &&
-                <CardActions style={{
-                    flexDirection: 'row-reverse',
-                }}>
-                    <Button
-                        onClick={() => { history.push(`/place/${place.id}`) }}
-                        startIcon={<MenuBookIcon />}
-                        style={{
-                            marginRight: theme.spacing(1)
-                        }}
-                    >
-                        more...
-                    </Button>
-                </CardActions>
+                <>
+
+                    <CardActions style={{
+                        flexDirection: 'row-reverse',
+                    }}>
+                        <Button
+                            onClick={() => { history.push(`/place/${place.id}`) }}
+                            startIcon={<MenuBookIcon />}
+                            style={{
+                                marginRight: theme.spacing(1)
+                            }}
+                        >
+                            more...
+                        </Button>
+                        <PlaceFavoriteUserGP place={place} />
+                    </CardActions>
+                </>
             }
         </Card>
     )
