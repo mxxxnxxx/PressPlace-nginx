@@ -43,7 +43,7 @@ const PlaceCard: React.FC<Props> = ({
             {/* indexOfで前方一致 */}
             {!(location.pathname.indexOf('place') > -1) &&
                 <>
-                    <PlaceFavoriteUserGP place={place} />
+
                     <CardActions style={{
                         flexDirection: 'row-reverse',
                     }}>
@@ -56,6 +56,7 @@ const PlaceCard: React.FC<Props> = ({
                         >
                             more...
                         </Button>
+                        <PlaceFavoriteUserGP place={place} />
                     </CardActions>
                 </>
             }
