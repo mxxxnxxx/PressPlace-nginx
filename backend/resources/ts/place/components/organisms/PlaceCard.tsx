@@ -42,23 +42,20 @@ const PlaceCard: React.FC<Props> = ({
             {/* placeの詳細ページの際は非表示 */}
             {/* indexOfで前方一致 */}
             {!(location.pathname.indexOf('place') > -1) &&
-                <>
-
-                    <CardActions style={{
-                        flexDirection: 'row-reverse',
-                    }}>
-                        <Button
-                            onClick={() => { history.push(`/place/${place.id}`) }}
-                            startIcon={<MenuBookIcon />}
-                            style={{
-                                marginRight: theme.spacing(1)
-                            }}
-                        >
-                            more...
-                        </Button>
-                        <PlaceFavoriteUserGP place={place} />
-                    </CardActions>
-                </>
+                <CardActions style={{
+                    flexDirection: 'row-reverse',
+                }}>
+                    <Button
+                        onClick={() => { history.push(`/place/${place.id}`) }}
+                        startIcon={<MenuBookIcon />}
+                        style={{
+                            marginRight: theme.spacing(1)
+                        }}
+                    >
+                        more...
+                    </Button>
+                    <PlaceFavoriteUserGP place={place} />
+                </CardActions>
             }
         </Card>
     )
