@@ -22,17 +22,19 @@ const useStyle = makeStyles(() => ({
         }
     },
     avatar: {
-        margin: '0'
+        margin: '0',
+        flexShrink: 1,
     },
     action: {
+        flexShrink: 1,
         alignSelf: 'center',
-        margin: '0'
+        margin: '0',
     },
     name: {
-        width: '50%',
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis'
+        display: "-webkit-box",
+        overflow: "hidden",
+        "-webkit-line-clamp": 1,
+        "-webkit-box-orient": "vertical",
     }
 }))
 
@@ -46,9 +48,8 @@ const PlaceCardHeader: React.FC<Props> = ({
         <CardHeader
             className={classes.root}
             classes={{
-
-                action: classes.action,
                 avatar: classes.avatar,
+                action: classes.action,
             }}
             avatar={
                 <>
