@@ -23,10 +23,8 @@ const useStyle = makeStyles(() => ({
     },
     avatar: {
         margin: '0',
-        flexShrink: 1,
     },
     action: {
-        flexShrink: 1,
         alignSelf: 'center',
         margin: '0',
     },
