@@ -27,7 +27,7 @@ const useStyle = makeStyles((theme) => ({
         minWidth: 'min-content',
     }
 }))
-const PlaceCardAction: React.FC<Props> = ({
+const PlaceCardTagAction: React.FC<Props> = ({
     place,
     tagSearch
 }) => {
@@ -59,4 +59,4 @@ const PlaceCardAction: React.FC<Props> = ({
     )
 }
 
-export default PlaceCardAction
+export default PlaceCardTagAction
