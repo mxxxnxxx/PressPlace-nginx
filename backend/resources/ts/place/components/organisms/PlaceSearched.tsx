@@ -1,18 +1,18 @@
-import { AppBar, Backdrop, Box, Card, CircularProgress, makeStyles, Paper, Typography } from '@material-ui/core'
+import { AppBar, Backdrop, Box, Card, CircularProgress, makeStyles, Typography } from '@material-ui/core'
 import { useTheme } from '@material-ui/core/styles'
 import { AxiosError } from 'axios'
 import React, { FC } from 'react'
+import Masonry from 'react-masonry-css'
 import PlaceCardHeader from '../../containers/molecules/PlaceCardHeader'
+import PlaceCardTagAction from '../../containers/molecules/PlaceCardTagAction'
 import { Inputs } from '../../types/Inputs'
 import { Place } from '../../types/Place'
 import { Places } from '../../types/Places'
+import PageNextBack from '../molecules/PageNextBack'
 import PlaceCardContent from '../molecules/PlaceCardContent'
 import SearchedWords from '../molecules/SearchedWords'
-import PageNextBack from '../molecules/PageNextBack'
-import PlaceCardAction from '../../containers/molecules/PlaceCardAction'
+import PlaceCard from './PlaceCard'
 import Map from '/work/backend/public/background_image/map.png'
-import PlaceSearchButton from '../atoms/PlaceSearchButton'
-import Masonry from 'react-masonry-css'
 
 type Props = {
     places?: Places
@@ -120,15 +120,9 @@ const PlaceSearched: FC<Props> = ({
                 >
                     {!(places?.total == 0) &&
                         places?.data?.map((place: Place, index) => (
-                            <Card className={classes.card} key={index.toString()}>
-                                <PlaceCardHeader place={place} />
-                                <PlaceCardContent place={place} />
-                                {place.tags.length > 0 &&
-                                    <PlaceCardAction
-                                        place={place}
-                                    />
-                                }
-                            </Card>
+                            <div className={classes.card} key={index.toString()}>
+                                <PlaceCard place={place} />
+                            </div>
                         ))}
                 </Masonry>
                 {places && places.total > 0 && <PageNextBack

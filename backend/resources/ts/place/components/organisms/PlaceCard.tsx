@@ -1,12 +1,12 @@
-import { Button, Card, CardActions, Typography, useTheme } from '@material-ui/core'
-import MenuBookIcon from '@material-ui/icons/MenuBook'
+import { Card, Typography } from '@material-ui/core'
 import { AxiosError } from 'axios'
 import React from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
-import PlaceCardAction from '../../containers/molecules/PlaceCardAction'
+import { useLocation } from 'react-router-dom'
 import PlaceCardContent from '../../containers/molecules/PlaceCardContent'
 import PlaceCardHeader from '../../containers/molecules/PlaceCardHeader'
+import PlaceCardTagAction from '../../containers/molecules/PlaceCardTagAction'
 import { Place } from '../../types/Place'
+import PlaceCardMoreAction from '../molecules/PlaceCardMoreAction'
 
 type Props = {
     place: Place
@@ -17,9 +17,7 @@ const PlaceCard: React.FC<Props> = ({
     place,
     error
 }) => {
-    const history = useHistory()
     const location = useLocation()
-    const theme = useTheme()
 
     if (error) {
         return (
@@ -33,27 +31,15 @@ const PlaceCard: React.FC<Props> = ({
             <PlaceCardHeader place={place} />
             <PlaceCardContent place={place} />
             {place.tags.length > 0 &&
-                <PlaceCardAction
+                <PlaceCardTagAction
                     place={place}
                 />
             }
 
             {/* placeの詳細ページの際は非表示 */}
             {/* indexOfで前方一致 */}
-            {!(location.pathname.indexOf('place') > -1) &&
-                <CardActions style={{
-                    flexDirection: 'row-reverse',
-                }}>
-                    <Button
-                        onClick={() => { history.push(`/place/${place.id}`) }}
-                        startIcon={<MenuBookIcon />}
-                        style={{
-                            marginRight: theme.spacing(1)
-                        }}
-                    >
-                        more...
-                    </Button>
-                </CardActions>
+            {location.pathname.indexOf('place/') === -1 &&
+                <PlaceCardMoreAction place={place} />
             }
         </Card>
     )
