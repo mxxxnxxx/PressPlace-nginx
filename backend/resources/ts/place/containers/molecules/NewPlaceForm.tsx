@@ -63,6 +63,7 @@ const EnhancedNewPlaceForm: React.FC = () => {
         for (let i = 0; i < compressedPhotoData.length; i++) {
             formData.append("place_image_" + i, compressedPhotoData[i].blob, compressedPhotoData[i].name)
         }
+        console.log(formData);
         // axiosを内包したusePostPlaceQueryでpost
         postPlace(formData,
             {

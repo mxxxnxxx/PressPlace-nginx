@@ -21,7 +21,11 @@ const useStyle = makeStyles((theme) => ({
         marginBottom: '10px'
     },
     item2: {
-        fontSize: '0.8rem'
+        fontSize: '0.7rem',
+        width: theme.spacing(9),
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis'
     },
     noFavoriteUsers: {
         fontSize: '0.8rem'
@@ -69,7 +73,8 @@ const PlaceFavoriteUsers: React.FC<Props> = ({
                                 </ListItemAvatar>
                                 <ListItemText
                                     className={classes.item2}
-                                    primary={`${userProfile.user.name}`}
+                                    secondary={`${userProfile.user.name}`}
+                                    classes={{ secondary: classes.item2 }}
                                 />
                                 <ListItemSecondaryAction>
                                     <FollowButton

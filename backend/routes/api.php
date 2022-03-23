@@ -61,6 +61,9 @@ Route::get('/user/favorite/places', 'UserController@favoritePlaces')->name('user
 Route::get('/user/followings/{userName}', 'UserController@followings')->name('user.followings');
 Route::get('/user/followers/{userName}', 'UserController@followers')->name('user.followers');
 
+// placeをお気に入りにUserのリスト取得
+Route::get('/place/favorite/users/{placeId} ', 'PlaceController@placeFavoriteUsers')->name('place.favoriteUsers');
+
 // Laravel-sanctumでログイン認証時にしか行えないようにしたルート
 Route::group(['middleware' => 'auth:sanctum'], function (): void {
     Route::get('/user/me', 'UserController@current')->name('user');
@@ -89,8 +92,6 @@ Route::group(['middleware' => 'auth:sanctum'], function (): void {
     Route::delete('/places/{placeId}/unfavorite', 'FavoriteController@destroy')->name('place.unfavorite');
     // place削除機能
     Route::get('/places/delete/{id} ', 'PlaceController@softdelete')->name('place.softdelete');
-    // placeをお気に入りにUserのリスト取得
-    Route::get('/place/favorite/users/{placeId} ', 'PlaceController@placeFavoriteUsers')->name('place.favoriteUsers');
     // フォローしているUsersのplacesを取得
     Route::get('/follow/users/places', 'PlaceController@followUsersPlaces');
 });

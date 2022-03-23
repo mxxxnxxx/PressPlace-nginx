@@ -8,7 +8,6 @@ type Props = {
     userName?: string
     value: string
     handleChange: (event: React.ChangeEvent<{}>, newValue: string) => void
-    handleChangeIndex: (index: string) => void
 }
 
 type TabPanelProps = {
@@ -46,7 +45,6 @@ function a11yProps(index: any) {
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '90%',
-        maxWidth: '33rem',
         marginTop: theme.spacing(3),
         marginLeft: 'auto',
         marginRight: 'auto'
