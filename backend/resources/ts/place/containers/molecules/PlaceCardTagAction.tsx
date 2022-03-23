@@ -2,7 +2,7 @@ import React from 'react'
 import { useQueryClient } from 'react-query'
 import { useHistory } from 'react-router'
 import { useSearchKeyContext } from '../../../context/SearchKeyContext'
-import PlaceCardAction from '../../components/molecules/PlaceCardAction'
+import PlaceCardTagAction from '../../components/molecules/PlaceCardTagAction'
 import { Inputs } from '../../types/Inputs'
 import { Place } from '../../types/Place'
 
@@ -10,7 +10,7 @@ type Props = {
     place: Place
 }
 
-const EnhancedPlaceCardAction: React.FC<Props> = ({ place }) => {
+const EnhancedPlaceCardTagAction: React.FC<Props> = ({ place }) => {
     const history = useHistory()
     const queryClient = useQueryClient()
     const { dispatch } = useSearchKeyContext()
@@ -31,10 +31,10 @@ const EnhancedPlaceCardAction: React.FC<Props> = ({ place }) => {
         history.push('/places/searched')
     }
     return (
-        <PlaceCardAction
+        <PlaceCardTagAction
             place={place}
             tagSearch={tagSearch}
         />
     )
 }
-export default EnhancedPlaceCardAction
+export default EnhancedPlaceCardTagAction
