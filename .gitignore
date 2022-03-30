@@ -85,7 +85,6 @@ backend/Homestead.yaml
 backend/npm-debug.log
 backend/yarn-error.log
 backend/storage
-backend/config
 backend/passport
 backend/tools/php-cs-fixer/vendor
 backend/.php-cs-fixer.cache
