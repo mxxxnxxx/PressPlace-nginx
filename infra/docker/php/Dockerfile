@@ -1,4 +1,5 @@
 FROM php:7.4.8-fpm
+
 LABEL maintainer="ucan-lab <yes@u-can.pro>"
 SHELL ["/bin/bash", "-oeux", "pipefail", "-c"]
 
@@ -14,12 +15,6 @@ ENV TZ=Japan \
 
 # composer commandインストール
 COPY --from=composer:2.1 /usr/bin/composer /usr/bin/composer
-# node commandインストール
-COPY --from=node /usr/local/bin /usr/local/bin
-# npm commandインストール
-COPY --from=node /usr/local/lib /usr/local/lib
-# # yarn commandインストール
-# COPY --from=node /opt /opt
 
 # パッケージリストの更新
 RUN apt-get update && \
@@ -41,14 +36,11 @@ RUN apt-get update && \
   composer config -g process-timeout 3600 && \
   # 応答が早いミラーサイトのrepoを取得
   composer config -g repos.packagist composer https://packagist.org && \
-  # # nodeJSインストール
-  apt-get update && apt-get install -y nodejs npm && \
-  npm install n -g && \
-  n 16.3.0 && \
   # ImageMagick(画像処理の拡張機能)インストールと有効化
-  apt-get update && apt-get install libmagickwand-dev -y --no-install-recommends && \
-  pecl install imagick && \
-  docker-php-ext-enable imagick && \
+  apt-get update && apt-get install -y imagemagick && \
+  apt-get install gcc && \
+  apt-get install pkg-config && \
+  apt-get install libmagickwand-dev -y --no-install-recommends && \
   # GDライブラリの有効化
   docker-php-ext-configure gd --with-freetype --with-jpeg && \
   docker-php-ext-install -j$(nproc) gd
