@@ -72,8 +72,6 @@ node_modules
 backend/node_modules
 backend/public/storage
 backend/storage/*.key
-backend/public/css/style.css
-backend/public/js/app.js
 backend/vendor
 backend/.env
 backend/.env.backup
