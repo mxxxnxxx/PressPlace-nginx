@@ -23,8 +23,17 @@ install-recommend-packages:
 	docker-compose exec app php artisan vendor:publish --provider="BeyondCode\DumpServer\DumpServerServiceProvider"
 	docker-compose exec app php artisan vendor:publish --provider="Barryvdh\Debugbar\ServiceProvider"
 init:
-	docker-compose up -d --build
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml build
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 	docker-compose exec app composer install
+	docker-compose exec app cp .env.example .env
+	docker-compose exec app php artisan key:generate
+	docker-compose exec app php artisan storage:link
+	docker-compose exec app chmod -R 777 storage bootstrap/cache
+	@make fresh
+init-prod:
+	docker-compose up -d --build
+	docker-compose exec app composer install --optimize-autoloader --no-dev
 	docker-compose exec app cp .env.example .env
 	docker-compose exec app php artisan key:generate
 	docker-compose exec app php artisan storage:link
@@ -33,6 +42,9 @@ init:
 remake:
 	@make destroy
 	@make init
+remake-prod:
+	@make destroy
+	@make init-prod
 stop:
 	docker-compose stop
 down:
@@ -68,6 +80,8 @@ app:
 	docker-compose exec app bash
 migrate:
 	docker-compose exec app php artisan migrate
+import-postal-code:
+	docker-compose exec app php artisan import:postal-code
 fresh:
 	docker-compose exec app php artisan migrate:fresh --seed
 	docker-compose exec app php artisan import:postal-code
@@ -99,15 +113,17 @@ cache-clear:
 npm:
 	@make npm-install
 npm-install:
-	docker-compose exec app npm install
+	docker-compose exec web npm install
 npm-dev:
-	docker-compose exec app npm run dev
+	docker-compose exec web npm run dev
 npm-watch:
-	docker-compose exec app npm run watch
+	docker-compose exec web npm run watch
 npm-watch-poll:
-	docker-compose exec app npm run watch-poll
+	docker-compose exec web npm run watch-poll
 npm-hot:
-	docker-compose exec app npm run hot
+	docker-compose exec web npm run hot
+npm-prod:
+	docker-compose exec web npm run production
 yarn:
 	docker-compose exec web yarn
 yarn-install:
