@@ -113,15 +113,17 @@ cache-clear:
 npm:
 	@make npm-install
 npm-install:
-	docker-compose exec app npm install
+	docker-compose exec web npm install
 npm-dev:
-	docker-compose exec app npm run dev
+	docker-compose exec web npm run dev
 npm-watch:
-	docker-compose exec app npm run watch
+	docker-compose exec web npm run watch
 npm-watch-poll:
-	docker-compose exec app npm run watch-poll
+	docker-compose exec web npm run watch-poll
 npm-hot:
-	docker-compose exec app npm run hot
+	docker-compose exec web npm run hot
+npm-prod:
+	docker-compose exec web npm run production
 yarn:
 	docker-compose exec web yarn
 yarn-install:
