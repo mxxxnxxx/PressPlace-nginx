@@ -160,9 +160,8 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class,
-        // Package Service Providers...
-
+        // 下記で APP_ENV=local の場合に読み込まれるプロバイダーを指定
+        App\Providers\LocalEnviromentServiceProvider::class,
         // Application Service Providers...
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
@@ -219,6 +218,5 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Image' => Intervention\Image\Facades\Image::class,
-        'Debugbar' => Barryvdh\Debugbar\Facade::class,
     ],
 ];
