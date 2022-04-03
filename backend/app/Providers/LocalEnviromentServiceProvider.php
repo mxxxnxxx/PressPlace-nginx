@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
 class LocalEnviromentServiceProvider extends ServiceProvider
@@ -13,7 +14,7 @@ class LocalEnviromentServiceProvider extends ServiceProvider
      * @var array
      */
     protected $localProviders = [
-        Barryvdh\Debugbar\ServiceProvider::class,
+        'Barryvdh\\Debugbar\\ServiceProvider',
     ];
 
     /**
@@ -21,7 +22,7 @@ class LocalEnviromentServiceProvider extends ServiceProvider
      * @var array
      */
     protected $facadeAliases = [
-        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Debugbar' => 'Barryvdh\\Debugbar\\Facade',
     ];
 
     /**
@@ -29,7 +30,7 @@ class LocalEnviromentServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if ($this->app->isLocal()) {
+        if ($this->app['env'] === 'local') {
             $this->registerServiceProviders();
             $this->registerFacadeAliases();
         }
@@ -43,16 +44,6 @@ class LocalEnviromentServiceProvider extends ServiceProvider
     }
 
     /**
-    * 追加で使用するserviceproviderをloadする
-    * Base file providers load is /config/app.php => providers.
-    */
-    protected function registerServiceProviders(): void
-    {
-        foreach ($this->localProviders as $provider) {
-            $this->app->register($provider);
-        }
-    }
-    /**
      * 追加で使用するAliaseをロードする
      * Base file Alias load is /config/app.php => aliases.
      */
@@ -65,5 +56,14 @@ class LocalEnviromentServiceProvider extends ServiceProvider
         }
     }
 
-
+    /**
+     * 追加で使用するserviceproviderをloadする
+     * Base file providers load is /config/app.php => providers.
+     */
+    protected function registerServiceProviders(): void
+    {
+        foreach ($this->localProviders as $provider) {
+            $this->app->register($provider);
+        }
+    }
 }
