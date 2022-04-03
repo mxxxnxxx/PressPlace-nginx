@@ -1,0 +1,17 @@
+version: "3.9"
+# 以下の記事を参考に開発環境のみdb-testingコンテナを利用
+# https://techtechmedia.com/docker-compose-dev-prod/
+services:
+  db-testing:
+    build:
+      context: .
+      dockerfile: ./infra/docker/mysql/Dockerfile
+    volumes:
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE:-laravel_local}
+      - MYSQL_USER=${DB_USERNAME:-phper}
+      - MYSQL_PASSWORD=${DB_PASSWORD:-secret}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:-secret}
+    ports:
+      - ${DB_PORT:-3306}
