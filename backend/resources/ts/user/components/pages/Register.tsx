@@ -2,7 +2,7 @@ import {
     Backdrop,
     Box,
     Button, Card, CardContent, CardHeader, CircularProgress,
-    Container, Paper, TextField, Typography
+    Container, TextField
 } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { AxiosError } from 'axios'

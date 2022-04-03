@@ -11,10 +11,10 @@ import TextField from '@material-ui/core/TextField'
 import { AxiosError } from 'axios'
 import React, { FC } from 'react'
 import UserChangePassword from '../../containers/organisms/UserResetPasswordSendForm'
-import { Provider } from '../../types/OAuth'
 import RegisterButton from '../atoms/RegisterButton'
 import LegalLink from '../molecules/LegalLink'
 import LoginAlert from '../molecules/LoginAlert'
+import TestUserInfo from '../organisms/TestUserInfo'
 import Tunnel from '/work/backend/public/background_image/tunnel.png'
 
 const useStyles = makeStyles((theme) => ({
@@ -70,6 +70,7 @@ const Login: FC<Props> = ({
                     <Card style={{ margin: `${theme.spacing(6)}px 0` }}>
                         <CardHeader title="ログイン" style={{ textAlign: 'center', marginTop: 30 }} />
                         <CardContent>
+                            <TestUserInfo />
                             <Box p={2} borderBottom={1} className={classes.decorationLine}>
                             </Box>
                             <form onSubmit={handleLogin}>
@@ -89,7 +90,6 @@ const Login: FC<Props> = ({
                                         required
                                         autoComplete="email"
                                         name="email"
-                                        defaultValue='test@test.mail.com'
                                         autoFocus
                                         onChange={handleChangeEmail}
                                     />
@@ -101,7 +101,6 @@ const Login: FC<Props> = ({
                                         value={password}
                                         margin="normal"
                                         name="password"
-                                        defaultValue='testPlay'
                                         required
                                         autoComplete="current-password"
                                         onChange={handleChangePassword}
