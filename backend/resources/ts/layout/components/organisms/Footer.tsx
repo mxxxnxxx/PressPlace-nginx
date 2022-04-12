@@ -29,7 +29,7 @@ const Footer: FC = () => {
                             title="pressplaceとは？"
                             linkUrl="/about"
                         />
-                        <FooterNavItem type="internal" title="作った人" linkUrl="/creator" />
+                        <FooterNavItem type="external" title="作った人" linkUrl="http://35.74.155.2/" />
                     </List>
                 </Grid>
                 <Grid item xs={12} sm={4} component="nav">
