@@ -10,6 +10,7 @@ import AccountButton from '../../../user/components/atoms/AccountButton'
 import RegisterButton from '../../../user/components/atoms/RegisterButton'
 import AccountMenu from '../../../user/components/molecules/AccountMenu'
 import { User } from '../../../user/types/User'
+import TestMessageHeader from './TestMessageHeader'
 
 type Props = {
     user: User | undefined | null
@@ -132,6 +133,7 @@ const Header: FC<Props> = ({ user, handleLogout }) => {
                 )}
 
             </Toolbar>
+            <TestMessageHeader />
         </AppBar>
     )
 }

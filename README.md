@@ -12,10 +12,7 @@
 - docker､SPA､レスポンシブデザイン､TypeScript 対応済み
 
   - Link  
-    現在メンテナンス中
-    <!-- - テスト用アカウント
-      メールアドレス：
-      パスワード : -->
+    [https://press-place.net/](https://press-place.net/)
 
 ---
 
@@ -58,6 +55,7 @@
 - User 間 フォロー機能
 
 - レスポンシブデザイン
+- SSL 対応
 
 ---
 
@@ -79,8 +77,11 @@
   - docker-compose v2.2.3
 - ## AWS
   - EC2
+    - ロードバランサー
   - VPC
   - S3
+  - Route 53
+  - ACM
 
 ---
 
