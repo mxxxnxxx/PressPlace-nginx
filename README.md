@@ -105,7 +105,7 @@
 
 ## インフラ構図
 
-![インフラ構図](https://github.com/mxxxnxxx/ImageWarehouse/blob/main/PressPlaceNginx/PressPlaceNginxInfrastructure.jpg)
+![インフラ構図](https://github.com/mxxxnxxx/ImageWarehouse/blob/main/PressPlaceNginx/PressPlaceNginx.drawio.png)
 
 ## ER 図
 
