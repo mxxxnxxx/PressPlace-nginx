@@ -31,6 +31,8 @@ const EnhancedPlaceSearched: FC = () => {
         getPlaceSearch
         history.push(from)
     }
+
+    // searchKeyのすべての値が''かどうかチェックする
     const ToConfirmSearchKey = Object.values(searchKey).every((v) => {
         if (typeof v === 'object') {
             return v.every((v) => v == '')

@@ -53,10 +53,8 @@ const PostalCode: React.FC<PostalCodeProps> = ({
 
         // もしNaNでなければ
         if (addressValue) {
-            // formに住所を反映
+            // formに住所欄を取得して反映
             const elm = document.getElementById('address') as HTMLInputElement
-            // setAddress(addressValue)
-            // return elm.value = address
             return elm.value = addressValue
         }
     }
