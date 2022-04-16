@@ -203,6 +203,21 @@ class PlaceController extends Controller
         return $this->index();
     }
 
+    /**
+     * 場所情報を検索するメソッド
+     *
+     * Reactも含めた処理
+     * 1.PlaceSearchコンポーネントにて 検索フォームレンダリング
+     * 2.onSubmit成功時 useSearchKeyContext()でグローバルに検索ワードを管理 & 成功時に / places / searchedに移動
+     * 3.PlaceSearchedコンポーネントにてuseSearchKeyContextのsearchKeyをuseGetPlaceSearchにわたし非同期処理
+     * 4.useGetPlaceSearchのreturnから検索結果が表示
+     * 5.useSearchKeyContextのsearchKeyの削除がおこなわれるとrefetch:getPlaceSearchの処理が走り再検索される
+     * 6.useSearchKeyContextのsearchKeyがすべて''になると ToConfirmSearchKeyがtrueになり '/places/search'に移動し処理の1番に戻る
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return mixed
+     */
+
     public function search(Request $request)
     {
         // データベースから検索
@@ -214,10 +229,10 @@ class PlaceController extends Controller
             'comment' => $comment,
             'tags' => $tags
         ) = $InputsData;
-        // タグは後で削除された場合react側では' 'でそうしんされて$tagsのだんかいではnullになる
+        // タグは後で削除された場合react側では' 'でそうしんされてもともと初めからからの$tagsのだんかいではnullになる
 
         $places_q->whereHas('tags', function ($places_q) use ($tags): void {
-            // whereHasで配列がからで検索をかけると該当がなくなるのでifで回避
+            // whereHasで配列が空で検索をかけると該当がなくなるのでifで回避
             foreach ($tags as $tag) {
                 // $tagがnullでなければ検索をかける
                 if ($tag) {
