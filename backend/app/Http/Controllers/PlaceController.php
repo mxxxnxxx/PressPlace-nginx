@@ -22,7 +22,13 @@ class PlaceController extends Controller
         return PostalCode::whereSearch($request->first_code, $request->last_code)->first();
     }
 
-    // データベースへ保存
+    /**
+     * placeの新規投稿
+     *
+     * @param \App\Http\Requests\PlaceRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+
     public function store(PlaceRequest $request)
     {
         $place = Place::create([
@@ -34,12 +40,14 @@ class PlaceController extends Controller
         // 画像の処理
         // 一枚目の写真がなければ処理をしない
         if ($request->place_image_0) {
+            // 複数枚の画像処理
             $count = count($request->file());
-
             for ($i = 0; $i < $count; $i++) {
                 $place_image = "place_image_{$i}";
                 $img = $request->file($place_image);
+                // S3に保存しながらパスを取得
                 $path = Storage::disk('s3')->putFile('place_images', $img, 'public');
+                // DBにパスのみ取得
                 $place->place_images()->create(['image_path' => $path]);
             }
         }
@@ -55,12 +63,12 @@ class PlaceController extends Controller
                 // firstOrCreateでTagモデルからDBにアクセスしtagのnameカラムの重複を防ぎながらタグを作成している。
                 // 作ったあとの情報を$recodeで変数として取得している
                 $record = Tag::firstOrCreate(['name' => $tag]);
-                // 作成された$recodeを受け皿に入れる
+                // 作成された$recodeを配列に入れる
                 $tags[] = $record;
             }
 
             // 多対多の中間テーブル用の記述
-            // タグのidを中間テーブにいれるための受け皿
+            // タグのidを中間テーブにいれるための配列
             $tags_id = [];
             // $tagにはテーブルに入る時の情報もすでにもっているので$tag->idがつかえる
             foreach ($tags as $tag) {
@@ -68,8 +76,8 @@ class PlaceController extends Controller
                 $tags_id[] = $tag->id;
             }
 
-            // タグはpostがsaveされた後にattachするように。
-            // $place（今作った投稿）に紐づけるとするために->tags()でしてい
+            // タグはpostがsaveされた後にattachするように気をつける
+            // $place（今作った投稿）に紐づけるとするために->tags()でしている
             // 定義した$placeのid(place_id)と多対多の関係のtag(tag_id)を紐付けるための記述
             $place->tags()->attach($tags_id);
         }
@@ -78,7 +86,14 @@ class PlaceController extends Controller
         ? response()->json($place, 201)
         : response()->json([], 500);
     }
-
+    /**
+     * placeの編集
+     *
+     * 画像の処理注意
+     *
+     * @param \App\Http\Requests\PlaceRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(PlaceRequest $request)
     {
         $place = Place::find($request->id);
@@ -89,19 +104,27 @@ class PlaceController extends Controller
 
         // 不要な写真の削除
         // 消すデータを特定 array_diffするために配列の形を整える
+        // placeから関連づいている写真のpathを配列に入れる
         $old_s3_path_nest = $place->place_images()->get('image_path')->toArray();
+
+        // array_mapは第一引数にコールバック関数を第二引数に対象の配列の中身に処理をして新しい配列を返す
+        // コールバック関数の引数は配列の中身を変数化している
+        // 今回はpathのみを抽出
         $old_s3_path_flat = array_map(function ($path) {
             return $path['image_path'];
         }, $old_s3_path_nest);
 
+        // $requestから以前まで設定していた写真を配列に入れる
         $old_place_images = [];
-
         if ($request->old_place_images) {
             $old_place_images += $request->old_place_images;
         }
-        // もともとの写真の配列と更新後の写真を比較
+
+        // 現在S3にある写真と($old_s3_path_flat)とPostされてきた写真($old_place_images)の差分を新しい配列に入れる
+        // つまり消したい画像のパス($delete_s3_path)
         $delete_s3_path = array_diff($old_s3_path_flat, $old_place_images);
-        // $delete_s3_pathをmergeして配列を詰める
+
+        // $delete_s3_pathをarray_mergeすることで配列のindexが0から始まる状態に整理される
         $delete_s3_path_merge = array_merge($delete_s3_path);
 
         for ($i = 0; $i < count($delete_s3_path_merge); $i++) {

@@ -1,5 +1,5 @@
 import {
-    Box, Button, TextField, Typography, useTheme
+    Box, Button, TextField, Typography
 } from '@material-ui/core'
 import React from 'react'
 import { useFormContext } from "react-hook-form"
@@ -13,10 +13,8 @@ type Props = {
 const TagsForm: React.FC<Props> = ({ tags, addTag, removeTag }) => {
 
     const methods = useFormContext()
-    const theme = useTheme()
     return (
         <>
-            {/* // Box textAlign="center" style={{ margin: theme.spacing(2) }} */}
             {tags.map((tag, _) => {
                 return (
                     <TextField
@@ -32,7 +30,7 @@ const TagsForm: React.FC<Props> = ({ tags, addTag, removeTag }) => {
                                     const { tag } = methods.getValues()
                                     // ''を無視してバリデーションをするために ''をフィルター
                                     const tags = tag.filter(Boolean)
-                                    // every関数で配列内の要素にたいして していした関数を実行
+                                    // every関数で配列内の要素にたいして 指定した関数を実行
                                     // indexOfでタグの値をつかい検索
                                     // 重複していなければ全ての 返り値が配列のindexと 一致する
                                     // 一致すればevery関数がtrueを返す
@@ -64,7 +62,7 @@ const TagsForm: React.FC<Props> = ({ tags, addTag, removeTag }) => {
             </Box>
             <Box>
                 {tags.length < 5 &&
-                    < Button type="button" onClick={() => addTag()}>
+                    <Button type="button" onClick={() => addTag()}>
                         +
                     </Button>
                 }

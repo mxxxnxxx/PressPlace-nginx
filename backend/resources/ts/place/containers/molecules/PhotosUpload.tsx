@@ -88,6 +88,7 @@ const EnhancedPhotosUpload: React.FC<Props> = (
         // いままでからだったphotosにpickedPhotosを統合し,いれる
         // pickedPhotosは添付された写真じたいがはいっている
         // concatが非破壊的な処理になるのでstateを利用しても大丈夫
+        // 破壊的のものを使うと値は変わっても再レンダリングされない
         const concatPhotos = photos.concat(pickedPhotos)
         // ４枚以上でエラー
         if (concatPhotos.length >= 4) {

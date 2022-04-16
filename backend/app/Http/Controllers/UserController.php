@@ -45,7 +45,7 @@ class UserController extends Controller
 
     public function userPlaces(Request $request)
     {
-        // axiosで送られてきたparamsに悪世する場合は第一引数の変数に配列として入る
+        // axiosで送られてきたparamsに利用する場合は第一引数の変数に配列として入る
         // urlパラメータは第二引数に入る
         $user = User::where('name', $request->input('userName'))->first();
         $places = Place::where('user_id', $user['id'])
@@ -157,7 +157,7 @@ class UserController extends Controller
     }
 
     // プラーベートコントローラー内で使うメソッド定義
-    // 画像を変収集するためのメソッド
+    // 画像を編集するためのメソッド
     private function saveUserImage($userImage)
     {
         // save
