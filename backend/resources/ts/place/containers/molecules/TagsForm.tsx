@@ -8,8 +8,11 @@ type Props = {
 
 const EnhancedTagsForm: React.FC<Props> = ({ oldPlace }) => {
 
+    // タグフォームの個数とindexをstateで管理
     const [tags, setTags] = useState(["tag.0"]);
     const methods = useFormContext();
+
+    // タグフォームを増やす関数
     const addTag = () => {
         if (tags.length > 4) {
             return
@@ -19,15 +22,17 @@ const EnhancedTagsForm: React.FC<Props> = ({ oldPlace }) => {
         setTags(newTags);
     }
 
-
+    // タグフォームを減らす関数
     const removeTag = () => {
         // 以下で最後尾のtagFormのvalueを取得
         const tagVal = document.getElementById(tags.slice(-1)[0]);
         if (tags.length > 1 && tagVal) {
             const rmTags = [...tags]
-            methods.setValue(tagVal.id, '')
-            // popでtagFormから一番末尾の1つだけ削除している
+            // popでtagFormから一番末尾の1つだけ破壊的に削除している
             rmTags.pop()
+            // react-hook-formのstateを空の文字列にする
+            // この処理がないとフォームだけ消えるだけでPost時にはvalが残ってしまう
+            methods.setValue(tagVal.id, '')
             setTags(rmTags)
         }
     }

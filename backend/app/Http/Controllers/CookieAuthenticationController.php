@@ -79,7 +79,7 @@ final class CookieAuthenticationController extends Controller
         }
 
         throw ValidationException::withMessages([
-        'email' => ['ログインに失敗しました'],
+        'message' => ['ログインに失敗しました'],
         ]);
     }
 

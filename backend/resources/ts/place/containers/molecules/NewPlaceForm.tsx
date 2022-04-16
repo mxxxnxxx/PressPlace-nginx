@@ -6,6 +6,9 @@ import useCurrentUser from "../../../user/hooks/useCurrentUser"
 import NewPlaceForm from '../../components/organisms/NewPlaceForm'
 import usePostPlaceQuery from '../../hooks/usePostPlaceMutation'
 
+// Controlled Component での FormではコンポーネントをまたぐとPropsの管理が困難になるので
+// react-hook-form を採用しFormProviderでコンポーネント間を管理
+
 type Inputs = {
     name: string
     comment: string
@@ -63,7 +66,6 @@ const EnhancedNewPlaceForm: React.FC = () => {
         for (let i = 0; i < compressedPhotoData.length; i++) {
             formData.append("place_image_" + i, compressedPhotoData[i].blob, compressedPhotoData[i].name)
         }
-        console.log(formData);
         // axiosを内包したusePostPlaceQueryでpost
         postPlace(formData,
             {

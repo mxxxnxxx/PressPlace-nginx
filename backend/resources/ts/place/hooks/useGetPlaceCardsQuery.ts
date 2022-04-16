@@ -17,18 +17,16 @@ const getPlaceCard = async ({ pageParam = 1 }): Promise<Places> => {
 
 
 const useGetPlaceCardsQuery = <TData = Places>(
-    // options?: UseInfiniteQueryOptions<Places, AxiosError, TData>
 ): UseInfiniteQueryResult<TData, AxiosError> => {
-    // const options: UseInfiniteQueryOptions<Places, AxiosError, TData> = {
-
-    // }
     return useInfiniteQuery('places', getPlaceCard, {
-        // ...options,
+        // 次のデータが有るか判断
+        // ページがあれば+1して次のページがひょうじされる
         getNextPageParam: (lastPage) =>
             lastPage.nextPageUrl ? lastPage.currentPage + 1 : false,
         getPreviousPageParam: (firstPage) =>
             firstPage.prevPageUrl ? firstPage.currentPage - 1 : false,
 
+        // ウインドウフォーカス時に再取得される処理を無効
         refetchOnWindowFocus: false,
     })
 }
