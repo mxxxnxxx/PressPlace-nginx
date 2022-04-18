@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 import Header from '../../components/organisms/Header'
 import { toast } from 'react-toastify'
 import useLogout from '../../../user/hooks/auth/useLogout'
-import useCurrentUser from '../../../user/hooks/useCurrentUser'
+import useCurrentUser from '../../../user/hooks/useGetCurrentUser'
 
 
 const EnhancedHeader: FC = () => {

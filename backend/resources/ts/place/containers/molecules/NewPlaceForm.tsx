@@ -2,7 +2,7 @@ import imageCompression from "browser-image-compression"
 import React, { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useHistory, useLocation } from 'react-router-dom'
-import useCurrentUser from "../../../user/hooks/useCurrentUser"
+import useCurrentUser from "../../../user/hooks/useGetCurrentUser"
 import NewPlaceForm from '../../components/organisms/NewPlaceForm'
 import usePostPlaceQuery from '../../hooks/usePostPlaceMutation'
 

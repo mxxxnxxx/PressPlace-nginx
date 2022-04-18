@@ -33,9 +33,6 @@ const useStyles = makeStyles((theme) => ({
     name: {
         margin: theme.spacing(1),
     },
-    followButton: {
-    },
-
     introduction: {
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(2),
@@ -91,7 +88,7 @@ const AuthUserProfile: FC<Props> = ({
                 {userProfile?.user.name}
             </Typography>
             {/* フォローボタン */}
-            <Box className={classes.followButton}>
+            <Box>
                 <FollowButton
                     followState={userProfile?.followState}
                     targetUser={userProfile?.user.id}

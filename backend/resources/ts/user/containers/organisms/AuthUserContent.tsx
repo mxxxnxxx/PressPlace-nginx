@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useParams } from 'react-router'
 import AuthUserContents from '../../components/organisms/AuthUserContents'
-import useCurrentUser from '../../hooks/useCurrentUser'
+import useCurrentUser from '../../hooks/useGetCurrentUser'
 
 const EnhancedAuthUserContent: React.FC = () => {
     const currentUser = useCurrentUser()

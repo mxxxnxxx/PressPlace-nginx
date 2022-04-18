@@ -3,7 +3,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { useHistory, useLocation } from 'react-router'
 import UserChangeEmail from '../../components/organisms/UserChangeEmail'
 import useChangeEmail from '../../hooks/auth/useChangeEmail'
-import useCurrentUser from '../../hooks/useCurrentUser'
+import useCurrentUser from '../../hooks/useGetCurrentUser'
 import { ChangeEmailType } from '../../types/ChangeEmailType'
 
 const EnhancedUserChangeEmail: React.FC = () => {
