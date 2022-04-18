@@ -1,7 +1,7 @@
 import React from 'react'
 import Loding from '../../../layout/components/pages/Loding'
 import AuthUserProfile from "../../components/organisms/AuthUserProfile"
-import useCurrentUser from '../../hooks/useCurrentUser'
+import useCurrentUser from '../../hooks/useGetCurrentUser'
 import useGetUserProfileQuery from '../../hooks/useGetUserProfileQuery'
 
 const EnhancedAuthUserProfile: React.FC = () => {

@@ -15,29 +15,10 @@ const useStyles = makeStyles((theme: Theme) =>
         container: {
             borderBottom: 'thin solid',
             marginBottom: '10px'
-
-        },
-        item1: {
-
-        },
-        userImage: {
-
-        },
-        userName: {
-        },
-        item2: {
-
         },
         primary: {
             fontSize: '0.7rem'
         },
-        introduction: {
-        },
-        item3: {
-        },
-        followButton: {
-        },
-
     }),
 );
 
@@ -79,7 +60,6 @@ const FollowingList: React.FC<Props> = ({
                                 onClick={() => goToOtherUser(userProfile.user.name)}
                             >
                                 <ListItemAvatar
-                                    className={classes.item1}
                                 >
                                     <Avatar
                                         variant="rounded"
@@ -88,15 +68,12 @@ const FollowingList: React.FC<Props> = ({
                                 </ListItemAvatar>
 
                                 <ListItemText
-                                    className={classes.item2}
                                     primary={`${userProfile.user.name}`}
                                     classes={{
                                         primary: classes.primary
                                     }}
                                 />
-                                <ListItemSecondaryAction
-                                    className={classes.item3}
-                                >
+                                <ListItemSecondaryAction>
                                     <FollowButton
                                         followState={userProfile?.followState}
                                         targetUser={userProfile?.user.id}

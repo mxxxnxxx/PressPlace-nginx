@@ -1,4 +1,3 @@
-import { Places } from "../../place/types/Places"
 import { User } from "./User"
 
 export type UserProfile = {

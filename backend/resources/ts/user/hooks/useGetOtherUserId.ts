@@ -1,8 +1,8 @@
 import { useQueryClient } from 'react-query'
 
-const useOtherUserId = (): number | undefined => {
+const useGetOtherUserId = (): number | undefined => {
     const queryClient = useQueryClient()
     return queryClient.getQueryData('otherUserId')
 }
 
-export default useOtherUserId
+export default useGetOtherUserId

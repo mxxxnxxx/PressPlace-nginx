@@ -1,6 +1,6 @@
 import { useQueryClient, UseMutationResult, useMutation } from 'react-query';
 import axios, { AxiosError } from 'axios';
-import useCurrentUser from './useCurrentUser';
+import useCurrentUser from './useGetCurrentUser';
 
 
 const deleteUser = async (): Promise<void> => {
