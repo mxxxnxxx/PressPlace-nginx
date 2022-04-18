@@ -4,12 +4,12 @@ import { useForm, FormProvider } from 'react-hook-form'
 import { useHistory, useLocation, useParams } from 'react-router-dom'
 import EditPlaceForm from '../../components/organisms/EditPlaceForm'
 import imageCompression from "browser-image-compression"
-import useEditPostPlaceQuery from '../../hooks/useEditPostPlaceMutation'
+import useEditPostPlaceQuery from '../../hooks/usePostEditPlaceMutation'
 import { Place } from '../../types/Place'
 import { PlaceImage } from '../../types/PlaceImage'
 import axios from 'axios'
 import Loding from '../../../layout/components/pages/Loding'
-import useCurrentUser from '../../../user/hooks/useCurrentUser'
+import useCurrentUser from '../../../user/hooks/useGetCurrentUser'
 
 type Inputs = {
     name: string

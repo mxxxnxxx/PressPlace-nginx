@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react'
-import useCurrentUser from '../../../user/hooks/useCurrentUser'
+import useCurrentUser from '../../../user/hooks/useGetCurrentUser'
 import Places from '../../components/pages/Places'
 
 

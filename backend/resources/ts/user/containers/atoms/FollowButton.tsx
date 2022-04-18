@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react'
 import FollowButton from '../../components/atoms/FollowButton'
-import useCurrentUser from '../../hooks/useCurrentUser'
-import Follow from '../../hooks/useFollowUser'
-import UnFollow from '../../hooks/useUnFollowUser'
+import useCurrentUser from '../../hooks/useGetCurrentUser'
+import Follow from '../../hooks/usePostFollowUser'
+import UnFollow from '../../hooks/useDeleteUnFollowUser'
 
 // 使う親のcomponentからfollowButtonの初期値を決めるPropsをもらう
 type Props = {
