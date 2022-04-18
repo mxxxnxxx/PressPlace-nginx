@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useQueryClient } from 'react-query';
 import { useHistory } from 'react-router-dom';
-import useCurrentUser from '../../../user/hooks/useCurrentUser';
+import useCurrentUser from '../../../user/hooks/useGetCurrentUser';
 import { User } from '../../../user/types/User';
 import PlaceCardHeader from '../../components/molecules/PlaceCardHeader';
 import { Place } from "../../types/Place";

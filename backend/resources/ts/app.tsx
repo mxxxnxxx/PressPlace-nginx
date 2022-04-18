@@ -34,7 +34,7 @@ import UserFollowCount from './user/containers/pages/UserFollowCount'
 import UserPage from "./user/containers/pages/UserPage"
 import UserResetPassword from './user/containers/pages/UserResetPassword'
 import UserSetting from "./user/containers/pages/UserSetting"
-import useCurrentUser from './user/hooks/useCurrentUser'
+import useCurrentUser from './user/hooks/useGetCurrentUser'
 import useGetUserQuery from './user/hooks/useGetUserQuery'
 
 declare global {

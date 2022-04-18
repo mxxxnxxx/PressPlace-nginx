@@ -9,7 +9,7 @@ const editPostPlace = async (formData: FormData): Promise<Place> => {
     return data
 }
 
-const useEditPostPlaceQuery = (): UseMutationResult<
+const usePostEditPlaceQuery = (): UseMutationResult<
     Place,
     AxiosError,
     FormData,
@@ -24,5 +24,5 @@ const useEditPostPlaceQuery = (): UseMutationResult<
         }
     })
 }
-export default useEditPostPlaceQuery
+export default usePostEditPlaceQuery
 
