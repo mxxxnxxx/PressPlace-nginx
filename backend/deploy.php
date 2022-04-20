@@ -59,18 +59,18 @@ task('copy:env', function (): void {
 });
 
 task('deploy', [
-'deploy:info',
-'deploy:prepare', // サーバに接続して、ソースコードを配置するディレクトリを作成するTask
-'deploy:lock', // デプロイをlockTask
-'deploy:release', // デプロイするソースコードを配置するためのディレクトリを整備するTask
-'deploy:update_code', // git cloneでソースを落とすTask
-'deploy:shared', // リリースバージョンの共有ディレクトリを設置するTask
-'deploy:vendors', // composerをinstallするTask
-'deploy:clear_paths',
-'deploy:symlink', // シンボリックリンク差し替えるTask
-'deploy:unlock', // デプロイのlockを解除するTask
-'cleanup', // 前リリースバージョンを削除するTask
-'success',
+    'deploy:info',
+    'deploy:prepare', // サーバに接続して、ソースコードを配置するディレクトリを作成するTask
+    'deploy:lock', // デプロイをlockTask
+    'deploy:release', // デプロイするソースコードを配置するためのディレクトリを整備するTask
+    'deploy:update_code', // git cloneでソースを落とすTask
+    'deploy:shared', // リリースバージョンの共有ディレクトリを設置するTask
+    'deploy:vendors', // composerをinstallするTask
+    'deploy:clear_paths',
+    'deploy:symlink', // シンボリックリンク差し替えるTask
+    'deploy:unlock', // デプロイのlockを解除するTask
+    'cleanup', // 前リリースバージョンを削除するTask
+    'success',
 ]);
 // タイミングをしていすることでかいひ
 
