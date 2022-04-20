@@ -8,7 +8,7 @@ production:
   # SSH接続をするため
   port: 22
   #sshキーが保存されてる場所指定
-  identityFile: ~/backend/.ssh/id_rsa
+  identityFile: /work/backend/.ssh/id_rsa
   #アプリディレクトリをデプロイする場所指定
   deploy_path: /home/ubuntu
   # githubの指定
