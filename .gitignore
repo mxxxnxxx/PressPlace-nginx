@@ -65,8 +65,7 @@ fabric.properties
 node_modules
 .DS_Store
 *.log
-# ssh
-.ssh/
+
 
 .devcontainer
 .vscode
@@ -75,6 +74,7 @@ backend/node_modules
 backend/public/storage
 backend/storage/*.key
 backend/vendor
+backend/.ssh
 backend/.env
 backend/.env.backup
 backend/.env.testing
