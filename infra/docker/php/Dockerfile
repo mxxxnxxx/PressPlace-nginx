@@ -50,7 +50,4 @@ RUN apt-get update && \
 COPY ./infra/docker/php/php-fpm.d/zzz-www.conf /usr/local/etc/php-fpm.d/zzz-www.conf
 COPY ./infra/docker/php/php.ini /usr/local/etc/php/php.ini
 
-#ローカルでDockerfileと場所に配置されてる鍵をコンテナ上の/.sshディレクトリにコピー
-COPY .ssh/ /root/.ssh/
-
 WORKDIR /work/backend
