@@ -14,6 +14,8 @@ set('application', 'PressPlace');
 set('keep_releases', 10);
 // Project repository
 set('repository', '');
+// composerの--no-suggestオプションが利用されるとエラーが起こるので 利用しないバージョンでオーバーライド
+set('composer_options', 'install --verbose --prefer-dist --no-progress --no-interaction --optimize-autoloader');
 
 // [Optional] tty で名前をわりあてるか
 set('git_tty', false);
