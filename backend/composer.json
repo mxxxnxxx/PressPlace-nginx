@@ -26,6 +26,7 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",
+        "deployer/deployer": "^6.8",
         "facade/ignition": "^1.4",
         "laravel/ui": "^1.0",
         "mockery/mockery": "^1.0",

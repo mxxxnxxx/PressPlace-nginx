@@ -65,6 +65,8 @@ fabric.properties
 node_modules
 .DS_Store
 *.log
+# ssh
+.ssh/
 
 .devcontainer
 .vscode
