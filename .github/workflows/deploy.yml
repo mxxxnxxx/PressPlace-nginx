@@ -5,81 +5,35 @@ on:
     branches:
       - master #ここで記述したリモートブランチにpushする起動
 jobs:
-  jobs:
-  laravel-testing:
-    runs-on: ubuntu-latest
+  test_job:
+    name: phpUnitTest
+    runs-on: ubuntu-latest #最新のubuntuを指定
+
+    #DB側（MySQLコンテナ）設定
+    services:
+      mysql:
+        image: mysql:8.0.19
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ROOT_PASSWORD: hanakuso
+          MYSQL_DATABASE: test_db
+          MYSQL_USER: phper
+          MYSQL_PASSWORD: secret
+        options: --health-cmd "mysqladmin ping -h localhost" --health-interval 20s --health-timeout 10s --health-retries 10 #optionsでMySQLが起動したかヘルスチェックするようにします。
+
+    #アプリ側（テスト用DB）設定
+    env:
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: test_db
+      DB_USERNAME: user
+      DB_PASSWORD: "password"
 
     steps:
       - uses: actions/checkout@v2
-
-      - name: Ubuntu Version
-        run: cat /etc/os-release
-
-      - name: Docker Version
-        run: docker version
-
-      - name: Cache Composer dependencies
-        uses: actions/cache@v2
-        id: cache
-        with:
-          path: ./backend/vendor
-          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
-
-      - name: Docker Compose Build and Up
-        run: |
-          docker-compose build
-          docker-compose up -d
-
-      - name: Docker Compose Process
-        run: docker-compose ps -a
-
-      - name: PHP, Composer Version
-        run: |
-          docker-compose exec -T app php --version
-          docker-compose exec -T app composer --version
-
-      - name: Composer Install
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: docker-compose exec -T app composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
-
-      - name: Composer Dump Autoload
-        run: docker-compose exec -T app composer dump-autoload -q
-
-      - name: Laravel Settings
-        run: |
-          docker-compose exec -T app cp .env.example .env
-          docker-compose exec -T app php artisan key:generate
-          docker-compose exec -T app php artisan optimize
-          docker-compose exec -T app chmod -R 777 storage bootstrap/cache
-
-      - name: Laravel Version
-        run: docker-compose exec -T app php artisan --version
-
-      - name: Laravel Migrate Testing
-        run: docker-compose exec -T app php artisan migrate
-
-      - name: Laravel Rollback Testing
-        run: docker-compose exec -T app php artisan migrate:refresh
-
-      - name: Laravel Seeding Testing
-        run: docker-compose exec -T app php artisan db:seed
-
-      - name: Laravel PHPUnit Testing
-        run: |
-          docker-compose exec -T app php artisan config:clear
-          docker-compose exec -T app php artisan test
-
-  #ここから自動デプロイのワークフローを定義しています。
-  deploy:
-    name: deploy
-    runs-on: ubuntu-latest
-    needs: laravel-tests #自動テストが成功したらデプロイを実行するように。
-    if: github.ref == 'refs/heads/main'
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup PHP 7.4
+      - name: Setup PHP 7.4 #phpのバージョン指定（しておかないと後々バージョンエラーになる）
         run: sudo update-alternatives --set php /usr/bin/php7.4
 
       - name: cache vendor
@@ -92,35 +46,81 @@ jobs:
             ${{ runner.os }}-composer-
 
       - name: composer install
+        shell: bash -xe {0} # custom shell
         if: steps.cache.outputs.cache-hit != 'true'
         run: cd backend && composer install -n --prefer-dist
 
-      - name: install awscli #ALBの脱着を行うようにする為、AWS CLIを使います。
-        run: | # AWS CLIインストール
-          cd backend &&
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-          unzip awscliv2.zip
-          sudo ./aws/install --update
-          aws --version
+      - name: composer dump autoload #requireを使用せず、どこからでも対象のソースやクラスを呼び出せるようにする。
+        shell: bash -xe {0}
+        run: cd backend && composer dump-autoload
 
-      - name: setup ssh # ssh接続の為、sshキーをコピー
-        run: |
-          cd backend &&
-          mkdir -p /home/runner/.ssh
-          touch /home/runner/.ssh/id_rsa
-          echo "${{ secrets.SSH_DEPLOY_KEY }}" > /home/runner/.ssh/id_rsa
-          chmod 600 /home/runner/.ssh/id_rsa
+      - name: generate key #アプリケーションキー作成
+        shell: bash -xe {0}
+        run: cd backend && php artisan key:generate --env=testing
 
-      - name: add known hosts # known_hostsに追加
-        run: ssh-keyscan 34.32.12.66 >> ~/.ssh/known_hosts
-
-      - name: composer require deployer/deployer #depコマンドを叩けるようにする。
-        run: cd backend && composer require deployer/deployer --dev
-
-      - name: deploy #デプロイ実行
+      - name: migrate #DB作成
+        shell: bash -xe {0}
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ap-northeast-1
-          AWS_DEFAULT_OUTPUT: json
-        run: cd backend && ./vendor/bin/dep deploy LaravelWeb1 -vvv #LaravelWeb1はdeploy.phpで指定したstage。
+          DB_HOST: 127.0.0.1
+        run: cd backend && php artisan migrate --force
+
+      - name: unit test #テスト実行
+        shell: bash -xe {0}
+        env:
+          DB_HOST: 127.0.0.1
+        run: cd backend && ./vendor/bin/phpunit
+
+  # #ここから自動デプロイのワークフローを定義しています。
+  # deploy:
+  #   name: deploy
+  #   runs-on: ubuntu-latest
+  #   needs: laravel-tests #自動テストが成功したらデプロイを実行するように。
+  #   if: github.ref == 'refs/heads/main'
+
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Setup PHP 7.4
+  #       run: sudo update-alternatives --set php /usr/bin/php7.4
+
+  #     - name: cache vendor
+  #       id: cache
+  #       uses: actions/cache@v1
+  #       with:
+  #         path: ./vendor
+  #         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+  #         restore-keys: |
+  #           ${{ runner.os }}-composer-
+
+  #     - name: composer install
+  #       if: steps.cache.outputs.cache-hit != 'true'
+  #       run: cd backend && composer install -n --prefer-dist
+
+  #     - name: install awscli #ALBの脱着を行うようにする為、AWS CLIを使います。
+  #       run: | # AWS CLIインストール
+  #         cd backend &&
+  #         curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+  #         unzip awscliv2.zip
+  #         sudo ./aws/install --update
+  #         aws --version
+
+  #     - name: setup ssh # ssh接続の為、sshキーをコピー
+  #       run: |
+  #         cd backend &&
+  #         mkdir -p /home/runner/.ssh
+  #         touch /home/runner/.ssh/id_rsa
+  #         echo "${{ secrets.SSH_DEPLOY_KEY }}" > /home/runner/.ssh/id_rsa
+  #         chmod 600 /home/runner/.ssh/id_rsa
+
+  #     - name: add known hosts # known_hostsに追加
+  #       run: ssh-keyscan 34.32.12.66 >> ~/.ssh/known_hosts
+
+  #     - name: composer require deployer/deployer #depコマンドを叩けるようにする。
+  #       run: cd backend && composer require deployer/deployer --dev
+
+  #     - name: deploy #デプロイ実行
+  #       env:
+  #         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         AWS_DEFAULT_REGION: ap-northeast-1
+  #         AWS_DEFAULT_OUTPUT: json
+  #       run: cd backend && ./vendor/bin/dep deploy LaravelWeb1 -vvv #LaravelWeb1はdeploy.phpで指定したstage。
