@@ -28,7 +28,6 @@ class PlaceController extends Controller
      * @param \App\Http\Requests\PlaceRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-
     public function store(PlaceRequest $request)
     {
         $place = Place::create([
@@ -42,6 +41,7 @@ class PlaceController extends Controller
         if ($request->place_image_0) {
             // 複数枚の画像処理
             $count = count($request->file());
+
             for ($i = 0; $i < $count; $i++) {
                 $place_image = "place_image_{$i}";
                 $img = $request->file($place_image);
@@ -86,8 +86,9 @@ class PlaceController extends Controller
         ? response()->json($place, 201)
         : response()->json([], 500);
     }
+
     /**
-     * placeの編集
+     * placeの編集.
      *
      * 画像の処理注意
      *
@@ -116,6 +117,7 @@ class PlaceController extends Controller
 
         // $requestから以前まで設定していた写真を配列に入れる
         $old_place_images = [];
+
         if ($request->old_place_images) {
             $old_place_images += $request->old_place_images;
         }
@@ -227,7 +229,7 @@ class PlaceController extends Controller
     }
 
     /**
-     * 場所情報を検索するメソッド
+     * 場所情報を検索するメソッド.
      *
      * Reactも含めた処理
      * 1.PlaceSearchコンポーネントにて 検索フォームレンダリング
@@ -240,7 +242,6 @@ class PlaceController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return mixed
      */
-
     public function search(Request $request)
     {
         // データベースから検索
