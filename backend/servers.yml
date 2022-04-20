@@ -1,0 +1,20 @@
+app:
+  #デプロイするインスタンスのパブリックIPv4アドレス
+  hostname: 54.238.2.242
+  #自分で決めたステージ名
+  stage: app
+  #デプロイを行うユーザー
+  user: ubuntu
+  # SSH接続をするため
+  port: 22
+  #sshキーが保存されてる場所指定
+  identityFile: ~/.ssh/id_rsa
+  #アプリディレクトリをデプロイする場所指定
+  deploy_path: /home/ubuntu/
+  # githubの指定
+  branch: master
+  repository: https://github.com/mxxxnxxx/PressPlace-nginx.git
+  #デプロイ先のインスタンス
+  instance_id: i-0cc8e0cfeff6bf883
+  # 登録してるリージョン
+  region: ap-northeast-1
