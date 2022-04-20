@@ -3,12 +3,11 @@ name: UnitTest
 on:
   push:
     branches:
-      - master #mainブランチにpushするとワークフローが作動
-
+      - master #ここで記述したリモートブランチにpushする起動
 jobs:
-  laravel-tests:
-    name: phpunit test
-    runs-on: ubuntu-latest
+  test_job:
+    name: phpUnitTest
+    runs-on: ubuntu-latest #最新のubuntuを指定
 
     #DB側（MySQLコンテナ）設定
     services:

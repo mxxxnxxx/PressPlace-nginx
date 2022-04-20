@@ -12,17 +12,17 @@ class SearchTest extends TestCase
     /**
      * A basic feature test example.
      */
-    public function setUp(): void
-    {
-        parent::setUp();
-        // テストユーザ作成
-        $this->places = factory(Place::class, 50)->create();
-    }
+    // public function setUp(): void
+    // {
+    //     parent::setUp();
+    //     // テストユーザ作成
+    //     $this->places = factory(Place::class, 50)->create();
+    // }
 
-    public function testSearch(): void
-    {
-        $response = $this->json('get', 'api/places/search', []);
+    // public function testSearch(): void
+    // {
+    //     $response = $this->json('get', 'api/places/search', []);
 
-        $response->assertStatus(200);
-    }
+    //     $response->assertStatus(200);
+    // }
 }
