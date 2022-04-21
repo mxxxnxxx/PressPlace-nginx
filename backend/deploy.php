@@ -43,6 +43,7 @@ task('build', function (): void {
 // .gitignoreで.envはデプロイされない からのままだと deployerの処理で
 // .envがシンボルリンクになり処理dockerFileのコピーの処理でエラーになる
 // はじめからプロジェクト内に.envファイルが存在しない場合、空の.envファイルが生成され、それがリンクされるため
+//自分の環境はdocker側のサーバー環境変数依存にしているので合わせる
 // 回避するため実装
 
 task('copy:env', function (): void {
@@ -50,12 +51,19 @@ task('copy:env', function (): void {
         $update = input()->getOption('env-update');
 
         if ($update == 'true') {
+            dump('{{ release_path }}');
             $stage = get('stage');
+            dump($stage);
             $src = ".env.${stage}";
+            dump($src);
             $path = get('deploy_path');
+            dump($path);
             $shared_path = "${path}/shared";
-            run("if [ -e $(echo ${shared_path}/.env ) ]; then cp {{ release_path }}/${src} ${shared_path}/.env; fi");
-            run("cp {{ release_path }}/${src} {{ release_path }}/.env");
+            dump($shared_path);
+            // bashのif文で条件分岐 -e は ファイルが存在するか
+            run("if [ -e $(echo ${shared_path}/sever-env/.env ) ]; then cp ${shared_path}/sever-env/.env {{ release_path }}/.env; fi");
+            run("if [ -e $(echo ${shared_path}/backend-env/.env ) ];
+                then cp ${shared_path}/backend-env/.env {{ release_path }}/backend/.env; fi");
         }
     }
 });
@@ -77,18 +85,18 @@ task('deploy', [
 // タイミングをしていすることでかいひ
 
 before('deploy:shared', 'copy:env');
-// [Optional] デプロイが失敗した場合、自動的にロックが解除される
-after('deploy:failed', 'deploy:unlock');
-
+// deploy:vendorsの後にTaskを実行
+after('deploy:vendors', 'php:run');
 // シンボリックリンクの新しいリリースの前にデータベースを移行する。
 before('deploy:symlink', 'artisan:migrate');
-
-// release_pathに作業ディレクトリとして/backendを設定。
-after('deploy:update_code', 'set_release_path');
-task('set_release_path', function (): void {
-    $newReleasePath = get('release_path') . '/backend';
-    set('release_path', $newReleasePath);
-});
+// [Optional] デプロイが失敗した場合、自動的にロックが解除される
+after('deploy:failed', 'deploy:unlock');
+// // release_pathに作業ディレクトリとして/backendを設定。
+// after('deploy:update_code', 'set_release_path');
+// task('set_release_path', function (): void {
+//     $newReleasePath = get('release_path') . '/backend';
+//     set('release_path', $newReleasePath);
+// });
 task('php:run', function (): void {
     run('cd {{ release_path }} && composer dump-autoload'); // オートローディングに関する情報ファイルを生成
     run('cd {{ release_path }} && php artisan htaccess:ip'); // DBから取得したIPアドレスをhtaccessに追記するコマンド（スクラッチ）
