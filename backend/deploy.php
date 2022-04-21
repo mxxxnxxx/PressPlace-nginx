@@ -25,7 +25,12 @@ add('shared_files', []);
 add('shared_dirs', []);
 
 // Webサーバーによって書き込み可能か
-add('writable_dirs', ['bootstrap/cache', 'storage']);
+// 'deploy:writable',のしょりが権限エラーでとまらないようにする
+add('writable_dirs', ['bootstrap/cache', 'storage', ' | echo',]);
+// デフォルトがsetfacl使うようになっているので環境によって変える
+set('writable_mode', "chmod");
+// これで多分writable_dirsのパーミッション変えれる
+set('writable_chmod_mode', "0755");
 set('allow_anonymous_stats', false);
 
 // デプロイ先のサーバー情報をほかファイルで記述 yml形式
@@ -37,8 +42,13 @@ option('env-update', null, InputOption::VALUE_OPTIONAL, 'update env file.');
 
 // gitクローン時に実行される こと
 task('build', function (): void {
-    run('cd {{ release_path }}');
-    run('make remake-prod');
+    run('cd {{ release_path }} && sudo docker-compose down --rmi all --volumes --remove-orphans');
+    run('cd {{ release_path }} && sudo docker-compose up -d --build');
+    run('cd {{ release_path }} && sudo docker-compose exec -T app composer install --optimize-autoloader --no-dev');
+    run('cd {{ release_path }} && sudo docker-compose exec -T app php artisan key:generate');
+    run('cd {{ release_path }} && sudo docker-compose exec -T app php artisan storage:link');
+    run('cd {{ release_path }} && sudo docker-compose exec -T app chmod -R 777 storage bootstrap/cache');
+    run('cd {{ release_path }} && sudo docker-compose exec -T app chmod -R 777 vendor');
 });
 
 // .gitignoreで.envはデプロイされない からのままだと deployerの処理で
@@ -76,8 +86,8 @@ task('deploy', [
     'deploy:release', // デプロイするソースコードを配置するためのディレクトリを整備するTask
     'deploy:update_code', // git cloneでソースを落とすTask
     'deploy:shared', // リリースバージョンの共有ディレクトリを設置するTask
-    'deploy:writable',
-    'deploy:vendors', // composerをinstallするTask
+    // 'deploy:writable',docker側で処理 ※可読性の維持のため残します
+    // 'deploy:vendors', // docker側で処理 ※可読性の維持のため残します
     'deploy:clear_paths',
     'deploy:symlink', // シンボリックリンク差し替えるTask
     'deploy:unlock', // デプロイのlockを解除するTask
@@ -87,19 +97,19 @@ task('deploy', [
 // タイミングをしていすることでかいひ
 
 before('deploy:shared', 'copy:env');
-// deploy:vendorsの後にTaskを実行
-after('deploy:vendors', 'php:run');
+// // deploy:vendorsの後にTaskを実行
+// after('deploy:vendors', 'php:run');
 // シンボリックリンクの新しいリリースの前にデータベースを移行する。
 before('deploy:symlink', 'artisan:migrate');
 // [Optional] デプロイが失敗した場合、自動的にロックが解除される
 after('deploy:failed', 'deploy:unlock');
-// // release_pathに作業ディレクトリとして/backendを設定。
-// after('deploy:update_code', 'set_release_path');
+// release_pathに作業ディレクトリとして/backendを設定。
+after('deploy:shared', 'build');
 // task('set_release_path', function (): void {
 //     $newReleasePath = get('release_path') . '/backend';
 //     set('release_path', $newReleasePath);
 // });
-task('php:run', function (): void {
-    run('cd {{ release_path }} && composer dump-autoload'); // オートローディングに関する情報ファイルを生成
-    run('cd {{ release_path }} && php artisan htaccess:ip'); // DBから取得したIPアドレスをhtaccessに追記するコマンド（スクラッチ）
-});
+// task('php:run', function (): void {
+//     run('cd {{ release_path }} && composer dump-autoload'); // オートローディングに関する情報ファイルを生成
+//     run('cd {{ release_path }} && php artisan htaccess:ip'); // DBから取得したIPアドレスをhtaccessに追記するコマンド（スクラッチ）
+// });
