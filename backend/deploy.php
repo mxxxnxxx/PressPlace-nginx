@@ -37,7 +37,8 @@ option('env-update', null, InputOption::VALUE_OPTIONAL, 'update env file.');
 
 // gitクローン時に実行される こと
 task('build', function (): void {
-    ('cd {{ release_path }} && build');
+    run('cd {{ release_path }}');
+    run('make remake-prod');
 });
 
 // .gitignoreで.envはデプロイされない からのままだと deployerの処理で
@@ -75,6 +76,7 @@ task('deploy', [
     'deploy:release', // デプロイするソースコードを配置するためのディレクトリを整備するTask
     'deploy:update_code', // git cloneでソースを落とすTask
     'deploy:shared', // リリースバージョンの共有ディレクトリを設置するTask
+    'deploy:writable',
     'deploy:vendors', // composerをinstallするTask
     'deploy:clear_paths',
     'deploy:symlink', // シンボリックリンク差し替えるTask
