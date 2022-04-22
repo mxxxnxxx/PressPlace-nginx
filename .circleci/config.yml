@@ -19,6 +19,11 @@ jobs:
       - restore_cache:
           key: npm-v2-{{ checksum "backend/package-lock.json" }}
       - run:
+          name: Install PHP extensions
+          command: |
+            sudo docker-php-ext-install pdo_mysql
+            sudo docker-php-ext-enable pdo_mysql
+      - run:
           working_directory: backend
           name: npm ci
           command: |
