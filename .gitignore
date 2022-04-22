@@ -77,7 +77,6 @@ backend/storage/*.key
 backend/vendor
 backend/.env
 backend/.env.backup
-backend/.env.testing
 backend/.phpunit.result.cache
 backend/Homestead.json
 backend/Homestead.yaml
