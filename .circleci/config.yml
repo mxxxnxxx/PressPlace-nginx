@@ -31,7 +31,7 @@ jobs:
             - backend/node_modules
       - run:
           working_directory: backend
-          command: npm run dev
+          command: npm run development
       - run:
           working_directory: backend
           name: php test
