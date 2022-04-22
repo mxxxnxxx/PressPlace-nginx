@@ -6,6 +6,7 @@ jobs:
     steps:
       - checkout
       - run: cd backend
+      - run: ls -a
       - run: sudo composer self-update --2
       - run: composer install -n --prefer-dist
       - run: npm ci
