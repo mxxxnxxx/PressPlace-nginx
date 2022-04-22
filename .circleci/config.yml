@@ -18,7 +18,7 @@ jobs:
 
       - restore_cache:
           key: npm-v2-{{ checksum "backend/package-lock.json" }}
-      - run:
+      - run: #pdo drive error 回避
           name: Install PHP extensions
           command: |
             sudo docker-php-ext-install pdo_mysql
@@ -26,6 +26,8 @@ jobs:
       - run:
           working_directory: backend
           name: npm ci
+          # npm ci は実行じに node_modulesディレクトリーを削除してしまうのでなければ実行
+          # ある場合はキャッシュがあるということになるので不要になる
           command: |
             if [ ! -d node_modules ]; then
               npm ci
@@ -33,7 +35,7 @@ jobs:
       - save_cache:
           key: npm-v2-{{ checksum "backend/package-lock.json" }}
           paths:
-            - backend/node_modules
+            - backend/.npm
       - run:
           working_directory: backend
           command: npm run development
