@@ -40,4 +40,4 @@ jobs:
       - run:
           working_directory: backend
           name: php test
-          command: vendor/bin/phpunit
+          command: vendor/bin/phpunit -c ./phpunit_circleci.xml
