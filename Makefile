@@ -38,8 +38,8 @@ init-prod:
 	docker-compose exec app php artisan key:generate
 	docker-compose exec app php artisan storage:link
 	docker-compose exec app chmod -R 777 storage bootstrap/cache
+	docker-compose exec app chmod -R 777 vender
 	docker-compose exec app php artisan migrate
-	docker-compose exec app php artisan import:postal-code
 remake:
 	@make destroy
 	@make init

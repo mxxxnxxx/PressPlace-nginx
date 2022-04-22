@@ -43,14 +43,9 @@ RUN apt-get update && \
   apt-get install libmagickwand-dev -y --no-install-recommends && \
   # GDライブラリの有効化
   docker-php-ext-configure gd --with-freetype --with-jpeg && \
-  docker-php-ext-install -j$(nproc) gd && \
-  #元々ある/root下に/.sshディレクトリを作成
-  mkdir /root/.ssh
+  docker-php-ext-install -j$(nproc) gd
 # nginx環境に適応
 COPY ./infra/docker/php/php-fpm.d/zzz-www.conf /usr/local/etc/php-fpm.d/zzz-www.conf
 COPY ./infra/docker/php/php.ini /usr/local/etc/php/php.ini
-
-#ローカルでDockerfileと場所に配置されてる鍵をコンテナ上の/.sshディレクトリにコピー
-COPY .ssh/ /root/.ssh/
 
 WORKDIR /work/backend
