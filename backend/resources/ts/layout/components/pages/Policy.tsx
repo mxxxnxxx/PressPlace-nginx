@@ -1,7 +1,7 @@
 import { makeStyles, Paper, Typography } from '@material-ui/core'
 import { typography } from '@material-ui/system'
 import React from 'react'
-import Map from '/work/backend/public/background_image/map.png'
+import Map from '../../../../../public/background_image/map.png'
 
 type policy = {
     title: string

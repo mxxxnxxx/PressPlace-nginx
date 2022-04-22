@@ -4,7 +4,7 @@ import { useFormContext } from "react-hook-form"
 import Loding from "../../../layout/components/pages/Loding"
 import UserImageUp from "../../containers/molecules/UserImageUp"
 import { UserEditData } from "../../types/UserEditData"
-import Vortex from '/work/backend/public/background_image/vortex.png'
+import Vortex from '../../../../../public/background_image/vortex.png'
 
 type Props = {
     onSubmit: (data: UserEditData) => Promise<void>

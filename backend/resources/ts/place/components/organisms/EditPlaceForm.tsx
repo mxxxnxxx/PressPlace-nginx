@@ -13,7 +13,7 @@ import { Place } from '../../types/Place'
 import { PlaceImage } from '../../types/PlaceImage'
 import PostalCode from "../molecules/PostalCode"
 import PostPlaceAlert from '../molecules/PostPlaceAlert'
-import Sphere from '/work/backend/public/background_image/sphere.png'
+import Sphere from '../../../../../public/background_image/sphere.png'
 
 // 型定義
 type Inputs = {

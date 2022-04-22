@@ -5,7 +5,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { Link } from "react-scroll"
-import Heading from '/work/backend/public/background_image/Heading.jpg'
+import Heading from '../../../../../public/background_image/Heading.jpg'
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward'
 
 
