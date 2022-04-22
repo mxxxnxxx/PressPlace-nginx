@@ -7,7 +7,7 @@ jobs:
       - run: echo "Hello World" #==========この行を削除
       #==========ここから追加==========
       - checkout
-      - run: sudo composer self-update --1
+      - run: sudo composer self-update --2
       - run: composer install -n --prefer-dist
       - run: npm ci
       - run: npm run dev
