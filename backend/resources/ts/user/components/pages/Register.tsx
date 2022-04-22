@@ -10,7 +10,7 @@ import React, { FC } from 'react'
 import { useForm } from "react-hook-form"
 import RegisterAlert from '../molecules/RegisterAlert'
 import TestUserInfo from '../organisms/TestUserInfo'
-import Window from '/work/backend/public/background_image/window.jpg'
+import Window from '../../../../../public/background_image/window.jpg'
 
 
 type Inputs = {

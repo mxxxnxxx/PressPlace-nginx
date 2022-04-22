@@ -15,7 +15,7 @@ import RegisterButton from '../atoms/RegisterButton'
 import LegalLink from '../molecules/LegalLink'
 import LoginAlert from '../molecules/LoginAlert'
 import TestUserInfo from '../organisms/TestUserInfo'
-import Tunnel from '/work/backend/public/background_image/tunnel.png'
+import Tunnel from '../../../../../public/background_image/tunnel.png'
 
 const useStyles = makeStyles((theme) => ({
     root: {

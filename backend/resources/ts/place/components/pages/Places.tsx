@@ -5,7 +5,7 @@ import AppImageCover from '../../../layout/components/organisms/AppImageCover'
 import { User } from '../../../user/types/User'
 import FollowUsersPlaces from '../../containers/organisms/FollowUsersPlaces'
 import PlaceCards from '../../containers/organisms/PlaceCards'
-import Map from '/work/backend/public/background_image/map.png'
+import Map from '../../../../../public/background_image/map.png'
 type Props = {
     user?: User | null
 }

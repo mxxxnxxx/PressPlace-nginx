@@ -5,7 +5,7 @@ import React from 'react'
 import FollowerList from '../../containers/organisms/FollowerList'
 import FollowingList from '../../containers/organisms/FollowingList'
 import UserProfile from '../../containers/organisms/UserProfile'
-import Vortex from '/work/backend/public/background_image/vortex.png'
+import Vortex from '../../../../../public/background_image/vortex.png'
 
 type Props = {
     value: string

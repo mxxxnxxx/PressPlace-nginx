@@ -2,7 +2,7 @@ import { Box, makeStyles } from '@material-ui/core'
 import React from 'react'
 import AuthUserContent from '../../containers/organisms/AuthUserContent'
 import AuthUserProfile from '../../containers/organisms/AuthUserProfile'
-import Vortex from '/work/backend/public/background_image/vortex.png'
+import Vortex from '../../../../../public/background_image/vortex.png'
 
 const useStyle = makeStyles(() => ({
     root: {

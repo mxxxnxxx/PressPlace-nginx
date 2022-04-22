@@ -3,7 +3,7 @@ import React from 'react'
 import PlaceFavoriteUsers from '../../../user/containers/organisms/PlaceFavoriteUsers'
 import PlaceCard from '../../containers/organisms/PlaceCard'
 import { Place } from '../../types/Place'
-import Map from '/work/backend/public/background_image/map.png'
+import Map from '../../../../../public/background_image/map.png'
 
 
 const useStyle = makeStyles((theme) => ({

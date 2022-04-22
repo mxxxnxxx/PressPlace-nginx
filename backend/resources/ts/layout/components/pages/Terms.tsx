@@ -1,5 +1,5 @@
 import { makeStyles, Paper, Typography } from '@material-ui/core'
-import Map from '/work/backend/public/background_image/map.png'
+import Map from '../../../../../public/background_image/map.png'
 import React from 'react'
 
 type Props = {

@@ -2,7 +2,7 @@ import { Box, makeStyles } from '@material-ui/core'
 import React from 'react'
 import UserContent from '../../containers/organisms/UserContents'
 import UserProfile from '../../containers/organisms/UserProfile'
-import Vortex from '/work/backend/public/background_image/vortex.png'
+import Vortex from '../../../../../public/background_image/vortex.png'
 
 type Props = {
     userName: string

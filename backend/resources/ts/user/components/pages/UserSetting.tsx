@@ -2,7 +2,7 @@ import { Box, Card, CardContent, CardHeader, Container, makeStyles, Paper, Typog
 import React, { FC } from "react"
 import UserChangeEmail from "../../containers/organisms/UserChangeEmail"
 import UserDelete from "../../containers/organisms/UserDelete"
-import Tunnel from '/work/backend/public/background_image/tunnel.png'
+import Tunnel from '../../../../../public/background_image/tunnel.png'
 type Props = {
 }
 const useStyles = makeStyles((theme) => ({

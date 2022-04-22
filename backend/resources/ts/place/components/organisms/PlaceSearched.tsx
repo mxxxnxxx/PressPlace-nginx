@@ -12,7 +12,7 @@ import PageNextBack from '../molecules/PageNextBack'
 import PlaceCardContent from '../molecules/PlaceCardContent'
 import SearchedWords from '../molecules/SearchedWords'
 import PlaceCard from './PlaceCard'
-import Map from '/work/backend/public/background_image/map.png'
+import Map from '../../../../../public/background_image/map.png'
 
 type Props = {
     places?: Places

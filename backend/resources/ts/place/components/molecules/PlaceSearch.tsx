@@ -3,7 +3,7 @@ import React from 'react'
 import { useFormContext } from 'react-hook-form'
 import TagsForm from '../../containers/molecules/TagsForm'
 import { Inputs } from '../../types/Inputs'
-import Map from '/work/backend/public/background_image/map.png'
+import Map from '../../../../../public/background_image/map.png'
 type Props = {
     onSubmit: (data: Inputs) => Promise<void>
 }
