@@ -1,14 +1,12 @@
-version: 2.1 # use CircleCI 2.0
-
+version: 2.1
 jobs:
   build:
     docker:
       - image: circleci/php:7.4-node-browsers
-    working_directory: ~/PressPlace-nginx/backend
     steps:
-      - checkout:
-          path: ~/PressPlace-nginx
-
+      - run: echo "Hello World" #==========この行を削除
+      #==========ここから追加==========
+      - checkout
       - run: sudo composer self-update --1
       - run: composer install -n --prefer-dist
       - run: npm ci
@@ -16,13 +14,4 @@ jobs:
       - run:
           name: php test
           command: vendor/bin/phpunit
-  test:
-
-workflows:
-  version: 2
-  build_and_test:
-    jobs:
-      - build
-      - test:
-          requires:
-            - build
+      #==========ここまで追加==========
