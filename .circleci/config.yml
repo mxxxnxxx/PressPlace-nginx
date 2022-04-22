@@ -1,7 +1,7 @@
 name: UnitTest
 
 on:
-  push:
+  push: #今回はmasterのlocalでnpmのbuildをおこなうためpush時にしている
     branches:
       - master #ここで記述したリモートブランチにpushする起動
 jobs:
