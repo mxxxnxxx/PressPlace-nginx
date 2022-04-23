@@ -57,14 +57,14 @@ jobs:
           working_directory: backend
           command: npm run development
 
-      - run:
-          name: install dockerize
-          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-          environment:
-            DOCKERIZE_VERSION: v0.3.0
-      - run:
-          name: Wait for DB_CONNECTION
-          command: dockerize -wait tcp://localhost:3306 -timeout 90s
+      # - run:
+      #     name: install dockerize
+      #     command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+      #     environment:
+      #       DOCKERIZE_VERSION: v0.3.0
+      # - run:
+      #     name: Wait for DB_CONNECTION
+      #     command: dockerize -wait tcp://localhost:3306 -timeout 90s
       - run:
           # phpunit_circleciでローカルとci環境とでDBを分けている
           working_directory: backend
