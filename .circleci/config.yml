@@ -99,7 +99,7 @@ workflows:
     # requiresでdeployの処理がbuildの処理が終わっていなければ実行されないようにしている
     jobs:
       - build
-      - deploy
+      - deploy:
         requires:
           - build
         filters:
