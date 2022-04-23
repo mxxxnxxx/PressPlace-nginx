@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import camelcaseKeys from 'camelcase-keys'
-import { useForm, FormProvider } from 'react-hook-form'
-import { useHistory, useLocation, useParams } from 'react-router-dom'
-import QuotePlaceForm from '../../components/organisms/QuotePlaceForm'
-import imageCompression from "browser-image-compression"
-import usePostPlaceQuery from '../../hooks/usePostPlaceMutation'
-import { Place } from '../../types/Place'
-import { PlaceImage } from '../../types/PlaceImage'
 import axios from 'axios'
+import imageCompression from "browser-image-compression"
+import camelcaseKeys from 'camelcase-keys'
+import React, { useEffect, useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import { useHistory, useLocation, useParams } from 'react-router-dom'
 import Loding from '../../../layout/components/pages/Loding'
 import useCurrentUser from '../../../user/hooks/useGetCurrentUser'
+import QuotePlaceForm from '../../components/organisms/QuotePlaceForm'
+import usePostPlaceQuery from '../../hooks/usePostPlaceMutation'
+import { Place } from '../../types/Place'
 
 type Inputs = {
     name: string
@@ -39,8 +38,8 @@ const EnhancedQuotePlaceForm: React.FC = () => {
     const [quotePlace, setQuotePlace] = useState<Place>()
     const [loadQuotePlace, setLoadQuotePlace] = useState<boolean>(true)
     // 引用元の情報をvalueにセット
-    const set = (camelOldPlace: Place) => {
-        const { id, name, address, comment, tags } = camelOldPlace
+    const set = (camelQuotePlace: Place) => {
+        const { id, name, address, comment, tags } = camelQuotePlace
         setTargetPlaceId(id)
         setValue('name', name)
         setValue('address', address)
@@ -48,6 +47,7 @@ const EnhancedQuotePlaceForm: React.FC = () => {
         for (let i = 0; i < tags.length; i++) {
             setValue(`tag.${i}`, tags[i].name)
         }
+        setQuotePlace(camelQuotePlace)
     }
 
     useEffect(
@@ -55,8 +55,8 @@ const EnhancedQuotePlaceForm: React.FC = () => {
             // コールバックのasync,
             (async (): Promise<void> => {
                 const { data } = await axios.get(`/api/place/${params.placeId}`)
-                const camelOldPlace: Place = await camelcaseKeys(data, { 'deep': true })
-                set(camelOldPlace)
+                const camelQuotePlace: Place = await camelcaseKeys(data, { 'deep': true })
+                set(camelQuotePlace)
                 setLoadQuotePlace(false)
             })()
             window.scrollTo(0, 0)
@@ -65,7 +65,7 @@ const EnhancedQuotePlaceForm: React.FC = () => {
 
 
     // Formからpostの処理
-    const { error, isLoading, mutate: editPostPlace } = usePostPlaceQuery()
+    const { error, isLoading, mutate: postNewPlace } = usePostPlaceQuery()
     const statusCode = error?.response?.status
 
     const onSubmit = async (data: Inputs): Promise<void> => {
@@ -108,16 +108,8 @@ const EnhancedQuotePlaceForm: React.FC = () => {
             formData.append("place_image_" + i, compressedPhotoData[i].blob, compressedPhotoData[i].name)
         }
 
-
-        // 以下 一枚の写真しか送れなかったもの
-        // forEachで圧縮した写真データphotoDataとして渡し一つずつformDataに入れる
-        // compressedPhotoData.forEach((photoData) => {
-        //   formData.append("place_image", photoData.blob, photoData.name)
-        // })
-        // 以下はlaravel側に直前のデータ
-
         // axiosを内包したusePostPlaceQueryでpost
-        editPostPlace(formData,
+        postNewPlace(formData,
             {
                 onSuccess: () => {
                     history.replace(from)

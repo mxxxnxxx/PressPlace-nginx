@@ -35,7 +35,9 @@ const PlaceQuoteButton: React.FC<Props> = ({ placeId }) => {
                     onClick={() => history.push(`/press/quote/${placeId}`)}
                 >
                     <FileCopyIcon />
-                    引用
+                    <Typography style={{ fontSize: '1rem' }} color="initial">
+                        Quote
+                    </Typography>
                 </IconButton>
             </Box>
         </>

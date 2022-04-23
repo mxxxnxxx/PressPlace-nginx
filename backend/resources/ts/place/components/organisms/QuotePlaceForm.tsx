@@ -2,7 +2,7 @@ import {
     Backdrop,
     Box,
     Button, Card, CardContent, CardHeader, CircularProgress,
-    Container, makeStyles, TextField, useTheme
+    Container, makeStyles, TextField, Typography, useTheme
 } from "@material-ui/core"
 import { AxiosError } from 'axios'
 import React from 'react'
@@ -10,10 +10,8 @@ import { useFormContext } from "react-hook-form"
 import PhotosUpload from "../../containers/molecules/PhotosUpload"
 import TagsForm from "../../containers/molecules/TagsForm"
 import { Place } from '../../types/Place'
-import { PlaceImage } from '../../types/PlaceImage'
 import PostalCode from "../molecules/PostalCode"
 import PostPlaceAlert from '../molecules/PostPlaceAlert'
-import Sphere from '../../../../../public/background_image/sphere.png'
 
 // 型定義
 type Inputs = {
@@ -37,11 +35,6 @@ type Props = {
 }
 
 const useStyle = makeStyles((theme) => ({
-    root: {
-        backgroundImage: `url(${Sphere})`,
-        backgroundAttachment: 'fixed',
-        backgroundSize: 'cover',
-    },
     cardContent: {
         padding: '20px'
     },
@@ -66,7 +59,6 @@ const QuotePlaceForm: React.FC<Props> = ({
 }) => {
     const classes = useStyle()
     const methods = useFormContext()
-
     const theme = useTheme()
 
     return (
@@ -74,11 +66,10 @@ const QuotePlaceForm: React.FC<Props> = ({
             display="flex"
             flexDirection="column"
             minHeight="100vh"
-            className={classes.root}
         >
             <Container maxWidth="xs" >
                 <Card style={{ margin: `${theme.spacing(6)}px 0` }}>
-                    <CardHeader title="場所の編集をする" style={{ textAlign: 'center', marginTop: 30 }} />
+                    <CardHeader title="引用して投稿する" style={{ textAlign: 'center', marginTop: 30 }} />
                     <CardContent className={classes.cardContent}>
                         <form className={classes.placeForm} onSubmit={methods.handleSubmit(onSubmit)}>
                             {statusCode &&
@@ -103,11 +94,12 @@ const QuotePlaceForm: React.FC<Props> = ({
                                 id="name"
                                 name="name"
                                 margin="normal"
+                                disabled={true}
                                 fullWidth
                                 error={Boolean(methods.errors.name)}
                                 helperText={methods.errors.name && methods.errors.name.message}
                             />
-
+                            <Typography style={{ fontSize: '1rem' }} color="error">※引用時は変更できません</Typography>
                             <PostalCode name="address" />
 
                             <TextField
