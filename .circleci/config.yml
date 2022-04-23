@@ -8,7 +8,7 @@ jobs:
           - APP_DEBUG: true
           - APP_ENV: testing
           - DB_CONNECTION: circleci
-          - DB_DATABASE: circle_test
+          # - DB_DATABASE: circle_test
           - DB_USERNAME: root
           - DB_PASSWORD: ""
           - DB_HOST: localhost
