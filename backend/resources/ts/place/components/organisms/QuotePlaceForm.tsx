@@ -94,12 +94,15 @@ const QuotePlaceForm: React.FC<Props> = ({
                                 id="name"
                                 name="name"
                                 margin="normal"
-                                disabled={true}
+                                value={quotePlace?.name}
                                 fullWidth
                                 error={Boolean(methods.errors.name)}
                                 helperText={methods.errors.name && methods.errors.name.message}
                             />
-                            <Typography style={{ fontSize: '1rem' }} color="error">※引用時は変更できません</Typography>
+                            <Typography style={{
+                                fontSize: '1rem',
+                                alignSelf: 'flex-start'
+                            }} color="error">※引用時は変更できません</Typography>
                             <PostalCode name="address" />
 
                             <TextField

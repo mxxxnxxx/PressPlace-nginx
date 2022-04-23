@@ -2,8 +2,9 @@ import { Box, Button, IconButton, makeStyles, Typography } from '@material-ui/co
 import FileCopyIcon from '@material-ui/icons/FileCopy'
 import React from 'react'
 import { Link, useHistory } from 'react-router-dom'
+import { Place } from '../../types/Place'
 type Props = {
-    placeId: number
+    place: Place
 }
 const useStyle = makeStyles((theme) => ({
     PressButtonXs: {
@@ -18,22 +19,24 @@ const useStyle = makeStyles((theme) => ({
         }
     },
 }))
-const PlaceQuoteButton: React.FC<Props> = ({ placeId }) => {
+const PlaceQuoteButton: React.FC<Props> = ({ place }) => {
     const classes = useStyle()
     const history = useHistory()
     return (
         <>
             <Box className={classes.PressButtonXs}>
                 <IconButton
-                    onClick={() => history.push(`/press/quote/${placeId}`)}
+                    onClick={() => history.push(`/press/quote/${place.id}`)}
                 >
+                    {place.quoteCount > 0 && place.quoteCount}
                     <FileCopyIcon />
                 </IconButton>
             </Box>
             <Box className={classes.PressButtonSm}>
                 <IconButton
-                    onClick={() => history.push(`/press/quote/${placeId}`)}
+                    onClick={() => history.push(`/press/quote/${place.id}`)}
                 >
+                    {place.quoteCount > 0 && place.quoteCount}
                     <FileCopyIcon />
                     <Typography style={{ fontSize: '1rem' }} color="initial">
                         Quote

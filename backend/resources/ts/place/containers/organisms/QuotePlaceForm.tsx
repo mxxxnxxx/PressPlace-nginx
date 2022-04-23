@@ -34,14 +34,11 @@ const EnhancedQuotePlaceForm: React.FC = () => {
     const photoCount = photos.length
     // 引用元のplaceの値を取得
     const params = useParams<{ placeId: string }>()
-    const [targetPlaceId, setTargetPlaceId] = useState<number>()
     const [quotePlace, setQuotePlace] = useState<Place>()
     const [loadQuotePlace, setLoadQuotePlace] = useState<boolean>(true)
     // 引用元の情報をvalueにセット
     const set = (camelQuotePlace: Place) => {
-        const { id, name, address, comment, tags } = camelQuotePlace
-        setTargetPlaceId(id)
-        setValue('name', name)
+        const { id, address, comment, tags } = camelQuotePlace
         setValue('address', address)
         setValue('comment', comment)
         for (let i = 0; i < tags.length; i++) {
@@ -80,14 +77,13 @@ const EnhancedQuotePlaceForm: React.FC = () => {
         }
         // 画像を送信できるようにFormDataに変換する
         const formData = new FormData()
-        // 以下を追加しないとlaravel側の仕様でエラー
-        formData.append("_method", 'PATCH')
         // appendでformDataにキーと値を追加
-        targetPlaceId && formData.append("id", targetPlaceId.toString())
         formData.append("name", name)
         formData.append("comment", comment)
         formData.append("address", address)
         formData.append("tags", tag)
+        quotePlace && formData.append("quote_place_id", quotePlace.id.toString())
+
 
         const compressOptions = {
             // 3MB以下に圧縮する

@@ -16,5 +16,6 @@ export type Place = {
     userId: number
     user: User
     tags: Tag[]
+    quoteCount: number
     favoriteUsers?: User[]
 }

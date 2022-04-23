@@ -33,7 +33,7 @@ const PlaceCardMoreAction: React.FC<Props> = ({ place }) => {
                 <Box style={{
                     marginRight: 'auto'
                 }}>
-                    <PlaceQuoteButton placeId={place.id} />
+                    <PlaceQuoteButton place={place} />
                 </Box>
             }
 
