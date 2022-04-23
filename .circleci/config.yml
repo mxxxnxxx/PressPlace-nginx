@@ -43,3 +43,35 @@ jobs:
           working_directory: backend
           name: php test
           command: vendor/bin/phpunit -c ./phpunit_circleci.xml
+  deploy:
+    docker:
+      - image: circleci/php:7.4-node-browsers
+    steps:
+      - add_ssh_keys
+      - run:
+          name: deploy
+          # StrictHostKeyChecking=no は 初めてつなげるSSHに対しての注意喚起をスキップ
+          # ${HOST_NAME}はcircleciのホームページ側で事前に設定した環境変数が呼び出される
+          # migrate --force でyes noをきかれなくしている
+          command: |
+            ssh -o StrictHostKeyChecking=no -t webapp@${HOST_NAME} "cd PressPlace-nginx && \
+              git pull origin master && \
+              composer install -n --no-dev --prefer-dist && \
+              npm ci && \
+              npm run prod && \
+              php artisan migrate --force && \
+              php artisan config:cache"
+
+workflows:
+  version: 2
+  build_deploy:
+    # requiresでdeployの処理がbuildの処理が終わっていなければ実行されないようにしている
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
