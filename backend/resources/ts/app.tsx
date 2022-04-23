@@ -4,7 +4,7 @@ import { createTheme } from '@material-ui/core/styles'
 import { makeStyles } from '@material-ui/styles'
 import React, { FC } from "react"
 import ReactDOM from "react-dom"
-import { QueryClient, QueryClientProvider, useQueryClient } from "react-query"
+import { QueryClient, QueryClientProvider } from "react-query"
 import { ReactQueryDevtools } from 'react-query/devtools'
 import {
     BrowserRouter as Router, Redirect, Route, Switch
@@ -20,7 +20,8 @@ import Header from './layout/containers/organisms/Header'
 import Policy from './layout/containers/pages/Policy'
 import Terms from './layout/containers/pages/Terms'
 import NewPlace from './place/components/pages/NewPlace'
-import EditPlaceForm from "./place/containers/molecules/EditPlaceForm"
+import QuotePlace from './place/components/pages/QuotePlace'
+import EditPlaceForm from "./place/containers/organisms/EditPlaceForm"
 import PlaceSearch from './place/containers/organisms/PlaceSearch'
 import PlaceSearched from "./place/containers/organisms/PlaceSearched"
 import Place from './place/containers/pages/Place'
@@ -188,13 +189,18 @@ const App: FC = () => {
                     <NewPlace />
                 </AuthRoute>
 
+                <AuthRoute exact path="/place/edit/:placeId">
+                    <EditPlaceForm />
+                </AuthRoute>
+
+                <AuthRoute exact path="/press/quote/:placeId">
+                    <QuotePlace />
+                </AuthRoute>
+
                 <AuthRoute exact path="/mypage/:contentsView">
                     <AuthUserPage />
                 </AuthRoute>
 
-                <AuthRoute exact path="/place/edit/:placeId">
-                    <EditPlaceForm />
-                </AuthRoute>
 
                 <AuthRoute exact path="/user/email/reset/:token">
                     <UserChangedEmail />

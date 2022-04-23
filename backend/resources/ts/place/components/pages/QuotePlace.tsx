@@ -1,11 +1,11 @@
 import { Box, makeStyles } from '@material-ui/core'
 import React from 'react'
-import EnhancedNewPlaceForm from '../../containers/organisms/NewPlaceForm'
-import Sphere from '../../../../../public/background_image/sphere.png'
+import Quote from '../../../../../public/background_image/quote.jpg'
+import QuotePlaceForm from '../../containers/organisms/QuotePlaceForm'
 
 const useStyle = makeStyles(() => ({
     root: {
-        backgroundImage: `url(${Sphere})`,
+        backgroundImage: `url(${Quote})`,
         backgroundAttachment: 'fixed',
         backgroundSize: 'cover',
     },
@@ -19,7 +19,7 @@ const NewPlace: React.FC = () => {
             minHeight="100vh"
             className={classes.root}
         >
-            <EnhancedNewPlaceForm />
+            <QuotePlaceForm />
         </Box>
     )
 }

@@ -2,7 +2,7 @@ import {
     Backdrop,
     Box,
     Button, Card, CardContent, CardHeader, CircularProgress,
-    Container, makeStyles, TextField, useTheme
+    Container, makeStyles, TextField, Typography, useTheme
 } from "@material-ui/core"
 import { AxiosError } from 'axios'
 import React from 'react'
@@ -10,10 +10,8 @@ import { useFormContext } from "react-hook-form"
 import PhotosUpload from "../../containers/molecules/PhotosUpload"
 import TagsForm from "../../containers/molecules/TagsForm"
 import { Place } from '../../types/Place'
-import { PlaceImage } from '../../types/PlaceImage'
 import PostalCode from "../molecules/PostalCode"
 import PostPlaceAlert from '../molecules/PostPlaceAlert'
-import Sphere from '../../../../../public/background_image/sphere.png'
 
 // 型定義
 type Inputs = {
@@ -26,24 +24,17 @@ type Inputs = {
 
 type Props = {
     photos: File[]
-    oldPlace?: Place
-    setPhotos: (files: File[]) => void
+    quotePlace?: Place
     userName?: string
     onSubmit: (data: Inputs) => Promise<void>
     isLoading: boolean
     error: AxiosError<any> | null
     statusCode?: number
-    oldPhotos?: PlaceImage[]
-    setOldPhotos?: (photo: PlaceImage[]) => void
     photoCount: number
+    setPhotos: (files: File[]) => void
 }
 
 const useStyle = makeStyles((theme) => ({
-    root: {
-        backgroundImage: `url(${Sphere})`,
-        backgroundAttachment: 'fixed',
-        backgroundSize: 'cover',
-    },
     cardContent: {
         padding: '20px'
     },
@@ -56,21 +47,18 @@ const useStyle = makeStyles((theme) => ({
         marginTop: theme.spacing(2),
     }
 }))
-const EditPlaceForm: React.FC<Props> = ({
+const QuotePlaceForm: React.FC<Props> = ({
     photos,
-    setPhotos,
     onSubmit,
     isLoading,
-    oldPlace,
+    quotePlace,
     error,
     statusCode,
-    oldPhotos,
-    setOldPhotos,
+    setPhotos,
     photoCount,
 }) => {
     const classes = useStyle()
     const methods = useFormContext()
-
     const theme = useTheme()
 
     return (
@@ -78,11 +66,10 @@ const EditPlaceForm: React.FC<Props> = ({
             display="flex"
             flexDirection="column"
             minHeight="100vh"
-            className={classes.root}
         >
             <Container maxWidth="xs" >
                 <Card style={{ margin: `${theme.spacing(6)}px 0` }}>
-                    <CardHeader title="場所の編集をする" style={{ textAlign: 'center', marginTop: 30 }} />
+                    <CardHeader title="引用して投稿する" style={{ textAlign: 'center', marginTop: 30 }} />
                     <CardContent className={classes.cardContent}>
                         <form className={classes.placeForm} onSubmit={methods.handleSubmit(onSubmit)}>
                             {statusCode &&
@@ -95,8 +82,6 @@ const EditPlaceForm: React.FC<Props> = ({
                                 name="photos"
                                 photos={photos}
                                 setPhotos={setPhotos}
-                                oldPhotos={oldPhotos}
-                                setOldPhotos={setOldPhotos}
                                 photoCount={photoCount}
                             />
                             <TextField
@@ -109,11 +94,15 @@ const EditPlaceForm: React.FC<Props> = ({
                                 id="name"
                                 name="name"
                                 margin="normal"
+                                value={quotePlace?.name}
                                 fullWidth
                                 error={Boolean(methods.errors.name)}
                                 helperText={methods.errors.name && methods.errors.name.message}
                             />
-
+                            <Typography style={{
+                                fontSize: '1rem',
+                                alignSelf: 'flex-start'
+                            }} color="error">※引用時は変更できません</Typography>
                             <PostalCode name="address" />
 
                             <TextField
@@ -131,7 +120,7 @@ const EditPlaceForm: React.FC<Props> = ({
                                 error={Boolean(methods.errors.comment)}
                                 helperText={methods.errors.comment && methods.errors.comment.message}
                             />
-                            <TagsForm place={oldPlace} />
+                            <TagsForm place={quotePlace} />
                             <Box className={classes.onSubmitButton}>
                                 <Button variant={'contained'} type="submit" disabled={!methods.formState.isDirty || methods.formState.isSubmitting}>登録</Button>
                                 <Button type="button" disabled={!methods.formState.isDirty || methods.formState.isSubmitting} onClick={() => methods.reset()}>クリア</Button>
@@ -148,4 +137,4 @@ const EditPlaceForm: React.FC<Props> = ({
         </Box>
     )
 }
-export default EditPlaceForm
+export default QuotePlaceForm
