@@ -13,10 +13,11 @@ jobs:
           - DB_PASSWORD: ""
           - DB_HOST: localhost
           - DB_PORT: 3306
+          - APP_KEY: base64:YlIJx6uH3OUb3hxN+PAiJKlC+EGZ2KYi8VHxsfdJpLk=
       - image: circleci/mysql:8
         command: mysqld --default-authentication-plugin=mysql_native_password
         environment:
-          MYSQL_DATABASE: testing
+          MYSQL_DATABASE: circle_test
           MYSQL_ROOT_HOST: "%"
           MYSQL_ALLOW_EMPTY_PASSWORD: "true"
           TZ: Asia/Tokyo
