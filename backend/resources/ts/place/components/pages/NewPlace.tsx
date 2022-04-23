@@ -1,6 +1,6 @@
 import { Box, makeStyles } from '@material-ui/core'
 import React from 'react'
-import EnhancedNewPlaceForm from '../../containers/molecules/NewPlaceForm'
+import EnhancedNewPlaceForm from '../../containers/organisms/NewPlaceForm'
 import Sphere from '../../../../../public/background_image/sphere.png'
 
 const useStyle = makeStyles(() => ({
