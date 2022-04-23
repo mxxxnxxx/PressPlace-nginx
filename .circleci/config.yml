@@ -1,7 +1,7 @@
 version: 2.1
 
-executors:
-  default:
+jobs:
+  build:
     docker:
       - image: circleci/php:7.4-node-browsers
         environment:
@@ -20,8 +20,6 @@ executors:
           MYSQL_ALLOW_EMPTY_PASSWORD: "true"
           TZ: Asia/Tokyo
 
-commands:
-  setup:
     steps:
       - checkout
 
@@ -58,20 +56,20 @@ commands:
       - run:
           working_directory: backend
           command: npm run development
-jobs:
-  test:
-    executor: default
-  steps:
-    - checkout
-    - setup
-    - run:
-        name: Wait for DB_CONNECTION
-        command: dockerize -wait tcp://localhost:3306 -timeout 90s
-    - run:
-        # phpunit_circleciでローカルとci環境とでDBを分けている
-        working_directory: backend
-        name: php test
-        command: vendor/bin/phpunit -c ./phpunit_circleci.xml
+
+      - run:
+            name: install dockerize
+            command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+            environment:
+              DOCKERIZE_VERSION: v0.3.0
+      - run:
+          name: Wait for DB_CONNECTION
+          command: dockerize -wait tcp://localhost:3306 -timeout 90s
+      - run:
+          # phpunit_circleciでローカルとci環境とでDBを分けている
+          working_directory: backend
+          name: php test
+          command: vendor/bin/phpunit -c ./phpunit_circleci.xml
 
   deploy:
     docker:
@@ -101,12 +99,9 @@ workflows:
     # requiresでdeployの処理がbuildの処理が終わっていなければ実行されないようにしている
     jobs:
       - build
-      - test:
-        requires:
-          - build
       - deploy:
         requires:
-          - test
+          - build
           filters:
             branches:
               only:
