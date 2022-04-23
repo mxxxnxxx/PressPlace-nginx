@@ -41,7 +41,7 @@ jobs:
       - run:
           name: Wait for DB_CONNECTION
           command: dockerize -wait tcp://localhost:3306 -timeout 3m
-           - run:
+      - run:
           # phpunit_circleciでローカルとci環境とでDBを分けている
           working_directory: backend
           name: php test
@@ -62,7 +62,7 @@ jobs:
       # - run:
       #     working_directory: backend
       #     command: npm run development
-     
+
   deploy:
     docker:
       - image: circleci/php:7.4-node-browsers
