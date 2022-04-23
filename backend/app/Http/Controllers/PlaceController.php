@@ -81,7 +81,11 @@ class PlaceController extends Controller
             // 定義した$placeのid(place_id)と多対多の関係のtag(tag_id)を紐付けるための記述
             $place->tags()->attach($tags_id);
         }
-
+        // 引用した場合はquote_countを増加
+        if($request->quote_place_id){
+            $quote_place_id = intval($request->quote_place_id);
+            Place::find($quote_place_id)->increment('quote_count');
+        }
         return $place
         ? response()->json($place, 201)
         : response()->json([], 500);
@@ -283,4 +287,5 @@ class PlaceController extends Controller
 
         return $placeSearched;
     }
+
 }
