@@ -1,8 +1,27 @@
 version: 2.1
+
 jobs:
   build:
     docker:
       - image: circleci/php:7.4-node-browsers
+        environment:
+          - APP_DEBUG: true
+          - APP_ENV: testing
+          - DB_CONNECTION: circleci
+          - DB_DATABASE: circle_test
+          - DB_USERNAME: root
+          - DB_PASSWORD: ""
+          - DB_HOST: localhost
+          - DB_PORT: 3306
+          - APP_KEY: base64:YlIJx6uH3OUb3hxN+PAiJKlC+EGZ2KYi8VHxsfdJpLk=
+      - image: circleci/mysql:8
+        command: mysqld --default-authentication-plugin=mysql_native_password
+        environment:
+          MYSQL_DATABASE: circle_test
+          MYSQL_ROOT_HOST: "%"
+          MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+          TZ: Asia/Tokyo
+
     steps:
       - checkout
 
@@ -23,23 +42,69 @@ jobs:
           command: |
             sudo docker-php-ext-install pdo_mysql
             sudo docker-php-ext-enable pdo_mysql
+      # - run:
+      #     working_directory: backend
+      #     name: npm ci
+      #     # npm ci は実行じに node_modulesディレクトリーを削除してしまうのでなければ実行
+      #     # ある場合はキャッシュがあるということになるので不要になる
+      #     command: |
+      #       if [ ! -d node_modules ]; then
+      #         npm ci
+      #       fi
+      # - save_cache:
+      #     key: npm-v2-{{ checksum "backend/package-lock.json" }}
+      #     paths:
+      #       - backend/.npm
+      # - run:
+      #     working_directory: backend
+      #     command: npm run development
+
       - run:
-          working_directory: backend
-          name: npm ci
-          # npm ci は実行じに node_modulesディレクトリーを削除してしまうのでなければ実行
-          # ある場合はキャッシュがあるということになるので不要になる
-          command: |
-            if [ ! -d node_modules ]; then
-              npm ci
-            fi
-      - save_cache:
-          key: npm-v2-{{ checksum "backend/package-lock.json" }}
-          paths:
-            - backend/.npm
+          name: install dockerize
+          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+          environment:
+            DOCKERIZE_VERSION: v0.6.1
       - run:
-          working_directory: backend
-          command: npm run development
+          name: Wait for DB_CONNECTION
+          command: dockerize -wait tcp://localhost:3306 -timeout 90s
       - run:
+          # phpunit_circleciでローカルとci環境とでDBを分けている
           working_directory: backend
           name: php test
           command: vendor/bin/phpunit -c ./phpunit_circleci.xml
+
+  deploy:
+    docker:
+      - image: circleci/php:7.4-node-browsers
+    steps:
+      - add_ssh_keys
+      - run:
+          name: deploy
+          # StrictHostKeyChecking=no は 初めてつなげるSSHに対しての注意喚起をスキップ
+          # ${HOST_NAME}はcircleciのホームページ側で事前に設定した環境変数が呼び出される
+          # migrate --force でyes noをきかれなくしている
+          command: |
+            ssh -o StrictHostKeyChecking=no -t webapp@${HOST_NAME} "cd PressPlace-nginx && \
+              git pull origin master && \
+              docker-compose down --rmi all --volumes --remove-orphans && \
+              docker-compose up -d --build && \
+              docker-compose exec -T app composer install --optimize-autoloader --no-dev && \
+              docker-compose exec -T app cp .env.example .env && \
+              docker-compose exec -T app php artisan key:generate && \
+              docker-compose exec -T app php artisan storage:link && \
+              docker-compose exec -T app chmod -R 777 storage bootstrap/cache && \
+              docker-compose exec -T app php artisan migrate --force"
+
+workflows:
+  version: 2
+  build_deploy:
+    # requiresでdeployの処理がbuildの処理が終わっていなければ実行されないようにしている
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master

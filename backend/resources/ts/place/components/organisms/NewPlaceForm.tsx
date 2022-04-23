@@ -127,7 +127,7 @@ const NewPlaceForm: React.FC<Props> = ({
                                 error={Boolean(methods.errors.comment)}
                                 helperText={methods.errors.comment && methods.errors.comment.message}
                             />
-                            <TagsForm oldPlace={oldPlace} />
+                            <TagsForm place={oldPlace} />
                             <Box className={classes.onSubmitButton}>
                                 <Button variant={'contained'} type="submit" disabled={!methods.formState.isDirty || methods.formState.isSubmitting}>登録</Button>
                                 <Button type="button" disabled={!methods.formState.isDirty || methods.formState.isSubmitting} onClick={() => methods.reset()}>クリア</Button>
