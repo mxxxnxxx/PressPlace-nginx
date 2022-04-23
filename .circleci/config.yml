@@ -36,9 +36,6 @@ jobs:
           command: |
             sudo docker-php-ext-install pdo_mysql
             sudo docker-php-ext-enable pdo_mysql
-      - run:
-          name: Wait for DB_CONNECTION
-          command: dockerize -wait tcp://localhost:3306 -timeout 1m
       # - run:
       #     working_directory: backend
       #     name: npm ci
@@ -55,11 +52,8 @@ jobs:
       # - run:
       #     working_directory: backend
       #     command: npm run development
-  test:
-    steps:
-      - checkout
-        run:
-      # phpunit_circleciでローカルとci環境とでDBを分けている
+      - run:
+          # phpunit_circleciでローカルとci環境とでDBを分けている
           working_directory: backend
           name: php test
           command: vendor/bin/phpunit -c ./phpunit_circleci.xml
@@ -91,12 +85,9 @@ workflows:
     # requiresでdeployの処理がbuildの処理が終わっていなければ実行されないようにしている
     jobs:
       - build
-      - test:
-          requires:
-            - build
       - deploy:
           requires:
-            - test
+            - build
           filters:
             branches:
               only:
