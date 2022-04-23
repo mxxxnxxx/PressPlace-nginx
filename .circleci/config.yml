@@ -56,6 +56,7 @@ jobs:
           command: |
             ssh -o StrictHostKeyChecking=no -t webapp@${HOST_NAME} "cd PressPlace-nginx && \
               git pull origin master && \
+              cd backend && \
               composer install -n --no-dev --prefer-dist && \
               npm ci && \
               npm run prod && \
