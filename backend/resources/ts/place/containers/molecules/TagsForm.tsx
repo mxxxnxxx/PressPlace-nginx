@@ -3,10 +3,10 @@ import { useFormContext } from "react-hook-form";
 import TagsForm from '../../components/molecules/TagsForm';
 import { Place } from '../../types/Place';
 type Props = {
-    oldPlace?: Place
+    place?: Place
 }
 
-const EnhancedTagsForm: React.FC<Props> = ({ oldPlace }) => {
+const EnhancedTagsForm: React.FC<Props> = ({ place }) => {
 
     // タグフォームの個数とindexをstateで管理
     const [tags, setTags] = useState(["tag.0"]);
@@ -39,8 +39,8 @@ const EnhancedTagsForm: React.FC<Props> = ({ oldPlace }) => {
 
     useEffect(
         () => {
-            if (oldPlace) {
-                const tagsLength = oldPlace.tags.length - 1;
+            if (place) {
+                const tagsLength = place.tags.length - 1;
                 for (let i = 0; i < tagsLength; i++) {
                     setTags((tags) => {
                         const newTags = [...tags];

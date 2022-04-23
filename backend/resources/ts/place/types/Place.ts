@@ -13,7 +13,7 @@ export type Place = {
     createdAt: Date
     updatedAt: Date
     placeImages: PlaceImage[]
-    placeId: string
+    userId: number
     user: User
     tags: Tag[]
     favoriteUsers?: User[]
