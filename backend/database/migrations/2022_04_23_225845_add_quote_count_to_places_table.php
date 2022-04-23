@@ -14,7 +14,7 @@ class AddQuoteCountToPlacesTable extends Migration
     public function up()
     {
         Schema::table('places', function (Blueprint $table) {
-            $table->bigInteger('quote_count');
+            $table->integer('quote_count');
         });
     }
 
