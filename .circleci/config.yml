@@ -59,7 +59,7 @@ jobs:
               cd backend && \
               composer install -n --no-dev --prefer-dist && \
               npm ci && \
-              npm run prod && \
+              npm run production && \
               php artisan migrate --force && \
               php artisan config:cache"
 
