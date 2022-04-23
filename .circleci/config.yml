@@ -40,7 +40,7 @@ jobs:
             sudo docker-php-ext-enable pdo_mysql
       - run:
           name: Wait for DB_CONNECTION
-          command: dockerize -wait tcp://localhost:3306 -timeout 1m
+          command: dockerize -wait tcp://localhost:3306 -timeout 3m
       # - run:
       #     working_directory: backend
       #     name: npm ci
