@@ -6,7 +6,7 @@ jobs:
         environment:
           - APP_DEBUG: true
           - APP_ENV: testing
-          - DB_CONNECTION: mysql
+          - DB_CONNECTION: circleci
           - DB_DATABASE: circle_test
           - DB_USERNAME: root
           - DB_PASSWORD: ""
