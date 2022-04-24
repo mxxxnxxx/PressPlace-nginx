@@ -29,7 +29,7 @@ const PlaceCardMoreAction: React.FC<Props> = ({ place }) => {
             <PlaceFavoriteUserGP place={place} />
 
             {/* 引用ボタン */}
-            {!(currentUser?.id === place.userId) && currentUser &&
+            {!(currentUser?.id === place.userId) &&
                 <Box style={{
                     marginRight: 'auto'
                 }}>
