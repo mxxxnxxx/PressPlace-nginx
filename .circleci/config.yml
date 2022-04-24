@@ -90,7 +90,7 @@ jobs:
               docker-compose exec -T app cp .env.example .env && \
               docker-compose exec -T app php artisan key:generate --force && \
               docker-compose exec -T app chmod -R 777 storage bootstrap/cache && \
-              docker-compose exec -T web npm ci && \
+              docker-compose exec -T web npm install && \
               docker-compose exec -T web npm run production && \
               docker-compose exec -T app php artisan cache:clear && \
               docker-compose exec -T app php artisan config:cache && \
