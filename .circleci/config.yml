@@ -47,13 +47,13 @@ jobs:
           # npm ci は実行じに node_modulesディレクトリーを削除してしまうのでなければ実行
           # ある場合はキャッシュがあるということになるので不要になる
           command: |
-            if [ ! -d .npm ]; then
+            if [ ! -d node_modules ]; then
               npm ci
             fi
       - save_cache:
           key: npm-v2-{{ checksum "backend/package-lock.json" }}
           paths:
-            - backend/.npm
+            - backend/node_modules
       - run:
           working_directory: backend
           command: npm run development
