@@ -34,14 +34,13 @@ jobs:
           key: composer-v2-{{ checksum "backend/composer.lock" }}
           paths:
             - backend/vendor
-
-      - restore_cache:
-          key: npm-v2-{{ checksum "backend/package-lock.json" }}
       - run: #pdo drive error 回避
           name: Install PHP extensions
           command: |
             sudo docker-php-ext-install pdo_mysql
             sudo docker-php-ext-enable pdo_mysql
+      - restore_cache:
+          key: npm-v2-{{ checksum "backend/package-lock.json" }}
       - run:
           working_directory: backend
           name: npm ci
@@ -54,7 +53,7 @@ jobs:
       - save_cache:
           key: npm-v2-{{ checksum "backend/package-lock.json" }}
           paths:
-            - backend/.npm
+            - backend/node_modules
       - run:
           working_directory: backend
           command: npm run development
@@ -89,7 +88,7 @@ jobs:
               docker-compose up -d --build && \
               docker-compose exec -T app composer install --optimize-autoloader --no-dev && \
               docker-compose exec -T app cp .env.example .env && \
-              docker-compose exec -T app php artisan key:generate && \
+              docker-compose exec -T app php artisan key:generate --force && \
               docker-compose exec -T app php artisan storage:link && \
               docker-compose exec -T app chmod -R 777 storage bootstrap/cache && \
               docker-compose exec -T web npm ci && \
