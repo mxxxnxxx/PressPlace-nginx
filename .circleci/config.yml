@@ -93,6 +93,8 @@ jobs:
               docker-compose exec -T app php artisan key:generate && \
               docker-compose exec -T app php artisan storage:link && \
               docker-compose exec -T app chmod -R 777 storage bootstrap/cache && \
+              docker-compose exec -T web npm ci && \
+              docker-compose exec -T web npm run prod && \
               docker-compose exec -T app php artisan migrate --force"
 
 workflows:
