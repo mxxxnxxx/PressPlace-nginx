@@ -78,7 +78,6 @@ backend/vendor
 backend/.ssh
 backend/.env
 backend/.env.backup
-backend/public/js/app.js
 backend/.phpunit.result.cache
 backend/Homestead.json
 backend/Homestead.yaml

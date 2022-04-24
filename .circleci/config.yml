@@ -39,24 +39,24 @@ jobs:
           command: |
             sudo docker-php-ext-install pdo_mysql
             sudo docker-php-ext-enable pdo_mysql
-      - restore_cache:
-          key: npm-v2-{{ checksum "backend/package-lock.json" }}
-      - run:
-          working_directory: backend
-          name: npm ci
-          # npm ci は実行じに node_modulesディレクトリーを削除してしまうのでなければ実行
-          # ある場合はキャッシュがあるということになるので不要になる
-          command: |
-            if [ ! -d node_modules ]; then
-              npm ci
-            fi
-      - save_cache:
-          key: npm-v2-{{ checksum "backend/package-lock.json" }}
-          paths:
-            - backend/node_modules
-      - run:
-          working_directory: backend
-          command: npm run development
+      # - restore_cache:
+      #     key: npm-v2-{{ checksum "backend/package-lock.json" }}
+      # - run:
+      #     working_directory: backend
+      #     name: npm ci
+      #     # npm ci は実行じに node_modulesディレクトリーを削除してしまうのでなければ実行
+      #     # ある場合はキャッシュがあるということになるので不要になる
+      #     command: |
+      #       if [ ! -d node_modules ]; then
+      #         npm ci
+      #       fi
+      # - save_cache:
+      #     key: npm-v2-{{ checksum "backend/package-lock.json" }}
+      #     paths:
+      #       - backend/node_modules
+      # - run:
+      #     working_directory: backend
+      #     command: npm run development
       - run:
           name: install dockerize
           command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
@@ -90,8 +90,6 @@ jobs:
               docker-compose exec -T app cp .env.example .env && \
               docker-compose exec -T app php artisan key:generate --force && \
               docker-compose exec -T app chmod -R 777 storage bootstrap/cache && \
-              docker-compose exec -T web npm install && \
-              docker-compose exec -T web npm run production && \
               docker-compose exec -T app php artisan cache:clear && \
               docker-compose exec -T app php artisan config:cache && \
               docker-compose exec -T app php artisan migrate --force"

@@ -5,6 +5,16 @@ object-assign
 */
 
 /**
+ * @license React
+ * react-is.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/**
  * A better abstraction over CSS.
  *
  * @copyright Oleg Isonen (Slobodskoi) / Isonen 2014-present
@@ -12,13 +22,13 @@ object-assign
  * @license MIT
  */
 
-/** @license Material-UI v4.0.0-alpha.60
+/** @license Material-UI v4.0.0-alpha.61
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
 
-/** @license Material-UI v4.12.3
+/** @license Material-UI v4.12.4
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
