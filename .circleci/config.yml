@@ -89,7 +89,6 @@ jobs:
               docker-compose exec -T app composer install --optimize-autoloader --no-dev && \
               docker-compose exec -T app cp .env.example .env && \
               docker-compose exec -T app php artisan key:generate --force && \
-              docker-compose exec -T app php artisan storage:link && \
               docker-compose exec -T app chmod -R 777 storage bootstrap/cache && \
               docker-compose exec -T web npm ci && \
               docker-compose exec -T web npm run production && \
