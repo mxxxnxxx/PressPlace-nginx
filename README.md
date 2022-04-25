@@ -28,6 +28,12 @@
 
 ## 機能一覧
 
+- 最近の追加された機能
+
+  - CircleCI 対応
+  - RDS に対応
+  - 場所情報 引用投稿機能
+
 - 投稿系
 
   - 投稿
@@ -82,6 +88,7 @@
   - S3
   - Route 53
   - ACM
+  - RDS
 
 ---
 
@@ -98,11 +105,6 @@
 - Base image
   - nginx:1.18-alpine
 
-### db container
-
-- Base image
-  - mysql:8.0
-
 ## インフラ構図
 
 ![インフラ構図](https://github.com/mxxxnxxx/ImageWarehouse/blob/main/PressPlaceNginx/PressPlaceNginx.drawio.png)
@@ -113,12 +115,11 @@
 
 ## 今後の展望
 
-- CircleCI 対応
 - NuxtJS に対応
   - SSR に対応し SEO 強化
   - 遷移アニメーションによるアクセシビリティ-の向上
 - User の年齢をつかった投稿情報の検索
 - テストコードの充実化
 - リスト機能の追加
-- RDS に対応
+
 - CloudFront にて CDN 化 S3 のセキュリティーを高める
