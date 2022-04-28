@@ -25,11 +25,14 @@ class PlaceController extends Controller
     /**
      * placeの新規投稿
      *
+     * 保存するときのクエリーは一度だけにするように意識
+     *
      * @param \App\Http\Requests\PlaceRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(PlaceRequest $request)
     {
+
         $place = Place::create([
             'user_id' => Auth::id(),
             'name' => $request->name,
@@ -177,7 +180,13 @@ class PlaceController extends Controller
         ? response()->json($place, 201)
         : response()->json([], 500);
     }
-
+    /**
+     * topページの場所一覧を出すメソッド
+     *
+     * withを使ってsqlの発行数を最小限にしている
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     // 一覧
     public function index()
     {
@@ -249,6 +258,7 @@ class PlaceController extends Controller
     public function search(Request $request)
     {
         // データベースから検索
+        // N+1問題を意識し一つのクエリーを作る
         $places_q = Place::query();
         $InputsData = $request->input('InputsData');
         // React側から届いたInputsDataを分割代入
