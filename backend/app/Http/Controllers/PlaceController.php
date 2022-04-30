@@ -32,7 +32,6 @@ class PlaceController extends Controller
      */
     public function store(PlaceRequest $request)
     {
-
         $place = Place::create([
             'user_id' => Auth::id(),
             'name' => $request->name,
@@ -85,8 +84,8 @@ class PlaceController extends Controller
             $place->tags()->attach($tags_id);
         }
         // 引用した場合はquote_countを増加
-        if($request->quote_place_id){
-            $quote_place_id = intval($request->quote_place_id);
+        if ($request->quote_place_id) {
+            $quote_place_id = (int) ($request->quote_place_id);
             Place::find($quote_place_id)->increment('quote_count');
         }
         return $place
@@ -180,8 +179,9 @@ class PlaceController extends Controller
         ? response()->json($place, 201)
         : response()->json([], 500);
     }
+
     /**
-     * topページの場所一覧を出すメソッド
+     * topページの場所一覧を出すメソッド.
      *
      * withを使ってsqlの発行数を最小限にしている
      *
@@ -297,5 +297,4 @@ class PlaceController extends Controller
 
         return $placeSearched;
     }
-
 }

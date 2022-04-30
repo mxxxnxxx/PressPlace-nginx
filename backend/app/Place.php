@@ -34,6 +34,11 @@ class Place extends Model
     {
         return $this->belongsTo('App\User');
     }
+    // placeがcategoriesに属す
+    public function category()
+    {
+        return $this->belongsTo('App\Category');
+    }
 
     // place_imageがplaceに属する
     public function place_images()

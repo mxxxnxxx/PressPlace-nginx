@@ -31,7 +31,7 @@ Route::get('/places ', 'PlaceController@index')->name('place.index');
 Route::get('/place/{placeId} ', 'PlaceController@show')->name('place.show');
 
 // User新規登録
-// Route::post('/register', 'CookieAuthenticationController@register');
+Route::post('/register', 'CookieAuthenticationController@register');
 
 // メールアドレス認証
 // Route::get('/email/verify/{id}/{hash}', 'VerifyEmailController@verify')
