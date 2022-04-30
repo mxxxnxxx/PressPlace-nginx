@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Controllers\CategoryController;
 
 final class CookieAuthenticationController extends Controller
 {
@@ -56,7 +57,8 @@ final class CookieAuthenticationController extends Controller
             'password' => Hash::make($request->password),
         ]);
         Auth::guard()->login($user);
-
+        // アカウント作成時に固有のNoCategoryを作成
+        app()->make('App\Http\Controllers\CategoryController')->addNoCategory();
         return response()->json($user['name'], Response::HTTP_OK);
     }
 

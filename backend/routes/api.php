@@ -34,15 +34,15 @@ Route::get('/place/{placeId} ', 'PlaceController@show')->name('place.show');
 Route::post('/register', 'CookieAuthenticationController@register');
 
 // メールアドレス認証
-// Route::get('/email/verify/{id}/{hash}', 'VerifyEmailController@verify')
-// ->middleware(['signed', 'throttle:6,1'])
-// ->name('verification.verify');
+Route::get('/email/verify/{id}/{hash}', 'VerifyEmailController@verify')
+->middleware(['signed', 'throttle:6,1'])
+->name('verification.verify');
 
 // メールアドレス認証メール再送
-// Route::post('/email/verify/resend', function (Request $request) {
-// $request->user()->sendEmailVerificationNotification();
-// return back()->with('message', 'Verification link sent!');
-// })->middleware(['auth:api', 'throttle:6,1'])->name('verification.send');
+Route::post('/email/verify/resend', function (Request $request) {
+$request->user()->sendEmailVerificationNotification();
+return back()->with('message', 'Verification link sent!');
+})->middleware(['auth:api', 'throttle:6,1'])->name('verification.send');
 
 // ログインログアウト
 Route::post('/login', 'CookieAuthenticationController@login')->name('login');
@@ -68,14 +68,14 @@ Route::get('/place/favorite/users/{placeId} ', 'PlaceController@placeFavoriteUse
 Route::group(['middleware' => 'auth:sanctum'], function (): void {
     Route::get('/user/me', 'UserController@current')->name('user');
     // テスト版のため停止中
-    // Route::get('/user/delete', 'UserController@softdelete')->name('user.softdelete');
+    Route::get('/user/delete', 'UserController@softdelete')->name('user.softdelete');
 
     // メールアドレス認証済みユーザーのみアクセス可能
     Route::middleware(['verified'])->group(function (): void {
         // Route::post('/user/email', 'ChangeEmailController@sendChangeEmailLink');
     });
     //  テスト版のため停止中
-    // Route::post('/user/email', 'ChangeEmailController@sendChangeEmailLink');
+    Route::post('/user/email', 'ChangeEmailController@sendChangeEmailLink');
 
     Route::get('/user/email/reset/{token}', 'ChangeEmailController@reset');
     // フォロー機能

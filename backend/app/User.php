@@ -55,6 +55,7 @@ class User extends Authenticatable implements MustVerifyEmailContract
     {
         return $this->hasMany('App\Place');
     }
+
     public function categories()
     {
         return $this->hasMany('App\Category');

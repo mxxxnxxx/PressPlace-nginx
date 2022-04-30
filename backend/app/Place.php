@@ -34,6 +34,7 @@ class Place extends Model
     {
         return $this->belongsTo('App\User');
     }
+
     // placeがcategoriesに属す
     public function category()
     {
