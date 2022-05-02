@@ -13,5 +13,7 @@ $factory->define(Place::class, function (Faker $faker) {
         'address' => $faker->address,
         'comment' => 'demoのため住所は異なります',
         'user_id' => $faker->numberBetween(1, 50),
+        'category_id' => $faker->numberBetween(1, 50),
+        'category_order' => $faker->numberBetween(1, 50),
     ];
 });

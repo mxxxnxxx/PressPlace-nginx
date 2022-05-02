@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,13 +34,13 @@ Route::post('/register', 'CookieAuthenticationController@register');
 
 // メールアドレス認証
 Route::get('/email/verify/{id}/{hash}', 'VerifyEmailController@verify')
-->middleware(['signed', 'throttle:6,1'])
-->name('verification.verify');
+    ->middleware(['signed', 'throttle:6,1'])
+    ->name('verification.verify');
 
 // メールアドレス認証メール再送
 Route::post('/email/verify/resend', function (Request $request) {
-$request->user()->sendEmailVerificationNotification();
-return back()->with('message', 'Verification link sent!');
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', 'Verification link sent!');
 })->middleware(['auth:api', 'throttle:6,1'])->name('verification.send');
 
 // ログインログアウト
@@ -94,4 +93,7 @@ Route::group(['middleware' => 'auth:sanctum'], function (): void {
     Route::get('/places/delete/{id} ', 'PlaceController@softdelete')->name('place.softdelete');
     // フォローしているUsersのplacesを取得
     Route::get('/follow/users/places', 'PlaceController@followUsersPlaces');
+
+    Route::get('/user/category', 'CategoryController@index')->name('category.index');
+    Route::post('user/category', 'CategoryController@store')->name('category.store');
 });
