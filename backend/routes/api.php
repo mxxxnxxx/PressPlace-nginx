@@ -93,7 +93,8 @@ Route::group(['middleware' => 'auth:sanctum'], function (): void {
     Route::get('/places/delete/{id} ', 'PlaceController@softdelete')->name('place.softdelete');
     // フォローしているUsersのplacesを取得
     Route::get('/follow/users/places', 'PlaceController@followUsersPlaces');
-
+    // カテゴリーリスト取得
     Route::get('/user/category', 'CategoryController@index')->name('category.index');
-    Route::post('user/category', 'CategoryController@store')->name('category.store');
+    // カテゴリー追加
+    Route::post('/user/category', 'CategoryController@store')->name('category.store');
 });

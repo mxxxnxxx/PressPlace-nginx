@@ -17,7 +17,10 @@ class CreateCategoriesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->timestamps();
+            $table->bigInteger('column_order')->unsigned();
             $table->bigInteger('user_id')->unsigned();
+
+            // 外部規制
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

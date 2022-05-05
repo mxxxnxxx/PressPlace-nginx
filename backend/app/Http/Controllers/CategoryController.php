@@ -9,16 +9,15 @@ use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
-/**
- * カテゴリーごとにplacesをcategory_order順に配列にまとめて取得
- *
- * @return \Illuminate\Http\JsonResponse
- */
-
+    /**
+     * カテゴリーごとにplacesをcategory_order順に配列にまとめて取得.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index()
     {
         // placesをcategory_orderの順番にソートしながら取得
-        $categories = Category::where('user_id', Auth::id())
+        $categories = Category::where('user_id', Auth::id())->orderBy('column_order')
             ->with(['places' => function ($places_query): void {
                 // クロージャを利用してリレーション先でwithを使いplace情報を集める
                 $places_query->with(['place_images', 'tags'])
@@ -26,7 +25,8 @@ class CategoryController extends Controller
             }])
             ->get()
             ->toArray();
-
+        \Debugbar::info(Auth::id());
+        \Debugbar::info($categories);
         return response()->json($categories);
     }
 
