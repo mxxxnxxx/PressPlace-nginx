@@ -4,6 +4,7 @@ declare(strict_types=1);
 use App\Category;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
+
 class CategoriesTableSeeder extends Seeder
 {
     /**
@@ -15,47 +16,46 @@ class CategoriesTableSeeder extends Seeder
         $Categories = [
             [
                 'name' => 'No Category',
-                'column_order'=> 0,
+                'column_order' => 0,
                 'user_id' => 53,
             ],
             [
                 'name' => 'カフェ',
-                'column_order'=> 1,
+                'column_order' => 1,
                 'user_id' => 53,
             ],
             [
                 'name' => 'キャフェ',
-                'column_order'=> 2,
+                'column_order' => 2,
                 'user_id' => 53,
             ],
             [
                 'name' => 'キャフェ',
-                'column_order'=> 3,
+                'column_order' => 3,
                 'user_id' => 53,
             ],
             [
                 'name' => 'キャフェ',
-                'column_order'=> 4,
+                'column_order' => 4,
                 'user_id' => 53,
             ],
             [
                 'name' => 'キャフェ',
-                'column_order'=> 5,
+                'column_order' => 5,
                 'user_id' => 53,
             ],
             [
                 'name' => 'キャフェ',
-                'column_order'=> 6,
+                'column_order' => 6,
                 'user_id' => 53,
             ],
-
         ];
         $dt = new Carbon();
 
         foreach ($Categories as $category) {
-        $date = $dt->addSecond();
-        $category['updated_at'] = $date;
-        Category::create($category);
+            $date = $dt->addSecond();
+            $category['updated_at'] = $date;
+            Category::create($category);
         }
     }
 }

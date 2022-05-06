@@ -7,8 +7,12 @@ type Props = {
 const EnhancedCategoryColumn: React.FC<Props> = ({
     category
 }) => {
+
+
     return (
-        <CategoryColumn category={category} />
+        <CategoryColumn
+            category={category}
+        />
     )
 }
 export default EnhancedCategoryColumn

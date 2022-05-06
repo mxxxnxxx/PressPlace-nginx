@@ -1,8 +1,8 @@
-import React, { createContext, useContext, useReducer, useState } from 'react'
+import React, { createContext, useContext, useState } from 'react'
 import { DraggableLocation, DropResult } from 'react-beautiful-dnd'
-import { ActionType } from "../place/types/ActionType"
+import usePostOrderNumberUpdateMutation from '../place/hooks/usePostOrderNumberUpdateMutation'
 import { CategoriesArray } from '../place/types/CategoriesArray'
-import { searchKey } from '../place/types/searchKey'
+import { PlacesQuery } from '../place/types/PlacesQuery'
 
 const Context = createContext({} as {
     categoriesState: CategoriesArray | undefined
@@ -17,6 +17,8 @@ export function useCategoryContext() {
 export function CategoryProvider({ children }: any) {
 
     const [categoriesState, setCategoriesState] = useState<CategoriesArray>()
+
+
     // Category自体の並び替え
     const categoryReorder = (
         categoriesState: CategoriesArray,
@@ -30,6 +32,7 @@ export function CategoryProvider({ children }: any) {
     }
 
     // Place自体の並び替え
+    const { mutate: orderNumberUpdate } = usePostOrderNumberUpdateMutation()
     const placeReorder = (
         categoriesState: CategoriesArray,
         source: DraggableLocation,
@@ -44,7 +47,22 @@ export function CategoryProvider({ children }: any) {
         places.splice(destination.index, 0, removedPlace[0])
         // 仕上がったものでstate更新
         setCategoriesState(update)
+
+        // placesの中身を整理
+        const placesQuery = places.map(
+            (place, index) => {
+                return ({ id: place.id, newCategoryOrder: index })
+            }
+        )
+
+        orderNumberUpdate(placesQuery)
     }
+
+
+
+    // placeのカテゴリーを変更しつつ順番変更
+
+    // 変更時のmutationでDBに保存
 
     const changeCategoryPlace = (
         categoriesState: CategoriesArray,
@@ -68,7 +86,11 @@ export function CategoryProvider({ children }: any) {
         // 削除したものを代入
         destinationPlaces.splice(destination.index, 0, removedPlace)
         setCategoriesState(update)
+
     }
+
+
+
 
     // 同じカテゴリー内の順番変更か他のカテゴリへの移動か条件分岐
     const handlePlaceMove = (

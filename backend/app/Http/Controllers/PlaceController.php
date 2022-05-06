@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderNumberRequest;
 use App\Http\Requests\PlaceRequest;
 use App\Place;
 use App\PostalCode;
@@ -296,5 +297,22 @@ class PlaceController extends Controller
             ->paginate(15);
 
         return $placeSearched;
+    }
+
+    /**
+     * placeの順番を更新する関数.
+     *
+     * React側で更新されたstateの結果でけ受け取る
+     *
+     * @param OrderNumberRequest $request
+     */
+    public function orderNumberUpdate(OrderNumberRequest $request)
+    {
+        $places = $request->input('placesQuery');
+        foreach($places as $place){
+            Place::where('id', $place['id'])->update(['category_order'=> $place['newCategoryOrder']]);
+        }
+
+
     }
 }

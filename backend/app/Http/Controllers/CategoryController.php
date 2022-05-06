@@ -25,8 +25,6 @@ class CategoryController extends Controller
             }])
             ->get()
             ->toArray();
-        \Debugbar::info(Auth::id());
-        \Debugbar::info($categories);
         return response()->json($categories);
     }
 

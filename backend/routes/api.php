@@ -96,5 +96,7 @@ Route::group(['middleware' => 'auth:sanctum'], function (): void {
     // カテゴリーリスト取得
     Route::get('/user/category', 'CategoryController@index')->name('category.index');
     // カテゴリー追加
-    Route::post('/user/category', 'CategoryController@store')->name('category.store');
+    // Route::post('/user/category', 'CategoryController@store')->name('category.store');
+    // 同じカテゴリー内でのplaceの順番変更
+    Route::post('/category/place/changeorder', 'PlaceController@orderNumberUpdate')->name('place.orderNumberUpdate');
 });
