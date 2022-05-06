@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Http\Requests\ChangeCategoryRequest;
+use App\Http\Requests\ColumnOrderUpdateRequest;
 use App\Place;
 use Illuminate\Support\Facades\Auth;
 
@@ -35,18 +36,24 @@ class CategoryController extends Controller
     }
 
     /**
-     * カテゴリーカラムの順番変更を行うメッソド
+     * カテゴリーカラムの順番変更を行うメッソド.
      *
-     * @return void
+     * @param ColumnOrderUpdateRequest $request
      */
-    public function columnOrderUpdate()
+    public function columnOrderUpdate(ColumnOrderUpdateRequest $request): void
     {
+        $categories = $request->input('categoriesQuery');
 
+        foreach ($categories as $category) {
+            Category::where('id', $category['id'])
+                ->update(['column_order' => $category['newColumnOrder']]);
+        }
     }
+
     /**
-     * placeのカテゴリーの変化を伴った更新処理
+     * placeのカテゴリーの変化を伴った更新処理.
      *
-     * @return void
+     * @param ChangeCategoryRequest $request
      */
     public function changeCategory(ChangeCategoryRequest $request): void
     {

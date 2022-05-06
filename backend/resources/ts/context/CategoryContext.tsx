@@ -1,8 +1,10 @@
 import React, { createContext, useContext, useState } from 'react'
 import { DraggableLocation, DropResult } from 'react-beautiful-dnd'
 import usePostChangeCategoryMutation from '../place/hooks/usePostChangeCategoryMutation'
+import usePostColumnOrderUpdateMutation from '../place/hooks/usePostColumnOrderUpdateMutation'
 import usePostOrderNumberUpdateMutation from '../place/hooks/usePostOrderNumberUpdateMutation'
 import { CategoriesArray } from '../place/types/CategoriesArray'
+import { ColumnOrderUpdateRequest } from '../place/types/ColumnOrderUpdateRequest'
 import { PlacesQuery } from '../place/types/PlacesQuery'
 
 const Context = createContext({} as {
@@ -21,6 +23,7 @@ export function CategoryProvider({ children }: any) {
 
 
     // Category自体の並び替え
+    const { mutate: postColumnOrderUpdate } = usePostColumnOrderUpdateMutation()
     const categoryReorder = (
         categoriesState: CategoriesArray,
         startIndex: number,
@@ -29,7 +32,14 @@ export function CategoryProvider({ children }: any) {
         const update = categoriesState
         const removedCategory = update.splice(startIndex, 1)
         update.splice(endIndex, 0, removedCategory[0])
-        setCategoriesState(update)
+
+        // データベース更新
+        const categoriesQuery = update.map(
+            (category, index) => {
+                return ({ id: category.id, newColumnOrder: index })
+            })
+        setCategoriesState(() => update)
+        postColumnOrderUpdate(categoriesQuery)
     }
 
     // Place自体の並び替え

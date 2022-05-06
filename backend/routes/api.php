@@ -101,4 +101,6 @@ Route::group(['middleware' => 'auth:sanctum'], function (): void {
     Route::post('/category/place/changeorder', 'PlaceController@orderNumberUpdate')->name('place.orderNumberUpdate');
     // 同じカテゴリー内でのplaceの順番変更
     Route::post('/category/place/change/changeorder', 'CategoryController@changeCategory')->name('category.changeCategory');
+    // カテゴリ自体の順番変更
+    Route::post('/category/change/changeorder','CategoryController@columnOrderUpdate')->name('category.columnOrderUpdate');
 });
