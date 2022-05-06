@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from 'react'
 import { DraggableLocation, DropResult } from 'react-beautiful-dnd'
+import usePostChangeCategoryMutation from '../place/hooks/usePostChangeCategoryMutation'
 import usePostOrderNumberUpdateMutation from '../place/hooks/usePostOrderNumberUpdateMutation'
 import { CategoriesArray } from '../place/types/CategoriesArray'
 import { PlacesQuery } from '../place/types/PlacesQuery'
@@ -63,16 +64,16 @@ export function CategoryProvider({ children }: any) {
     // placeのカテゴリーを変更しつつ順番変更
 
     // 変更時のmutationでDBに保存
-
+    const { mutate: postChangeCategory } = usePostChangeCategoryMutation()
     const changeCategoryPlace = (
         categoriesState: CategoriesArray,
         source: DraggableLocation,
         destination: DraggableLocation
     ) => {
         const update = categoriesState
-        // もともとのカテゴリーの定義
+        // もともとのカテゴリーの定義 filterは配列として返すので分割代入
         const [sourceCategory] = update.filter(({ id }) => id.toString() === source.droppableId)
-        // 移動先のカテゴリーの定義
+        // 移動先のカテゴリーの定義 filterは配列として返すので分割代入
         const [destinationCategory] = update.filter(({ id }) => id.toString() === destination.droppableId)
 
         // 更にカテゴリーからplacesの配列を定義
@@ -85,8 +86,29 @@ export function CategoryProvider({ children }: any) {
         const [removedPlace] = sourcePlaces.splice(source.index, 1)
         // 削除したものを代入
         destinationPlaces.splice(destination.index, 0, removedPlace)
-        setCategoriesState(update)
+        setCategoriesState(() => update)
 
+        // // もともとのカテゴリーの定義 filterは配列として返すので分割代入
+        // const [newSourceCategory] = categoriesState.filter(({ id }) => id.toString() === source.droppableId)
+        // // 移動先のカテゴリーの定義 filterは配列として返すので分割代入
+        // const [newDestinationCategory] = categoriesState.filter(({ id }) => id.toString() === destination.droppableId)
+        const sourcePlacesQuery = sourcePlaces.map(
+            (place, index) => {
+                return ({ id: place.id, newCategoryOrder: index })
+            }
+        )
+        const destinationPlacesQuery = destinationPlaces.map(
+            (place, index) => {
+                return ({ id: place.id, newCategoryOrder: index })
+            }
+        )
+        const request = {
+            sourcePlaces: sourcePlacesQuery,
+            destinationPlaces: destinationPlacesQuery,
+            targetPlaceId: removedPlace.id,
+            destinationCategoryId: destinationCategory.id
+        }
+        postChangeCategory(request)
     }
 
 

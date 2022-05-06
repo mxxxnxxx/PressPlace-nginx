@@ -24,13 +24,13 @@ class FollowUsersPlacesTest extends TestCase
         'name' => 'No Category',
         'user_id' => $this->user->id,
         ]);
-        $this->category = factory(Category::class)->create([
+        $this->category2 = factory(Category::class)->create([
         'name' => 'No Category',
         'user_id' => $this->another_user->id,
         ]);
         $this->place = factory(Place::class)->create([
         'user_id' => $this->user->id,
-        'category_id' => $this->user->id,
+        'category_id' => $this->category->id,
         'category_order' => 0,
         ]);
     }

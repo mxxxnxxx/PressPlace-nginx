@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Http\Requests\ChangeCategoryRequest;
+use App\Place;
 use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
@@ -30,6 +32,41 @@ class CategoryController extends Controller
 
     public function store(): void
     {
+    }
+
+    /**
+     * カテゴリーカラムの順番変更を行うメッソド
+     *
+     * @return void
+     */
+    public function columnOrderUpdate()
+    {
+
+    }
+    /**
+     * placeのカテゴリーの変化を伴った更新処理
+     *
+     * @return void
+     */
+    public function changeCategory(ChangeCategoryRequest $request): void
+    {
+        // placeのカテゴリーを変える処理
+        $destinationCategoryId = $request->input('destinationCategoryId');
+        $targetPlaceId = $request->input(('targetPlaceId'));
+        Place::where('id', $targetPlaceId)->update(['category_id' => $destinationCategoryId]);
+        // 変更前と変更後のカテゴリーの順番を変更する処理
+        $sourcePlaces = $request->input('sourcePlaces');
+        $destinationPlaces = $request->input('destinationPlaces');
+
+        foreach ($sourcePlaces as $sourcePlace) {
+            Place::where('id', $sourcePlace['id'])
+                ->update(['category_order' => $sourcePlace['newCategoryOrder']]);
+        }
+
+        foreach ($destinationPlaces as $destinationPlace) {
+            Place::where('id', $destinationPlace['id'])
+                ->update(['category_order' => $destinationPlace['newCategoryOrder']]);
+        }
     }
 
     /**

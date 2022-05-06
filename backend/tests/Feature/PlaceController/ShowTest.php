@@ -25,7 +25,7 @@ class ShowTest extends TestCase
         ]);
         $this->place = factory(Place::class)->create([
             'user_id' => $this->user->id,
-            'category_id' => $this->user->id,
+            'category_id' => $this->category->id,
             'category_order' => 0,
         ]);
     }

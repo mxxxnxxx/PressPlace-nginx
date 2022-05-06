@@ -306,13 +306,13 @@ class PlaceController extends Controller
      *
      * @param OrderNumberRequest $request
      */
-    public function orderNumberUpdate(OrderNumberRequest $request)
+    public function orderNumberUpdate(OrderNumberRequest $request): void
     {
         $places = $request->input('placesQuery');
-        foreach($places as $place){
-            Place::where('id', $place['id'])->update(['category_order'=> $place['newCategoryOrder']]);
+
+        foreach ($places as $place) {
+            Place::where('id', $place['id'])
+                ->update(['category_order' => $place['newCategoryOrder']]);
         }
-
-
     }
 }
