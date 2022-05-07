@@ -25,27 +25,27 @@ class CategoriesTableSeeder extends Seeder
                 'user_id' => 53,
             ],
             [
-                'name' => 'キャフェ',
+                'name' => 'キャフェ1',
                 'column_order' => 2,
                 'user_id' => 53,
             ],
             [
-                'name' => 'キャフェ',
+                'name' => 'キャフェ2',
                 'column_order' => 3,
                 'user_id' => 53,
             ],
             [
-                'name' => 'キャフェ',
+                'name' => 'キャフェ3',
                 'column_order' => 4,
                 'user_id' => 53,
             ],
             [
-                'name' => 'キャフェ',
+                'name' => 'キャフェ4',
                 'column_order' => 5,
                 'user_id' => 53,
             ],
             [
-                'name' => 'キャフェ',
+                'name' => 'キャフェ5',
                 'column_order' => 6,
                 'user_id' => 53,
             ],

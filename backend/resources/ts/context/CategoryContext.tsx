@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState } from 'react'
 import { DraggableLocation, DropResult } from 'react-beautiful-dnd'
+import { toast } from 'react-toastify'
+import usePostAddNewCategoryMutation from '../place/hooks/usePostAddNewCategoryMutation'
 import usePostChangeCategoryMutation from '../place/hooks/usePostChangeCategoryMutation'
 import usePostColumnOrderUpdateMutation from '../place/hooks/usePostColumnOrderUpdateMutation'
 import usePostOrderNumberUpdateMutation from '../place/hooks/usePostOrderNumberUpdateMutation'
@@ -11,6 +13,7 @@ const Context = createContext({} as {
     categoriesState: CategoriesArray | undefined
     setCategoriesState: React.Dispatch<React.SetStateAction<CategoriesArray | undefined>>
     handleDragEnd: (result: DropResult) => void
+    addNewCategory: (name: string) => void
 })
 
 export function useCategoryContext() {
@@ -140,7 +143,6 @@ export function CategoryProvider({ children }: any) {
     // ドラックして配置したあとの処理
     // 引数のresultで何をどこにドラックアンドドロップしたか検出し処理を分岐
     const handleDragEnd = (result: DropResult) => {
-        // console.log(result)
         // 利用者がドロップの範囲ではないところでドロップした場合destinationはnullになる
         if (!(result.destination && categoriesState)) {
             return
@@ -153,11 +155,29 @@ export function CategoryProvider({ children }: any) {
         }
     }
 
+    // タスクを追加する処理
+    const { mutate: postAddNewCategory } = usePostAddNewCategoryMutation()
+    const addNewCategory = async (name: string) => {
+        if (!(categoriesState)) return
+        postAddNewCategory(name,
+            {
+                onSuccess: (newCategory) => {
+                    const up = categoriesState
+                    const updated: CategoriesArray = [
+                        ...up,
+                        newCategory,
+                    ]
+                    return setCategoriesState(() => updated)
+                }
+            }
+        )
+    }
 
     const value = {
         categoriesState,
         setCategoriesState,
-        handleDragEnd
+        handleDragEnd,
+        addNewCategory
     }
     return (
         <Context.Provider value={value}>

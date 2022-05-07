@@ -4,7 +4,6 @@ import { toast } from "react-toastify"
 import { ChangeCategoryRequest } from "../types/ChangeCategoryRequest"
 
 const postChangeCategory = async (request: ChangeCategoryRequest): Promise<void> => {
-    console.log(request);
     await axios.post(
         '/api/category/place/change/changeorder',
         request,

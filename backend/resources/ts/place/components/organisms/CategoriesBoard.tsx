@@ -3,6 +3,7 @@ import React from 'react'
 import { DragDropContext, Draggable, DraggableProvided, DraggingStyle, Droppable, DroppableProvided, DropResult, NotDraggingStyle } from 'react-beautiful-dnd'
 import { useHistory } from 'react-router-dom'
 import { useCategoryContext } from '../../../context/CategoryContext'
+import EnhancedAddCategoryButton from '../../../user/containers/atoms/AddCategoryButton'
 import CategoryColumn from '../../containers/organisms/CategoryColumn'
 import { CategoriesArray } from '../../types/CategoriesArray'
 
@@ -43,55 +44,58 @@ const CategoriesBoard: React.FC = ({
     } = useCategoryContext()
     const classes = useStyle()
     return (
-        <DragDropContext
-            onDragEnd={handleDragEnd}
-        >
-            <Droppable
-                droppableId="all-columns"
-                // type="column"
-                direction="horizontal"
+        <div >
+            <DragDropContext
+                onDragEnd={handleDragEnd}
             >
-                {(provided: DroppableProvided, snapshot) => (
-                    <div
-                        id="place-board"
-                        className={classes.categoryPlaces}
-                        {...provided.droppableProps}
-                        ref={provided.innerRef}
-                    >
-                        {/* Categoryの領域 */}
-                        {categoriesState?.map((category, index) => (
-                            <div key={category.id}>
-                                <Draggable
-                                    draggableId={`category-${category.id}`}
-                                    index={index}
-                                >
+                <Droppable
+                    droppableId="all-columns"
+                    direction="horizontal"
+                >
+                    {(provided: DroppableProvided) => (
+                        <div
+                            id="place-board"
+                            className={classes.categoryPlaces}
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
+                        >
+                            {/* Categoryの領域 */}
+                            {categoriesState?.map((category, index) => (
+                                <div key={category.id}>
+                                    <Draggable
+                                        draggableId={`category-${category.name}`}
+                                        index={index}
+                                    >
 
-                                    {(provided: DraggableProvided, snapshot) => (
-                                        <div
-                                            {...provided.draggableProps}
-                                            ref={provided.innerRef}
-                                        >
-                                            <Typography
-                                                {...provided.dragHandleProps}
-                                                className={classes.categoryName}
-                                                variant="h6" color="initial"
+                                        {(provided: DraggableProvided) => (
+                                            <div
+                                                {...provided.draggableProps}
+                                                ref={provided.innerRef}
                                             >
-                                                {category.name}
-                                            </Typography>
+                                                <Typography
+                                                    {...provided.dragHandleProps}
+                                                    className={classes.categoryName}
+                                                    variant="h6" color="initial"
+                                                >
+                                                    {category.name}
+                                                </Typography>
 
-                                            {/* placeのコンポーネント */}
-                                            <CategoryColumn category={category} />
+                                                {/* placeのコンポーネント */}
+                                                <CategoryColumn category={category} />
 
-                                        </div>
-                                    )}
-                                </Draggable>
-                            </div>
-                        ))}
-                        {provided.placeholder}
-                    </div>
-                )}
-            </Droppable>
-        </DragDropContext>
+                                            </div>
+                                        )}
+                                    </Draggable>
+                                </div>
+                            ))}
+                            {provided.placeholder}
+                            <EnhancedAddCategoryButton />
+                        </div>
+                    )}
+                </Droppable>
+            </DragDropContext>
+
+        </div>
     )
 }
 export default CategoriesBoard

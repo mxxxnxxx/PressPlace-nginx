@@ -14,7 +14,6 @@ const registration = async ({ email, password, name, age }: FormData): Promise<U
     const { data } = await axios.get('/sanctum/csrf-cookie').then(
         () => axios.post('/api/register', { email, password, name, age })
     )
-    console.log(data);
     return camelcaseKeys(data, { deep: true })
 }
 

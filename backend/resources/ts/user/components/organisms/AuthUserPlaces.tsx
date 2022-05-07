@@ -5,6 +5,7 @@ import { CategoryProvider } from "../../../context/CategoryContext"
 import PressButton from "../../../place/components/atoms/PressButton"
 import Categories from "../../../place/containers/organisms/CategoriesBoard"
 import { Places } from "../../../place/types/Places"
+import EnhancedAddCategoryButton from "../../containers/atoms/AddCategoryButton"
 
 type Props = {
     places?: Places
@@ -66,9 +67,8 @@ const AuthUserPlaces: FC<Props> = ({
             <section>
                 {places?.data && places?.data?.length > 0 ?
                     <div className={classes.categoryPlaces}>
-
+                        {/* リスト機能のapp */}
                         <Categories />
-
                     </div>
                     :
                     <Paper className={classes.noSearched}>
@@ -80,7 +80,6 @@ const AuthUserPlaces: FC<Props> = ({
                         </Box>
                     </Paper>
                 }
-
             </section>
         </Box>
     )

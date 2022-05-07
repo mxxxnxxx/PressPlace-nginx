@@ -41,8 +41,8 @@ const CategoryColumn: React.FC<Props> = ({
                     {...prov.droppableProps}
                 >
                     {/* placesの領域 */}
-                    {category.places.map((place: Place, index) => (
-                        <div key={place.id}>
+                    {category.places?.map((place: Place, index) => (
+                        <div key={place.id.toString()}>
                             <Draggable
                                 draggableId={`place-${place.id}`}
                                 index={index}

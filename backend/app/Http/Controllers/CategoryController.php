@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Http\Requests\CategoryStoreRequest;
 use App\Http\Requests\ChangeCategoryRequest;
 use App\Http\Requests\ColumnOrderUpdateRequest;
 use App\Place;
@@ -31,8 +32,35 @@ class CategoryController extends Controller
         return response()->json($categories);
     }
 
-    public function store(): void
+    /**
+     * カテゴリー新規作成.
+     *
+     * $firstCreateCheckで同じ名前のカテゴリーを設定できなくしています
+     *
+     * @param CategoryStoreRequest $request 'name' => 'required|string|max:15',
+     *
+     * @return  \Illuminate\Http\JsonResponse
+     */
+    public function store(CategoryStoreRequest $request)
     {
+        $categoryName = $request->input('name');
+        $firstCreateCheck = Auth::user()->whereHas('categories', function($category_q) use($categoryName)
+        {
+            $category_q->where('name', $categoryName);
+        })->first();
+
+        if($firstCreateCheck){
+            return response()->json(['同じ名前のカテゴリーを作成できません'],500);
+        }
+
+        $categoriesCount = Auth::user()->withCount('categories')->get();
+        $columnOrder = $categoriesCount[0]->categories_count++;
+        $newCategory = Category::create([
+            'name' => $categoryName,
+            'user_id' => Auth::id(),
+            'column_order' => $columnOrder,
+        ]);
+        return response()->json($newCategory);
     }
 
     /**
