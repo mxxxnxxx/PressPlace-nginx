@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderNumberRequest;
 use App\Http\Requests\PlaceRequest;
 use App\Place;
+use App\Category;
 use App\PostalCode;
 use App\Tag;
 use function count;
@@ -32,8 +34,13 @@ class PlaceController extends Controller
      */
     public function store(PlaceRequest $request)
     {
+        $noCategoryId = Category::where('user_id', Auth::id())->where('name', 'No Category')->value('id');
+
+        $endLine = Place::where('category_id', $noCategoryId)->max('category_order') + 1;
 
         $place = Place::create([
+            'category_id' => $noCategoryId,
+            'category_order'=> $endLine,
             'user_id' => Auth::id(),
             'name' => $request->name,
             'comment' => $request->comment,
@@ -85,8 +92,8 @@ class PlaceController extends Controller
             $place->tags()->attach($tags_id);
         }
         // 引用した場合はquote_countを増加
-        if($request->quote_place_id){
-            $quote_place_id = intval($request->quote_place_id);
+        if ($request->quote_place_id) {
+            $quote_place_id = (int) ($request->quote_place_id);
             Place::find($quote_place_id)->increment('quote_count');
         }
         return $place
@@ -180,8 +187,9 @@ class PlaceController extends Controller
         ? response()->json($place, 201)
         : response()->json([], 500);
     }
+
     /**
-     * topページの場所一覧を出すメソッド
+     * topページの場所一覧を出すメソッド.
      *
      * withを使ってsqlの発行数を最小限にしている
      *
@@ -298,4 +306,20 @@ class PlaceController extends Controller
         return $placeSearched;
     }
 
+    /**
+     * placeの順番を更新する関数.
+     *
+     * React側で更新されたstateの結果でけ受け取る
+     *
+     * @param OrderNumberRequest $request
+     */
+    public function orderNumberUpdate(OrderNumberRequest $request): void
+    {
+        $places = $request->input('placesQuery');
+
+        foreach ($places as $place) {
+            Place::where('id', $place['id'])
+                ->update(['category_order' => $place['newCategoryOrder']]);
+        }
+    }
 }

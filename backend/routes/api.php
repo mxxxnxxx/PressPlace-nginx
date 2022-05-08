@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,18 +30,18 @@ Route::get('/places ', 'PlaceController@index')->name('place.index');
 Route::get('/place/{placeId} ', 'PlaceController@show')->name('place.show');
 
 // User新規登録
-// Route::post('/register', 'CookieAuthenticationController@register');
+Route::post('/register', 'CookieAuthenticationController@register');
 
 // メールアドレス認証
-// Route::get('/email/verify/{id}/{hash}', 'VerifyEmailController@verify')
-// ->middleware(['signed', 'throttle:6,1'])
-// ->name('verification.verify');
+Route::get('/email/verify/{id}/{hash}', 'VerifyEmailController@verify')
+    ->middleware(['signed', 'throttle:6,1'])
+    ->name('verification.verify');
 
 // メールアドレス認証メール再送
-// Route::post('/email/verify/resend', function (Request $request) {
-// $request->user()->sendEmailVerificationNotification();
-// return back()->with('message', 'Verification link sent!');
-// })->middleware(['auth:api', 'throttle:6,1'])->name('verification.send');
+Route::post('/email/verify/resend', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth:api', 'throttle:6,1'])->name('verification.send');
 
 // ログインログアウト
 Route::post('/login', 'CookieAuthenticationController@login')->name('login');
@@ -68,14 +67,14 @@ Route::get('/place/favorite/users/{placeId} ', 'PlaceController@placeFavoriteUse
 Route::group(['middleware' => 'auth:sanctum'], function (): void {
     Route::get('/user/me', 'UserController@current')->name('user');
     // テスト版のため停止中
-    // Route::get('/user/delete', 'UserController@softdelete')->name('user.softdelete');
+    Route::get('/user/delete', 'UserController@softdelete')->name('user.softdelete');
 
     // メールアドレス認証済みユーザーのみアクセス可能
     Route::middleware(['verified'])->group(function (): void {
         // Route::post('/user/email', 'ChangeEmailController@sendChangeEmailLink');
     });
     //  テスト版のため停止中
-    // Route::post('/user/email', 'ChangeEmailController@sendChangeEmailLink');
+    Route::post('/user/email', 'ChangeEmailController@sendChangeEmailLink');
 
     Route::get('/user/email/reset/{token}', 'ChangeEmailController@reset');
     // フォロー機能
@@ -94,4 +93,16 @@ Route::group(['middleware' => 'auth:sanctum'], function (): void {
     Route::get('/places/delete/{id} ', 'PlaceController@softdelete')->name('place.softdelete');
     // フォローしているUsersのplacesを取得
     Route::get('/follow/users/places', 'PlaceController@followUsersPlaces');
+    // カテゴリーリスト取得
+    Route::get('/user/category', 'CategoryController@index')->name('category.index');
+    // カテゴリー追加
+    Route::post('/user/category/new', 'CategoryController@store')->name('category.store');
+    // 同じカテゴリー内でのplaceの順番変更
+    Route::post('/category/place/changeorder', 'PlaceController@orderNumberUpdate')->name('place.orderNumberUpdate');
+    // 同じカテゴリー内でのplaceの順番変更
+    Route::post('/category/place/change/changeorder', 'CategoryController@changeCategory')->name('category.changeCategory');
+    // カテゴリ自体の順番変更
+    Route::post('/category/change/changeorder', 'CategoryController@columnOrderUpdate')->name('category.columnOrderUpdate');
+    // カテゴリのソフトデリート
+    Route::post('/category/delete','CategoryController@softDelete')->name('category.softDelete');
 });

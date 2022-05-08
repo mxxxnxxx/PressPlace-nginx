@@ -71,7 +71,7 @@ const EnhancedPlaceSearched: FC = () => {
             searchKey={searchKey}
             removeKey={removeKey}
         />
-    );
-};
+    )
+}
 
 export default EnhancedPlaceSearched

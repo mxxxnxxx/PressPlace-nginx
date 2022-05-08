@@ -11,7 +11,13 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.ts('resources/ts/app.tsx', 'public/js').sass('resources/sass/app.scss', 'public/css').react();
+mix.ts('resources/ts/app.tsx', 'public/js')
+    .sass('resources/sass/app.scss', 'public/css')
+    .react()
+    .browserSync({
+        proxy: 'http://127.0.0.1',
+        files: ['index.html', 'resources/**/*'],
+    });
 
 if (mix.inProduction()) {
     mix.version();

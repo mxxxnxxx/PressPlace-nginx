@@ -21,6 +21,8 @@ class Place extends Model
         'address',
         'user_id',
         'tag',
+        'category_order',
+        'category_id'
     ];
 
     // place_tagの多対多
@@ -33,6 +35,12 @@ class Place extends Model
     public function user()
     {
         return $this->belongsTo('App\User');
+    }
+
+    // placeがcategoriesに属す
+    public function category()
+    {
+        return $this->belongsTo('App\Category');
     }
 
     // place_imageがplaceに属する
