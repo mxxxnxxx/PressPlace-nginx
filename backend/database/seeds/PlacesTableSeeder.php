@@ -136,6 +136,42 @@ class PlacesTableSeeder extends Seeder
                 'category_id' => 55,
                 'category_order' => 2,
             ],
+            [
+                'name' => '小宮山書店',
+                'address' => '東京都千代田区神田神保町１丁目７',
+                'comment' =>
+                '本が好きな方、アートに興味がある方、ファッションが好きな方是非',
+                'user_id' => 56,
+                'category_id' => 56,
+                'category_order' => 0,
+            ],
+            [
+                'name' => '小宮山書店',
+                'address' => '東京都千代田区神田神保町１丁目７',
+                'comment' =>
+                '本が好きな方、アートに興味がある方、ファッションが好きな方是非',
+                'user_id' => 56,
+                'category_id' => 56,
+                'category_order' => 0,
+            ],
+            [
+                'name' => 'Totodo',
+                'address' => '東京都渋谷区鶯谷町５−７ 第2ヴィラ青山1F',
+                'comment' =>
+                '本が好きな方、アートに興味がある方、ファッションが好きな方是非',
+                'user_id' => 56,
+                'category_id' => 56,
+                'category_order' => 1,
+            ],
+            [
+                'name' => 'shelf 洋書',
+                'address' => '東京都渋谷区神宮前３丁目７−４',
+                'comment' =>
+                '本が好きな方、アートに興味がある方、ファッションが好きな方是非',
+                'user_id' => 56,
+                'category_id' => 56,
+                'category_order' => 2,
+            ],
             ];
 
 
