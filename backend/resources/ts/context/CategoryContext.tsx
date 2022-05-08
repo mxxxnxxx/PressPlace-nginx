@@ -1,19 +1,19 @@
 import React, { createContext, useContext, useState } from 'react'
 import { DraggableLocation, DropResult } from 'react-beautiful-dnd'
-import { toast } from 'react-toastify'
 import usePostAddNewCategoryMutation from '../place/hooks/usePostAddNewCategoryMutation'
+import usePostCategorySoftDeleteMutation from '../place/hooks/usePostCategorySoftDeleteMutation'
 import usePostChangeCategoryMutation from '../place/hooks/usePostChangeCategoryMutation'
 import usePostColumnOrderUpdateMutation from '../place/hooks/usePostColumnOrderUpdateMutation'
 import usePostOrderNumberUpdateMutation from '../place/hooks/usePostOrderNumberUpdateMutation'
 import { CategoriesArray } from '../place/types/CategoriesArray'
-import { ColumnOrderUpdateRequest } from '../place/types/ColumnOrderUpdateRequest'
-import { PlacesQuery } from '../place/types/PlacesQuery'
+import { Category } from '../place/types/Category'
 
 const Context = createContext({} as {
     categoriesState: CategoriesArray | undefined
     setCategoriesState: React.Dispatch<React.SetStateAction<CategoriesArray | undefined>>
     handleDragEnd: (result: DropResult) => void
     addNewCategory: (name: string) => void
+    deleteCategory: (targetId: number, category: Category) => void
 })
 
 export function useCategoryContext() {
@@ -75,7 +75,6 @@ export function CategoryProvider({ children }: any) {
 
 
     // placeのカテゴリーを変更しつつ順番変更
-
     // 変更時のmutationでDBに保存
     const { mutate: postChangeCategory } = usePostChangeCategoryMutation()
     const changeCategoryPlace = (
@@ -155,29 +154,47 @@ export function CategoryProvider({ children }: any) {
         }
     }
 
-    // タスクを追加する処理
+    // カテゴリーを追加する処理
     const { mutate: postAddNewCategory } = usePostAddNewCategoryMutation()
     const addNewCategory = async (name: string) => {
         if (!(categoriesState)) return
         postAddNewCategory(name,
             {
                 onSuccess: (newCategory) => {
-                    const up = categoriesState
-                    const updated: CategoriesArray = [
-                        ...up,
-                        newCategory,
-                    ]
-                    return setCategoriesState(() => updated)
+                    setCategoriesState(() => {
+                        // laravel側でどうしてもplacesを空で取得できなかったため一時的に実装
+                        newCategory['places'] = []
+                        const up = categoriesState
+                        const updated: CategoriesArray = [
+                            ...up,
+                            newCategory,
+                        ]
+                        return updated
+                    })
                 }
-            }
-        )
+            })
     }
+
+    // カテゴリーを削除する処理
+    const { mutate: postCategorySoftDelete } = usePostCategorySoftDeleteMutation()
+    const deleteCategory = (targetId: number, category: Category) => {
+        const placeIds = category.places.map((place) => place.id)
+        const request = {
+            categoryId: targetId,
+            placeIds: placeIds
+        }
+        postCategorySoftDelete(request, {
+            onSuccess: (data) => setCategoriesState(() => data)
+        })
+    }
+
 
     const value = {
         categoriesState,
         setCategoriesState,
         handleDragEnd,
-        addNewCategory
+        addNewCategory,
+        deleteCategory
     }
     return (
         <Context.Provider value={value}>

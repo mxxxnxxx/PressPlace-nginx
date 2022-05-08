@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { DropResult } from 'react-beautiful-dnd'
-import Loding from '../../../layout/components/pages/Loding'
+import React, { useEffect } from 'react'
 import { useCategoryContext } from '../../../context/CategoryContext'
-import EnhancedLogin from '../../../user/containers/pages/Login'
+import Loding from '../../../layout/components/pages/Loding'
 import CategoriesBoard from '../../components/organisms/CategoriesBoard'
 import useGetCategoriesPlacesQuery from '../../hooks/useGetCategoriesPlacesQuery'
-import { CategoriesArray } from '../../types/CategoriesArray'
 const EnhancedCategoriesBoard: React.FC = () => {
     const {
         setCategoriesState,

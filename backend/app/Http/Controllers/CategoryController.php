@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Http\Requests\CategorySoftDeleteRequest;
 use App\Http\Requests\CategoryStoreRequest;
 use App\Http\Requests\ChangeCategoryRequest;
 use App\Http\Requests\ColumnOrderUpdateRequest;
@@ -44,22 +45,26 @@ class CategoryController extends Controller
     public function store(CategoryStoreRequest $request)
     {
         $categoryName = $request->input('name');
-        $firstCreateCheck = Auth::user()->whereHas('categories', function($category_q) use($categoryName)
-        {
+
+        // すでに作ったカテゴリーは作れない
+        $firstCreateCheck = Auth::user()->whereHas('categories', function ($category_q) use ($categoryName): void {
             $category_q->where('name', $categoryName);
         })->first();
 
-        if($firstCreateCheck){
-            return response()->json(['同じ名前のカテゴリーを作成できません'],500);
+        if ($firstCreateCheck) {
+            return response()->json(['同じ名前のカテゴリーを作成できません'], 500);
         }
 
-        $categoriesCount = Auth::user()->withCount('categories')->get();
-        $columnOrder = $categoriesCount[0]->categories_count++;
+        // 作成の処理
+        $count = Category::where('user_id', Auth::id())->count();
+        $columnOrder = $count + 1;
+        \Debugbar::info($columnOrder);
         $newCategory = Category::create([
             'name' => $categoryName,
             'user_id' => Auth::id(),
             'column_order' => $columnOrder,
         ]);
+
         return response()->json($newCategory);
     }
 
@@ -102,6 +107,40 @@ class CategoryController extends Controller
             Place::where('id', $destinationPlace['id'])
                 ->update(['category_order' => $destinationPlace['newCategoryOrder']]);
         }
+    }
+
+    /**
+     * カテゴリーのソフトデリート.
+     *
+     * @param CategorySoftDeleteRequest $request categoryId:integer placeIds:string[]
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function softDelete(CategorySoftDeleteRequest $request)
+    {
+        $deleteCategoryId = $request->input(('categoryId'));
+        $placeIds = $request->input('placeIds');
+        if ($placeIds) {
+            // ログインユーザーのNo Categoryのidを取得
+            $noCategoryId = Category::where('user_id', Auth::id())->where('name', 'No Category')->value('id');
+
+
+
+            // No Categoryに所属し､かつ最後尾のplaceの数値を取得 (category_orderが最大のものに+1した値)
+            $endLine = Place::where('category_id', $noCategoryId)->max('category_order') + 1;
+
+            for($i=0; $i < count($placeIds); $i++){
+                $targetPlace = Place::find($placeIds[$i]);
+                // No Categoryの最後尾に続くようにplacesのcategory_orderを変更
+                $targetPlace->category_order = $endLine + $i;
+                // 削除したカテゴリーのplacesをNo Categoryに変更
+                $targetPlace->category_id = $noCategoryId;
+                $targetPlace->save();
+            }
+
+        }
+        Category::find($deleteCategoryId)->delete();
+        return response()->json($this->index()->original);
     }
 
     /**

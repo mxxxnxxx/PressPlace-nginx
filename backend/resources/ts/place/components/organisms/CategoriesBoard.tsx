@@ -1,11 +1,10 @@
-import { makeStyles, Typography } from '@material-ui/core'
+import { Card, makeStyles, Typography } from '@material-ui/core'
 import React from 'react'
-import { DragDropContext, Draggable, DraggableProvided, DraggingStyle, Droppable, DroppableProvided, DropResult, NotDraggingStyle } from 'react-beautiful-dnd'
-import { useHistory } from 'react-router-dom'
+import { DragDropContext, Draggable, DraggableProvided, Droppable, DroppableProvided } from 'react-beautiful-dnd'
 import { useCategoryContext } from '../../../context/CategoryContext'
 import EnhancedAddCategoryButton from '../../../user/containers/atoms/AddCategoryButton'
+import EnhancedCategoryDeleteButton from '../../containers/atoms/CategoryDeleteButton'
 import CategoryColumn from '../../containers/organisms/CategoryColumn'
-import { CategoriesArray } from '../../types/CategoriesArray'
 
 
 const useStyle = makeStyles((theme) => ({
@@ -20,22 +19,18 @@ const useStyle = makeStyles((theme) => ({
         overflowAnchor: 'none'
     },
     categoryName: {
+        marginTop: theme.spacing(2),
         marginBottom: theme.spacing(2),
-        marginLeft: theme.spacing(1)
+        marginLeft: theme.spacing(3)
     },
+    categoryCard: {
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: 'rgb(255,255,255,0.9)',
+        margin: theme.spacing(2),
+    }
 }))
 
-// ドラックしているときのスタイル
-const getListStyle = (isDraggingOver: boolean) => ({
-
-})
-// ドラックしているときのスタイル
-const getPlaceStyle = (
-    isDragging: boolean,
-    draggableStyle?: DraggingStyle | NotDraggingStyle
-) => ({
-
-})
 const CategoriesBoard: React.FC = ({
 }) => {
     const {
@@ -72,17 +67,23 @@ const CategoriesBoard: React.FC = ({
                                                 {...provided.draggableProps}
                                                 ref={provided.innerRef}
                                             >
-                                                <Typography
-                                                    {...provided.dragHandleProps}
-                                                    className={classes.categoryName}
-                                                    variant="h6" color="initial"
-                                                >
-                                                    {category.name}
-                                                </Typography>
+                                                <Card className={classes.categoryCard}>
+                                                    <EnhancedCategoryDeleteButton
+                                                        provided={provided}
+                                                        category={category}
+                                                    />
+                                                    <Typography
+                                                        {...provided.dragHandleProps}
+                                                        className={classes.categoryName}
+                                                        variant="h6" color="initial"
+                                                    >
+                                                        {category.name}
+                                                    </Typography>
 
-                                                {/* placeのコンポーネント */}
-                                                <CategoryColumn category={category} />
+                                                    {/* placeのコンポーネント */}
+                                                    <CategoryColumn category={category} />
 
+                                                </Card>
                                             </div>
                                         )}
                                     </Draggable>

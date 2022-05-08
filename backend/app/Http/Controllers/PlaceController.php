@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\OrderNumberRequest;
 use App\Http\Requests\PlaceRequest;
 use App\Place;
+use App\Category;
 use App\PostalCode;
 use App\Tag;
 use function count;
@@ -33,7 +34,13 @@ class PlaceController extends Controller
      */
     public function store(PlaceRequest $request)
     {
+        $noCategoryId = Category::where('user_id', Auth::id())->where('name', 'No Category')->value('id');
+
+        $endLine = Place::where('category_id', $noCategoryId)->max('category_order') + 1;
+
         $place = Place::create([
+            'category_id' => $noCategoryId,
+            'category_order'=> $endLine,
             'user_id' => Auth::id(),
             'name' => $request->name,
             'comment' => $request->comment,

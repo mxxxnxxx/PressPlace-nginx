@@ -19,7 +19,7 @@ class CreateCategoriesTable extends Migration
             $table->timestamps();
             $table->bigInteger('column_order')->unsigned();
             $table->bigInteger('user_id')->unsigned();
-
+            $table->softDeletes();
             // 外部規制
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

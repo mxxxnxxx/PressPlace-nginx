@@ -2,7 +2,6 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useCategoryContext } from '../../../context/CategoryContext'
 import Loding from '../../../layout/components/pages/Loding'
-import useGetCategoriesPlacesQuery from '../../../place/hooks/useGetCategoriesPlacesQuery'
 import usePostAddNewCategoryMutation from '../../../place/hooks/usePostAddNewCategoryMutation'
 import AddCategoryButton from '../../components/atoms/AddCategoryButton'
 const EnhancedAddCategoryButton: React.FC = () => {
@@ -10,7 +9,7 @@ const EnhancedAddCategoryButton: React.FC = () => {
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
     const { addNewCategory } = useCategoryContext()
-    const { mutate: postAddNewCategory, isLoading } = usePostAddNewCategoryMutation()
+    const { isLoading } = usePostAddNewCategoryMutation()
     const methods = useForm({ shouldUnregister: false, })
     const onSubmit = async (data: { name: string }): Promise<void> => {
         const { name } = data

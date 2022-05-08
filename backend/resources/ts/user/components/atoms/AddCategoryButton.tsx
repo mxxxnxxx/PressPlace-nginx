@@ -11,7 +11,6 @@ type Props = {
         name: string;
     }) => Promise<void>,
     methods: UseFormMethods<FieldValues>
-
 }
 
 const useStyle = makeStyles((theme) => ({

@@ -21,6 +21,8 @@ class Place extends Model
         'address',
         'user_id',
         'tag',
+        'category_order',
+        'category_id'
     ];
 
     // place_tagの多対多
