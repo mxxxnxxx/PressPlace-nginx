@@ -1,8 +1,8 @@
 import { AppBar, Box, Tab, Tabs } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import React from 'react'
+import Categories from '../../../place/containers/organisms/CategoriesBoard'
 import FavoritePlaces from '../../../place/containers/organisms/FavoritePlaces'
-import UserPlaces from '../../../place/containers/organisms/UserPlaces'
 
 type Props = {
     userName?: string
@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
         padding: '30px',
     },
 }))
-const UserContents: React.FC<Props> = ({
+const AuthUserContents: React.FC<Props> = ({
     userName,
     value,
     handleChange,
@@ -87,15 +87,13 @@ const UserContents: React.FC<Props> = ({
                         variant="fullWidth"
                         centered
                     >
-                        <Tab value="myPlace" label="投稿" {...a11yProps('following')} />
-                        <Tab value="favoritePlace" label="お気に入り" {...a11yProps('follower')} />
+                        <Tab value="myPlace" label="投稿" {...a11yProps('myPlace')} />
+                        <Tab value="favoritePlace" label="お気に入り" {...a11yProps('favoritePlace')} />
                     </Tabs>
                 </AppBar>
             </Box>
             <TabPanel value={value} index="myPlace">
-                <UserPlaces
-                    userName={userName}
-                />
+                <Categories />
             </TabPanel>
 
             <TabPanel value={value} index="favoritePlace">
@@ -108,4 +106,4 @@ const UserContents: React.FC<Props> = ({
     )
 }
 
-export default UserContents
+export default AuthUserContents

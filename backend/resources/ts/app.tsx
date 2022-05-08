@@ -11,6 +11,7 @@ import {
 } from "react-router-dom"
 import { ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
+import { CategoryProvider } from './context/CategoryContext'
 import { SearchKeyProvider } from './context/SearchKeyContext'
 import GlobalStyle from './grobalStyles'
 import Footer from './layout/components/organisms/Footer'
@@ -201,7 +202,6 @@ const App: FC = () => {
                     <AuthUserPage />
                 </AuthRoute>
 
-
                 <AuthRoute exact path="/user/email/reset/:token">
                     <UserChangedEmail />
                 </AuthRoute>
@@ -228,13 +228,15 @@ if (document.getElementById('app')) {
         <Router>
             <QueryClientProvider client={client}>
                 <SearchKeyProvider>
-                    <CssBaseline />
-                    <MuiThemeProvider theme={theme}>
-                        <App />
-                        {process.env.NODE_ENV === 'development' && (
-                            <ReactQueryDevtools initialIsOpen={false} />
-                        )}
-                    </MuiThemeProvider>
+                    <CategoryProvider>
+                        <CssBaseline />
+                        <MuiThemeProvider theme={theme}>
+                            <App />
+                            {process.env.NODE_ENV === 'development' && (
+                                <ReactQueryDevtools initialIsOpen={false} />
+                            )}
+                        </MuiThemeProvider>
+                    </CategoryProvider>
                 </SearchKeyProvider>
             </QueryClientProvider>
         </Router>,

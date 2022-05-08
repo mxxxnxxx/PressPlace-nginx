@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use App\Category;
 use App\Place;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,7 +19,15 @@ class ShowTest extends TestCase
         parent::setUp();
         // テストユーザ作成
         $this->user = factory(User::class)->create();
-        $this->place = factory(Place::class)->create(['user_id' => $this->user->id]);
+        $this->category = factory(Category::class)->create([
+        'name' => 'No Category',
+        'user_id' => $this->user->id,
+        ]);
+        $this->place = factory(Place::class)->create([
+            'user_id' => $this->user->id,
+            'category_id' => $this->category->id,
+            'category_order' => 0,
+        ]);
     }
 
     public function testShow(): void

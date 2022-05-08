@@ -53,7 +53,12 @@ class User extends Authenticatable implements MustVerifyEmailContract
     // userがplaceを所有する1対多
     public function places()
     {
-        return $this->hasMany('App\place');
+        return $this->hasMany('App\Place');
+    }
+
+    public function categories()
+    {
+        return $this->hasMany('App\Category');
     }
 
     // ユーザのフォロー中のユーザを取得する
