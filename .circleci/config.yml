@@ -89,8 +89,13 @@ jobs:
               docker-compose exec -T app composer install --optimize-autoloader --no-dev && \
               docker-compose exec -T app cp .env.example .env && \
               docker-compose exec -T app php artisan key:generate --force && \
-              docker-compose exec -T app php artisan storage:link && \
+              docker-compose exec -T app chmod 777 storage/app/public && \
               docker-compose exec -T app chmod -R 777 storage bootstrap/cache && \
+              docker-compose exec -T app chmod 777 storage/app/public && \
+              docker-compose exec -T app chmod 777 storage/framework/cache && \
+              docker-compose exec -T app chmod 777 storage/framework/sessions && \
+              docker-compose exec -T app chmod 777 storage/framework/views && \
+              docker-compose exec -T app php artisan storage:link && \
               docker-compose exec -T app php artisan cache:clear && \
               docker-compose exec -T app php artisan config:cache && \
               docker-compose exec -T app php artisan migrate --force"
