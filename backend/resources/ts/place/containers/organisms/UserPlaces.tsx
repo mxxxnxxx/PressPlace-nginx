@@ -1,3 +1,4 @@
+// 現在利用していません
 import React, { FC, useEffect, useState } from "react"
 import { useQueryClient } from "react-query"
 import Loding from "../../../layout/components/pages/Loding"

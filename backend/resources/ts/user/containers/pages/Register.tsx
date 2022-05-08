@@ -31,14 +31,14 @@ const EnhancedRegister: FC = () => {
             return
         }
         // テスト版のため停止中
-        // registration(
-        //     { name, age, email, password },
-        //     {
-        //         onSuccess: () => {
-        //             history.replace(from)
-        //         }
-        //     }
-        // )
+        registration(
+            { name, age, email, password },
+            {
+                onSuccess: () => {
+                    history.replace(from)
+                }
+            }
+        )
     }
     useEffect(() => {
         window.scrollTo(0, 0)
