@@ -1,6 +1,7 @@
 import { Box, makeStyles, Typography } from '@material-ui/core'
 import React from 'react'
 import { useTheme } from 'styled-components'
+import MyPageButton from '../../../place/components/atoms/MyPageButton'
 import FavoriteHelpGridContainer from '../../containers/organisms/FavoriteHelpGridContainer'
 import FollowHelpGridContainer from '../../containers/organisms/FollowHelpGridContainer'
 import GoHelpGridContainer from '../../containers/organisms/GoHelpGridContainer'
@@ -37,6 +38,7 @@ const AboutPage: React.FC = () => {
             <FavoriteHelpGridContainer />
             <FollowHelpGridContainer />
             <GoHelpGridContainer />
+            <MyPageButton />
         </Box>
     )
 }

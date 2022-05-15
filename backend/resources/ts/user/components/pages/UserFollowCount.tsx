@@ -6,6 +6,7 @@ import FollowerList from '../../containers/organisms/FollowerList'
 import FollowingList from '../../containers/organisms/FollowingList'
 import UserProfile from '../../containers/organisms/UserProfile'
 import Vortex from '../../../../../public/background_image/vortex.png'
+import MyPageButton from '../../../place/components/atoms/MyPageButton'
 
 type Props = {
     value: string
@@ -120,6 +121,7 @@ const UserFollowCount: React.FC<Props> = ({
                     </TabPanel>
                 </Box>
             </Box>
+            <MyPageButton />
         </Box>
     )
 }

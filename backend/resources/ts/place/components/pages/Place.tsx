@@ -4,6 +4,7 @@ import PlaceFavoriteUsers from '../../../user/containers/organisms/PlaceFavorite
 import PlaceCard from '../../containers/organisms/PlaceCard'
 import { Place } from '../../types/Place'
 import Map from '../../../../../public/background_image/map.png'
+import MyPageButton from '../atoms/MyPageButton'
 
 
 const useStyle = makeStyles((theme) => ({
@@ -35,6 +36,7 @@ const Place: React.FC = () => {
             <div className={classes.placeFavoriteUsers}>
                 <PlaceFavoriteUsers />
             </div>
+            <MyPageButton />
         </Box>
     )
 }

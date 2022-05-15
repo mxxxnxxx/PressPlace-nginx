@@ -3,6 +3,7 @@ import React from 'react'
 import UserContent from '../../containers/organisms/UserContents'
 import UserProfile from '../../containers/organisms/UserProfile'
 import Vortex from '../../../../../public/background_image/vortex.png'
+import MyPageButton from '../../../place/components/atoms/MyPageButton'
 
 type Props = {
     userName: string
@@ -23,6 +24,7 @@ const UserPage: React.FC<Props> = ({ userName }) => {
         <Box className={classes.root}>
             <UserProfile userName={userName} />
             <UserContent />
+            <MyPageButton />
         </Box>
     )
 }

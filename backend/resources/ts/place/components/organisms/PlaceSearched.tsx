@@ -13,6 +13,7 @@ import PlaceCardContent from '../molecules/PlaceCardContent'
 import SearchedWords from '../molecules/SearchedWords'
 import PlaceCard from './PlaceCard'
 import Map from '../../../../../public/background_image/map.png'
+import MyPageButton from '../atoms/MyPageButton'
 
 type Props = {
     places?: Places
@@ -136,6 +137,7 @@ const PlaceSearched: FC<Props> = ({
             <Backdrop style={{ zIndex: theme.zIndex.drawer + 1 }} open={isLoading}>
                 <CircularProgress />
             </Backdrop>
+            <MyPageButton />
         </Box>
     )
 }
