@@ -69,7 +69,7 @@ class PlacesTableSeeder extends Seeder
                 'address' => '東京都渋谷区神泉町12-4 アーガス神泉ビル 4階',
                 'comment' => 'バースデーパーティーにおすすめのお店',
                 'user_id' => 53,
-                'category_id' => 57,
+                'category_id' => 53,
                 'category_order' => 0,
             ],
             [
@@ -77,7 +77,7 @@ class PlacesTableSeeder extends Seeder
                 'address' => '〒155-0031 東京都世田谷区北沢2-36-14 ガーデンテラス下北沢 1階',
                 'comment' => '休日にまったりできる、下北の穴場｡カフェ友達同士で行くのも良いですが、カウンター席もあり1人で来ている方も多かったので今度一人でふらっと訪れたいなと思いました！',
                 'user_id' => 53,
-                'category_id' => 57,
+                'category_id' => 53,
                 'category_order' => 1,
             ],
             [
@@ -85,7 +85,7 @@ class PlacesTableSeeder extends Seeder
                 'address' => '164-0001 東京都中野区中野５丁目５０−３',
                 'comment' => '世界でひとつだけの紅茶が作れるお店､紅茶のソムリエさんが、好みや気分に合わせて、たったひとつの紅茶を作ってくれる「ユニゾンメイドティー」というものがあり、とっても気になったので、次はこちらをいただきたいです♬*.*･ﾟ　.ﾟ･*.',
                 'user_id' => 53,
-                'category_id' => 57,
+                'category_id' => 53,
                 'category_order' => 2,
             ],
             [
@@ -136,8 +136,46 @@ class PlacesTableSeeder extends Seeder
                 'category_id' => 55,
                 'category_order' => 2,
             ],
+            [
+                'name' => '小宮山書店',
+                'address' => '東京都千代田区神田神保町１丁目７',
+                'comment' =>
+                '本が好きな方、アートに興味がある方、ファッションが好きな方是非',
+                'user_id' => 56,
+                'category_id' => 56,
+                'category_order' => 0,
+            ],
+            [
+                'name' => '小宮山書店',
+                'address' => '東京都千代田区神田神保町１丁目７',
+                'comment' =>
+                '本が好きな方、アートに興味がある方、ファッションが好きな方是非',
+                'user_id' => 56,
+                'category_id' => 56,
+                'category_order' => 0,
+            ],
+            [
+                'name' => 'Totodo',
+                'address' => '東京都渋谷区鶯谷町５−７ 第2ヴィラ青山1F',
+                'comment' =>
+                '本が好きな方、アートに興味がある方、ファッションが好きな方是非',
+                'user_id' => 56,
+                'category_id' => 56,
+                'category_order' => 1,
+            ],
+            [
+                'name' => 'shelf 洋書',
+                'address' => '東京都渋谷区神宮前３丁目７−４',
+                'comment' =>
+                '本が好きな方、アートに興味がある方、ファッションが好きな方是非',
+                'user_id' => 56,
+                'category_id' => 56,
+                'category_order' => 2,
+            ],
             ];
 
+
+            // 一秒ずらして作成
         $dt = new Carbon();
 
         foreach ($places as $place) {

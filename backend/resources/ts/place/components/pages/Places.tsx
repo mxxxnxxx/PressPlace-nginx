@@ -1,11 +1,14 @@
-import { AppBar, makeStyles, Tab, Tabs } from '@material-ui/core'
+import { AppBar, Fab, makeStyles, Tab, Tabs } from '@material-ui/core'
 import Box from '@material-ui/core/Box'
 import React, { FC, useState } from 'react'
+import Map from '../../../../../public/background_image/map.png'
 import AppImageCover from '../../../layout/components/organisms/AppImageCover'
 import { User } from '../../../user/types/User'
 import FollowUsersPlaces from '../../containers/organisms/FollowUsersPlaces'
 import PlaceCards from '../../containers/organisms/PlaceCards'
-import Map from '../../../../../public/background_image/map.png'
+import { useHistory } from 'react-router-dom'
+import MyPageButton from '../atoms/MyPageButton'
+
 type Props = {
     user?: User | null
 }
@@ -62,6 +65,11 @@ const useStyle = makeStyles((theme) => ({
         marginBottom: theme.spacing(3),
         padding: '30px',
     },
+    fab: {
+        position: 'fixed',
+        right: 30,
+        bottom: 50
+    }
 
 }))
 const Places: FC<Props> = ({ user }) => {
@@ -71,7 +79,7 @@ const Places: FC<Props> = ({ user }) => {
     const handleChange = (event: React.ChangeEvent<{}>, newValue: string) => {
         setValue(newValue)
     }
-
+    const history = useHistory()
     return (
         <Box className={classes.root}>
             <AppImageCover />
@@ -105,7 +113,9 @@ const Places: FC<Props> = ({ user }) => {
                 <TabPanel value={value} index="follow-users-places">
                     <FollowUsersPlaces />
                 </TabPanel>
+
             </section>
+            <MyPageButton />
         </Box>
     )
 }

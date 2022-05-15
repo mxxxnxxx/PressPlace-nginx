@@ -19,7 +19,7 @@ class PlaceUserSeeder extends Seeder
 
         // eachメソッドでコレクション型似たいして繰り返し処理
         $userCollectionArray->each(function (User $user) use ($placesCollectionArray): void {
-            $randNum = mt_rand(1, 20);
+            $randNum = mt_rand(1, 10);
             // お気に入りにしたいplacesのIdをrandom()で1-10個までplacesから選びpluckでidだけ取得しtoArray()で配列として取得
             $userFavoritePlacesIdArray = $placesCollectionArray->random(($randNum))->pluck('id')->toArray();
             // attachの引数に配列を利用することでuser一人が複数のplaceをランダムでお気にに登録する

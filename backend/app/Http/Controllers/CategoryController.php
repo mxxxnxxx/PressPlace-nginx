@@ -58,7 +58,6 @@ class CategoryController extends Controller
         // 作成の処理
         $count = Category::where('user_id', Auth::id())->count();
         $columnOrder = $count + 1;
-        \Debugbar::info($columnOrder);
         $newCategory = Category::create([
             'name' => $categoryName,
             'user_id' => Auth::id(),
